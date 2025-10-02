@@ -23,7 +23,7 @@ plugins:
 extra:
   social:
     - icon: fontawesome/brands/linkedin
-      link: https://www.linkedin.com/in/your-handle-here
+      link: https://www.linkedin.com/in/alvin-li-596a3316a/
 nav:
   - Home: index.md
   - Aviation: aviation/index.md
