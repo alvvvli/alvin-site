@@ -1,0 +1,34 @@
+site_name: Alvin Li
+site_description: Logistics, Infrastructure, Precision in Motion
+site_url: https://www.alvinli.com
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.tracking
+    - content.code.copy
+    - content.action.edit
+    - search.suggest
+  palette:
+    - scheme: default
+      primary: black
+      accent: blue
+    - scheme: slate
+      primary: black
+      accent: blue
+plugins:
+  - search
+  - minify
+  - glightbox
+extra:
+  social:
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/your-handle-here
+nav:
+  - Home: index.md
+  - Aviation: aviation/index.md
+  - Rail: rail/index.md
+  - Automation: automation/index.md
+  - Infrastructure: infrastructure/index.md
+  - Reflections: reflections/index.md
+  - About: about.md
