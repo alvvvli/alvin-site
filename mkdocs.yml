@@ -29,7 +29,8 @@ extra:
       link: https://www.linkedin.com/in/alvin-li-596a3316a/
 nav:
   - Home: index.md
-  - Aviation: aviation/index.md
+  - Aviation:
+      - Overview: aviation/index.md
   - Rail: 
       - Overview: rail/index.md
       - InnoTrans 2024 Cabin: rail/innotrans-2024.md
@@ -38,10 +39,13 @@ nav:
       - ÖBB Seats: rail/obb-2024.md
       - E5 x E6 Coupling: rail/e5e6.md
       - E5 Shinkansen Seikan Tunnel: rail/e5skn.md
+      - E5 DOor Sequencing: rail/e5close.md
   - Automation:
       - Overview: automation/index.md
       - ABB Flexley + Cambrian: automation/abb-flexley-cambrian.md
       - Airport Baggage Flow (Tecnomatix): automation/airport-baggage-tecnomatix.md
-  - Infrastructure: infrastructure/index.md
-  - Reflections: reflections/index.md
+  - Infrastructure: 
+      - Overview: infrastructure/index.md
+  - Reflections:
+      - Overview: reflections/index.md
   - About: about.md
