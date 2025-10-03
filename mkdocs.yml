@@ -18,6 +18,9 @@ theme:
       accent: blue
 plugins:
   - search
+  - exclude:
+      glob:
+        - JPG_VID/**
   - minify
   - glightbox
 extra:
