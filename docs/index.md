@@ -2,8 +2,8 @@
 
 Precision across logistics, infrastructure, and industrial systems.
 
-![E5 Shinkansen Seikan Tunnel](/JPG_VID/innotrans3.png)
-
+<div style="display:flex;flex-wrap:wrap;gap:10px">
+  <img src="/alvin-site/JPG_VID/JPG_VID/innotrans3.png?v=3" alt="InnoTransOBB" width="48%">
 
 I write concise field notes from plants, labs, airports, rail hubs, and stadiums—
 things built at scale and run with discipline.
