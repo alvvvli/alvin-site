@@ -10,3 +10,4 @@ Interfaces, dwell time, coupling systems, catenary geometry, and border ops.
 - [E5 X E6 Coupling](e5e6.md)
 - [E5 Shinkansen x Seikan Tunnel](e5skn.md)
 - [E5 Door Sequencing](e5close.md)
+- [Japan's Departure Melody](okaring.md)
