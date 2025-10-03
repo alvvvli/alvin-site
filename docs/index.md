@@ -2,7 +2,7 @@
 
 Precision across logistics, infrastructure, and industrial systems.
 
-<img src="docs/JPG_VID/innotrans3.jpg" alt="Alvin Li" width="180" align="left" style="margin-right:15px; border-radius:10px;" />
+<img src="../JPG_VID/innotrans3.jpg" alt="Alvin Li" width="180" align="left" style="margin-right:15px; border-radius:10px;" />
 
 ---
 
