@@ -7,8 +7,8 @@ I'm Alvin. I document systems that move the world—
 from airport baggage AGVs to wind turbine nacelles,
 from rolling stock interfaces to stadium rebuilds.
 
-- **Email:** [alvgrli@berkeley.edu](mailto:alvgrli@berkeley.edu)
+📧 **Email:** [alvgrli@berkeley.edu](mailto:alvgrli@berkeley.edu)
   &nbsp;&nbsp;&nbsp;&nbsp;*(personal: [alvin2001berkeley@gmail.com](mailto:alvin2001berkeley@gmail.com))*
-- **LinkedIn:** <https://www.linkedin.com/in/alvin-l-596a3316a/>
+🔗 **LinkedIn:** <https://www.linkedin.com/in/alvin-l-596a3316a/>
 
 This site runs on **MkDocs** + **Material**.
