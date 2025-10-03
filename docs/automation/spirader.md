@@ -1,8 +1,8 @@
 # SPIRADER – JR East Suction-Type Wall-Running Robot
 
 <div style="display:flex;flex-wrap:wrap;gap:10px">
-  <img src="/alvin-site/JPG_VID/PXL_20240514_083932908.jpg?v=3" alt="spirader1" width="48%">
-  <img src="/alvin-site/JPG_VID/PXL_20240514_085113189.jpg?v=3" alt="spirader2" width="48%">
+  <img src="/alvin-site/JPG_VID/PXL_20240515_075819881.jpg?v=3" alt="spirader1" width="48%">
+  <img src="/alvin-site/JPG_VID/PXL_20240515_075852771.jpg?v=3" alt="spirader2" width="48%">
 </div>
 
 🕷️ **SPIRADER — East Japan Railway Company (JR East)’s suction-type wall-running robot.**  
