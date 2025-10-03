@@ -1,4 +1,4 @@
-# InnoTrans 2024 – Hands-On Cabin Innovation
+# InnoTrans 2024 Hands-On Cabin Innovation
 
 <iframe src="[https://www.youtube.com/embed/4tj6rmOfpDU](https://youtube.com/shorts/jRURg6nlj2s)" 
         width="560" height="315" 
