@@ -31,6 +31,7 @@ nav:
   - Automation:
       - Overview: automation/index.md
       - ABB Flexley + Cambrian: automation/abb-flexley-cambrian.md
+      - Airport Baggage Flow (Tecnomatix): automation/airport-baggage-tecnomatix.md
   - Infrastructure: infrastructure/index.md
   - Reflections: reflections/index.md
   - About: about.md
