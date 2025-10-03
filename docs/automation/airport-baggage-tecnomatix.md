@@ -6,6 +6,7 @@
         width="560" height="315" 
         frameborder="0" 
         allowfullscreen></iframe>
+---
 
 Prior to graduating from UC Berkeley, I self-taught **Siemens Tecnomatix** to build a digital twin of an airport baggage system integrating AGVs.
 
