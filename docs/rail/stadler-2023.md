@@ -1,7 +1,7 @@
 # Rail Engineering: Layered Precision
 
 <iframe 
-  src="https://youtube.com/shorts/dLXMm0aXeg8" 
+  src="https://youtube.com/embed/dLXMm0aXeg8" 
   width="560" 
   height="560" 
   style="aspect-ratio: 9/16;" 
