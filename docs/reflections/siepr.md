@@ -1,4 +1,4 @@
-# 🗓️ **Stanford SIEPR Economic Summit 2024**
+🗓️ **Stanford SIEPR Economic Summit 2024**
 
 <div style="display:flex; flex-wrap:wrap; gap:10px;">
   <img src="/alvin-site/JPG_VID/PXL_20240301_223820417.jpg?v=1" 
