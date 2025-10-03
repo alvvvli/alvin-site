@@ -15,3 +15,4 @@ Interfaces, dwell time, coupling systems, catenary geometry, and border ops.
 - [ÖBB ServiceJet – Infrared Track Inspection](servicejet.md)
 - [Trackside Intelligence Meets Standardized Access](trackside.md)
 - [E7 Bento – Shaped After the Shinkansen](e7bento.md)
+- [Japan's 踏切 (Railway Crossings)](railx.md)
