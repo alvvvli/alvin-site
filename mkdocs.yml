@@ -20,6 +20,9 @@ plugins:
   - search
   - minify
   - glightbox
+markdown_extensions:
+  - attr_list
+  - md_in_html
 extra:
   social:
     - icon: fontawesome/brands/linkedin
