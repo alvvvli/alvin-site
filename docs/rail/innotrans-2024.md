@@ -1,7 +1,8 @@
 # InnoTrans 2024 Hands-On Cabin Innovation
 
 <iframe src="https://www.youtube.com/embed/4tj6rmOfpDU" 
-        width="560" height="315" 
+        width="560" height="560" 
+        style="aspect-ratio: 9/16;"
         frameborder="0" 
         allowfullscreen></iframe>
 
