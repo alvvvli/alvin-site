@@ -9,3 +9,4 @@ Where civil works meet operations. Throughput, safety envelopes, lifecycle.
 - [Santiago Bernabéu Transformation – Real Madrid C.F.](realmadrid.md)
 - [TSMC's Foundry Model](tsmcfoundry.md)
 - [Tokyo Rainbow Bridge Resilience Engineering](rainbowbridge.md)
+- [Germany–Netherlands Border, Emmerich am Rhein](denl.md)
