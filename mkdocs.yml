@@ -36,6 +36,7 @@ nav:
       - Rail Engineering: rail/stadler-2023.md
       - Rail Acoustics: rail/door-2023.md
       - ÖBB Seats: rail/obb-2024.md
+      - E5 x E6 Coupling: rail/e5e6.md
   - Automation:
       - Overview: automation/index.md
       - ABB Flexley + Cambrian: automation/abb-flexley-cambrian.md
