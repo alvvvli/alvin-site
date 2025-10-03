@@ -37,6 +37,7 @@ nav:
       - Rail Acoustics: rail/door-2023.md
       - ÖBB Seats: rail/obb-2024.md
       - E5 x E6 Coupling: rail/e5e6.md
+      - E5 Shinkansen Seikan Tunnel: rail/e5skn.md
   - Automation:
       - Overview: automation/index.md
       - ABB Flexley + Cambrian: automation/abb-flexley-cambrian.md
