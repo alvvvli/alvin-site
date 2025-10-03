@@ -5,6 +5,14 @@ At Automatica, ABB showcased the **Flexley Mover AMR** integrated with **Cambria
 
 ---
 
+<div style="display:flex;flex-wrap:wrap;gap:10px">
+  <img src="/alvin-site/JPG_VID/PXL_20230627_141412347.MP.jpg?v=3" alt="ABB Flexley AMR Overview" width="48%">
+  <img src="/alvin-site/JPG_VID/PXL_20230627_141428737.jpg?v=3" alt="ABB Flexley Mover Closeup" width="48%">
+  <img src="/alvin-site/JPG_VID/PXL_20230627_141544942.jpg?v=3" alt="ABB Cambrian Vision with cobots" width="48%">
+</div>
+
+---
+
 ## Highlights
 - **Flexley Mover AMR** for adaptive intralogistics  
 - **Cambrian Vision** enabling advanced perception for robotic handling  
@@ -19,12 +27,6 @@ At Automatica, ABB showcased the **Flexley Mover AMR** integrated with **Cambria
 ---
 
 ## Gallery
-
-<div style="display:flex;flex-wrap:wrap;gap:10px">
-  <img src="/alvin-site/JPG_VID/PXL_20230627_141412347.MP.jpg?v=3" alt="ABB Flexley AMR Overview" width="48%">
-  <img src="/alvin-site/JPG_VID/PXL_20230627_141428737.jpg?v=3" alt="ABB Flexley Mover Closeup" width="48%">
-  <img src="/alvin-site/JPG_VID/PXL_20230627_141544942.jpg?v=3" alt="ABB Cambrian Vision with cobots" width="48%">
-</div>
 
 
 ---
