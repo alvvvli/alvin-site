@@ -1,6 +1,6 @@
 site_name: Alvin Li
 site_description: Logistics, Infrastructure, Precision in Motion
-site_url: https://www.alvinli.com
+site_url: https://alvvvli.github.io/alvin-site/
 theme:
   name: material
   features:
