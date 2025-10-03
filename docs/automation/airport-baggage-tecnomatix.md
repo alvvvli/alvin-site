@@ -10,11 +10,14 @@ Guided by Dr. [Vishwanath Bulusu](https://www.nasa.gov/ames) (NASA Ames), the si
 
 ## Demo Video
 
-<div align="center">
-  <a href="https://www.youtube.com/watch?v=abc123XYZ" target="_blank">
-    <img src="https://img.youtube.com/vi/abc123XYZ/hqdefault.jpg" alt="Airport Baggage Flow Simulation" width="80%">
-  </a>
-  <p><em>Click image to watch on YouTube</em></p>
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%;">
+  <iframe src="https://youtu.be/4tj6rmOfpDU" 
+          title="Airport Baggage Flow Simulation"
+          style="position: absolute; top:0; left:0; width:100%; height:100%;" 
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen>
+  </iframe>
 </div>
 
 ---
