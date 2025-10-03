@@ -13,3 +13,4 @@ Interfaces, dwell time, coupling systems, catenary geometry, and border ops.
 - [Japan's Departure Melodies](okaring.md)
 - [Vingcard Pre-Punched Key](vingcard.md)
 - [ÖBB ServiceJet – Infrared Track Inspection](servicejet.md)
+- [Trackside Intelligence Meets Standardized Access](trackside.md)
