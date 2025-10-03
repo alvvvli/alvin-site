@@ -21,4 +21,4 @@ Nearly two years later, the lessons stay sharp: there is always more to learn, a
 ---
 
 ### Tags  
-#EconomicPolicy #GlobalEconomy #TechnologyLeadership #FutureOfMobility #AIInnovation
+`#EconomicPolicy` `#GlobalEconomy` `#TechnologyLeadership` `#FutureOfMobility` `#AIInnovation`
