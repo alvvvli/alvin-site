@@ -4,8 +4,6 @@ Precision across logistics, infrastructure, and industrial systems.
 
 <img src="/alvin-site/JPG_VID/innotrans3.jpg" alt="innotrans3" width="180" align="left" style="margin-right:15px; border-radius:10px;" />
 
-/alvin-site/JPG_VID/
-
 ---
 
 I write concise field notes from industrial plants, labs, airports, rail hubs, and stadiums—
