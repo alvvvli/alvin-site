@@ -28,7 +28,9 @@ nav:
   - Home: index.md
   - Aviation: aviation/index.md
   - Rail: rail/index.md
-  - Automation: automation/index.md
+  - Automation:
+      - Overview: automation/index.md
+      - ABB Flexley + Cambrian: automation/abb-flexley-cambrian.md
   - Infrastructure: infrastructure/index.md
   - Reflections: reflections/index.md
   - About: about.md
