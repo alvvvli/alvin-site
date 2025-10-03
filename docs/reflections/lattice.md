@@ -40,4 +40,6 @@ As 2026 begins:
 忍耐強く築き、  
 それに導かれて進もう。  
 
+🔗 [Inspiration — Assassination Classroom (公式サイト)](https://www.ansatsu-anime.com/)
+
 #Resilience #2026
