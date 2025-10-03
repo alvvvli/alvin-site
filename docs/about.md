@@ -1,6 +1,6 @@
 # About
 
-<img src="../JPG_VID/innotrans.jpg" alt="Alvin Li" width="180" align="left" style="margin-right:15px; border-radius:10px;" />
+<img src="/alvin-site/JPG_VID/innotrans.jpg" alt="Alvin Li" width="180" align="left" style="margin-right:15px; border-radius:10px;" />
 
 
 I'm Alvin. I document systems that move the world—
