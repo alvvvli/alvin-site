@@ -4,9 +4,8 @@
 
 Precision across logistics, infrastructure, and industrial systems.
 
-I write concise field notes from industrial plants, labs, airports, rail hubs, and stadiums—
-things built at scale and run with discipline.
+I share concise observations from industrial plants, laboratories, airports, rail hubs, and stadiums — places where scale and discipline define how things run.
 
 - **Focus:** Logistics · Rail Systems · Aerospace · Advanced Manufacturing · Energy Transition
-- **Style:** Understated, image-first, JP-coded
-- **Why:** Sport elevated by structure.
+- **Style:** Clear, concise, and visually grounded
+- **Why:** Finding structure and discipline that elevates performance
