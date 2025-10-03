@@ -1,11 +1,23 @@
----
-title: DE–NL Border — Interop at Speed
-location: Bad Bentheim / Oldenzaal
-date: 2023-05-07
-tags: [RailSystems, Infrastructure, Logistics]
+# InnoTrans 2024 – Hands-On with European Rail Innovation
+
+<iframe src="[https://www.youtube.com/embed/4tj6rmOfpDU](https://youtube.com/shorts/jRURg6nlj2s)" 
+        width="560" height="315" 
+        frameborder="0" 
+        allowfullscreen></iframe>
+
+Not every day you get to sit in the driver's seat of the world's most advanced trains.
+
+At **InnoTrans Berlin**, I had the rare chance to:
+
+- Operate a **Stadler FLIRT Akku** battery train  
+- Close **Siemens ICE** doors bound for **Egyptian National Railways'** first high-speed rail  
+- Test **Alstom's** new 50m trams for **Berliner Verkehrsbetriebe (BVG)**  
+
+A hands-on look into the precision behind European rail innovation.
+
+> Every lever, every touchscreen, every iconic beep is part of the discipline that keeps millions moving daily.
+
 ---
 
-Handovers without drama: voltage system changeover, driver swap, and timetable precision.
-The value is invisible—dwell shaved to seconds, quality baked into interfaces.
-
-*One-liner:* Standards make borders feel like station stops.
+### Tags
+`#InnoTrans2024` `#RailInnovation` `#SupplyChain` `#Siemens` `#Stadler` `#Alstom` `#BVG`
