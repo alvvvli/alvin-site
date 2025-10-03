@@ -13,6 +13,11 @@ At Automatica, ABB showcased the **Flexley Mover AMR** integrated with **Cambria
 
 ---
 
+### Tags
+`#Robotics` `#Automation` `#Industry40` 
+
+---
+
 ## Gallery
 
 <div style="display:flex;flex-wrap:wrap;gap:10px">
