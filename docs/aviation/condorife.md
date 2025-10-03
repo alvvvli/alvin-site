@@ -1,7 +1,5 @@
 # Condor A330neo – IFE, Redefined
 
-![Condor A330neo IFE – Safran RAVE Ultra + FlightPath3D](/JPG_VID/90bc3aae-e415-4db5-aac1-2a130ffe6f98.png)
-
 <iframe 
   src="https://youtube.com/embed/3WdhWxNF6p0" 
   width="560" 
