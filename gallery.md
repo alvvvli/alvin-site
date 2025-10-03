@@ -1,12 +1,10 @@
 # 📸 Quick Gallery (Raw Uploads)
 
 This page shows everything I’ve dumped into `/JPG_VID/`.  
-I’ll sort them into `/assets/images` and `/assets/videos` later.
 
 ---
 
 ## 🖼 Images
-## 🖼 Quick Gallery (current uploads)
 
 ![Image_20240114155456](/JPG_VID/Image_20240114155456.jpg)
 ![PXL_20220911_113021938](/JPG_VID/PXL_20220911_113021938.jpg)
