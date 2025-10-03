@@ -1,5 +1,14 @@
 # MOVeLOT Humanoid Manipulator – SusHi Tech Tokyo 2025
 
+<iframe 
+  src="https://www.youtube.com/embed/ItDeveXMg04" 
+  width="560" 
+  height="560" 
+  style="aspect-ratio: 9/16;" 
+  frameborder="0" 
+  allowfullscreen>
+</iframe>
+
 <div style="display:flex;flex-wrap:wrap;gap:10px">
   <img src="/alvin-site/JPG_VID/PXL_20250509_025344016.jpg?v=3" alt="movelot1" width="48%">
   <img src="/alvin-site/JPG_VID/PXL_20250509_025417243.jpg?v=3" alt="movelot2" width="48%">
