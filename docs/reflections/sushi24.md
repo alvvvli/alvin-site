@@ -23,4 +23,4 @@ By late 2025, those themes are no longer “future talk.” They’re entering r
 
 🔗 [Event recap — SusHi Tech Tokyo 2024](https://sushitech-startup.metro.tokyo.lg.jp/2024/en/)  
 
-#FutureTech #Robotics #Mobility #Infrastructure #Tokyo
+`#FutureTech` `#Robotics` `#Mobility` `#Infrastructure` `#Tokyo`
