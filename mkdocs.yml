@@ -32,7 +32,8 @@ nav:
   - Aviation: aviation/index.md
   - Rail: 
       - Overview: rail/index.md
-      - InnoTrans 2024 Hands-On Cabin Innovation: rail/innotrans-2024.md
+      - InnoTrans 2024 Cabin: rail/innotrans-2024.md
+      - Rail Engineering: rail-engineering.md
   - Automation:
       - Overview: automation/index.md
       - ABB Flexley + Cambrian: automation/abb-flexley-cambrian.md
