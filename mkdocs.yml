@@ -47,6 +47,7 @@ nav:
       - Airport Baggage Flow (Tecnomatix): automation/airport-baggage-tecnomatix.md
   - Infrastructure: 
       - Overview: infrastructure/index.md
+      - A648 Ramp → A5 Autobahn Precision: infrastructure/a5.md
   - Reflections:
       - Overview: reflections/index.md
   - About: about.md
