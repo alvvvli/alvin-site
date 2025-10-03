@@ -1,0 +1,27 @@
+# ABB Flexley Mover AMR + Cambrian Vision
+
+From materials flow to part picking, automation is driving the future of flexible manufacturing.  
+At Automatica, ABB showcased the **Flexley Mover AMR** integrated with **Cambrian Vision** and ABB cobots.
+
+---
+
+## Highlights
+- **Flexley Mover AMR** for adaptive intralogistics  
+- **Cambrian Vision** enabling advanced perception for robotic handling  
+- **ABB cobots** seamlessly picking and placing parts  
+- End-to-end automation: from material flow → part picking → flexible manufacturing  
+
+---
+
+## Gallery
+
+<div style="display: flex; flex-wrap: wrap; gap: 10px;">
+  <img src="../JPG_VID/PXL_20230627_141412347.MP.jpg" alt="ABB Flexley AMR Overview" width="48%">
+  <img src="../JPG_VID/PXL_20230627_141428737.jpg" alt="ABB Flexley Mover Closeup" width="48%">
+  <img src="../JPG_VID/PXL_20230627_141544942.jpg" alt="ABB Cambrian Vision with cobots" width="48%">
+</div>
+
+---
+
+📌 _Originally shared on [LinkedIn](https://www.linkedin.com/in/alvin-l-596a3316a/)_  
+📷 Photos taken at Automatica 2023 Expo
