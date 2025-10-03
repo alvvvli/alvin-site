@@ -42,4 +42,4 @@ As 2026 begins:
 
 🔗 [Inspiration — Assassination Classroom (公式サイト)](https://www.ansatsu-anime.com/)
 
-'#Resilience' '#2026'
+`#Resilience` `#2026`
