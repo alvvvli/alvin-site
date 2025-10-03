@@ -42,6 +42,7 @@ nav:
       - E5 Shinkansen Seikan Tunnel: rail/e5skn.md
       - E5 DOor Sequencing: rail/e5close.md
       - Japan's Departure Melodies: rail/okaring.md
+      - Vingcard Pre-Punched Key: rail/vingcard.md
   - Automation:
       - Overview: automation/index.md
       - ABB Flexley + Cambrian: automation/abb-flexley-cambrian.md
