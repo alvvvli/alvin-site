@@ -16,6 +16,8 @@ Their perspectives on customer experience, mobility, and Taiwan's strategic role
 
 Nearly two years later, the lessons stay sharp: there is always more to learn, and the value lies in perspectives that shape the top of industry and policy alike.
 
+🔗 [Event Recap — Stanford SIEPR 2024](https://siepr.stanford.edu/siepr-events/summits/2024-siepr-economic-summit)
+
 ---
 
 ### Tags  
