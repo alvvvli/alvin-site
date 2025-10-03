@@ -34,6 +34,7 @@ nav:
       - Overview: rail/index.md
       - InnoTrans 2024 Cabin: rail/innotrans-2024.md
       - Rail Engineering: rail/stadler-2023.md
+      - Rail Acoustics: rail/door-2023.md
   - Automation:
       - Overview: automation/index.md
       - ABB Flexley + Cambrian: automation/abb-flexley-cambrian.md
