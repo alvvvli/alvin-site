@@ -1,4 +1,4 @@
-# Condor A330neo – Left Wing at Frankfurt Airport
+# Condor A330neo Left Wing - Frankfurt Airport
 
 <div style="display:flex;flex-wrap:wrap;gap:10px">
   <img src="/alvin-site/JPG_VID/PXL_20240924_105646540.jpg?v=3" alt="a330neofra" width="48%">
