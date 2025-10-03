@@ -2,7 +2,7 @@
 
 ✈️ **Airport baggage flow modeled in Tecnomatix — scalable, delay-resilient operations.**
 
-<iframe src="https://www.youtube.com/watch?v=7qntLauB2-M" 
+<iframe src="https://www.youtube.com/embed/7qntLauB2-M" 
         width="560" height="315" 
         frameborder="0" 
         allowfullscreen></iframe>
