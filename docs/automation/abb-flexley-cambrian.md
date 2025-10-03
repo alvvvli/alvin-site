@@ -26,10 +26,5 @@ At Automatica, ABB showcased the **Flexley Mover AMR** integrated with **Cambria
 
 ---
 
-## Gallery
-
-
----
-
 📌 _Originally shared on [LinkedIn](https://www.linkedin.com/in/alvin-l-596a3316a/)_  
 📷 Photos taken at Automatica 2023 Expo
