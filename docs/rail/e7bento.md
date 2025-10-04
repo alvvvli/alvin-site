@@ -6,7 +6,7 @@
   <img src="/alvin-site/JPG_VID/PXL_20240518_035021959.jpg?v=3" alt="e7bento3" width="48%">
 </div>
 
-🚄 **E7 bento — shaped after the Shinkansen.**  
+🚄 **[E7 bento](https://foods.jr-cross.co.jp/matsuri/ekiben/detail/605.html) — shaped after the Shinkansen.**  
 
 Cold-chain sourcing, just-in-time distribution, and rapid turnover at stations make this more than a cultural icon — it’s a **precise form of supply chain execution**.  
 
