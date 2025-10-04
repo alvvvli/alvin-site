@@ -1,4 +1,4 @@
-## 🤖 Dyson → LionsBot → [SUTD](https://www.sutd.edu.sg) — design rigor in Singapore’s tech ecosystem  
+## 🤖 Dyson → LionsBot → SUTD — design rigor in Singapore’s tech ecosystem  
 
 <div style="display:flex;flex-wrap:wrap;gap:10px">
   <img src="/alvin-site/JPG_VID/sutd.jpg" alt="Dyson Advanced Headset Lab" width="48%">
