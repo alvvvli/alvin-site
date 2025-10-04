@@ -1,4 +1,4 @@
-🤖 # Automation
+# 🤖 Automation
 Controls, HMI, PLCs, robotic cells, and the orchestration around them.
 
 <div style="display:flex;flex-wrap:wrap;gap:10px">
