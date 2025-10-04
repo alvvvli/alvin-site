@@ -1,4 +1,4 @@
-✈️ # Aviation
+# ✈️ Aviation
 Short, surgical notes from factories, maintenance bays, and cabins.
 
 <div style="display:flex;flex-wrap:wrap;gap:10px">
