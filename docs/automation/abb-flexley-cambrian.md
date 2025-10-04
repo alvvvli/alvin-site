@@ -1,4 +1,4 @@
-# ABB Flexley Mover AMR + Cambrian Vision
+# [ABB Flexley Mover AMR](https://new.abb.com/products/robotics/autonomous-mobile-robots/products/flexley-mover) + [Cambrian Vision](https://www.cambrianrobotics.ai/)
 
 <div style="display:flex;flex-wrap:wrap;gap:10px">
   <img src="/alvin-site/JPG_VID/PXL_20230627_141412347.MP.jpg?v=3" alt="ABB Flexley AMR Overview" width="48%">
