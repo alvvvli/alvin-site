@@ -7,7 +7,7 @@
 
 🛤️ **Trackside intelligence meets standardized access.**  
 
-**Alstom’s wayside diagnostic pad**, paired with **EU-standardized passenger door systems** from *Mafelec Automation Technology* and *TSL-ESCHA GmbH*, illustrate how Europe’s rail network integrates precision engineering with standardized passenger interfaces.  
+[**Alstom’s TrainScanner™ brake pad**](https://www.alstom.com/sites/alstom.com/files/2022/05/02/Alstom_ProductSheet_HealthHub_TrainScanner.pdf), paired with **EU-standardized passenger door systems** from [**Mafelec Automation Technology**](https://www.mafelec.com/en/our-expertises/) and [**TSL-ESCHA GmbH**](https://www.tsl-escha.com/en/products/push-buttons/), illustrate how Europe’s rail network integrates precision engineering with standardized passenger interfaces.  
 
 ### Technical Highlights  
 - **Wayside diagnostic pads** → enable real-time health checks, fault codes, and predictive alerts when rolling stock arrives at depots.  
