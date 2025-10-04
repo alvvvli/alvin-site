@@ -15,7 +15,5 @@ Inside **Amazon OAK4**, automation and scale converge to power global supply cha
 
 What looks like a maze of yellow pods is, in fact, a highly orchestrated system where robotics, AI, and logistics discipline merge into one continuous flow.  
 
----
-
 ## Tags  
 `#Automation` `#GlobalLogistics` `#Amazon` `#SupplyChainInnovation` `#WarehouseTech`
