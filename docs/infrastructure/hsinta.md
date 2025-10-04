@@ -1,4 +1,4 @@
-⚡ **Hsinta Power Plant — Frontlines of Gas Turbine Operations**
+⚡ **[Hsinta Power Plant Expansion](https://www.taipower.com.tw/2289/2363/2400/2401/11678/normalPost) — Frontlines of Gas Turbine Operations**
 
 <div style="display:flex;flex-wrap:wrap;gap:10px">
   <img src="/alvin-site/JPG_VID/hsinta1.jpg" alt="Hsinta Power Plant with Kayne" width="48%">
