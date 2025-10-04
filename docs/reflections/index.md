@@ -8,5 +8,5 @@ Meta pieces—principles, structure, and learning loops.
 - [Dyson → LionsBot → SUTD — Design Rigor in Motion](sutd.md)
 - [Reflecting SusHi Tech Tokyo 2024](sushi24.md)
 - [GE Vernova Japan — Cross-Border Collaboration](gevjp.md)
-- [Lessons from GEV Leadership](francisjulia.md)
+- [Lessons from GE Vernova Leadership](francisjulia.md)
 - [Growth is like a lattice](lattice.md)
