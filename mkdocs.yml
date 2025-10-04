@@ -69,6 +69,7 @@ nav:
       - TSMC's Foundry Model: infrastructure/tsmcfoundry.md
       - Tokyo Rainbow Bridge Resilience Engineering: infrastructure/rainbowbridge.md
       - Germany–Netherlands Border, Emmerich am Rhein: infrastructure/denl.md
+      - Hsinta Power Plant — Gas Turbine QA in Action: infrastructure/hsinta.md
   - Reflections:
       - Overview: reflections/index.md
       - Guinness World Record Moment: reflections/tdx24.md
