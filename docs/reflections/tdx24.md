@@ -1,18 +1,13 @@
 ## 🧑‍🔬 Salesforce TrailblazerDX 2024 — [Guinness World Record](https://guinnessworldrecords.com/world-records/100331-largest-gathering-of-people-dressed-as-albert-einstein) moment  
 
 <div style="display:flex; flex-wrap:wrap; gap:10px;">
-  <!-- Image 1 -->
   <img src="/alvin-site/JPG_VID/salesforce.jpg?v=1" 
        alt="tdx1" 
        width="48%">
-
-  <!-- Image 2 -->
   <img src="/alvin-site/JPG_VID/salesforce2.jpg?v=1" 
        alt="tdx2" 
        width="48%">
-
-  <!-- Image 3 -->
-  <img src="/alvin-site/JPG_VID/salesforce3.webp.jpg?v=1" 
+  <img src="/alvin-site/JPG_VID/salesforce3.webp?v=1" 
        alt="tdx3" 
        width="48%">
 </div>
@@ -36,11 +31,9 @@ In the midst of APIs, AI, and product demos, this moment stood out:
 — but a clear symbol of shared spirit driving the ecosystem forward.  
 
 <div style="display:flex; flex-wrap:wrap; gap:10px;">
-
   <img src="/alvin-site/JPG_VID/salesforce_einstein.jpg?v=1" 
        alt="tdx4" 
        width="48%">
-
 </div>
 
 ## Tags
