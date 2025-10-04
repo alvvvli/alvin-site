@@ -13,7 +13,7 @@
 </div>
 
 Never thought I'd break a Guinness World Record by putting on an Einstein wig —  
-but that’s exactly what happened at Salesforce TrailblazerDX with 885 innovators.  
+but that’s exactly what happened at Salesforce TrailblazerDX with **885 innovators**.  
 
 Fun moment, serious energy.  
 
