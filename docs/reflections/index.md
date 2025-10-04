@@ -1,6 +1,9 @@
-# Reflections
-
+# ✨ Reflections
 Meta pieces—principles, structure, and learning loops.
+
+<div style="display:flex;flex-wrap:wrap;gap:10px">
+  <img src="/alvin-site/JPG_VID/AC3.jpg" alt="ac3" width="48%">
+</div>
 
 ## Recent Posts
 - [Guinness World Record Moment](tdx24.md)
