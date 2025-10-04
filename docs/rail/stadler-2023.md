@@ -11,9 +11,9 @@
 
 ⚒️ **Rail engineering, layered precision:**
 
-- **Nose design** → Front aerodynamics tuned for efficiency and acoustic flow (*Schweizerische Südostbahn AG Traverso*).  
-- **Connection** → ÖBB couplers from *Dellner – Train Connection Systems* built for rapid, safe integration.  
-- **Foundation** → *Stadler* wheel bearers ensuring stability and ride comfort.  
+- **Nose design** → Front aerodynamics tuned for efficiency and acoustic flow ([**Schweizerische Südostbahn AG Traverso**](https://unterwegs.sob.ch/en/stories/traverso)).  
+- **Connection** → ÖBB couplers from [**Dellner**](https://www.dellner.com/) built for rapid, safe integration.  
+- **Foundation** → [**Stadler RS ZERO**](https://www.stadlerrail.com/en/solutions/rolling-stock/mainline-rs-zero) wheel bearers ensuring stability and ride comfort.  
 
 From visible form to hidden force — precision moves rail forward.
 
