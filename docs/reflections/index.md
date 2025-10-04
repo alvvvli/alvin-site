@@ -1,4 +1,4 @@
-# ✨ Reflections
+# ✨Reflections
 Meta pieces—principles, structure, and learning loops.
 
 <div style="display:flex;flex-wrap:wrap;gap:10px">
