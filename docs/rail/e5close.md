@@ -1,4 +1,4 @@
-# E5 Shinkansen — Door Sequencing by Design
+# E5 Shinkansen — [Door Sequencing by Design](https://www.signal.co.jp/products/platform/homegate/)
 
 <iframe 
   src="https://www.youtube.com/embed/ZSFqOmpaWnY" 
