@@ -55,6 +55,7 @@ nav:
       - Overview: automation/index.md
       - ABB Flexley + Cambrian: automation/abb-flexley-cambrian.md
       - Airport Baggage Flow (Tecnomatix): automation/airport-baggage-tecnomatix.md
+      - Amazon OAK4 Fulfillment Center: automation/oak4.md
       - MOVeLOT Humanoid Manipulator: automation/movelot.md
       - JR East SPIRADER Suction Robot: automation/spirader.md
       - Cheng Sound Industrial CNC Machine Interface: automation/chengsound.md
