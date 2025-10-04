@@ -12,8 +12,8 @@
 ✈️ **Condor Flugdienst GmbH A330neo | In-Flight Entertainment, redefined.**  
 
 Onboard Condor’s new **A330neo**, passengers encounter:  
-- **Safran RAVE Ultra 13.3” HD touchscreens** with **native 4K playback**.  
-- **FlightPath3D’s latest interactive 3D moving map platform**.  
+- **[Safran RAVE Ultra](https://www.safran-group.com/pressroom/safran-passenger-innovations-launches-rave-ultra-plus-2023-06-04) 13.3” HD touchscreens** with **native 4K playback**.  
+- **FlightPath3D’s latest [interactive 3D moving map platform](https://flightpath3d.com/commercial-aviation)**.  
 
 The result → **clearer UI, sharper visuals, deeper fidelity, and greater immersion.**  
 
