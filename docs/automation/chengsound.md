@@ -1,11 +1,12 @@
-# Cheng Sound Industrial Co., Ltd. – CNC Machine Interface
+# [Cheng Sound Industrial Co., Ltd.](https://www.chensound.com/) – CNC Machine Interface
+
+⚙️ **Cheng Sound Industrial Co., Ltd. CNC machine interface.**  
 
 <div style="display:flex;flex-wrap:wrap;gap:10px">
   <img src="/alvin-site/JPG_VID/PXL_20250305_092201289.jpg?v=3" alt="cheng1" width="48%">
   <img src="/alvin-site/JPG_VID/PXL_20250305_092208716.jpg?v=3" alt="cheng2" width="48%">
 </div>
 
-⚙️ **Cheng Sound Industrial Co., Ltd. CNC machine interface.**  
 
 Each square on the grid represents a **programmed cut path**, visualized in microns.  
 What looks simple is in fact **engineered precision** — steel defined at sub-millimeter tolerances.  
