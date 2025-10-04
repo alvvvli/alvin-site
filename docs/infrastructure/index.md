@@ -1,4 +1,4 @@
-# 🛣️ Infrastructure
+# 🛣️Infrastructure
 Where civil works meet operations. Throughput, safety envelopes, lifecycle.
 
 <div style="display:flex;flex-wrap:wrap;gap:10px">
