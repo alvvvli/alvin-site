@@ -11,3 +11,4 @@ Where civil works meet operations. Throughput, safety envelopes, lifecycle.
 - [TSMC's Foundry Model](tsmcfoundry.md)
 - [Tokyo Rainbow Bridge Resilience Engineering](rainbowbridge.md)
 - [Germany–Netherlands Border, Emmerich am Rhein](denl.md)
+- [Hsinta Power Plant — Gas Turbine QA in Action](hsinta.md)
