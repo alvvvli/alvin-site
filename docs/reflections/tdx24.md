@@ -38,7 +38,7 @@ In the midst of APIs, AI, and product demos, this moment stood out:
 <div style="display:flex; flex-wrap:wrap; gap:10px;">
 
   <img src="/alvin-site/JPG_VID/salesforce_einstein.jpg?v=1" 
-       alt="tdx3" 
+       alt="tdx4" 
        width="48%">
 
 </div>
