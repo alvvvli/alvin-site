@@ -1,6 +1,9 @@
-# Infrastructure
-
+🛣️ # Infrastructure
 Where civil works meet operations. Throughput, safety envelopes, lifecycle.
+
+<div style="display:flex;flex-wrap:wrap;gap:10px">
+  <img src="/alvin-site/JPG_VID/PXL_20241001_211000958.NIGHT.jpg" alt="a648" width="48%">
+</div>
 
 ## Recent Posts
 - [Taiwan Gas Turbine Major Inspection](gt.md)
