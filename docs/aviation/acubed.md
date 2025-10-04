@@ -1,4 +1,4 @@
-## ✈️ Airbus Acubed — Silicon Valley Innovation in Action  
+## ✈️ [Airbus Acubed](https://acubed.airbus.com/) — Silicon Valley Innovation in Action  
 
 <div style="display:flex;flex-wrap:wrap;gap:10px">
   <img src="/alvin-site/JPG_VID/acubed.jpeg" alt="Acubed Group Photo" width="48%">
