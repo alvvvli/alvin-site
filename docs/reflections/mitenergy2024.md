@@ -1,4 +1,4 @@
-# MIT Energy Conference 2024 — Balanced Transitions
+# [MIT Energy Conference](https://www.mitenergyconference.org/) 2024 — Balanced Transitions
 
 <div style="display:flex;flex-wrap:wrap;gap:10px">
   <img src="/alvin-site/JPG_VID/PXL_20240311_125821047.jpg?v=3" alt="mitenergybadge" width="48%">
