@@ -1,4 +1,4 @@
-# Japan's 踏切 (Railway Crossings) — Safety by Design
+# Japan's [踏切](https://fumikiri.info/?page_id=6064) (Railway Crossings) — Safety by Design
 
 <div style="display:flex;flex-wrap:wrap;gap:10px">
   <img src="/alvin-site/JPG_VID/PXL_20250512_134544921.jpg?v=3" alt="railx1" width="48%">
