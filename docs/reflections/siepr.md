@@ -1,4 +1,6 @@
-🗓️ **Stanford SIEPR Economic Summit 2024**
+# **Stanford SIEPR Economic Summit 2024**
+
+Hearing visionaries like **Jim Farley (Ford)** and **Jensun Huang (NVIDIA)** share on the future of automobiles, AI, and policy was both inspiring and grounding.
 
 <div style="display:flex; flex-wrap:wrap; gap:10px;">
   <img src="/alvin-site/JPG_VID/PXL_20240301_223820417.jpg?v=1" 
@@ -8,9 +10,6 @@
        alt="siepr2" 
        width="48%">
 </div>
-
-
-Hearing visionaries like **Jim Farley (Ford)** and **Jensun Huang (NVIDIA)** share on the future of automobiles, AI, and policy was both inspiring and grounding.
 
 Their perspectives on customer experience, mobility, and Taiwan's strategic role in NVIDIA's global trajectory offered rare insight—reinforced in the brief exchanges beyond the stage.
 
