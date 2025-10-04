@@ -1,6 +1,9 @@
-# Automation
-
+🤖 # Automation
 Controls, HMI, PLCs, robotic cells, and the orchestration around them.
+
+<div style="display:flex;flex-wrap:wrap;gap:10px">
+  <img src="/alvin-site/JPG_VID/PXL_20250509_025344016.jpg" alt="Hsinta Power Plant with Kayne" width="48%">
+</div>
 
 ## Recent posts
 - [ABB Flexley + Cambrian Vision](abb-flexley-cambrian.md)
