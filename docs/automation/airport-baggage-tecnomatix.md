@@ -1,6 +1,6 @@
-# Airport baggage flow modeled in Tecnomatix — scalable, delay-resilient operations
+ **Airport baggage flow modeled in [Siemens Tecnomatix](https://plm.sw.siemens.com/en-US/tecnomatix/) — scalable, delay-resilient operations**
 
-✈️ **Airport baggage flow modeled in Tecnomatix — scalable, delay-resilient operations.**
+✈️ Airport baggage flow modeled in Tecnomatix — scalable, delay-resilient operations.
 
 <iframe src="https://www.youtube.com/embed/7qntLauB2-M" width="560" height="315" style="aspect-ratio: 16/9;" frameborder="0" allowfullscreen></iframe>
 
