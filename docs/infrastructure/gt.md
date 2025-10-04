@@ -7,20 +7,15 @@
 
 </div>
 
-Thanks to Andy, Kun-Cheng Tseng, Mary, Pei Ching, Eddie Lin, Clair Lin, and the Taiwan **FieldCore** team for bringing me into a rare gas turbine major inspection at central Taiwan's StarBuck plant.  
+Thanks to Andy, Kun-Cheng Tseng, Mary, Pei Ching, Eddie Lin, Clair Lin, and the Taiwan **FieldCore** team for bringing me into a rare gas turbine major inspection at central Taiwan's StarBuck plant. 
 
-## Technical Insights
+## 🔧 Technical Insights
 
-This inspection involved:  
-- **Full rotor lift & casing separation** for internal access  
-- **Component-level checks** on blades, vanes, and seals for wear and fatigue  
-- **Field coordination** across tooling, lifting, and clearance sequences  
-- **Execution timing** designed to minimize downtime and ensure rapid reassembly
-
-Typical metrics for major inspections:  
-- Scheduled every **24,000–32,000 equivalent operating hours** (approx. 3–4 years for baseload units)  
-- **2–4 weeks outage duration**, depending on scope and parts replacement  
-- Covers turbines rated up to **300+ MW** output, with tolerances measured down to **microns**  
+- **Major inspection cycle:** typically every **24,000–32,000 equivalent operating hours**  
+- **Scope:** full rotor lift, casing separation, hot gas path component checks  
+- **Outage duration:** **2–4 weeks** depending on findings and parts availability  
+- **Scale:** turbines rated up to **300+ MW**, tolerances measured in **microns**  
+- **Objective:** extend service life, ensure reliability, and restore peak efficiency  
 
 A close look at turbine disassembly, field coordination, and real-time execution response — showing the kind of precision and dedication that's hard to grasp without extended onsite exposure.  
 
