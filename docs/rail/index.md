@@ -1,6 +1,9 @@
-# Rail
-
+# 🛤️ Rail
 Interfaces, dwell time, coupling systems, catenary geometry, and border ops.
+
+<div style="display:flex;flex-wrap:wrap;gap:10px">
+  <img src="/alvin-site/JPG_VID/PXL_20240926_095812896.jpg" alt="obbdellner" width="48%">
+</div>
 
 ## Recent posts
 - [InnoTrans 2024 Hands-On Cabin Innovation](innotrans-2024.md)
