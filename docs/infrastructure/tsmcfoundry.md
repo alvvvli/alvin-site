@@ -1,8 +1,8 @@
 # [TSMC's Foundry Model](https://www.tsmc.com/english/aboutTSMC/dc_infographics_foundry) — From Vision to Dominance
 
 <div style="display:flex;flex-wrap:wrap;gap:10px">
-  <img src="/alvin-site/JPG_VID/PXL_20250305_092201289.jpg?v=3" alt="tsmc1" width="48%">
-  <img src="/alvin-site/JPG_VID/PXL_20250305_092208716.jpg?v=3" alt="tsmc2" width="48%">
+  <img src="/alvin-site/JPG_VID/PXL_20250303_073320154.jpg?v=3" alt="tsmc1" width="48%">
+  <img src="/alvin-site/JPG_VID/PXL_20250303_073720978.jpg?v=3" alt="tsmc2" width="48%">
   <img src="/alvin-site/JPG_VID/PXL_20250317_120501610.NIGHT.jpg" alt="tsmc3" width="48%">
 </div>
 
