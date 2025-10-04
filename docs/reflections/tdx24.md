@@ -1,4 +1,4 @@
-## 🧑‍🔬 Salesforce TrailblazerDX 2024 — [Guinness World Record](https://guinnessworldrecords.com/world-records/100331-largest-gathering-of-people-dressed-as-albert-einstein) moment  
+🧑‍🔬 **Salesforce TrailblazerDX 2024 — [Guinness World Record](https://guinnessworldrecords.com/world-records/100331-largest-gathering-of-people-dressed-as-albert-einstein) moment**  
 
 <div style="display:flex; flex-wrap:wrap; gap:10px;">
   <img src="/alvin-site/JPG_VID/salesforce.jpg?v=1" 
@@ -35,7 +35,5 @@ In the midst of APIs, AI, and product demos, this moment stood out:
        alt="tdx4" 
        width="48%">
 </div>
-
-## Tags
 
 `#Reflections` `#Salesforce` `#TDX24` `#GuinnessWorldRecords`
