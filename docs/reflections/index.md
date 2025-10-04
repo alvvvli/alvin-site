@@ -6,7 +6,8 @@ Meta pieces—principles, structure, and learning loops.
 </div>
 
 ## Recent Posts
-- [Guinness World Record Moment](tdx24.md)
+- [MIT Energy Conference 2024](mitenergy2024.md)
+- [Guinness World Record Moment 2024](tdx24.md)
 - [Stanford SIEPR Economic Summit 2024](siepr.md)
 - [Dyson → LionsBot → SUTD — Design Rigor in Motion](sutd.md)
 - [Reflecting SusHi Tech Tokyo 2024](sushi24.md)
