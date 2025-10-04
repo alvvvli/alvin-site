@@ -1,4 +1,4 @@
-# TSMC's Foundry Model — From Vision to Dominance
+# [TSMC's Foundry Model](https://www.tsmc.com/english/aboutTSMC/dc_infographics_foundry) — From Vision to Dominance
 
 <div style="display:flex;flex-wrap:wrap;gap:10px">
   <img src="/alvin-site/JPG_VID/PXL_20250305_092201289.jpg?v=3" alt="tsmc1" width="48%">
