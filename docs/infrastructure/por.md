@@ -14,11 +14,11 @@
 ### From FutureLand’s ferry:
 - [**Evergreen A-type (“Ever Ace” class, ~24k TEU) ship**](https://www.evergreen-line.com/vesselparticulars/jsp/VSL_VesselType.jsp?vslType=A) staged at the world’s deepest port basins.
 - **Offshore transition pieces** stored for North Sea wind farms.  
-- [**GE’s Haliade-X offshore wind turbine**](https://www.gevernova.com/wind-power/wind-turbines/offshore-wind-turbines):  
-  - Rated at **12 MW**  
-  - **107 m blades**  
-  - **248 m tower height**  
-  - World’s most powerful offshore wind turbine (benchmarking future energy scale).  
+- [**GE’s Haliade-X offshore wind turbine**](https://www.gevernova.com/wind-power/wind-turbines/offshore-wind-turbines):
+    - Rated at **12 MW**
+    - **107 m blades**
+    - **248 m tower height**
+    - World’s most powerful offshore wind turbine (benchmarking future energy scale).  
 
 ---
 
