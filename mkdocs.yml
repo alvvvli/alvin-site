@@ -31,6 +31,9 @@ nav:
   - Home: index.md
   - Interactive Lab:
       - Overview: lab/index.md
+      - PartMatrix Demo: lab/partmatrix.md
+      - Siemens AGV Simulation: lab/agv.md
+      - Gas Turbine Reconciliation: lab/turbine.md
   - Aviation:
       - Overview: aviation/index.md
       - Airbus Acubed Silicon Valley Innovation Hub: aviation/acubed.md
