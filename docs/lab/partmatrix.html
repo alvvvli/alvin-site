@@ -32,10 +32,13 @@
     caption{ text-align:left; padding:8px 4px; color:var(--muted); font-size:.95rem; }
     th,td{ padding:10px 12px; text-align:left; border-bottom:1px solid #1f2937; color:#e6eefc; word-wrap:break-word; }
     thead th{ background:var(--thead); color:#cbe0ff; font-weight:700; letter-spacing:.2px; }
+    /* neutral striping for non-evaluated rows */
     tbody tr:nth-child(even){ background:#111111; }
-    tbody tr{ transition: background .2s ease; }
-    tr.matched{ background:var(--ok); color:#fff; }
-    tr.unmatched{ background:var(--bad); color:#fff; }
+
+    /* ✅ stronger class styling */
+    tbody tr.matched{ background:var(--ok) !important; color:#fff; }
+    tbody tr.unmatched{ background:var(--bad) !important; color:#fff; }
+
     .controls{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:16px; }
     button{
       padding:10px 18px; border:0; border-radius:10px; background:var(--btn); color:#fff;
@@ -47,9 +50,7 @@
     button:focus-visible{ outline:3px solid var(--brand); outline-offset:2px; }
     .badge{ display:inline-block; padding:3px 8px; border-radius:999px; font-size:12px; font-weight:700; background:rgba(255,255,255,.1); }
     #status { position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
-    @media (prefers-reduced-motion: reduce){
-      *{ transition:none !important; }
-    }
+    @media (prefers-reduced-motion: reduce){ *{ transition:none !important; } }
   </style>
 </head>
 <body>
@@ -105,7 +106,6 @@
 
       if(!tbody || !runBtn || !resetBtn){ console.warn('DOM not ready'); return; }
 
-      // crypto-safe shuffle if available
       function secureShuffle(arr){
         const a = arr.slice();
         const n = a.length;
@@ -115,7 +115,7 @@
             crypto.getRandomValues(u32);
             return u32[0] / 0x100000000 * max;
           }
-          return Math.random() * max; // fallback
+          return Math.random() * max;
         };
         for(let i=n-1;i>0;i--){
           const j = Math.floor(rand(i+1));
@@ -124,7 +124,6 @@
         return a;
       }
 
-      // sample k unique items (clamped to catalog size)
       function sampleUnique(array, k){
         const count = Math.max(0, Math.min(k|0, array.length));
         return secureShuffle(array).slice(0, count);
@@ -150,27 +149,32 @@
         setStatus(`Loaded ${picks.length} line item${picks.length===1?'':'s'}.`);
       }
 
+      /* ✅ improved reconcile: clear both classes before setting */
       function reconcile(){
         runBtn.disabled = true;
         let matched=0, total=0;
+
         tbody.querySelectorAll('tr').forEach(r=>{
           total++;
+          // clear any previous color
+          r.classList.remove('matched','unmatched');
+
           const part = r.children[1].textContent.trim();
           const cell = r.children[3];
           const isMatch = ERP_PARTS.has(part);
-          r.classList.toggle('matched',  isMatch);
-          r.classList.toggle('unmatched',!isMatch);
+
+          // set new color
+          r.classList.add(isMatch ? 'matched' : 'unmatched');
           cell.textContent = isMatch ? 'Matched ✅' : 'Unmatched ⚠️';
           if(isMatch) matched++;
         });
+
         setStatus(`Reconciled ${total} rows: ${matched} matched, ${total-matched} unmatched.`);
-        // small re-enable delay to avoid accidental double clicks
         setTimeout(()=>{ runBtn.disabled = false; }, 120);
       }
 
       function reset(){
         buildRows(5);
-        // clear states just in case
         tbody.querySelectorAll('tr').forEach(r=>{
           r.classList.remove('matched','unmatched');
           r.children[3].textContent = '–';
@@ -184,7 +188,6 @@
         if(e.key && e.key.toLowerCase()==='r'){ reset(); }
       }, { passive:true });
 
-      // initial load
       reset();
     });
   })();
