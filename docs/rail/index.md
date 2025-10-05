@@ -22,3 +22,4 @@ Interfaces, dwell time, coupling systems, catenary geometry, and border ops.
 - [Jerusalem–Tel Aviv: Engineering Resilience in Motion](ilrail.md)
 - [Dubai Metro - Logistics-Minded Connector](dxbmetro.md)
 - [Uzbekistan's High Speed Rail](afro.md)
+- [New Tashkent Metro](tosh.md)
