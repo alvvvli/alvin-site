@@ -10,7 +10,7 @@
     --accent:#60a5fa; --ok:#16a34a; --bad:#ef4444; --line:#1f2a44; --warn:#eab308;
   }
   *{box-sizing:border-box}
-  html,body{height:100%}
+  html,body{overflow-x:hidden;}
   body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,Segoe UI,Roboto,Ubuntu,sans-serif}
   .wrap{max-width:1100px;margin:0 auto;padding:28px 16px 100px}
   h1{margin:0 0 8px;font-size:clamp(22px,3.2vw,34px)}
@@ -19,7 +19,7 @@
   .tab{padding:10px 14px;border-radius:999px;border:1px solid var(--line);cursor:pointer;background:#0c121b}
   .tab.active{background:#1f4ab8;border-color:#163a94}
   .badge{display:inline-block;padding:2px 8px;border-radius:999px;background:#153568;border:1px solid #26497a;color:#b8cdf0;margin-left:8px}
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:14px}
+  .card{overflow:hidden;}
   .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
   .btn{background:#1f2a44;color:#fff;border:1px solid #223456;border-radius:10px;padding:10px 14px;cursor:pointer}
   .btn:hover{filter:brightness(1.08)}
@@ -27,8 +27,8 @@
   .kpi{display:inline-flex;gap:8px;align-items:center;padding:6px 10px;border:1px solid var(--line);border-radius:10px;background:#0c121b;color:#b9c8e2}
   .mono{font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;}
   select, textarea, input{background:#0c1118;border:1px solid #223147;color:#eaf2ff;border-radius:10px;padding:8px}
-  table{width:100%;border-collapse:separate;border-spacing:0 8px}
-  th,td{padding:10px 12px;text-align:left}
+  table{width:100%;table-layout:fixed;}
+  th,td{word-break:break-word;overflow-wrap:anywhere;}
   th{color:#a6b7d3;font-weight:600;border-bottom:1px solid var(--line)}
   tr{background:#0b1119}
   tr td:first-child{border-radius:8px 0 0 8px}
