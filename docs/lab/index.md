@@ -1,3 +1,5 @@
+<div class="lab-flair"></div>
+
 # 🧪 Interactive Lab
 
 A compact suite of logic-driven simulations inspired by real industrial workflows
