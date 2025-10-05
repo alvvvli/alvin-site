@@ -6,128 +6,188 @@
   <title>PartMatrix Demo</title>
   <style>
     :root{
-      --bg:#0b0f14; --panel:#0b1219; --thead:#0f172a; --row:#0e0e0e;
+      --bg:#0b0f14; --panel:#0b1219; --thead:#0f172a;
       --ok:#0a8f3f; --bad:#8f0a2c; --ink:#e5f0ff; --muted:#9fb4d1; --brand:#58a6ff;
+      --btn:#1f6feb; --btn-ghost:#0f172a; --btn-ghost-border:#1f2a44;
     }
-    body{ font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",sans-serif;
-      background:var(--bg); color:#fff; margin:0; padding:22px; }
-    .wrap{ max-width:1000px; margin:0 auto; background:#0b0f14; border-radius:14px; padding:18px 18px 28px; box-shadow:0 10px 32px rgba(0,0,0,.45); }
+    @media (prefers-color-scheme: light) {
+      :root{ --bg:#f8fafc; --panel:#ffffff; --thead:#e6eefc; --ink:#0b1220; --muted:#435a7a; }
+      body{ color:var(--ink); }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",sans-serif;
+      background: var(--bg); color: #fff; margin: 0; padding: 22px;
+    }
+    .wrap{
+      max-width: 1000px; margin: 0 auto; background: var(--panel);
+      border-radius: 14px; padding: 18px 18px 28px; box-shadow:0 10px 32px rgba(0,0,0,.45);
+    }
     h2{ text-align:center; color:var(--brand); margin:4px 0 6px; }
     p.sub{ text-align:center; color:var(--muted); margin:0 0 16px; }
-    table{ width:100%; border-collapse:collapse; border-radius:14px; overflow:hidden; }
-    th,td{ padding:10px 14px; text-align:left; border-bottom:1px solid #1f2937; }
-    thead th{ background:var(--thead); color:#93c5fd; font-weight:700; letter-spacing:.2px; }
+    table{
+      width:100%; border-collapse:collapse; border-radius:14px; overflow:hidden;
+      table-layout: fixed;
+    }
+    caption{ text-align:left; padding:8px 4px; color:var(--muted); font-size:.95rem; }
+    th,td{ padding:10px 12px; text-align:left; border-bottom:1px solid #1f2937; color:#e6eefc; word-wrap:break-word; }
+    thead th{ background:var(--thead); color:#cbe0ff; font-weight:700; letter-spacing:.2px; }
     tbody tr:nth-child(even){ background:#111111; }
-    tbody tr{ transition:background .25s ease; }
+    tbody tr{ transition: background .2s ease; }
     tr.matched{ background:var(--ok); color:#fff; }
     tr.unmatched{ background:var(--bad); color:#fff; }
-    .controls{ display:flex; gap:10px; justify-content:center; margin-top:16px; }
-    button{ padding:10px 18px; border:0; border-radius:10px; background:#1f6feb; color:#fff; font-weight:700; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.28); }
-    button.secondary{ background:#0f172a; color:#c7d2fe; border:1px solid #1f2a44; }
+    .controls{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:16px; }
+    button{
+      padding:10px 18px; border:0; border-radius:10px; background:var(--btn); color:#fff;
+      font-weight:700; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.28);
+    }
+    button.secondary{ background:var(--btn-ghost); color:#c7d2fe; border:1px solid var(--btn-ghost-border); }
+    button:disabled{ opacity:.6; cursor:not-allowed; }
     button:active{ transform:translateY(1px); }
+    button:focus-visible{ outline:3px solid var(--brand); outline-offset:2px; }
     .badge{ display:inline-block; padding:3px 8px; border-radius:999px; font-size:12px; font-weight:700; background:rgba(255,255,255,.1); }
+    #status { position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
+    @media (prefers-reduced-motion: reduce){
+      *{ transition:none !important; }
+    }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <h2>🧩 PartMatrix Mini-Demo</h2>
-    <p class="sub">Run reconciliation to flag matched / unmatched turbine components. <span class="badge">Press R to Reset</span></p>
+  <div class="wrap" role="region" aria-labelledby="title">
+    <h2 id="title">🧩 PartMatrix Mini-Demo</h2>
+    <p class="sub">
+      Run reconciliation to flag matched / unmatched turbine components.
+      <span class="badge" aria-hidden="true">Press R to Reset</span>
+    </p>
 
-    <table id="matrix">
+    <table id="matrix" aria-describedby="desc">
+      <caption id="desc">Sampled line items from a mixed catalog. Reset reshuffles items; reconcile checks membership in ERP.</caption>
       <thead>
         <tr>
-          <th>Order No.</th>
-          <th>Part No.</th>
-          <th>Component Name</th>
-          <th>ERP Match?</th>
+          <th scope="col">Order No.</th>
+          <th scope="col">Part No.</th>
+          <th scope="col">Component Name</th>
+          <th scope="col">ERP Match?</th>
         </tr>
       </thead>
       <tbody><!-- rows injected --></tbody>
     </table>
 
-    <div class="controls">
-      <button id="runBtn">Run Reconciliation</button>
-      <button id="resetBtn" class="secondary">↻ Reset & Reshuffle</button>
+    <div class="controls" aria-label="Demo controls">
+      <button id="runBtn" type="button" aria-label="Run reconciliation">Run Reconciliation</button>
+      <button id="resetBtn" class="secondary" type="button" aria-label="Reset and reshuffle">↻ Reset &amp; Reshuffle</button>
     </div>
+
+    <div id="status" role="status" aria-live="polite"></div>
   </div>
 
   <script>
-    // --- Master catalog (some in ERP, some not) ---
-    const CATALOG = [
-      {part:'M501J-CB-401', name:'Compressor Blade'},  // in ERP
-      {part:'M501J-NG-812', name:'Nozzle Guide'},      // in ERP
-      {part:'M501J-TR-301', name:'Turbine Ring'},      // in ERP
-      {part:'M501J-SH-220', name:'Shaft Coupling'},
-      {part:'M501J-CB-999', name:'Compressor Blade'},
-      {part:'M501J-SE-144', name:'Seal Segment'},
-      {part:'M501J-BR-077', name:'Bearing Roller'},
-      {part:'M501J-VN-431', name:'Vane Segment'},
-      {part:'M501J-FN-265', name:'Fuel Nozzle'},
-      {part:'M501J-HT-510', name:'Heat Shield'}
-    ];
-    const ERP_PARTS = new Set(['M501J-CB-401','M501J-NG-812','M501J-TR-301']);
+  (() => {
+    document.addEventListener('DOMContentLoaded', () => {
+      const CATALOG = Object.freeze([
+        {part:'M501J-CB-401', name:'Compressor Blade'},  // in ERP
+        {part:'M501J-NG-812', name:'Nozzle Guide'},      // in ERP
+        {part:'M501J-TR-301', name:'Turbine Ring'},      // in ERP
+        {part:'M501J-SH-220', name:'Shaft Coupling'},
+        {part:'M501J-CB-999', name:'Compressor Blade'},
+        {part:'M501J-SE-144', name:'Seal Segment'},
+        {part:'M501J-BR-077', name:'Bearing Roller'},
+        {part:'M501J-VN-431', name:'Vane Segment'},
+        {part:'M501J-FN-265', name:'Fuel Nozzle'},
+        {part:'M501J-HT-510', name:'Heat Shield'}
+      ]);
+      const ERP_PARTS = new Set(['M501J-CB-401','M501J-NG-812','M501J-TR-301']);
 
-    const tbody = document.querySelector('#matrix tbody');
-    const runBtn = document.getElementById('runBtn');
-    const resetBtn = document.getElementById('resetBtn');
+      const tbody   = document.querySelector('#matrix tbody');
+      const runBtn  = document.getElementById('runBtn');
+      const resetBtn= document.getElementById('resetBtn');
+      const status  = document.getElementById('status');
 
-    // Utility: sample k unique items from array
-    function sample(array, k){
-      const arr = array.slice();
-      for(let i=arr.length-1;i>0;i--){
-        const j = Math.floor(Math.random()*(i+1));
-        [arr[i],arr[j]] = [arr[j],arr[i]];
-      }
-      return arr.slice(0,k);
-    }
+      if(!tbody || !runBtn || !resetBtn){ console.warn('DOM not ready'); return; }
 
-    // Build fresh randomized rows
-    function buildRows(count=5){
-      const picks = sample(CATALOG, count);
-      tbody.innerHTML = '';
-      picks.forEach((it, idx)=>{
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${1001+idx}</td>
-          <td>${it.part}</td>
-          <td>${it.name}</td>
-          <td>–</td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
-
-    // Reconciliation: color rows by membership in ERP dataset
-    function reconcile(){
-      tbody.querySelectorAll('tr').forEach(r=>{
-        const part = r.children[1].textContent.trim();
-        const cell = r.children[3];
-        if(ERP_PARTS.has(part)){
-          r.classList.remove('unmatched'); r.classList.add('matched');
-          cell.textContent = 'Matched ✅';
-        }else{
-          r.classList.remove('matched'); r.classList.add('unmatched');
-          cell.textContent = 'Unmatched ⚠️';
+      // crypto-safe shuffle if available
+      function secureShuffle(arr){
+        const a = arr.slice();
+        const n = a.length;
+        const rand = (max) => {
+          if (window.crypto && crypto.getRandomValues) {
+            const u32 = new Uint32Array(1);
+            crypto.getRandomValues(u32);
+            return u32[0] / 0x100000000 * max;
+          }
+          return Math.random() * max; // fallback
+        };
+        for(let i=n-1;i>0;i--){
+          const j = Math.floor(rand(i+1));
+          [a[i],a[j]] = [a[j],a[i]];
         }
-      });
-    }
+        return a;
+      }
 
-    function reset(){
-      buildRows(5);
-      // clear states
-      tbody.querySelectorAll('tr').forEach(r=>{
-        r.classList.remove('matched','unmatched');
-        r.children[3].textContent = '–';
-      });
-    }
+      // sample k unique items (clamped to catalog size)
+      function sampleUnique(array, k){
+        const count = Math.max(0, Math.min(k|0, array.length));
+        return secureShuffle(array).slice(0, count);
+      }
 
-    // Wire up
-    runBtn.onclick = reconcile;
-    resetBtn.onclick = reset;
-    addEventListener('keydown', e=>{ if(e.key.toLowerCase()==='r') reset(); });
+      function setStatus(msg){ status.textContent = msg; }
 
-    // initial load
-    reset();
+      function buildRows(count=5){
+        const picks = sampleUnique(CATALOG, count);
+        const frag = document.createDocumentFragment();
+        picks.forEach((it, idx)=>{
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${1001+idx}</td>
+            <td>${it.part}</td>
+            <td>${it.name}</td>
+            <td>–</td>
+          `;
+          frag.appendChild(tr);
+        });
+        tbody.innerHTML = '';
+        tbody.appendChild(frag);
+        setStatus(`Loaded ${picks.length} line item${picks.length===1?'':'s'}.`);
+      }
+
+      function reconcile(){
+        runBtn.disabled = true;
+        let matched=0, total=0;
+        tbody.querySelectorAll('tr').forEach(r=>{
+          total++;
+          const part = r.children[1].textContent.trim();
+          const cell = r.children[3];
+          const isMatch = ERP_PARTS.has(part);
+          r.classList.toggle('matched',  isMatch);
+          r.classList.toggle('unmatched',!isMatch);
+          cell.textContent = isMatch ? 'Matched ✅' : 'Unmatched ⚠️';
+          if(isMatch) matched++;
+        });
+        setStatus(`Reconciled ${total} rows: ${matched} matched, ${total-matched} unmatched.`);
+        // small re-enable delay to avoid accidental double clicks
+        setTimeout(()=>{ runBtn.disabled = false; }, 120);
+      }
+
+      function reset(){
+        buildRows(5);
+        // clear states just in case
+        tbody.querySelectorAll('tr').forEach(r=>{
+          r.classList.remove('matched','unmatched');
+          r.children[3].textContent = '–';
+        });
+        setStatus('Table reset and reshuffled.');
+      }
+
+      runBtn.addEventListener('click', reconcile);
+      resetBtn.addEventListener('click', reset);
+      document.addEventListener('keydown', e=>{
+        if(e.key && e.key.toLowerCase()==='r'){ reset(); }
+      }, { passive:true });
+
+      // initial load
+      reset();
+    });
+  })();
   </script>
 </body>
 </html>
