@@ -1,5 +1,5 @@
 # 🧩 PartMatrix Demo  
-_Excel-logic reconciliation engine (JavaScript port)_
+**Excel-logic reconciliation engine (JavaScript port)**
 
 This lightweight demo recreates part of the original **PartMatrix** tool you built at GE Vernova — a logic engine that performs `IF`, `MATCH`, and `LOOKUP` operations to reconcile turbine components.
 
