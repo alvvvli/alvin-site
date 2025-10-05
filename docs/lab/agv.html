@@ -3,29 +3,29 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>AGV-Line Mockup – HTML Canvas</title>
+<title>AGV-Line Mockup – HTML Canvas (Fixed)</title>
 <style>
   :root{
     --bg:#0b0f14; --panel:#0f172a; --ink:#dbebff; --muted:#8aa4c7;
     --brand:#58a6ff; --ok:#21c37a; --warn:#f6c744; --bad:#ff5577;
   }
-  html,body{height:100%;}
+  html,body{height:100%}
   body{margin:0; background:var(--bg); color:var(--ink); font:14px/1.4 system-ui,Segoe UI,Roboto,Ubuntu,sans-serif;}
-  .wrap{display:grid; grid-template-columns: 1fr 360px; gap:14px; padding:16px;}
-  #stage{background:#0b1219; border:1px solid #1e2a3d; border-radius:12px; width:100%; height:72vh;}
-  .panel{background:var(--panel); border:1px solid #1e2a3d; border-radius:12px; padding:12px;}
-  .row{display:flex; gap:8px; align-items:center; flex-wrap:wrap;}
+  .wrap{display:grid; grid-template-columns:minmax(0,1fr) 360px; gap:14px; padding:16px; align-items:start}
+  #stage{background:#0b1219; border:1px solid #1e2a3d; border-radius:12px; width:100%; height:72vh}
+  .panel{background:var(--panel); border:1px solid #1e2a3d; border-radius:12px; padding:12px}
+  .row{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
   .row + .row{margin-top:8px}
-  label{font-size:12px; color:var(--muted)}
-  input[type=range]{width:140px}
+  label{font-size:12px; color:var(--muted); display:flex; align-items:center; gap:8px; flex:1 1 180px}
+  input[type=range]{width:100%}
   .tag{display:inline-block; font-size:12px; color:#09243f; background:var(--brand); padding:2px 8px; border-radius:999px; margin-left:auto}
   .kpis{display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:10px}
   .kpi{background:#0b1219; border:1px solid #152235; border-radius:10px; padding:8px}
   .kpi h4{margin:0 0 6px 0; font-weight:600; font-size:12px; color:var(--muted)}
   .kpi .val{font-size:18px}
-  .legend{display:flex; gap:8px; align-items:center; margin-top:8px; font-size:12px; color:var(--muted)}
+  .legend{display:flex; gap:8px; align-items:center; margin-top:8px; font-size:12px; color:var(--muted); flex-wrap:wrap}
   .dot{width:10px;height:10px;border-radius:50%}
-  .btn{background:#1f6feb;border:1px solid #1a4ea8;color:#fff;border-radius:10px;padding:8px 10px;cursor:pointer}
+  .btn{background:#1f6feb;border:1px solid #1a4ea8;color:#fff;border-radius:10px;padding:8px 10px;cursor:pointer; flex:0 0 auto}
   .btn.ghost{background:#0b1219;border:1px solid #1e2a3d;color:var(--muted)}
   select{background:#0b1219;border:1px solid #1e2a3d;color:#cde3ff;border-radius:8px;padding:6px}
   .grid{display:grid;gap:6px;margin-top:10px}
@@ -33,6 +33,11 @@
   summary{cursor:pointer;color:var(--muted)}
   code{color:#bfe1ff}
   small.mono{font-family:ui-monospace,Consolas,monospace;color:var(--muted)}
+
+  /* Responsive */
+  @media (max-width:1060px){ .wrap{grid-template-columns:1fr} #stage{height:48vh} }
+  @media (max-width:640px){ #stage{height:44vh} .kpis{grid-template-columns:1fr} .btn{flex:1 1 auto} }
+  @media (max-width:420px){ #stage{height:40vh} }
 </style>
 </head>
 <body>
@@ -94,7 +99,7 @@
         <div class="grid">
           <div>Lightweight, <em>game‑like</em> discrete‑flow mockup inspired by a baggage/parcel line with 3 lanes → palletize → merge → queue → 2 docks (Dock A/B). No libraries, single HTML file.</div>
           <div><b>Shortcuts:</b> <span class="mono">Space</span> play/pause, <span class="mono">R</span> reset, <span class="mono">[ / ]</span> slower/faster, <span class="mono">A / D</span> add/remove AGV, <span class="mono">S</span> step.</div>
-          <div>Use <b>Preset</b> to demo different system dynamics. Export CSV for your KPI plots or share a <b>Screenshot</b>.</div>
+          <div>Use <b>Preset</b> to demo dynamics. Export CSV for KPI plots or share a <b>Screenshot</b>.</div>
         </div>
       </details>
     </div>
@@ -119,6 +124,8 @@
   // Utility
   const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
   const lerp=(a,b,t)=>a+(b-a)*t;
+  function toPx([nx,ny]){ return {x:nx*W(), y:ny*H()}; }
+  function dist(a,b){ const dx=a.x-b.x, dy=a.y-b.y; return Math.hypot(dx,dy); }
 
   // Layout (normalized coordinates 0..1)
   const L = {
@@ -225,7 +232,6 @@
       } else { this.trail.length=0; }
     }
     draw(){
-      // trail
       if(this.trail.length){
         for(let i=1;i<this.trail.length;i++){
           const a=this.trail[i-1], b=this.trail[i];
@@ -245,10 +251,7 @@
     pallets.push(p);
   }
 
-  function toPx([nx,ny]){ return {x:nx*W(), y:ny*H()}; }
-  function dist(a,b){ const dx=a.x-b.x, dy=a.y-b.y; return Math.hypot(dx,dy); }
-
-  // Simple queue implementation visualized at L.queue
+  // Queue
   const qArr=[];
   function enqueue(p){ qArr.push(p); }
   function dequeue(p){ const i=qArr.indexOf(p); if(i>=0) qArr.splice(i,1); }
@@ -265,7 +268,8 @@
 
   // Timing
   const perf = { start: performance.now(), now(){return (performance.now()-this.start)/1000;}};
-  let last = performance.now(); let playing=false;
+  let last = performance.now(); let playing=true; // autostart
+  playBtn.textContent = '⏸ Pause';
 
   // Controls
   playBtn.addEventListener('click',()=>{ playing=!playing; playBtn.textContent = playing? '⏸ Pause':'▶ Play'; });
@@ -398,6 +402,7 @@
   function resetSim(){
     pallets=[]; qArr.length=0; completed.length=0; nextId=1; log.length=0; logAccum=0;
     refreshAGVs();
+    warmup(2); // instant KPIs after reset
   }
 
   function applyPreset(p){
@@ -418,14 +423,14 @@
 
   function exportCSV(){
     if(!log.length){ alert('No data yet. Let it run a few seconds.'); return; }
-    const header = 't(sec),throughput(jobs/hr),WIP,AGV util(%),queue
-';
-    const body = log.map(r=>`${r.t},${r.tph},${r.wip},${r.util},${r.queue}`).join('
-');
+    const header = 't(sec),throughput(jobs/hr),WIP,AGV util(%),queue\n';
+    const body = log.map(r=>`${r.t},${r.tph},${r.wip},${r.util},${r.queue}`).join('\n');
     const blob = new Blob([header+body], {type:'text/csv'});
     const url = URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='agv-kpis.csv'; a.click(); URL.revokeObjectURL(url);
   }
 
+  function warmup(seconds=3){ const dt=1/60; for(let i=0;i<seconds/dt;i++) tick(dt); }
+  warmup(2.5); // seed the system on load
   function loop(){ if(playing) tick(); draw(); requestAnimationFrame(loop);} loop();
 })();
 </script>
