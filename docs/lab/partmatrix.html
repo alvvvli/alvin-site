@@ -7,50 +7,42 @@
   <style>
     :root{
       --bg:#0b0f14; --panel:#0b1219; --thead:#0f172a;
-      --ok:#0a8f3f; --bad:#8f0a2c; --ink:#e5f0ff; --muted:#9fb4d1; --brand:#58a6ff;
+      --ok:#0a8f3f; --bad:#8f0a2c; --muted:#9fb4d1; --brand:#58a6ff;
       --btn:#1f6feb; --btn-ghost:#0f172a; --btn-ghost-border:#1f2a44;
     }
-    @media (prefers-color-scheme: light) {
-      :root{ --bg:#f8fafc; --panel:#ffffff; --thead:#e6eefc; --ink:#0b1220; --muted:#435a7a; }
-      body{ color:var(--ink); }
-    }
-    * { box-sizing: border-box; }
-    body {
-      font-family: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",sans-serif;
-      background: var(--bg); color: #fff; margin: 0; padding: 22px;
+    body{
+      font-family:system-ui,Segoe UI,Roboto,Ubuntu,sans-serif;
+      background:var(--bg); color:#fff; margin:0; padding:22px;
     }
     .wrap{
-      max-width: 1000px; margin: 0 auto; background: var(--panel);
-      border-radius: 14px; padding: 18px 18px 28px; box-shadow:0 10px 32px rgba(0,0,0,.45);
+      max-width:1000px; margin:0 auto; background:var(--panel);
+      border-radius:14px; padding:18px 18px 28px; box-shadow:0 10px 32px rgba(0,0,0,.45);
     }
-    h2{ text-align:center; color:var(--brand); margin:4px 0 6px; }
-    p.sub{ text-align:center; color:var(--muted); margin:0 0 16px; }
-    table{
-      width:100%; border-collapse:collapse; border-radius:14px; overflow:hidden;
-      table-layout: fixed;
-    }
-    caption{ text-align:left; padding:8px 4px; color:var(--muted); font-size:.95rem; }
-    th,td{ padding:10px 12px; text-align:left; border-bottom:1px solid #1f2937; color:#e6eefc; word-wrap:break-word; }
-    thead th{ background:var(--thead); color:#cbe0ff; font-weight:700; letter-spacing:.2px; }
-    /* neutral striping for non-evaluated rows */
-    tbody tr:nth-child(even){ background:#111111; }
+    h2{text-align:center;color:var(--brand);margin:4px 0 6px;}
+    p.sub{text-align:center;color:var(--muted);margin:0 0 16px;}
 
-    /* ✅ stronger class styling */
-    tbody tr.matched{ background:var(--ok) !important; color:#fff; }
-    tbody tr.unmatched{ background:var(--bad) !important; color:#fff; }
+    table{width:100%;border-collapse:collapse;border-radius:14px;overflow:hidden;table-layout:fixed;}
+    th,td{padding:10px 12px;text-align:left;border-bottom:1px solid #1f2937;}
+    thead th{background:var(--thead);color:#cbe0ff;font-weight:700;letter-spacing:.2px;}
 
-    .controls{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:16px; }
+    /* ✅ Neutral zebra striping (cells) */
+    tbody tr:nth-child(even) > * { background:#111111; }
+
+    /* ✅ Full-row status colors override (cells) */
+    tbody tr.matched   > * { background:var(--ok)  !important; color:#fff !important; }
+    tbody tr.unmatched > * { background:var(--bad) !important; color:#fff !important; }
+
+    .controls{display:flex;gap:10px;justify-content:center;margin-top:16px;}
     button{
-      padding:10px 18px; border:0; border-radius:10px; background:var(--btn); color:#fff;
-      font-weight:700; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.28);
+      padding:10px 18px;border:0;border-radius:10px;background:var(--btn);color:#fff;
+      font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.28);
     }
-    button.secondary{ background:var(--btn-ghost); color:#c7d2fe; border:1px solid var(--btn-ghost-border); }
-    button:disabled{ opacity:.6; cursor:not-allowed; }
-    button:active{ transform:translateY(1px); }
-    button:focus-visible{ outline:3px solid var(--brand); outline-offset:2px; }
-    .badge{ display:inline-block; padding:3px 8px; border-radius:999px; font-size:12px; font-weight:700; background:rgba(255,255,255,.1); }
+    button.secondary{background:var(--btn-ghost);color:#c7d2fe;border:1px solid var(--btn-ghost-border);}
+    button:disabled{opacity:.6;cursor:not-allowed;}
+    button:active{transform:translateY(1px);}
+    button:focus-visible{outline:3px solid var(--brand);outline-offset:2px;}
+    .badge{display:inline-block;padding:3px 8px;border-radius:999px;font-size:12px;font-weight:700;background:rgba(255,255,255,.1);}
     #status { position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
-    @media (prefers-reduced-motion: reduce){ *{ transition:none !important; } }
   </style>
 </head>
 <body>
@@ -62,7 +54,9 @@
     </p>
 
     <table id="matrix" aria-describedby="desc">
-      <caption id="desc">Sampled line items from a mixed catalog. Reset reshuffles items; reconcile checks membership in ERP.</caption>
+      <caption id="desc" style="text-align:left;color:#9fb4d1;padding:6px 4px;">
+        Sampled line items from a mixed catalog. Reset reshuffles items; Reconcile checks ERP membership.
+      </caption>
       <thead>
         <tr>
           <th scope="col">Order No.</th>
@@ -85,7 +79,7 @@
   <script>
   (() => {
     document.addEventListener('DOMContentLoaded', () => {
-      const CATALOG = Object.freeze([
+      const CATALOG = [
         {part:'M501J-CB-401', name:'Compressor Blade'},  // in ERP
         {part:'M501J-NG-812', name:'Nozzle Guide'},      // in ERP
         {part:'M501J-TR-301', name:'Turbine Ring'},      // in ERP
@@ -96,81 +90,71 @@
         {part:'M501J-VN-431', name:'Vane Segment'},
         {part:'M501J-FN-265', name:'Fuel Nozzle'},
         {part:'M501J-HT-510', name:'Heat Shield'}
-      ]);
+      ];
       const ERP_PARTS = new Set(['M501J-CB-401','M501J-NG-812','M501J-TR-301']);
 
-      const tbody   = document.querySelector('#matrix tbody');
-      const runBtn  = document.getElementById('runBtn');
-      const resetBtn= document.getElementById('resetBtn');
-      const status  = document.getElementById('status');
+      const tbody = document.querySelector('#matrix tbody');
+      const runBtn = document.getElementById('runBtn');
+      const resetBtn = document.getElementById('resetBtn');
+      const status = document.getElementById('status');
 
-      if(!tbody || !runBtn || !resetBtn){ console.warn('DOM not ready'); return; }
-
+      // crypto-safe shuffle
       function secureShuffle(arr){
         const a = arr.slice();
-        const n = a.length;
-        const rand = (max) => {
-          if (window.crypto && crypto.getRandomValues) {
-            const u32 = new Uint32Array(1);
-            crypto.getRandomValues(u32);
-            return u32[0] / 0x100000000 * max;
-          }
-          return Math.random() * max;
-        };
-        for(let i=n-1;i>0;i--){
-          const j = Math.floor(rand(i+1));
+        for(let i=a.length-1;i>0;i--){
+          const u32 = new Uint32Array(1);
+          (crypto.getRandomValues ? crypto.getRandomValues(u32) : (u32[0]=Math.random()*0xffffffff, u32));
+          const j = Math.floor((u32[0]/0x100000000)*(i+1));
           [a[i],a[j]] = [a[j],a[i]];
         }
         return a;
       }
+      const sampleUnique = (array,k)=> secureShuffle(array).slice(0, Math.min(k, array.length));
+      const setStatus = (msg)=> status.textContent = msg;
 
-      function sampleUnique(array, k){
-        const count = Math.max(0, Math.min(k|0, array.length));
-        return secureShuffle(array).slice(0, count);
+      // Re-apply zebra striping to all neutral rows (no status class)
+      function reStripe(){
+        const rows = [...tbody.querySelectorAll('tr')];
+        rows.forEach((r,i)=>{
+          const neutral = !r.classList.contains('matched') && !r.classList.contains('unmatched');
+          r.querySelectorAll('td').forEach(td=>{
+            td.style.background = neutral ? (i%2===1 ? '#111111' : 'transparent') : '';
+            td.style.color = ''; // allow status classes to control color
+          });
+        });
       }
-
-      function setStatus(msg){ status.textContent = msg; }
 
       function buildRows(count=5){
         const picks = sampleUnique(CATALOG, count);
-        const frag = document.createDocumentFragment();
-        picks.forEach((it, idx)=>{
+        tbody.innerHTML = '';
+        picks.forEach((it,idx)=>{
           const tr = document.createElement('tr');
           tr.innerHTML = `
             <td>${1001+idx}</td>
             <td>${it.part}</td>
             <td>${it.name}</td>
-            <td>–</td>
-          `;
-          frag.appendChild(tr);
+            <td>–</td>`;
+          tbody.appendChild(tr);
         });
-        tbody.innerHTML = '';
-        tbody.appendChild(frag);
         setStatus(`Loaded ${picks.length} line item${picks.length===1?'':'s'}.`);
+        reStripe();
       }
 
-      /* ✅ improved reconcile: clear both classes before setting */
       function reconcile(){
-        runBtn.disabled = true;
         let matched=0, total=0;
-
         tbody.querySelectorAll('tr').forEach(r=>{
           total++;
-          // clear any previous color
-          r.classList.remove('matched','unmatched');
-
+          r.classList.remove('matched','unmatched'); // clear any prior state
           const part = r.children[1].textContent.trim();
           const cell = r.children[3];
           const isMatch = ERP_PARTS.has(part);
-
-          // set new color
           r.classList.add(isMatch ? 'matched' : 'unmatched');
           cell.textContent = isMatch ? 'Matched ✅' : 'Unmatched ⚠️';
           if(isMatch) matched++;
         });
-
         setStatus(`Reconciled ${total} rows: ${matched} matched, ${total-matched} unmatched.`);
-        setTimeout(()=>{ runBtn.disabled = false; }, 120);
+        reStripe(); // keep neutral rows striped
+        runBtn.blur();
       }
 
       function reset(){
@@ -180,14 +164,14 @@
           r.children[3].textContent = '–';
         });
         setStatus('Table reset and reshuffled.');
+        reStripe();
       }
 
-      runBtn.addEventListener('click', reconcile);
-      resetBtn.addEventListener('click', reset);
-      document.addEventListener('keydown', e=>{
-        if(e.key && e.key.toLowerCase()==='r'){ reset(); }
-      }, { passive:true });
+      runBtn.onclick = reconcile;
+      resetBtn.onclick = reset;
+      document.addEventListener('keydown', e => { if(e.key && e.key.toLowerCase()==='r') reset(); });
 
+      // initial
       reset();
     });
   })();
