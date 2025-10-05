@@ -29,6 +29,8 @@ extra:
   social:
     - icon: fontawesome/brands/linkedin
       link: https://www.linkedin.com/in/alvin-li-596a3316a/
+extra_css:
+  - assets/custom.css
 nav:
   - Home: index.md
   - Interactive Lab:
