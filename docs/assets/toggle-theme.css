@@ -1,4 +1,5 @@
-.theme-toggle {
+/* Button layout next to the search bar */
+.theme-toggle-btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -7,22 +8,19 @@
   border: none;
   background: transparent;
   cursor: pointer;
-  color: var(--md-primary-fg-color);
   border-radius: 10px;
+  color: var(--md-primary-fg-color);
   transition: transform .15s ease, background .2s ease, color .2s ease;
 }
 
-.theme-toggle:hover {
+.theme-toggle-btn:hover {
   transform: translateY(-1px);
   background: var(--md-default-fg-color--lightest);
 }
 
-.theme-toggle .material-symbols-outlined {
-  display: none;
-  font-family: 'Material Symbols Outlined';
-  font-size: 22px;
-  line-height: 1;
-}
+/* Show one icon at a time */
+.theme-toggle-btn .icon-sun,
+.theme-toggle-btn .icon-moon { display: none; }
 
-.theme-toggle.dark-mode .dark { display: inline-block; }
-.theme-toggle:not(.dark-mode) .light { display: inline-block; }
+.theme-toggle-btn.is-dark .icon-moon { display: block; }
+.theme-toggle-btn:not(.is-dark) .icon-sun { display: block; }
