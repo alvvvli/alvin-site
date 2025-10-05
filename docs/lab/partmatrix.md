@@ -3,8 +3,6 @@
 
 This lightweight demo recreates part of the original **PartMatrix** tool you built at GE Vernova — a logic engine that performs `IF`, `MATCH`, and `LOOKUP` operations to reconcile turbine components.
 
----
-
 ### ⚙️ Demo
 
 <div style="max-width:1000px;margin:0 auto;border-radius:12px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.25);height:95vh;">
@@ -13,8 +11,6 @@ This lightweight demo recreates part of the original **PartMatrix** tool you bui
 
 <iframe width="560" height="315" style="border-radius:12px; margin-top:10px; aspect-ratio:16/9;" src="https://www.youtube.com/embed/OwOCqUE4O9o" frameborder="0" allowfullscreen> </iframe>
 
----
-
 ### 📘 Overview
 | Feature | Description |
 |----------|--------------|
@@ -22,8 +18,6 @@ This lightweight demo recreates part of the original **PartMatrix** tool you bui
 | **Sample Data** | 10 turbine components (`order_no`, `part_no`, `match_status`) |
 | **Interaction** | Click “Run Reconciliation” to flag matched / unmatched entries |
 | **Goal** | Demonstrate deterministic reconciliation logic for audit-grade matching |
-
----
 
 ### 🧠 Notes
 - Optimized for browser-side execution (no backend required).  
