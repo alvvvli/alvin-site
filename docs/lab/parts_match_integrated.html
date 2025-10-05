@@ -339,21 +339,37 @@ function p_auto(){
 }
 function p_reconcile(){
   P.rows.forEach(r=>{
-    if(r.status==='ok' || !r.chosen) return;
-    const right=normalize(r.chosen)===r.answer;
-    if(right){ r.status='ok'; P.score+=5; P.resolved++; }
-    else { r.status='sus'; P.score-=2; }
+    if(r.status === 'ok' || !r.chosen) return;
+    const right = normalize(r.chosen) === r.answer;
+    if (right) { r.status = 'ok';  P.score += 5; P.resolved++; }
+    else       { r.status = 'bad'; P.score -= 2; }  // lock in red "Wrong"
   });
   p_paint();
 }
+
 function p_paint(){
   const tbody = document.getElementById('p_tbl');
   tbody.innerHTML = '';
+
   P.rows.forEach((r, idx) => {
+    // live evaluation of the user's current pick
+    const hasChoice  = !!r.chosen;
+    const isCorrect  = hasChoice && (normalize(r.chosen) === r.answer);
+
+    // final status (after reconcile) overrides live preview
+    let statusHTML;
+    if (r.status === 'ok') {
+      statusHTML = '<span class="ok">Matched</span>';           // finalized correct
+    } else if (r.status === 'bad') {
+      statusHTML = '<span class="bad">Wrong</span>';             // finalized wrong
+    } else if (hasChoice) {
+      statusHTML = isCorrect ? '<span class="ok">Correct</span>' // live preview
+                             : '<span class="bad">Wrong</span>';
+    } else {
+      statusHTML = '<span class="sus">Suspect</span>';           // no pick yet
+    }
+
     const tr = document.createElement('tr');
-    const status = r.status === 'ok'
-      ? '<span class="ok">Matched</span>'
-      : '<span class="sus">Suspect</span>';
     tr.innerHTML = `
       <td class="mono">${r.id}</td>
       <td class="mono">${r.bom}</td>
@@ -364,19 +380,23 @@ function p_paint(){
           ${r.options.map(o => `<option ${r.chosen === o ? 'selected' : ''}>${o}</option>`).join('')}
         </select>
       </td>
-      <td>${status}</td>
+      <td>${statusHTML}</td>
     `;
     tbody.appendChild(tr);
   });
-  tbody.querySelectorAll('select').forEach(sel=>{
+
+  // re-render status immediately when the user changes a pick
+  tbody.querySelectorAll('select').forEach(sel => {
     sel.onchange = (e) => {
       const i = +e.target.dataset.idx;
       P.rows[i].chosen = e.target.value || null;
+      p_paint(); // refresh to show Correct/Wrong instantly
     };
   });
+
   document.getElementById('p_total').textContent = P.rows.length;
-  document.getElementById('p_mis').textContent = P.rows.filter(x => x.status !== 'ok').length;
-  document.getElementById('p_res').textContent = P.resolved;
+  document.getElementById('p_mis').textContent   = P.rows.filter(x => x.status !== 'ok').length;
+  document.getElementById('p_res').textContent   = P.resolved;
   document.getElementById('p_score').textContent = P.score;
 }
 
