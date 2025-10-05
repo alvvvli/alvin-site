@@ -21,3 +21,4 @@ Interfaces, dwell time, coupling systems, catenary geometry, and border ops.
 - [Japan's 踏切 (Railway Crossings)](railx.md)
 - [Jerusalem–Tel Aviv: Engineering Resilience in Motion](ilrail.md)
 - [Dubai Metro - Logistics-Minded Connector](dxbmetro.md)
+- [Uzbekistan's High Speed Rail](afro.md)
