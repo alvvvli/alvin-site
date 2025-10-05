@@ -1,4 +1,4 @@
-# 🚙 Siemens AGV Simulation  
+# 🛹 Siemens AGV Simulation  
 _AGV routing and gate scheduling visualization_
 
 A simplified simulation inspired by your **Siemens AGV digital-twin project** (CIVENG 260).  
@@ -13,6 +13,8 @@ It demonstrates how automated guided vehicles move through nodes with gate const
           style="width:100%; height:100%; border:0;"></iframe>
 </div>
 
+### Original Demo
+<iframe width="560" height="315" style="border-radius:12px; margin-top:10px; aspect-ratio:16/9;" src="https://www.youtube.com/embed/7qntLauB2-M" frameborder="0" allowfullscreen> </iframe>
 ---
 
 ### 🔍 Overview
