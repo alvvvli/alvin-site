@@ -10,7 +10,7 @@
   --accent:#60a5fa; --ok:#16a34a; --bad:#ef4444; --warn:#eab308; --line:#1f2a44;
 }
 *{box-sizing:border-box}
-html,body{overflow-x:hidden}
+html,body{scrollbar-gutter:stable;}
 body{
   margin:0; background:var(--bg); color:var(--ink);
   font:15px/1.6 system-ui,Segoe UI,Roboto,Ubuntu,sans-serif;
@@ -67,18 +67,32 @@ tr td:last-child{border-radius:0 8px 8px 0}
 .hide{display:none}
 .hint{font-size:13px;color:#95adce;margin:6px 0 2px}
 
-/* PRO table stability (only in Pro) */
+/* PRO table stability */
 #pro #p_table{table-layout:fixed;width:100%;border-spacing:0 6px}
 #pro #p_table th,#pro #p_table td{
   word-break:break-word;overflow-wrap:anywhere;white-space:normal;overflow:hidden
 }
 #pro #p_table select{
-  width:100%;max-width:220px;box-sizing:border-box;
+  width:99.9%;max-width:220px;box-sizing:border-box;
   text-overflow:ellipsis;white-space:nowrap;overflow:hidden
 }
 #pro #p_table th:nth-child(5),#pro #p_table td:nth-child(5){width:100px;text-align:center}
 #pro #p_table th:nth-child(6),#pro #p_table td:nth-child(6){width:150px}
-#pro .card{overflow-x:hidden}
+#pro .card{overflow-x:clip;border-right:1px solid var(--line);}
+
+/* SIMPLE table stability — mirror of PRO */
+#simple #s_table{table-layout:fixed;width:99.9%;border-spacing:0 6px}
+#simple #s_table th,#simple #s_table td{
+  word-break:break-word;overflow-wrap:anywhere;white-space:normal;overflow:hidden;
+  padding:10px 12px;text-align:left;
+}
+#simple #s_table select{
+  width:99.9%;max-width:220px;box-sizing:border-box;
+  text-overflow:ellipsis;white-space:nowrap;overflow:hidden;
+}
+#simple #s_table th:nth-child(1),#simple #s_table td:nth-child(1){width:56px}   /* row # */
+#simple #s_table th:nth-child(4),#simple #s_table td:nth-child(4){width:140px}  /* Result */
+#simple .card.table-wrap{overflow-x:clip;border-left:1px solid var(--line);border-right:1px solid var(--line)}
 
 /* Keyboard focus ring (WCAG) */
 .tab:focus,.btn:focus,select:focus{outline:2px solid var(--accent);outline-offset:2px}
@@ -112,7 +126,7 @@ tr td:last-child{border-radius:0 8px 8px 0}
     </div>
 
     <div class="card table-wrap">
-      <table>
+      <table id="s_table">
         <thead>
           <tr><th>#</th><th>Official Part</th><th>Choose Warehouse Label</th><th>Result</th></tr>
         </thead>
