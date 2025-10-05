@@ -67,71 +67,40 @@ tr td:last-child{border-radius:0 8px 8px 0}
 .hide{display:none}
 .hint{font-size:13px;color:#95adce;margin:6px 0 2px}
 
-/* PRO table stability */
+/* PRO table stability (5 columns, no Notes) */
 #pro #p_table{table-layout:fixed;width:100%;border-spacing:0 6px}
 #pro #p_table th,#pro #p_table td{
-  word-break:break-word;overflow-wrap:anywhere;white-space:normal;overflow:hidden;padding: 10px 8px;
+  word-break:break-word;overflow-wrap:anywhere;white-space:normal;overflow:hidden;padding:10px 8px;
 }
 #pro #p_table select{
   width:100%;max-width:240px;box-sizing:border-box;
   text-overflow:ellipsis;white-space:nowrap;overflow:hidden
 }
 #pro #p_table th:nth-child(5),#pro #p_table td:nth-child(5){width:120px;text-align:center}
-#pro .card.table-wrap{overflow-x:clip;border-left: 1px solid var(--line);border-right:1px solid var(--line);}
+#pro .card.table-wrap{overflow-x:clip;border-left:1px solid var(--line);border-right:1px solid var(--line)}
 
-/* SIMPLE table stability */
+/* SIMPLE table stability (percent columns so Result never collapses) */
 #simple #s_table{table-layout:fixed;width:99.9%;border-spacing:0 6px}
 #simple #s_table th,#simple #s_table td{
   word-break:break-word;overflow-wrap:anywhere;white-space:normal;overflow:hidden;
   padding-left:8px;padding-right:8px;
 }
-#simple #s_table td:nth-child(3){ text-align: left; }  /* keep chooser hugging left */
-
+#simple #s_table th:first-child,#simple #s_table td:first-child{ text-align:center; }
+#simple #s_table td:nth-child(3){ text-align:left; } /* chooser hugs left */
 #simple #s_table select{
   width:100%;max-width:220px;box-sizing:border-box;
   text-overflow:ellipsis;white-space:nowrap;overflow:hidden;
 }
-#simple #s_table th:nth-child(1),#simple #s_table td:nth-child(1){width:56px}   /* row # */
-#simple #s_table th:nth-child(4),#simple #s_table td:nth-child(4){width:140px}  /* Result */
+/* Guarantee Result always visible */
+#simple #s_table th:last-child,#simple #s_table td:last-child{
+  width:12%;min-width:90px;text-align:center;
+}
 #simple .card.table-wrap{overflow-x:clip;border-left:1px solid var(--line);border-right:1px solid var(--line)}
 
-/* === Column balance optimization (Simple + Pro) === */
+/* Column balance tweaks (both modes) */
+#simple #s_table th,#simple #s_table td,#pro #p_table th,#pro #p_table td{padding-left:8px;padding-right:8px}
+#simple #s_table th:first-child,#simple #s_table td:first-child,#pro #p_table th:first-child,#pro #p_table td:first-child{width:6%}
 
-/* slightly widen "#" column to absorb the left padding and pull others left */
-#simple #s_table th:first-child,
-#simple #s_table td:first-child,
-#pro  #p_table th:first-child,
-#pro  #p_table td:first-child {
-  width: 60px;            /* was ~56px, gives a cleaner grid start */
-  padding-left: 8px;
-  text-align: center;
-}
-
-/* reduce side padding on mid columns so the table fits tighter */
-#simple #s_table th,
-#simple #s_table td,
-#pro  #p_table th,
-#pro  #p_table td {
-  padding-left: 8px;
-  padding-right: 8px;
-}
-
-/* shrink the rightmost column slightly to avoid clipping under rounded edge */
-#simple #s_table th:last-child,
-#simple #s_table td:last-child,
-#pro  #p_table th:last-child,
-#pro  #p_table td:last-child {
-  width: 130px;            /* was 140–150px */
-}
-
-/* finally, contain inside the rounded card so nothing leaks */
-#simple .card.table-wrap,
-#pro .card.table-wrap {
-  overflow-x: clip;
-  border-left: 1px solid var(--line);
-  border-right: 1px solid var(--line);
-}
-  
 /* Keyboard focus ring (WCAG) */
 .tab:focus,.btn:focus,select:focus{outline:2px solid var(--accent);outline-offset:2px}
 
@@ -166,10 +135,10 @@ tr td:last-child{border-radius:0 8px 8px 0}
     <div class="card table-wrap">
       <table id="s_table">
         <colgroup>
-          <col style="width:56px">     <!-- # -->
-          <col style="width:28%">      <!-- Official Part (narrower) -->
-          <col style="width:54%">      <!-- Choose Warehouse Label (more room, shifts left) -->
-          <col style="width:12%">      <!-- Result -->
+          <col style="width:6%"><!-- # -->
+          <col style="width:34%"><!-- Official Part -->
+          <col style="width:48%"><!-- Choose Warehouse Label -->
+          <col style="width:12%"><!-- Result -->
         </colgroup>
         <thead>
           <tr>
@@ -182,6 +151,7 @@ tr td:last-child{border-radius:0 8px 8px 0}
         <tbody id="s_tbl"></tbody>
       </table>
     </div>
+
     <div class="card">
       <b>How it works</b>
       <ul class="lede">
@@ -218,7 +188,9 @@ tr td:last-child{border-radius:0 8px 8px 0}
     <div class="card table-wrap">
       <table id="p_table">
         <thead>
-          <tr><th>#</th><th>BOM</th><th>ERP</th><th>CRM Options</th><th>Status</th><th><tr>
+          <tr>
+            <th>#</th><th>BOM</th><th>ERP</th><th>CRM Options</th><th>Status</th>
+          </tr>
         </thead>
         <tbody id="p_tbl"></tbody>
       </table>
@@ -352,15 +324,15 @@ function p_variants(real){
 const P={rows:[],score:0,resolved:0};
 function p_generate(){
   seed=Date.now()%100000;
-  P.rows=Array.from({length:12},(_,i)=>{const base=p_base();return{id:i+1,...p_variants(base),chosen:null,status:'sus',note:'—'};});
+  P.rows=Array.from({length:12},(_,i)=>{const base=p_base();return{id:i+1,...p_variants(base),chosen:null,status:'sus'};});
   P.score=0; P.resolved=0; p_paint();
 }
 function p_auto(){
   P.rows.forEach(r=>{
     const nB=normalize(r.bom), nE=normalize(r.erp);
     if(nB===nE && r.status!=='ok'){
-      r.status='ok'; r.note='Auto-matched (BOM = ERP)';
-      r.chosen=r.answerRaw; P.resolved++; P.score+=3;
+      r.status='ok';
+      P.resolved++; P.score+=3;
     }
   });
   p_paint();
@@ -369,8 +341,8 @@ function p_reconcile(){
   P.rows.forEach(r=>{
     if(r.status==='ok' || !r.chosen) return;
     const right=normalize(r.chosen)===r.answer;
-    if(right){ r.status='ok'; r.note='Correct mapping'; P.score+=5; P.resolved++; }
-    else { r.status='sus'; r.note='Wrong guess'; P.score-=2; }
+    if(right){ r.status='ok'; P.score+=5; P.resolved++; }
+    else { r.status='sus'; P.score-=2; }
   });
   p_paint();
 }
@@ -396,7 +368,7 @@ function p_paint(){
     `;
     tbody.appendChild(tr);
   });
-  tbody.querySelectorAll('select').forEach(sel => {
+  tbody.querySelectorAll('select').forEach(sel=>{
     sel.onchange = (e) => {
       const i = +e.target.dataset.idx;
       P.rows[i].chosen = e.target.value || null;
@@ -407,7 +379,6 @@ function p_paint(){
   document.getElementById('p_res').textContent = P.resolved;
   document.getElementById('p_score').textContent = P.score;
 }
-
 
 /* boot */
 s_newRound();
