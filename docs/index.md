@@ -1,5 +1,3 @@
-# Alvin Li
-
 <img src="/alvin-site/assets/yomori-512.png" alt="Alvin Li"
      width="240" align="left"
      style="margin-right:20px; border-radius:12px; box-shadow:0 0 12px rgba(0,0,0,0.4);" />
