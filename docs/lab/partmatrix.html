@@ -10,14 +10,34 @@
       --ok:#0a8f3f; --bad:#8f0a2c; --muted:#9fb4d1; --brand:#58a6ff;
       --btn:#1f6feb; --btn-ghost:#0f172a; --btn-ghost-border:#1f2a44;
     }
-    body{
-      font-family:system-ui,Segoe UI,Roboto,Ubuntu,sans-serif;
-      background:var(--bg); color:#fff; margin:0; padding:22px;
+
+    /* ✅ Fill the viewport and center the card */
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: #fff;
+      font-family: system-ui, Segoe UI, Roboto, Ubuntu, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
+
+    /* ✅ Full-height, no internal scroll needed */
     .wrap{
-      max-width:1000px; margin:0 auto; background:var(--panel);
-      border-radius:14px; padding:18px 18px 28px; box-shadow:0 10px 32px rgba(0,0,0,.45);
+      width: 90%;
+      max-width: 1000px;
+      min-height: 90vh;                 /* makes iframe tall enough */
+      background: var(--panel);
+      border-radius: 14px;
+      padding: 24px 24px 36px;
+      box-shadow: 0 10px 32px rgba(0,0,0,.45);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
     }
+
     h2{text-align:center;color:var(--brand);margin:4px 0 6px;}
     p.sub{text-align:center;color:var(--muted);margin:0 0 16px;}
 
@@ -119,7 +139,7 @@
           const neutral = !r.classList.contains('matched') && !r.classList.contains('unmatched');
           r.querySelectorAll('td').forEach(td=>{
             td.style.background = neutral ? (i%2===1 ? '#111111' : 'transparent') : '';
-            td.style.color = ''; // allow status classes to control color
+            td.style.color = ''; // let status classes control color
           });
         });
       }
@@ -144,7 +164,7 @@
         let matched=0, total=0;
         tbody.querySelectorAll('tr').forEach(r=>{
           total++;
-          r.classList.remove('matched','unmatched'); // clear any prior state
+          r.classList.remove('matched','unmatched');
           const part = r.children[1].textContent.trim();
           const cell = r.children[3];
           const isMatch = ERP_PARTS.has(part);
@@ -153,7 +173,7 @@
           if(isMatch) matched++;
         });
         setStatus(`Reconciled ${total} rows: ${matched} matched, ${total-matched} unmatched.`);
-        reStripe(); // keep neutral rows striped
+        reStripe();
         runBtn.blur();
       }
 
