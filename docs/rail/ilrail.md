@@ -1,11 +1,10 @@
 #🚆🇮🇱 𝗘𝗻𝗴𝗶𝗻𝗲𝗲𝗿𝗶𝗻𝗴 𝗥𝗲𝘀𝗶𝗹𝗶𝗲𝗻𝗰𝗲 𝗕𝗲𝗻𝗲𝗮𝘁𝗵 𝗮𝗻𝗱 𝗕𝗲𝘆𝗼𝗻𝗱 𝗝𝗲𝗿𝘂𝘀𝗮𝗹𝗲𝗺
 
-From the **deep tunnel of Jerusalem–Yitzhak Navon Station** to the steep descent toward **Tel Aviv**, **Israel Railways Ltd.** and **Siemens Desiro EMU** technology illustrate how infrastructure, terrain, and system precision converge to sustain **reliable mobility under demanding gradients**.
-
-<video width="560" height="315" controls style="border-radius:12px; margin-top:10px;">
+<video width="560" height="315" controls style="border-radius:12px; margin-top:10px; aspect-ratio:16/9;">
   <source src="/alvin-site/JPG_VID/ilrail.mp4" type="video/mp4">
-  Your browser does not support the video tag.
 </video>
+
+From the **deep tunnel of Jerusalem–Yitzhak Navon Station** to the steep descent toward **Tel Aviv**, **Israel Railways Ltd.** and **Siemens Desiro EMU** technology illustrate how infrastructure, terrain, and system precision converge to sustain **reliable mobility under demanding gradients**.
 
 ### Technical Insights
 - **Gradient management**: optimized traction and braking logic across steep altitudes.  
