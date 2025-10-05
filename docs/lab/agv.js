@@ -72,18 +72,73 @@
     showGrid:true,
     showLabels:true,
     trails:false,
+    agvCount: 2,
+    minAGV: 2,
+    maxAGV: 10,
+    autoScale: true,        // turn on autoscaling
+    scaleUpQ: 0.60,         // add AGV if avg queue > 60% of capacity
+    scaleDownUtil: 0.35,    // remove AGV if util < 35% AND queue is tiny
+    coolDownSec: 8          // wait this long between changes
   };
 
+  // 🟩 Tracking helpers (put this right below params)
+  let secAccum = 0;
+  let lastScaleAt = 0;              // perf.now() seconds
+  const qWindow = [];               // rolling queue samples (seconds)
+  const utilWindow = [];            // rolling utilization samples (seconds)
+  const WINDOW_SEC = 10;            // smoothing window for decisions
+  
   // Logging (sampled once per second)
   const log = [];
   let logAccum = 0;
   function pushLog(dt){
-    logAccum += dt; if(logAccum<1) return; logAccum = 0;
+    logAccum += dt; if (logAccum < 1) return; // sample once/sec
+    logAccum = 0;
+
     const tnow = perf.now();
     const tph = rollingTPH();
-    const util = agvs.reduce((s,a)=>s + (a.totalTime? a.busyTime/a.totalTime:0),0)/Math.max(agvs.length,1);
+    const util = agvs.reduce((s,a)=>s + (a.totalTime ? a.busyTime/a.totalTime : 0),0) / Math.max(agvs.length,1);
+
+    // rolling windows for decisions
+    qWindow.push(qArr.length);
+    utilWindow.push(util);
+    if (qWindow.length > WINDOW_SEC) qWindow.shift();
+    if (utilWindow.length > WINDOW_SEC) utilWindow.shift();
+
+    // log (unchanged)
     log.push({t:tnow.toFixed(1), tph:tph.toFixed(2), wip:currentWIP(), util:(util*100).toFixed(1), queue:qArr.length});
+
+    // autoscale once per second
+    if (params.autoScale) autoScale(tnow);
   }
+  function avg(arr){ return arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : 0; }
+
+  function autoScale(nowSec){
+    // avoid thrashing
+    if (nowSec - lastScaleAt < params.coolDownSec) return;
+
+    const avgQ = avg(qWindow);
+    const avgUtil = avg(utilWindow);          // 0..1
+    const queueHot = avgQ > params.queueCap * params.scaleUpQ;
+    const queueCold = avgQ < 1.5;             // essentially empty
+    const underUtilized = avgUtil < params.scaleDownUtil;
+
+    // scale up if queue is persistently high
+    if (queueHot && params.agvCount < params.maxAGV) {
+      params.agvCount++;
+      refreshAGVs();
+      lastScaleAt = nowSec;
+      return;
+    }
+
+    // scale down when queue is tiny and AGVs are idling
+    if (queueCold && underUtilized && params.agvCount > params.minAGV) {
+      params.agvCount--;
+      refreshAGVs();
+      lastScaleAt = nowSec;
+    }
+  }
+
 
   // Controls DOM
   const kpi_tph = document.getElementById('kpi_tph');
