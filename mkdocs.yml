@@ -34,6 +34,8 @@ extra:
     - '<link rel="stylesheet" href="assets/toggle-theme.css">'
 extra_css:
   - assets/custom.css
+extra.head:
+  - '<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">'
 nav:
   - Home: index.md
   - Interactive Lab:
