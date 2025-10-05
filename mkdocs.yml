@@ -1,6 +1,7 @@
 site_name: Alvin Li
 site_description: Logistics, Infrastructure, Precision in Motion
 site_url: https://alvvvli.github.io/alvin-site/
+
 theme:
   name: material
   logo: assets/yomori-512.png
@@ -18,24 +19,30 @@ theme:
     - scheme: slate
       primary: black
       accent: blue
+
 plugins:
   - search
   - minify
   - glightbox
+
 markdown_extensions:
   - attr_list
   - md_in_html
+
+# load custom assets properly
+extra_css:
+  - assets/custom.css
+  - assets/toggle-theme.css
+extra_javascript:
+  - assets/toggle-theme.js
+
 extra:
   social:
     - icon: fontawesome/brands/linkedin
       link: https://www.linkedin.com/in/alvin-li-596a3316a/
   head:
-    - '<script src="assets/toggle-theme.js"></script>'
-    - '<link rel="stylesheet" href="assets/toggle-theme.css">'
-extra_css:
-  - assets/custom.css
-extra.head:
-  - '<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">'
+    - '<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">'
+
 nav:
   - Home: index.md
   - Interactive Lab:
