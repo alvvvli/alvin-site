@@ -20,7 +20,7 @@
 <p>
   <strong>🔗 LinkedIn:</strong>
   <a href="https://www.linkedin.com/in/alvin-li-596a3316a/" target="_blank">
-    https://www.linkedin.com/in/alvin-l-596a3316a/
+    https://www.linkedin.com/in/alvin-li-596a3316a/
   </a>
 </p>
 
