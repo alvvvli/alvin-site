@@ -71,6 +71,7 @@ nav:
       - Tokyo Rainbow Bridge Resilience Engineering: infrastructure/rainbowbridge.md
       - Germany–Netherlands Border, Emmerich am Rhein: infrastructure/denl.md
       - Hsinta Power Plant — Gas Turbine QA in Action: infrastructure/hsinta.md
+      - Mexico City Cablebús Resilience: infrastructure/cdmx.md
   - Reflections:
       - Overview: reflections/index.md
       - MIT Energy Conference 2024: reflections/mitenergy2024.md
