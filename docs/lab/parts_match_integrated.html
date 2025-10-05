@@ -164,13 +164,23 @@ tr td:last-child{border-radius:0 8px 8px 0}
 
     <div class="card table-wrap">
       <table id="s_table">
+        <colgroup>
+          <col style="width:56px">     <!-- # -->
+          <col style="width:32%">      <!-- Official Part (narrower) -->
+          <col style="width:48%">      <!-- Choose Warehouse Label (more room, shifts left) -->
+          <col style="width:14%">      <!-- Result -->
+        </colgroup>
         <thead>
-          <tr><th>#</th><th>Official Part</th><th>Choose Warehouse Label</th><th>Result</th></tr>
+          <tr>
+            <th>#</th>
+            <th>Official Part</th>
+            <th>Choose Warehouse Label</th>
+            <th>Result</th>
+          </tr>
         </thead>
         <tbody id="s_tbl"></tbody>
       </table>
     </div>
-
     <div class="card">
       <b>How it works</b>
       <ul class="lede">
