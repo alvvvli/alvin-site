@@ -14,18 +14,18 @@ document.addEventListener("DOMContentLoaded", () => {
   btn.setAttribute("aria-label", "Toggle color scheme");
   btn.innerHTML = `
     <svg class="icon-sun" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
-      <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/>
-      <path d="M12 2v2M12 20v2M22 12h-2M4 12H2
-               M18.364 5.636l-1.414 1.414M7.05 16.95l-1.414 1.414
-               M18.364 18.364l-1.414-1.414M7.05 7.05L5.636 5.636"
-            fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
+  <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path d="M12 2v2M12 20v2M22 12h-2M4 12H2
+           M18.364 5.636l-1.414 1.414M7.05 16.95l-1.414 1.414
+           M18.364 18.364l-1.414-1.414M7.05 7.05L5.636 5.636"
+        fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
     <svg class="icon-moon" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
-      <path d="M21 12.8A9 9 0 1 1 11.2 3
-               A7.2 7.2 0 0 0 21 12.8z"
-            fill="currentColor"/>
-    </svg>
+  <path d="M21 12.8A9 9 0 1 1 11.2 3
+           A7.2 7.2 0 0 0 21 12.8z"
+        fill="currentColor"/>
+</svg>
   `;
   opt.appendChild(btn);
   search.parentNode.insertBefore(opt, search);
