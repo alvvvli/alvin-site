@@ -11,14 +11,7 @@ This lightweight demo recreates part of the original **PartMatrix** tool you bui
   <iframe src="../partmatrix.html" style="width:100%;height:100%;border:0;" title="PartMatrix Demo"></iframe>
 </div>
 
-<div class="video-frame">
-  <iframe
-    src="https://www.youtube.com/embed/OwOCqUE4O9o"
-    title="PartMatrix Mini-Demo Video"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-    allowfullscreen>
-  </iframe>
-</div>
+<iframe width="560" height="315" style="border-radius:12px; margin-top:10px; aspect-ratio:16/9;" src="https://www.youtube.com/embed/OwOCqUE4O9o" frameborder="0" allowfullscreen> </iframe>
 
 ---
 
