@@ -29,13 +29,6 @@ markdown_extensions:
   - attr_list
   - md_in_html
 
-# load custom assets properly
-extra_css:
-  - assets/custom.css
-  - assets/toggle-theme.css
-extra_javascript:
-  - assets/toggle-theme.js
-
 extra:
   social:
     - icon: fontawesome/brands/linkedin
