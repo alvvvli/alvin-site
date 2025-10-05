@@ -29,6 +29,8 @@ extra:
       link: https://www.linkedin.com/in/alvin-li-596a3316a/
 nav:
   - Home: index.md
+  - Interactive Lab:
+      - Overview: lab/index.md
   - Aviation:
       - Overview: aviation/index.md
       - Airbus Acubed Silicon Valley Innovation Hub: aviation/acubed.md
