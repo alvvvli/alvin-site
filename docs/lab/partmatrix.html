@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PartMatrix Demo</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #0b0f14;
+      color: #fff;
+      margin: 0;
+      padding: 2rem;
+    }
+    h2 { text-align:center; color:#58a6ff; }
+    table {
+      width:100%; border-collapse:collapse; margin-top:1rem;
+      border-radius:12px; overflow:hidden; box-shadow:0 8px 30px rgba(0,0,0,.35);
+    }
+    th, td {
+      padding:8px 12px; text-align:left; border-bottom:1px solid #1f2937;
+    }
+    th { background:#111827; color:#93c5fd; }
+    tr:nth-child(even) { background:#111111; }
+    tr.matched { background:#093; color:#fff; }
+    tr.unmatched { background:#903; color:#fff; }
+    button {
+      margin-top:1rem; padding:10px 18px; border:0; border-radius:8px;
+      background:#1f6feb; color:#fff; cursor:pointer; font-weight:600;
+    }
+    button:active { transform:translateY(1px); }
+  </style>
+</head>
+<body>
+  <h2>🧩 PartMatrix Mini-Demo</h2>
+  <p style="text-align:center;opacity:.8">
+    Run reconciliation to flag matched / unmatched turbine components.
+  </p>
+
+  <table id="matrix">
+    <thead>
+      <tr>
+        <th>Order No.</th>
+        <th>Part No.</th>
+        <th>Component Name</th>
+        <th>ERP Match?</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>1001</td><td>M501J-CB-401</td><td>Compressor Blade</td><td>–</td></tr>
+      <tr><td>1002</td><td>M501J-NG-812</td><td>Nozzle Guide</td><td>–</td></tr>
+      <tr><td>1003</td><td>M501J-SH-220</td><td>Shaft Coupling</td><td>–</td></tr>
+      <tr><td>1004</td><td>M501J-CB-999</td><td>Compressor Blade</td><td>–</td></tr>
+      <tr><td>1005</td><td>M501J-TR-301</td><td>Turbine Ring</td><td>–</td></tr>
+    </tbody>
+  </table>
+
+  <div style="text-align:center">
+    <button onclick="reconcile()">Run Reconciliation</button>
+  </div>
+
+  <script>
+    // Mock ERP dataset
+    const erpParts = [
+      'M501J-CB-401',
+      'M501J-NG-812',
+      'M501J-TR-301'
+    ];
+
+    function reconcile(){
+      const rows = document.querySelectorAll('#matrix tbody tr');
+      rows.forEach(r=>{
+        const part = r.children[1].textContent.trim();
+        const cell = r.children[3];
+        if(erpParts.includes(part)){
+          r.classList.remove('unmatched');
+          r.classList.add('matched');
+          cell.textContent = 'Matched ✅';
+        }else{
+          r.classList.remove('matched');
+          r.classList.add('unmatched');
+          cell.textContent = 'Unmatched ⚠️';
+        }
+      });
+    }
+  </script>
+</body>
+</html>
