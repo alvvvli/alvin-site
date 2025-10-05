@@ -1,9 +1,9 @@
-<img src="/alvin-site/assets/yomori-512.png" alt="Alvin Li"
+# Alvin Li
+
+<img src="/alvin-site/assets/yomori-512.png" alt="yomori512"
      width="240" align="left"
      style="margin-right:20px; border-radius:12px; box-shadow:0 0 12px rgba(0,0,0,0.4);" />
-
 <div style="margin-left:260px;">
-<h2 style="margin-top:0;">Alvin Li</h2>
 
 <p><strong>Precision across logistics, infrastructure, and industrial systems.</strong></p>
 
