@@ -191,36 +191,63 @@
   gridBtn.addEventListener('click',()=>{params.showGrid=!params.showGrid; gridBtn.textContent='Grid: '+(params.showGrid?'On':'Off')});
   labelsBtn.addEventListener('click',()=>{params.showLabels=!params.showLabels; labelsBtn.textContent='Labels: '+(params.showLabels?'On':'Off')});
 
+  // Give each AGV a unique home slot near the first path segment
+  function agvHome(i){
+    const a = toPx(L.agvPath[0]), b = toPx(L.agvPath[1]);
+    const dx = b.x - a.x, dy = b.y - a.y;
+    const len = Math.hypot(dx, dy) || 1;
+    const spacing = 20 * DPR;            // distance between parked AGVs
+    const back = (i) * spacing;          // i = 0,1,2...
+    return { x: a.x - (dx/len)*back, y: a.y - (dy/len)*back };
+  } 
   class AGV{
     constructor(i){
-      this.i=i; this.pos = toPx(L.agvPath[0]); this.state='idle';
-      this.pathIndex=0; this.carry=null; this.busyTime=0; this.totalTime=0; this.trail=[];
+      this.i = i;
+      this.home = agvHome(i);            // <-- unique parking slot
+      this.pos = {...this.home};
+      this.state = 'idle';
+      this.pathIndex = 0;
+      this.carry = null;
+      this.busyTime = 0;
+      this.totalTime = 0;
+      this.trail = [];
     }
     update(dt){
-      this.totalTime+=dt; if(this.state!=='idle') this.busyTime+=dt;
+      this.totalTime += dt;
+      if(this.state!=='idle') this.busyTime += dt;
+  
       if(this.state==='idle'){
         const q = queuePeek();
         if(q){ this.carry=q; q.state='agv'; dequeue(q); this.state='toDock'; this.pathIndex=0; }
+        else { this.pos = {...this.home}; }   // sit visibly at its own slot
         return;
       }
+  
       const tgt = toPx(L.agvPath[this.pathIndex+1]);
-      const here = this.pos; const d = dist(here,tgt);
+      const here = this.pos;
+      const d = dist(here,tgt);
       const step = params.agvSpeed*dt;
+  
       if(d<=step){
         this.pos=tgt; this.pathIndex++;
         if(this.pathIndex>=L.agvPath.length-1){
           if(this.carry){ completed.push(perf.now()); this.carry=null; }
-          this.state='idle'; this.pathIndex=0; this.pos = toPx(L.agvPath[0]);
+          this.state='idle'; this.pathIndex=0;
+          this.pos = {...this.home};           // park at its own slot
         }
       }else{
         const v = [(tgt.x-here.x)/d*step,(tgt.y-here.y)/d*step];
         this.pos = {x: here.x+v[0], y: here.y+v[1]};
       }
+  
       if(params.trails){
         this.trail.push({...this.pos, life:1}); if(this.trail.length>120) this.trail.shift();
         this.trail.forEach(pt=>pt.life=Math.max(0,pt.life-0.02));
-      } else { this.trail.length=0; }
+      } else {
+        this.trail.length=0;
+      }
     }
+
     draw(){
       if(this.trail.length){
         for(let i=1;i<this.trail.length;i++){
