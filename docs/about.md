@@ -10,11 +10,19 @@
 
 ---
 
-📧 **Email:** 
-[alvgrli@berkeley.edu](mailto:alvgrli@berkeley.edu) <sub>(personal: [alvin2001berkeley@gmail.com](mailto:alvin2001berkeley@gmail.com))</sub>
-  
-🔗 **LinkedIn:** 
-&nbsp;&nbsp;<https://www.linkedin.com/in/alvin-l-596a3316a/>
+<p>
+  <strong>📧 Email:</strong>
+  <a href="mailto:alvgrli@berkeley.edu">alvgrli@berkeley.edu</a>
+  <span style="color:#9fb4d1;">(personal:
+  <a href="mailto:alvin2001berkeley@gmail.com">alvin2001berkeley@gmail.com</a>)</span>
+</p>
+
+<p>
+  <strong>🔗 LinkedIn:</strong>
+  <a href="https://www.linkedin.com/in/alvin-l-596a3316a/" target="_blank">
+    https://www.linkedin.com/in/alvin-l-596a3316a/
+  </a>
+</p>
 
 ---
 
