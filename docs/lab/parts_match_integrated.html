@@ -70,24 +70,25 @@ tr td:last-child{border-radius:0 8px 8px 0}
 /* PRO table stability */
 #pro #p_table{table-layout:fixed;width:100%;border-spacing:0 6px}
 #pro #p_table th,#pro #p_table td{
-  word-break:break-word;overflow-wrap:anywhere;white-space:normal;overflow:hidden
+  word-break:break-word;overflow-wrap:anywhere;white-space:normal;overflow:hidden;padding: 10px 8px;
 }
 #pro #p_table select{
-  width:99.9%;max-width:220px;box-sizing:border-box;
+  width:100%;max-width:240px;box-sizing:border-box;
   text-overflow:ellipsis;white-space:nowrap;overflow:hidden
 }
-#pro #p_table th:nth-child(5),#pro #p_table td:nth-child(5){width:100px;text-align:center}
-#pro #p_table th:nth-child(6),#pro #p_table td:nth-child(6){width:150px}
-#pro .card{overflow-x:clip;border-right:1px solid var(--line);}
+#pro #p_table th:nth-child(5),#pro #p_table td:nth-child(5){width:120px;text-align:center}
+#pro .card.table-wrap{overflow-x:clip;border-left: 1px solid var(--line);border-right:1px solid var(--line);}
 
 /* SIMPLE table stability */
 #simple #s_table{table-layout:fixed;width:99.9%;border-spacing:0 6px}
 #simple #s_table th,#simple #s_table td{
   word-break:break-word;overflow-wrap:anywhere;white-space:normal;overflow:hidden;
-  padding:10px 12px;text-align:left;
+  padding-left:8px;padding-right:8px;
 }
+#simple #s_table td:nth-child(3){ text-align: left; }  /* keep chooser hugging left */
+
 #simple #s_table select{
-  width:99.9%;max-width:220px;box-sizing:border-box;
+  width:100%;max-width:220px;box-sizing:border-box;
   text-overflow:ellipsis;white-space:nowrap;overflow:hidden;
 }
 #simple #s_table th:nth-child(1),#simple #s_table td:nth-child(1){width:56px}   /* row # */
@@ -166,9 +167,9 @@ tr td:last-child{border-radius:0 8px 8px 0}
       <table id="s_table">
         <colgroup>
           <col style="width:56px">     <!-- # -->
-          <col style="width:32%">      <!-- Official Part (narrower) -->
-          <col style="width:48%">      <!-- Choose Warehouse Label (more room, shifts left) -->
-          <col style="width:14%">      <!-- Result -->
+          <col style="width:28%">      <!-- Official Part (narrower) -->
+          <col style="width:54%">      <!-- Choose Warehouse Label (more room, shifts left) -->
+          <col style="width:12%">      <!-- Result -->
         </colgroup>
         <thead>
           <tr>
@@ -217,7 +218,7 @@ tr td:last-child{border-radius:0 8px 8px 0}
     <div class="card table-wrap">
       <table id="p_table">
         <thead>
-          <tr><th>#</th><th>BOM</th><th>ERP</th><th>CRM Options</th><th>Status</th><th>Notes</th></tr>
+          <tr><th>#</th><th>BOM</th><th>ERP</th><th>CRM Options</th><th>Status</th><th><tr>
         </thead>
         <tbody id="p_tbl"></tbody>
       </table>
@@ -374,40 +375,39 @@ function p_reconcile(){
   p_paint();
 }
 function p_paint(){
-  const tbody=document.getElementById('p_tbl'); tbody.innerHTML='';
-  P.rows.forEach((r,idx)=>{
-    const tr=document.createElement('tr');
-    const status=r.status==='ok'?'<span class="ok">Matched</span>':'<span class="sus">Suspect</span>';
-    tr.innerHTML=`
+  const tbody = document.getElementById('p_tbl');
+  tbody.innerHTML = '';
+  P.rows.forEach((r, idx) => {
+    const tr = document.createElement('tr');
+    const status = r.status === 'ok'
+      ? '<span class="ok">Matched</span>'
+      : '<span class="sus">Suspect</span>';
+    tr.innerHTML = `
       <td class="mono">${r.id}</td>
       <td class="mono">${r.bom}</td>
       <td class="mono">${r.erp}</td>
       <td>
         <select data-idx="${idx}">
           <option value="">— choose CRM option —</option>
-          ${r.options.map(o=>`<option ${r.chosen===o?'selected':''}>${o}</option>`).join('')}
+          ${r.options.map(o => `<option ${r.chosen === o ? 'selected' : ''}>${o}</option>`).join('')}
         </select>
       </td>
       <td>${status}</td>
-      <td class="help">${r.note}</td>`;
+    `;
     tbody.appendChild(tr);
   });
-  tbody.querySelectorAll('select').forEach(sel=>{
-    sel.onchange=(e)=>{
-      const i=+e.target.dataset.idx;
-      P.rows[i].chosen=e.target.value||null;
-      P.rows[i].note='Candidate selected';
+  tbody.querySelectorAll('select').forEach(sel => {
+    sel.onchange = (e) => {
+      const i = +e.target.dataset.idx;
+      P.rows[i].chosen = e.target.value || null;
     };
   });
-  document.getElementById('p_total').textContent=P.rows.length;
-  document.getElementById('p_mis').textContent=P.rows.filter(x=>x.status!=='ok').length;
-  document.getElementById('p_res').textContent=P.resolved;
-  document.getElementById('p_score').textContent=P.score;
+  document.getElementById('p_total').textContent = P.rows.length;
+  document.getElementById('p_mis').textContent = P.rows.filter(x => x.status !== 'ok').length;
+  document.getElementById('p_res').textContent = P.resolved;
+  document.getElementById('p_score').textContent = P.score;
 }
-document.getElementById('p_generate').onclick=p_generate;
-document.getElementById('p_reset').onclick=p_generate;
-document.getElementById('p_auto').onclick=p_auto;
-document.getElementById('p_reconcile').onclick=p_reconcile;
+
 
 /* boot */
 s_newRound();
