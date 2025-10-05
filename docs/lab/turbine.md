@@ -6,8 +6,8 @@ This interactive tool shows how mismatched turbine parts are reconciled across B
 <iframe 
   src="/alvin-site/lab/parts_match_integrated.html" 
   width="100%" 
-  height="720" 
-  style="width:100%;height:100%;border:0;display:block;overflow:hidden;" scrolling="no"   allowfullscreen></iframe>
+  height="1900" 
+  style="border:none; border-radius:12px; margin-top:10px; background:#0b0f14;">
 </iframe>
 
 ### 🧩 Overview
