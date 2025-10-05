@@ -2,33 +2,27 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 10px;
-  background: none;
+  width: 36px;
+  height: 36px;
   border: none;
+  background: transparent;
   cursor: pointer;
   color: var(--md-primary-fg-color);
-  font-size: 22px;
-  transition: transform 0.2s ease, color 0.2s ease;
+  border-radius: 10px;
+  transition: transform .15s ease, background .2s ease, color .2s ease;
 }
 
 .theme-toggle:hover {
-  transform: scale(1.1);
-  color: var(--md-accent-fg-color);
+  transform: translateY(-1px);
+  background: var(--md-default-fg-color--lightest);
 }
 
 .theme-toggle .material-symbols-outlined {
   display: none;
   font-family: 'Material Symbols Outlined';
-  font-weight: normal;
-  font-style: normal;
   font-size: 22px;
   line-height: 1;
 }
 
-.theme-toggle.dark-mode .dark {
-  display: inline-block;
-}
-
-.theme-toggle:not(.dark-mode) .light {
-  display: inline-block;
-}
+.theme-toggle.dark-mode .dark { display: inline-block; }
+.theme-toggle:not(.dark-mode) .light { display: inline-block; }
