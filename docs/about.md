@@ -1,6 +1,6 @@
 # About
 
-<img src="/alvin-site/JPG_VID/innotrans.jpg" alt="Alvin Li" width="180" align="left" style="margin-right:15px; border-radius:10px;" />
+<img src="/alvin-site/JPG_VID/innotrans3.jpg" alt="Alvin Li" width="180" align="left" style="margin-right:15px; border-radius:10px;" />
 
 I’m Alvin. I document systems that move the world — from airport baggage AGVs to wind turbine nacelles, from rolling stock interfaces to stadium rebuilds.  
 
