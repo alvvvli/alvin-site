@@ -5,84 +5,129 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>PartMatrix Demo</title>
   <style>
-    body {
-      font-family: system-ui, sans-serif;
-      background: #0b0f14;
-      color: #fff;
-      margin: 0;
-      padding: 2rem;
+    :root{
+      --bg:#0b0f14; --panel:#0b1219; --thead:#0f172a; --row:#0e0e0e;
+      --ok:#0a8f3f; --bad:#8f0a2c; --ink:#e5f0ff; --muted:#9fb4d1; --brand:#58a6ff;
     }
-    h2 { text-align:center; color:#58a6ff; }
-    table {
-      width:100%; border-collapse:collapse; margin-top:1rem;
-      border-radius:12px; overflow:hidden; box-shadow:0 8px 30px rgba(0,0,0,.35);
-    }
-    th, td {
-      padding:8px 12px; text-align:left; border-bottom:1px solid #1f2937;
-    }
-    th { background:#111827; color:#93c5fd; }
-    tr:nth-child(even) { background:#111111; }
-    tr.matched { background:#093; color:#fff; }
-    tr.unmatched { background:#903; color:#fff; }
-    button {
-      margin-top:1rem; padding:10px 18px; border:0; border-radius:8px;
-      background:#1f6feb; color:#fff; cursor:pointer; font-weight:600;
-    }
-    button:active { transform:translateY(1px); }
+    body{ font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",sans-serif;
+      background:var(--bg); color:#fff; margin:0; padding:22px; }
+    .wrap{ max-width:1000px; margin:0 auto; background:#0b0f14; border-radius:14px; padding:18px 18px 28px; box-shadow:0 10px 32px rgba(0,0,0,.45); }
+    h2{ text-align:center; color:var(--brand); margin:4px 0 6px; }
+    p.sub{ text-align:center; color:var(--muted); margin:0 0 16px; }
+    table{ width:100%; border-collapse:collapse; border-radius:14px; overflow:hidden; }
+    th,td{ padding:10px 14px; text-align:left; border-bottom:1px solid #1f2937; }
+    thead th{ background:var(--thead); color:#93c5fd; font-weight:700; letter-spacing:.2px; }
+    tbody tr:nth-child(even){ background:#111111; }
+    tbody tr{ transition:background .25s ease; }
+    tr.matched{ background:var(--ok); color:#fff; }
+    tr.unmatched{ background:var(--bad); color:#fff; }
+    .controls{ display:flex; gap:10px; justify-content:center; margin-top:16px; }
+    button{ padding:10px 18px; border:0; border-radius:10px; background:#1f6feb; color:#fff; font-weight:700; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.28); }
+    button.secondary{ background:#0f172a; color:#c7d2fe; border:1px solid #1f2a44; }
+    button:active{ transform:translateY(1px); }
+    .badge{ display:inline-block; padding:3px 8px; border-radius:999px; font-size:12px; font-weight:700; background:rgba(255,255,255,.1); }
   </style>
 </head>
 <body>
-  <h2>🧩 PartMatrix Mini-Demo</h2>
-  <p style="text-align:center;opacity:.8">
-    Run reconciliation to flag matched / unmatched turbine components.
-  </p>
+  <div class="wrap">
+    <h2>🧩 PartMatrix Mini-Demo</h2>
+    <p class="sub">Run reconciliation to flag matched / unmatched turbine components. <span class="badge">Press R to Reset</span></p>
 
-  <table id="matrix">
-    <thead>
-      <tr>
-        <th>Order No.</th>
-        <th>Part No.</th>
-        <th>Component Name</th>
-        <th>ERP Match?</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>1001</td><td>M501J-CB-401</td><td>Compressor Blade</td><td>–</td></tr>
-      <tr><td>1002</td><td>M501J-NG-812</td><td>Nozzle Guide</td><td>–</td></tr>
-      <tr><td>1003</td><td>M501J-SH-220</td><td>Shaft Coupling</td><td>–</td></tr>
-      <tr><td>1004</td><td>M501J-CB-999</td><td>Compressor Blade</td><td>–</td></tr>
-      <tr><td>1005</td><td>M501J-TR-301</td><td>Turbine Ring</td><td>–</td></tr>
-    </tbody>
-  </table>
+    <table id="matrix">
+      <thead>
+        <tr>
+          <th>Order No.</th>
+          <th>Part No.</th>
+          <th>Component Name</th>
+          <th>ERP Match?</th>
+        </tr>
+      </thead>
+      <tbody><!-- rows injected --></tbody>
+    </table>
 
-  <div style="text-align:center">
-    <button onclick="reconcile()">Run Reconciliation</button>
+    <div class="controls">
+      <button id="runBtn">Run Reconciliation</button>
+      <button id="resetBtn" class="secondary">↻ Reset & Reshuffle</button>
+    </div>
   </div>
 
   <script>
-    // Mock ERP dataset
-    const erpParts = [
-      'M501J-CB-401',
-      'M501J-NG-812',
-      'M501J-TR-301'
+    // --- Master catalog (some in ERP, some not) ---
+    const CATALOG = [
+      {part:'M501J-CB-401', name:'Compressor Blade'},  // in ERP
+      {part:'M501J-NG-812', name:'Nozzle Guide'},      // in ERP
+      {part:'M501J-TR-301', name:'Turbine Ring'},      // in ERP
+      {part:'M501J-SH-220', name:'Shaft Coupling'},
+      {part:'M501J-CB-999', name:'Compressor Blade'},
+      {part:'M501J-SE-144', name:'Seal Segment'},
+      {part:'M501J-BR-077', name:'Bearing Roller'},
+      {part:'M501J-VN-431', name:'Vane Segment'},
+      {part:'M501J-FN-265', name:'Fuel Nozzle'},
+      {part:'M501J-HT-510', name:'Heat Shield'}
     ];
+    const ERP_PARTS = new Set(['M501J-CB-401','M501J-NG-812','M501J-TR-301']);
 
+    const tbody = document.querySelector('#matrix tbody');
+    const runBtn = document.getElementById('runBtn');
+    const resetBtn = document.getElementById('resetBtn');
+
+    // Utility: sample k unique items from array
+    function sample(array, k){
+      const arr = array.slice();
+      for(let i=arr.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [arr[i],arr[j]] = [arr[j],arr[i]];
+      }
+      return arr.slice(0,k);
+    }
+
+    // Build fresh randomized rows
+    function buildRows(count=5){
+      const picks = sample(CATALOG, count);
+      tbody.innerHTML = '';
+      picks.forEach((it, idx)=>{
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${1001+idx}</td>
+          <td>${it.part}</td>
+          <td>${it.name}</td>
+          <td>–</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Reconciliation: color rows by membership in ERP dataset
     function reconcile(){
-      const rows = document.querySelectorAll('#matrix tbody tr');
-      rows.forEach(r=>{
+      tbody.querySelectorAll('tr').forEach(r=>{
         const part = r.children[1].textContent.trim();
         const cell = r.children[3];
-        if(erpParts.includes(part)){
-          r.classList.remove('unmatched');
-          r.classList.add('matched');
+        if(ERP_PARTS.has(part)){
+          r.classList.remove('unmatched'); r.classList.add('matched');
           cell.textContent = 'Matched ✅';
         }else{
-          r.classList.remove('matched');
-          r.classList.add('unmatched');
+          r.classList.remove('matched'); r.classList.add('unmatched');
           cell.textContent = 'Unmatched ⚠️';
         }
       });
     }
+
+    function reset(){
+      buildRows(5);
+      // clear states
+      tbody.querySelectorAll('tr').forEach(r=>{
+        r.classList.remove('matched','unmatched');
+        r.children[3].textContent = '–';
+      });
+    }
+
+    // Wire up
+    runBtn.onclick = reconcile;
+    resetBtn.onclick = reset;
+    addEventListener('keydown', e=>{ if(e.key.toLowerCase()==='r') reset(); });
+
+    // initial load
+    reset();
   </script>
 </body>
 </html>
