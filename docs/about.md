@@ -1,12 +1,46 @@
+<style>
+.hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+.hero img {
+  width: 240px;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.4);
+}
+.hero-text {
+  flex: 1;
+  min-width: 240px;
+}
+@media (max-width: 768px) {
+  .hero {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .hero img {
+    width: 60%;
+    margin-bottom: 16px;
+  }
+  .hero-text {
+    text-align: center;
+  }
+}
+</style>
+
 # About
 
-<img src="/alvin-site/JPG_VID/innotrans.jpg" alt="Alvin Li"
-     width="240" align="left"
-     style="margin-right:20px; border-radius:12px; box-shadow:0 0 12px rgba(0,0,0,0.4);" />
-
-<p style="margin-bottom:18px;">I'm Alvin.</p>
-<p style="margin-bottom:18px;">I study and build systems that move industries — across logistics, infrastructure, and manufacturing.</p>
-<p>My focus is precision, clarity, and discipline in how things run.</p>
+<div class="hero">
+  <img src="/alvin-site/JPG_VID/innotrans.jpg" alt="Alvin Li">
+  <div class="hero-text">
+    <p><strong>I'm Alvin.</strong></p>
+    <p>I study and build systems that move industries — across logistics, infrastructure, and manufacturing.</p>
+    <p>My focus is precision, clarity, and discipline in how things run.</p>
+  </div>
+</div>
 
 ---
 
