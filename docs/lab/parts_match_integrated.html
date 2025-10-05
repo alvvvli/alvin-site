@@ -80,7 +80,7 @@ tr td:last-child{border-radius:0 8px 8px 0}
 #pro #p_table th:nth-child(6),#pro #p_table td:nth-child(6){width:150px}
 #pro .card{overflow-x:clip;border-right:1px solid var(--line);}
 
-/* SIMPLE table stability — mirror of PRO */
+/* SIMPLE table stability */
 #simple #s_table{table-layout:fixed;width:99.9%;border-spacing:0 6px}
 #simple #s_table th,#simple #s_table td{
   word-break:break-word;overflow-wrap:anywhere;white-space:normal;overflow:hidden;
@@ -94,6 +94,43 @@ tr td:last-child{border-radius:0 8px 8px 0}
 #simple #s_table th:nth-child(4),#simple #s_table td:nth-child(4){width:140px}  /* Result */
 #simple .card.table-wrap{overflow-x:clip;border-left:1px solid var(--line);border-right:1px solid var(--line)}
 
+/* === Column balance optimization (Simple + Pro) === */
+
+/* slightly widen "#" column to absorb the left padding and pull others left */
+#simple #s_table th:first-child,
+#simple #s_table td:first-child,
+#pro  #p_table th:first-child,
+#pro  #p_table td:first-child {
+  width: 60px;            /* was ~56px, gives a cleaner grid start */
+  padding-left: 8px;
+  text-align: center;
+}
+
+/* reduce side padding on mid columns so the table fits tighter */
+#simple #s_table th,
+#simple #s_table td,
+#pro  #p_table th,
+#pro  #p_table td {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+/* shrink the rightmost column slightly to avoid clipping under rounded edge */
+#simple #s_table th:last-child,
+#simple #s_table td:last-child,
+#pro  #p_table th:last-child,
+#pro  #p_table td:last-child {
+  width: 130px;            /* was 140–150px */
+}
+
+/* finally, contain inside the rounded card so nothing leaks */
+#simple .card.table-wrap,
+#pro .card.table-wrap {
+  overflow-x: clip;
+  border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+}
+  
 /* Keyboard focus ring (WCAG) */
 .tab:focus,.btn:focus,select:focus{outline:2px solid var(--accent);outline-offset:2px}
 
