@@ -53,8 +53,9 @@ tr.state-sus td  { background:linear-gradient(90deg, rgba(234,179,8,.16), rgba(2
 
 /* PRO table stability (4 cols now) */
 #pro #p_table{table-layout:fixed;width:100%;border-spacing:0 6px}
+#pro #p_table td:nth-child(4) {text-align: left;}              
 #pro #p_table th,#pro #p_table td{word-break:break-word;overflow-wrap:anywhere;white-space:normal;overflow:hidden;padding:10px 8px}
-#pro #p_table select{width:100%;max-width:240px;box-sizing:border-box;text-overflow:ellipsis;white-space:nowrap;overflow:hidden}
+#pro #p_table select{width:100%;max-width:clamp(180px,95%,240px);box-sizing:border-box;text-overflow:ellipsis;white-space:nowrap;overflow:hidden}
 #pro .card.table-wrap{overflow-x:clip;border-left:1px solid var(--line);border-right:1px solid var(--line)}
 
 /* SIMPLE table stability (3 cols) */
@@ -72,8 +73,9 @@ tr.state-sus td  { background:linear-gradient(90deg, rgba(234,179,8,.16), rgba(2
 .tab:focus,.btn:focus,select:focus{outline:2px solid var(--accent);outline-offset:2px}
 
 /* Narrow screens */
-@media (max-width:720px){
-  .card.table-wrap table{min-width:720px}
+@media (max-width:900px){
+  #pro #p_table select{
+    max-width:clamp(160px,92%,220px)}
 }
 </style>
 </head>
@@ -154,9 +156,9 @@ tr.state-sus td  { background:linear-gradient(90deg, rgba(234,179,8,.16), rgba(2
       <table id="p_table">
         <colgroup>
           <col style="width:6%"><!-- # -->
-          <col style="width:34%"><!-- BOM -->
-          <col style="width:34%"><!-- ERP -->
-          <col style="width:26%"><!-- CRM Options -->
+          <col style="width:30%"><!-- BOM -->
+          <col style="width:30%"><!-- ERP -->
+          <col style="width:34%"><!-- CRM Options -->
         </colgroup>
         <thead>
           <tr><th>#</th><th>BOM</th><th>ERP</th><th>CRM Options</th></tr>
