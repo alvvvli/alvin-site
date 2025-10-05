@@ -29,6 +29,9 @@ extra:
   social:
     - icon: fontawesome/brands/linkedin
       link: https://www.linkedin.com/in/alvin-li-596a3316a/
+  head:
+    - '<script src="assets/toggle-theme.js"></script>'
+    - '<link rel="stylesheet" href="assets/toggle-theme.css">'
 extra_css:
   - assets/custom.css
 nav:
