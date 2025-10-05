@@ -1,7 +1,31 @@
 (() => {
   const canvas = document.getElementById('stage');
   const ctx = canvas.getContext('2d');
-  const DPR = Math.min(window.devicePixelRatio||1, 2);
+  const panel = document.querySelector('.panel');
+  const DPR = Math.min(window.devicePixelRatio || 1, 2);
+
+  // 1) Set the CSS height of the canvas to fill what's left under the panel
+  function sizeCanvasCss() {
+    const pad = 20; // total vertical padding (10px top + 10px bottom)
+    const panelH = panel ? panel.offsetHeight : 0;
+    const h = Math.max(320, window.innerHeight - panelH - pad);
+    canvas.style.height = h + 'px';
+  }
+
+  // 2) Match the drawing buffer to the rendered size
+  function resizeBuffer() {
+    const rect = canvas.getBoundingClientRect();
+    canvas.width  = Math.floor(rect.width  * DPR);
+    canvas.height = Math.floor(rect.height * DPR);
+  }
+
+  function resizeAll(){ sizeCanvasCss(); resizeBuffer(); }
+
+  window.addEventListener('resize', resizeAll);
+  if (panel && 'ResizeObserver' in window) new ResizeObserver(resizeAll).observe(panel);
+  window.addEventListener('load', resizeAll);
+  resizeAll();
+  
   function resize(){
     const rect = canvas.getBoundingClientRect();
     canvas.width = Math.floor(rect.width * DPR);
