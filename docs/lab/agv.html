@@ -10,10 +10,12 @@
     --brand:#58a6ff; --ok:#21c37a; --warn:#f6c744; --bad:#ff5577;
   }
   html,body{height:100%;margin:0;overflow:hidden;}
-  body{margin:0; background:var(--bg); color:var(--ink); font:14px/1.4 system-ui,Segoe UI,Roboto,Ubuntu,sans-serif;}
-  .wrap{display:flex;flex-direction:column;height:10vh;width:100%;box-sizing:border-box;padding:10px;background:var(--bg);overflow:hidden;}
-  #stage{flex:1 1 auto;border:1px solid #1e2a3d;border-radius:12px;background:#0b1219;height:clamp(880px, 108vh, 1680px);} 
+  body{background:var(--bg); color:var(--ink); font:14px/1.4 system-ui,Segoe UI,Roboto,Ubuntu,sans-serif;}
+  /* MAIN LAYOUT */
+  .wrap{display:flex;flex-direction:column;height:100vh;width:100%;box-sizing:border-box;padding:10px;background:var(--bg);overflow:hidden;}
+  #stage{flex:1 1 auto;border:1px solid #1e2a3d;border-radius:12px;background:#0b1219;height:clamp(880px,108vh,1680px);} 
   .panel{flex:0 0 auto;background:var(--panel);border:1px solid #1e2a3d;border-radius:12px;padding:12px;margin-top:10px;overflow:visible;max-height:none;}
+  /* UI */
   .row{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
   .row + .row{margin-top:8px}
   label{font-size:12px; color:var(--muted); display:flex; align-items:center; gap:8px; flex:1 1 180px}
@@ -31,7 +33,6 @@
   .grid{display:grid;gap:6px;margin-top:10px}
   code{color:#bfe1ff}
   small.mono{font-family:ui-monospace,Consolas,monospace;color:var(--muted)}
-
   /* Responsive */
   @media (max-width:1060px){#stage{height:clamp(720px,96vh,1200px)}}
   @media (max-width:640px){#stage{height:clamp(600px,90vh,1000px)}}
@@ -99,6 +100,7 @@
   const canvas = document.getElementById('stage');
   const ctx = canvas.getContext('2d');
   const DPR = Math.min(window.devicePixelRatio||1, 2);
+
   function resize(){
     const rect = canvas.getBoundingClientRect();
     canvas.width = Math.floor(rect.width * DPR);
@@ -131,15 +133,15 @@
   };
 
   // Entities & state
-  let pallets = [];     // moving on conveyors/queue
-  let agvs = [];        // vehicles
-  const completed = []; // timestamps of finished jobs (sec)
+  let pallets = [];
+  let agvs = [];
+  const completed = [];
 
   const params = {
     speed:1,
-    spawnRate:0.5, // probability per second per line
-    palletSpeed: 80, // px/s
-    agvSpeed:120, // px/s
+    spawnRate:0.5,
+    palletSpeed: 80,
+    agvSpeed:120,
     queueCap: 12,
     agvCount: 2,
     showGrid:true,
@@ -189,7 +191,6 @@
   gridBtn.addEventListener('click',()=>{params.showGrid=!params.showGrid; gridBtn.textContent='Grid: '+(params.showGrid?'On':'Off')});
   labelsBtn.addEventListener('click',()=>{params.showLabels=!params.showLabels; labelsBtn.textContent='Labels: '+(params.showLabels?'On':'Off')});
 
-  // AGV class following waypoints
   class AGV{
     constructor(i){
       this.i=i; this.pos = toPx(L.agvPath[0]); this.state='idle';
@@ -293,7 +294,7 @@
       if(p.state==='line'){
         const s=L.lines[p.line];
         const len = (s.to[0]-s.from[0])*W();
-        p.pos += (params.palletSpeed*dt)/len; // 0..1 along the line
+        p.pos += (params.palletSpeed*dt)/len;
         const robotX = L.robots[p.line][0];
         const progressAtRobot = (robotX - s.from[0]) / (s.to[0]-s.from[0]);
         if(p.pos >= progressAtRobot){ p.state='robot'; }
@@ -323,7 +324,7 @@
   }
 
   function rollingTPH(){
-    const windowSec = 60; // rolling 60s
+    const windowSec = 60;
     const tnow = perf.now();
     while(completed.length && (tnow - completed[0])>windowSec) completed.shift();
     return completed.length * 3600 / windowSec;
@@ -336,7 +337,6 @@
     ctx.clearRect(0,0,W(),H());
     ctx.save(); ctx.scale(DPR,DPR); ctx.scale(1/DPR,1/DPR);
 
-    // Floor grid
     if(params.showGrid){
       ctx.globalAlpha=0.15; ctx.strokeStyle="#1b2a40";
       for(let x=0;x<W();x+=40*DPR){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H());ctx.stroke()}
@@ -348,10 +348,10 @@
     ctx.lineWidth=10*DPR; ctx.strokeStyle="#89c2ff"; ctx.lineCap='round';
     L.lines.forEach(Li=>{ const a=toPx(Li.from), b=toPx(Li.to); ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke(); });
 
-    // Robots (palletize)
+    // Robots
     L.robots.forEach((r,i)=>{ const p=toPx(r); ctx.fillStyle='#94a3b8'; ctx.beginPath(); ctx.arc(p.x,p.y,16*DPR,0,Math.PI*2); ctx.fill(); if(params.showLabels){ ctx.fillStyle='#071521'; ctx.font=`${12*DPR}px system-ui`; ctx.fillText('R'+(i+1), p.x-8*DPR,p.y+4*DPR);} });
 
-    // Merge lines
+    // Merge
     ctx.strokeStyle="#ffd166"; ctx.lineWidth=4*DPR; ctx.setLineDash([8*DPR,8*DPR]);
     const m=toPx(L.merge); [[0.42,0.25],[0.42,0.45],[0.42,0.65]].forEach(pt=>{ const a=toPx(pt); ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(m.x,m.y); ctx.stroke(); }); ctx.setLineDash([]);
 
@@ -361,7 +361,7 @@
     // Docks
     L.docks.forEach(d=>{ const p=toPx(d.pos); ctx.strokeStyle="#ef4444"; ctx.lineWidth=2*DPR; ctx.strokeRect(p.x-70*DPR, p.y-40*DPR, 120*DPR, 80*DPR); if(params.showLabels){ ctx.fillStyle="#ef4444"; ctx.font=`${12*DPR}px system-ui`; ctx.fillText(d.name, p.x-24*DPR, p.y-48*DPR);} });
 
-    // Pallets on lines/queue
+    // Pallets
     const qRect = {x:q.x, y:q.y, w:180*DPR, h:40*DPR};
     pallets.forEach(p=>{
       let pos; const s=L.lines[p.line];
@@ -391,7 +391,7 @@
   function resetSim(){
     pallets=[]; qArr.length=0; completed.length=0; nextId=1; log.length=0; logAccum=0;
     refreshAGVs();
-    warmup(2); // instant KPIs after reset
+    warmup(2);
   }
 
   function applyPreset(p){
@@ -419,7 +419,7 @@
   }
 
   function warmup(seconds=3){ const dt=1/60; for(let i=0;i<seconds/dt;i++) tick(dt); }
-  warmup(2.5); // seed the system on load
+  warmup(2.5);
   function loop(){ if(playing) tick(); draw(); requestAnimationFrame(loop);} loop();
 })();
 </script>
