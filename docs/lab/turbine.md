@@ -1,7 +1,5 @@
 # 🔩 Gas Turbine Reconciliation Engine  
 
-This interactive tool shows how mismatched turbine parts are reconciled across BOM, ERP, and CRM datasets — similar to your **GE Vernova** workflow.
-
 ### ⚙️ Demo
 <iframe 
   src="/alvin-site/lab/parts_match_integrated.html" 
