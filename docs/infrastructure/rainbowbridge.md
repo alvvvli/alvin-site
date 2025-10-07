@@ -1,9 +1,12 @@
 # [Tokyo Rainbow Bridge](https://www.shutoko.jp/fun/lightup/rainbowbridge/overview/) – Resilient Urban Engineering
 
-<div style="display:flex;flex-wrap:wrap;gap:10px">
-  <img src="/alvin-site/JPG_VID/PXL_20250508_142430774.NIGHT.jpg?v=3" alt="rainbow1" width="48%">
-  <img src="/alvin-site/JPG_VID/PXL_20250508_142621312.jpg?v=3" alt="rainbow2" width="48%">
-  <img src="/alvin-site/JPG_VID/PXL_20250508_142857479.jpg?v=3" alt="rainbow3" width="48%">
+<div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+  <img src="/alvin-site/JPG_VID/PXL_20250508_142430774.NIGHT.jpg?v=3"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
+  <img src="/alvin-site/JPG_VID/PXL_20250508_142621312.jpg?v=3"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
+  <img src="/alvin-site/JPG_VID/PXL_20250508_142857479.jpg?v=3"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
 </div>
 
 🌉 **Tokyo Rainbow Bridge**  
