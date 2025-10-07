@@ -1,12 +1,10 @@
 # [Germany–Netherlands Border](https://maps.app.goo.gl/uSang8Bt6JGQrwJGA), Emmerich am Rhein
 
-<div style="display:flex; flex-wrap:wrap; gap:10px;">
-  <img src="/alvin-site/JPG_VID/PXL_20221226_192637911.jpg?v=1" 
-       alt="denl1" 
-       width="48%">
-  <img src="/alvin-site/JPG_VID/PXL_20221226_194712093.jpg?v=1" 
-       alt="denl2" 
-       width="48%">
+<div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+  <img src="/alvin-site/JPG_VID/PXL_20221226_192637911.jpg?v=1"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
+  <img src="/alvin-site/JPG_VID/PXL_20221226_194712093.jpg?v=1"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
 </div>
 
 🌍 Crossing by foot from **Emmerich (DE)** into **Lobith (NL)** along the #Rhine artery —  
