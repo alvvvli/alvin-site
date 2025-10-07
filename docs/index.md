@@ -24,8 +24,8 @@
     text-align: left;       /* keep body text left-aligned */
   }
   .hero__img {
-    width: 160px;           /* smaller avatar on mobile */
-    max-width: 55vw;
+    width: 300px;           /* smaller avatar on mobile */
+    max-width: 70vw;
   }
 }
 </style>
