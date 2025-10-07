@@ -1,9 +1,12 @@
 ## 🇺🇿 Uzbekistan’s Afrosiyob — Electrifying Central Asia’s Future
 
-<div style="display:flex;flex-wrap:wrap;gap:10px">
-  <img src="/alvin-site/JPG_VID/PXL_20230512_101154783.jpg?v=3" alt="afro1" width="48%">
-  <img src="/alvin-site/JPG_VID/PXL_20230512_101406270.jpg?v=3" alt="afro2" width="48%">
-  <img src="/alvin-site/JPG_VID/PXL_20230512_101134602.jpg?v=3" alt="afro3" width="48%">
+<div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+  <img src="/alvin-site/JPG_VID/PXL_20230512_101154783.jpg?v=3"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
+  <img src="/alvin-site/JPG_VID/PXL_20230512_101406270.jpg?v=3"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
+  <img src="/alvin-site/JPG_VID/PXL_20230512_101134602.jpg?v=3"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
 </div>
 
 At **Bukhara Station**, I observed Uzbekistan’s **Afrosiyob high-speed train**, manufactured by **Talgo (Spain)** and operated by **Uzbekistan Railways (Oʻzbekiston temir yoʻllari – UTY)**.  
