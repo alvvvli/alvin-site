@@ -1,13 +1,13 @@
 # Japan's Departure Melodies — Engineered Harmony
 
-<iframe 
-  src="https://www.youtube.com/embed/wXTzepSWTps" 
-  width="560" 
-  height="560" 
-  style="aspect-ratio: 9/16;" 
-  frameborder="0" 
-  allowfullscreen>
-</iframe>
+<div style="display:flex;justify-content:center;gap:10px;margin-bottom:20px;">
+  <iframe
+    src="https://www.youtube.com/embed/wXTzepSWTps"
+    style="width:48%;aspect-ratio:9/16;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);overflow:hidden;"
+    frameborder="0"
+    allowfullscreen>
+  </iframe>
+</div>
 
 🎵 **Okinawa Monorail departure melodies — engineered harmony.**  
 
