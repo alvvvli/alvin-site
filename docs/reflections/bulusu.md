@@ -1,8 +1,10 @@
 🚀 **Engineering Mindset with Dr. Vishwa Bulusu (NASA Ames)**
 
-<div style="display:flex;flex-wrap:wrap;gap:10px">
-  <img src="/alvin-site/JPG_VID/bulusu1.jpg" alt="bulusuphoto" width="48%">
-  <img src="/alvin-site/JPG_VID/bulusu2.jpg" alt="bulususlide" width="48%">
+<div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+  <img src="/alvin-site/JPG_VID/bulusu1.jpg"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
+  <img src="/alvin-site/JPG_VID/bulusu2.jpg"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
 </div>
 
 In **CIVENG 260: Air Transportation**, taught by Dr. [Vishwanath Bulusu](https://www.linkedin.com/in/vishwanathbulusu/) — Senior Aerospace Scientist at NASA Ames — the most valuable lessons weren’t equations alone, but how to think like an engineer:
