@@ -1,13 +1,13 @@
 # Condor A330neo – [IFE](https://www.condor.com/eu/fly-enjoy/on-board/inflight-entertainment/program-a330neo.jsp), Redefined
 
-<iframe 
-  src="https://youtube.com/embed/3WdhWxNF6p0" 
-  width="560" 
-  height="560" 
-  style="aspect-ratio: 9/16;" 
-  frameborder="0" 
-  allowfullscreen>
-</iframe>
+<div style="display:flex;justify-content:center;gap:10px;">
+  <iframe
+    src="https://youtube.com/embed/3WdhWxNF6p0"
+    style="width:48%;aspect-ratio:9/16;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);overflow:hidden;"
+    frameborder="0"
+    allowfullscreen>
+  </iframe>
+</div>
 
 ✈️ **Condor Flugdienst GmbH A330neo | In-Flight Entertainment, redefined.**  
 
