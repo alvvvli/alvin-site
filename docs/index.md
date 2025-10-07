@@ -7,8 +7,8 @@
   margin: 0 0 12px 0;
 }
 .hero__img {
-  width: 540px;              /* desktop/tablet */
-  max-width: 65vw;
+  width: 600px;              /* desktop/tablet */
+  max-width: 89vw;
   height: auto;
   border-radius: 12px;
   box-shadow: 0 0 12px rgba(0,0,0,0.4);
