@@ -1,9 +1,11 @@
 🤖 **Dyson → LionsBot → SUTD — design rigor in Singapore’s tech ecosystem**
 
-<div style="display:flex;flex-wrap:wrap;gap:10px">
-  <img src="/alvin-site/JPG_VID/sutd.jpg" alt="Dyson Advanced Headset Lab" width="48%">
-  <img src="/alvin-site/JPG_VID/sutd2.jpg" alt="LionsBot Robotics at SUTD" width="48%">
-</div>  
+<div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+  <img src="/alvin-site/JPG_VID/sutd.jpg"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
+  <img src="/alvin-site/JPG_VID/sutd2.jpg"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
+</div>
 
 From Dyson's advanced headset lab to LionsBot International's robotics floor,  
 Singapore University of Technology and Design (SUTD) demonstrates how design rigor  
