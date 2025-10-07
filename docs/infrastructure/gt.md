@@ -1,10 +1,12 @@
 ## 🏭 Gas Turbine Major Inspection — [Taiwan StarBuck Plant](https://www.starbuckpower.com.tw/)
 
-<div style="display:flex;flex-wrap:wrap;gap:10px">
-  <img src="/alvin-site/JPG_VID/gt1.jpg" alt="Gas Turbine Inspection — StarBuck Plant" width="48%">
-  <img src="/alvin-site/JPG_VID/gt2.jpg" alt="GE Vernova FieldCore team visit" width="48%">
-  <img src="/alvin-site/JPG_VID/gt3.jpg" alt="GE Vernova FieldCore team visit" width="48%">
-
+<div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+  <img src="/alvin-site/JPG_VID/gt1.jpg"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
+  <img src="/alvin-site/JPG_VID/gt2.jpg"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
+  <img src="/alvin-site/JPG_VID/gt3.jpg"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
 </div>
 
 Thanks to Andy, Kun-Cheng Tseng, Mary, Pei Ching, Eddie Lin, Clair Lin, and the Taiwan **FieldCore** team for bringing me into a rare gas turbine major inspection at central Taiwan's StarBuck plant. 
