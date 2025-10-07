@@ -1,24 +1,13 @@
 ✨ **Growth is like a lattice**
 
-<div style="display:flex; flex-wrap:wrap; gap:10px;">
-
-  <!-- Image 1 -->
-  <img src="/alvin-site/JPG_VID/AC1.jpg?v=1" 
-       alt="lattice1" 
-       width="48%">
-
-  <!-- Image 2 -->
-  <img src="/alvin-site/JPG_VID/AC2.jpg?v=1" 
-       alt="lattice2" 
-       width="48%">
-
-  <!-- Image 3 -->
-  <img src="/alvin-site/JPG_VID/AC3.jpg?v=1" 
-       alt="lattice3" 
-       width="48%">
-
+<div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+  <img src="/alvin-site/JPG_VID/AC1.jpg?v=1"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
+  <img src="/alvin-site/JPG_VID/AC2.jpg?v=1"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
+  <img src="/alvin-site/JPG_VID/AC3.jpg?v=1"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
 </div>
-
 
 What is visible is only **1/8**.  
 The unseen **7/8** — patience, humility, and rigor —  
