@@ -3,9 +3,11 @@
 Thank you to **Fumio Matsuuraさん**, **Rieko Yoshidaさん**, **Matthew Kornさん**, **Natsumiさん**,  
 and the **GE Vernova Japan team** for the warm welcome in Tokyo.  
 
-<div style="display:flex;flex-wrap:wrap;gap:10px">
-  <img src="/alvin-site/JPG_VID/gevjp1.jpg" alt="GE Vernova Japan Team Exchange" width="48%">
-  <img src="/alvin-site/JPG_VID/gevjp2.jpg" alt="GE Vernova Tokyo Collaboration" width="48%">
+<div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+  <img src="/alvin-site/JPG_VID/gevjp1.jpg"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
+  <img src="/alvin-site/JPG_VID/gevjp2.jpg"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
 </div>
 
 This exchange showed me how global operations are built not only on technical precision,  
