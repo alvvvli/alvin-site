@@ -1,9 +1,12 @@
 # Stuttgart, Winter 2022 – [Mercedes-Benz Museum](https://www.mercedes-benz.com/en/art-and-culture/museum/)
 
-<div style="display:flex;flex-wrap:wrap;gap:10px">
-  <img src="/alvin-site/JPG_VID/PXL_20221215_092452489.jpg?v=3" alt="benz1" width="48%">
-  <img src="/alvin-site/JPG_VID/PXL_20221215_092657899.jpg?v=3" alt="benz2" width="48%">
-  <img src="/alvin-site/JPG_VID/PXL_20221215_111933484.jpg?v=3" alt="benz3" width="48%">
+<div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+  <img src="/alvin-site/JPG_VID/PXL_20221215_092452489.jpg?v=3"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
+  <img src="/alvin-site/JPG_VID/PXL_20221215_092657899.jpg?v=3"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
+  <img src="/alvin-site/JPG_VID/PXL_20221215_111933484.jpg?v=3"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
 </div>
 
 ❄️ **Stuttgart, Winter 2022 — Mercedes-Benz Museum**  
