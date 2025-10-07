@@ -1,22 +1,18 @@
 <style>
-/* Responsive hero */
 .hero {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
   gap: 20px;
   margin: 0 0 24px 0;
 }
 .hero__img {
-  width: 480px;              /* desktop/tablet */
-  max-width: 48vw;
-  height: auto;
+  width: 800px;              /* desktop/tablet */
   border-radius: 12px;
   box-shadow: 0 0 12px rgba(0,0,0,0.4);
-  display: block;
 }
 .hero__body { flex: 1 1 auto; }
 
-/* Stack on phones */
 @media (max-width: 768px) {
   .hero {
     flex-direction: column;
