@@ -2,8 +2,9 @@
 
 Grateful for the mentorship and insights from **Francis Lim**, GE Vernova's Regional Parts & Repairs Director, and **Julia Chen**, Senior Parts Sales Manager.  
 
-<div style="display:flex;flex-wrap:wrap;gap:10px">
-  <img src="/alvin-site/JPG_VID/francisjulia.jpg" alt="francisjulia" width="48%">
+<div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+  <img src="/alvin-site/JPG_VID/francisjulia.jpg"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
 </div>
 
 Their guidance continues to shape how I approach both the technical and human sides of supply chain execution. From high-stakes negotiations to the discipline of parts validation, every conversation reinforced that expertise is built not only through data, but through years of applied judgment.  
