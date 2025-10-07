@@ -1,11 +1,10 @@
 # ✨Reflections
 Meta pieces—principles, structure, and learning loops.
-
 <div style="display:flex;flex-wrap:wrap;gap:10px">
-  <img src="/alvin-site/JPG_VID/AC3.jpg" alt="ac3" width="48%">
+  <img src="/alvin-site/JPG_VID/AC3.jpg" alt="a330neo" width="48%" style="border-radius:12px; box-shadow:0 0 12px rgba(0,0,0,0.4);">
 </div>
 
-## Recent Posts
+## Explore:
 - [MIT Energy Conference 2024](mitenergy2024.md)
 - [Guinness World Record Moment 2024](tdx24.md)
 - [Stanford SIEPR Economic Summit 2024](siepr.md)
