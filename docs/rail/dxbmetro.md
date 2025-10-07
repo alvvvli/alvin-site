@@ -2,14 +2,14 @@
 
 Riding Dubai Metro’s **newest Red Line fleet** — through Dubai Internet City and Zabeel — reveals how **automation, design precision, and system integration** sustain the world’s **longest fully automated metro network**.  
 
-<iframe  
-  width="560"  
-  height="315"  
-  style="border-radius:12px; margin-top:10px; aspect-ratio:16/9;"  
-  src="https://www.youtube.com/embed/iarM6tO4IKk"  
-  frameborder="0"  
-  allowfullscreen>  
-</iframe>  
+<div style="display:flex;justify-content:center;gap:10px;margin-bottom:20px;">
+  <iframe
+    src="https://www.youtube.com/embed/iarM6tO4IKk"
+    style="width:80%;aspect-ratio:16/9;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);overflow:hidden;margin-top:10px;"
+    frameborder="0"
+    allowfullscreen>
+  </iframe>
+</div>
 
 What defines Dubai Metro isn’t just its **scale**, but its **operational discipline**. From gradient acceleration to station alignment, every subsystem — rolling stock, signaling, ventilation, passenger flow — works in **automated synchronization** to maintain comfort and reliability across high throughput demand.  
 
