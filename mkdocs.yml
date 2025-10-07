@@ -4,6 +4,16 @@ site_url: https://alvvvli.github.io/alvin-site/
 
 theme:
   name: material
+  palette:
+    - scheme: slate
+      primary: black
+      accent: blue
+  features:
+    - navigation.tabs
+    - navigation.tracking
+    - content.code.copy
+    - content.action.edit
+    - search.suggest    
   logo: assets/yomori-512.png
   favicon: assets/yomori-512.png
   features:
