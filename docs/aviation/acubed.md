@@ -1,8 +1,8 @@
 ## ✈️ [Airbus Acubed](https://acubed.airbus.com/) — Silicon Valley Innovation in Action  
 
-<div style="display:flex;flex-wrap:wrap;gap:10px">
-  <img src="/alvin-site/JPG_VID/acubed.jpeg" alt="Acubed Group Photo" width="48%">
-  <img src="/alvin-site/JPG_VID/PXL_20241114_160733616.jpg" alt="Acubed Sign California Campus" width="48%">
+<div style="display:flex;flex-wrap:wrap;gap:10px; border-radius:12px; box-shadow:0 0 12px rgba(0,0,0,0.4);">
+  <img src="/alvin-site/JPG_VID/acubed.jpeg" alt="Acubed Group Photo" width="48%" style="border-radius:12px;">
+  <img src="/alvin-site/JPG_VID/PXL_20241114_160733616.jpg" alt="Acubed Sign California Campus" width="48%" style="border-radius:12px;">
 </div>
 
 At **Acubed**, Airbus' Silicon Valley innovation hub, ideas in AI, mobility, and aerospace are shaping the future of flight.  
