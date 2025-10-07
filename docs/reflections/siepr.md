@@ -2,13 +2,11 @@
 
 Hearing visionaries like **Jim Farley (Ford)** and **Jensun Huang (NVIDIA)** share on the future of automobiles, AI, and policy was both inspiring and grounding.
 
-<div style="display:flex; flex-wrap:wrap; gap:10px;">
-  <img src="/alvin-site/JPG_VID/PXL_20240301_223820417.jpg?v=1" 
-       alt="siepr2" 
-       width="48%">
-  <img src="/alvin-site/JPG_VID/PXL_20240302_024434802.jpg?v=1" 
-       alt="siepr2" 
-       width="48%">
+<div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+  <img src="/alvin-site/JPG_VID/PXL_20240301_223820417.jpg?v=1"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
+  <img src="/alvin-site/JPG_VID/PXL_20240302_024434802.jpg?v=1"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
 </div>
 
 Their perspectives on customer experience, mobility, and Taiwan's strategic role in NVIDIA's global trajectory offered rare insight—reinforced in the brief exchanges beyond the stage.
