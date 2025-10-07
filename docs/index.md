@@ -33,8 +33,7 @@
 <div class="hero">
   <img src="/alvin-site/assets/yomori-512.png"
        alt="Alvin Li" class="hero__img" />
-  <div class="hero__body">
-    <p><strong>Precision across logistics, infrastructure, and industrial systems.</strong></p>
+  <div class="hero__body"><p><strong>Precision across logistics, infrastructure, and industrial systems.</strong></p>
     <p>I share concise observations from industrial plants, laboratories, airports, rail hubs, and stadiums — places where scale and discipline define how things run.</p>
     <ul>
       <li><strong>Focus:</strong> Logistics · Rail Systems · Aerospace · Advanced Manufacturing · Energy Transition</li>
