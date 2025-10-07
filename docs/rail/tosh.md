@@ -1,9 +1,12 @@
 ## 🇺🇿 Tashkent Metro — Where Soviet Legacy Meets a New Generation of Design
 
-<div style="display:flex;flex-wrap:wrap;gap:10px">
-  <img src="/alvin-site/JPG_VID/PXL_20230514_043757140.jpg?v=3" alt="tosh1" width="48%">
-  <img src="/alvin-site/JPG_VID/PXL_20230514_030019147.MP.jpg?v=3" alt="tosh2" width="48%">
-  <img src="/alvin-site/JPG_VID/PXL_20230514_041905860.jpg?v=3" alt="tosh3" width="48%">
+<div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+  <img src="/alvin-site/JPG_VID/PXL_20230514_043757140.jpg?v=3"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
+  <img src="/alvin-site/JPG_VID/PXL_20230514_030019147.MP.jpg?v=3"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
+  <img src="/alvin-site/JPG_VID/PXL_20230514_041905860.jpg?v=3"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
 </div>
 
 In **Tashkent**, I observed the metro’s newest fleet — designed and built by **Metrovagonmash (Russia)**, a continuation of the Soviet rail lineage that shaped Central Asia’s underground systems for decades.
