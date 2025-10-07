@@ -2,10 +2,12 @@
  
  🏭 **Inside Amazon OAK4 Fulfillment Center — Automation at Scale**
 
-<div style="display:flex;flex-wrap:wrap;gap:10px">
-  <img src="/alvin-site/JPG_VID/oak4_1.jpg" alt="Amazon OAK4 Full View" width="48%">
-  <img src="/alvin-site/JPG_VID/oak4_2.jpg" alt="Amazon OAK4 Selfie" width="48%">
-</div>  
+<div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+  <img src="/alvin-site/JPG_VID/oak4_1.jpg"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
+  <img src="/alvin-site/JPG_VID/oak4_2.jpg"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
+</div>
 
 Inside **Amazon OAK4**, automation and scale converge to power global supply chains.  
 
