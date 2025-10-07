@@ -1,17 +1,19 @@
 # [MOVeLOT](https://movelot.co.jp/) Humanoid Manipulator – SusHi Tech Tokyo 2025
 
-<iframe 
-  src="https://www.youtube.com/embed/ItDeveXMg04" 
-  width="560" 
-  height="560" 
-  style="aspect-ratio: 9/16;" 
-  frameborder="0" 
-  allowfullscreen>
-</iframe>
+<div style="display:flex;justify-content:center;gap:10px;margin-bottom:20px;">
+  <iframe
+    src="https://www.youtube.com/embed/ItDeveXMg04"
+    style="width:48%;aspect-ratio:9/16;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);overflow:hidden;"
+    frameborder="0"
+    allowfullscreen>
+  </iframe>
+</div>
 
-<div style="display:flex;flex-wrap:wrap;gap:10px">
-  <img src="/alvin-site/JPG_VID/PXL_20250509_025344016.jpg?v=3" alt="movelot1" width="48%">
-  <img src="/alvin-site/JPG_VID/PXL_20250509_025417243.jpg?v=3" alt="movelot2" width="48%">
+<div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+  <img src="/alvin-site/JPG_VID/PXL_20250509_025344016.jpg?v=3"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
+  <img src="/alvin-site/JPG_VID/PXL_20250509_025417243.jpg?v=3"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
 </div>
 
 🤖 **MOVeLOT Inc.’s humanoid manipulator**, presented at **SusHi Tech Tokyo 2025** under the sponsorship of the **Tokyo Metropolitan Government**.  
