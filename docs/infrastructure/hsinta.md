@@ -2,9 +2,11 @@
 
 ⚡ **Hsinta Power Plant Expansion — Frontlines of Gas Turbine Operations**
 
-<div style="display:flex;flex-wrap:wrap;gap:10px">
-  <img src="/alvin-site/JPG_VID/hsinta1.jpg" alt="Hsinta Power Plant with Kayne" width="48%">
-  <img src="/alvin-site/JPG_VID/hsinta2.jpg" alt="TaiPower Hsinta Power Plant Front Gate" width="48%">
+<div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+  <img src="/alvin-site/JPG_VID/hsinta1.jpg"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
+  <img src="/alvin-site/JPG_VID/hsinta2.jpg"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
 </div>
 
 Thanks to **Kayne Huang** for bringing me to the frontlines at [**Hsinta Power Plant**](https://hc1.taipower.com.tw/2764/61044/2849/25384/)  
