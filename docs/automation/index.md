@@ -2,7 +2,7 @@
 Controls, HMI, PLCs, robotic cells, and the orchestration around them.
 
 <div style="display:flex;flex-wrap:wrap;gap:10px">
-  <img src="/alvin-site/JPG_VID/PXL_20250509_025344016.jpg" alt="movelot1" width="48%">
+  <img src="/alvin-site/JPG_VID/PXL_20250509_025344016.jpg" alt="movelot1" width="48%" border-radius="12px">
 </div>
 
 ## Recent posts
