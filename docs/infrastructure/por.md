@@ -1,10 +1,14 @@
 # Where Sea Meets Steel – Energy & Trade at [Maasvlakte](https://www.portofrotterdam.com/en/building-port/safe-port/flood-risk-management/maasvlakte), Rotterdam
 
-<div style="display:flex;flex-wrap:wrap;gap:10px">
-  <img src="/alvin-site/JPG_VID/PXL_20220911_113021938.jpg?v=3" alt="por1" width="48%">
-  <img src="/alvin-site/JPG_VID/PXL_20220911_113049897.jpg?v=3" alt="por2" width="48%">
-  <img src="/alvin-site/JPG_VID/PXL_20220911_115243674.jpg?v=3" alt="por3" width="48%">
-  <img src="/alvin-site/JPG_VID/PXL_20220911_120856347.jpg?v=3" alt="por4" width="48%">
+<div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+  <img src="/alvin-site/JPG_VID/PXL_20220911_113021938.jpg?v=3"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
+  <img src="/alvin-site/JPG_VID/PXL_20220911_113049897.jpg?v=3"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
+  <img src="/alvin-site/JPG_VID/PXL_20220911_115243674.jpg?v=3"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
+  <img src="/alvin-site/JPG_VID/PXL_20220911_120856347.jpg?v=3"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
 </div>
 
 🌊 **Where sea meets steel, the future takes shape.**  
