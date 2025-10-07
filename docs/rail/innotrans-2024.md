@@ -1,10 +1,13 @@
 # [InnoTrans 2024](https://www.innotrans.de/en) Hands-On Cabin Innovation
 
-<iframe src="https://youtube.com/embed/jRURg6nlj2s" 
-        width="560" height="560" 
-        style="aspect-ratio: 9/16;"
-        frameborder="0" 
-        allowfullscreen></iframe>
+<div style="display:flex;justify-content:center;gap:10px;margin-bottom:20px;">
+  <iframe
+    src="https://youtube.com/embed/jRURg6nlj2s"
+    style="width:48%;aspect-ratio:9/16;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);overflow:hidden;"
+    frameborder="0"
+    allowfullscreen>
+  </iframe>
+</div>
 
 Not every day you get to sit in the driver's seat of the world's most advanced trains.
 
