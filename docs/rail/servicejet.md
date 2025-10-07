@@ -1,8 +1,10 @@
 # [ÖBB ServiceJet](https://www.youtube.com/watch?v=pJelJ-C0-zA) – Infrared Track Inspection
 
-<div style="display:flex;flex-wrap:wrap;gap:10px">
-  <img src="/alvin-site/JPG_VID/PXL_20240926_082730154.jpg?v=3" alt="servicejetinf" width="48%">
-  <img src="/alvin-site/JPG_VID/PXL_20240926_082234011.jpg?v=3" alt="servicejetinf2" width="48%">
+<div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+  <img src="/alvin-site/JPG_VID/PXL_20240926_082730154.jpg?v=3"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
+  <img src="/alvin-site/JPG_VID/PXL_20240926_082234011.jpg?v=3"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
 </div>
 
 🚄 **ÖBB ServiceJet: Infrared camera for track inspection.**  
