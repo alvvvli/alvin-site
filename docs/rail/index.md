@@ -4,7 +4,7 @@ Interfaces, dwell time, coupling systems, catenary geometry, and border ops.
   <img src="/alvin-site/JPG_VID/PXL_20240926_095812896.jpg" alt="a330neo" width="48%" style="border-radius:12px; box-shadow:0 0 12px rgba(0,0,0,0.4);">
 </div>
 
-## Recent posts
+## Explore:
 - [InnoTrans 2024 Hands-On Cabin Innovation](innotrans-2024.md)
 - [Rail Engineering: Layered Precision](stadler-2023.md)
 - [Rail Acoustics by Design: Commuter vs. Long-Distance Trains](door-2023.md)
