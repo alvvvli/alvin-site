@@ -8,7 +8,7 @@ Explore lightweight demos for reconciliation, routing, and validation.
 <div style="display:flex;flex-wrap:wrap;gap:10px">
   <img src="/alvin-site/JPG_VID/slr1.jpg" 
        alt="slr" 
-       width="48%" 
+       width="68%" 
        style="border-radius:12px;">
 </div>
 
