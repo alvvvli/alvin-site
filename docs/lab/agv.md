@@ -1,6 +1,4 @@
 # 🛹 Siemens AGV Simulation  
-**AGV routing and gate scheduling visualization**
-
 ### 🎮 Simulation
 
 <div style="width:100%;max-width:1400px;margin:0 auto 24px;border-radius:16px;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,.35);height:clamp(880px,108vh,1680px);background:#0b0f14;"><iframe src="/alvin-site/lab/agv.html" title="AGV Simulation" style="width:100%;height:100%;border:0;display:block;overflow:hidden;" scrolling="no" allowfullscreen></iframe></div>
