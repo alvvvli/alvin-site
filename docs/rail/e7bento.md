@@ -1,9 +1,12 @@
 # [E7 Bento](https://foods.jr-cross.co.jp/matsuri/ekiben/detail/605.html) – Shaped After the Shinkansen
 
-<div style="display:flex;flex-wrap:wrap;gap:10px">
-  <img src="/alvin-site/JPG_VID/PXL_20240514_083932908.jpg?v=3" alt="e7bento1" width="48%">
-  <img src="/alvin-site/JPG_VID/PXL_20240514_085113189.jpg?v=3" alt="e7bento2" width="48%">
-  <img src="/alvin-site/JPG_VID/PXL_20240518_035021959.jpg?v=3" alt="e7bento3" width="48%">
+<div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+  <img src="/alvin-site/JPG_VID/PXL_20240514_083932908.jpg?v=3"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
+  <img src="/alvin-site/JPG_VID/PXL_20240514_085113189.jpg?v=3"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
+  <img src="/alvin-site/JPG_VID/PXL_20240518_035021959.jpg?v=3"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
 </div>
 
 🚄 **E7 bento — shaped after the Shinkansen.**  
