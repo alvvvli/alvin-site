@@ -1,19 +1,10 @@
 ✨ **Some events fade. Others define the decade.**
-
-<div style="display:flex; flex-wrap:wrap; gap:10px;">
-
-  <!-- Image 1 -->
-  <img src="/alvin-site/JPG_VID/PXL_20240517_112620159.jpg?v=1" 
-       alt="sushi24_1" 
-       width="48%">
-
-  <!-- Image 2 -->
-  <img src="/alvin-site/JPG_VID/PXL_20240516_031228914.jpg?v=1" 
-       alt="sushi24_2" 
-       width="48%">
-
+<div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+  <img src="/alvin-site/JPG_VID/PXL_20240517_112620159.jpg?v=1"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
+  <img src="/alvin-site/JPG_VID/PXL_20240516_031228914.jpg?v=1"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
 </div>
-
 
 Looking back 1.5 years later, **SusHi Tech Tokyo 2024** still stands out as one of Asia’s most ambitious tech gatherings.  
 
