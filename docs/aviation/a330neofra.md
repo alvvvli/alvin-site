@@ -1,7 +1,10 @@
 # [Condor A330neo](https://www.condor.com/eu/fly-enjoy/condor-partner/our-fleet/airbus-a330neo/a330neo-technical-data.jsp) 64m Left Wing - Frankfurt Airport
 
-<div style="display:flex;flex-wrap:wrap;gap:10px">
-  <img src="/alvin-site/JPG_VID/PXL_20240924_105646540.jpg?v=3" alt="a330neofra" width="48%">
+<div style="display:flex;flex-wrap:wrap;gap:10px;">
+  <img src="/alvin-site/JPG_VID/PXL_20240924_105646540.jpg?v=3"
+       alt="a330neofra"
+       width="48%"
+       style="border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
 </div>
 
 ✈️ **A330neo 64m left wing, Frankfurt Airport.**  
