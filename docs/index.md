@@ -6,22 +6,38 @@
   gap: 20px;
   margin: 0 0 24px 0;
 }
+
 .hero__img {
   width: 400px;              /* desktop/tablet */
   border-radius: 12px;
   box-shadow: 0 0 12px rgba(0,0,0,0.4);
 }
-.hero__body { flex: 1 1 auto; }
+
+.hero__body {
+  flex: 1 1 auto;
+  text-align: left;          /* ensure left alignment for text & bullets */
+}
+
+.hero__body ul {
+  padding-left: 20px;        /* indent bullets nicely */
+  list-style-position: outside;
+}
 
 @media (max-width: 768px) {
   .hero {
     flex-direction: column;
     align-items: center;
-    text-align: center;       /* keep body text left-aligned */
+    text-align: center;
   }
+
   .hero__img {
-    width: 60%;           /* smaller avatar on mobile */
-    max-width: 30px;
+    width: 60%;              /* smaller avatar on mobile */
+    max-width: 320px;
+  }
+
+  .hero__body {
+    text-align: left;        /* override centering for bullet points */
+    width: 90%;
   }
 }
 </style>
