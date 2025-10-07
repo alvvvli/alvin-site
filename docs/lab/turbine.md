@@ -7,6 +7,7 @@
   height="1700" 
   style="border:none; border-radius:12px; margin-top:10px; background:#0b0f14;">
 </iframe>
+<iframe width="560" height="315" style="border-radius:12px; margin-top:10px; aspect-ratio:4/5;" src="https://www.youtube.com/embed/bXkV-0RHLlk" frameborder="0" allowfullscreen> </iframe>
 
 ### 🧩 Overview
 | Aspect        | Details                                                                                                                                                                                                                                      |
