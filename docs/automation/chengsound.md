@@ -2,11 +2,12 @@
 
 ⚙️ **Cheng Sound Industrial Co., Ltd. CNC machine interface.**  
 
-<div style="display:flex;flex-wrap:wrap;gap:10px">
-  <img src="/alvin-site/JPG_VID/PXL_20250305_092201289.jpg?v=3" alt="cheng1" width="48%">
-  <img src="/alvin-site/JPG_VID/PXL_20250305_092208716.jpg?v=3" alt="cheng2" width="48%">
+<div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+  <img src="/alvin-site/JPG_VID/PXL_20250305_092201289.jpg?v=3"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
+  <img src="/alvin-site/JPG_VID/PXL_20250305_092208716.jpg?v=3"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
 </div>
-
 
 Each square on the grid represents a **programmed cut path**, visualized in microns.  
 What looks simple is in fact **engineered precision** — steel defined at sub-millimeter tolerances.  
