@@ -1,9 +1,12 @@
 # [Santiago Bernabéu Redevelopment](https://www.realmadrid.com/en-US/bernabeu-stadium) – Real Madrid C.F.
 
-<div style="display:flex;flex-wrap:wrap;gap:10px">
-  <img src="/alvin-site/JPG_VID/PXL_20221127_121543166.jpg?v=3" alt="rm1" width="48%">
-  <img src="/alvin-site/JPG_VID/PXL_20221127_121616273.jpg?v=3" alt="rm2" width="48%">
-  <img src="/alvin-site/JPG_VID/PXL_20221127_123817518.jpg?v=3" alt="rm3" width="48%">
+<div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+  <img src="/alvin-site/JPG_VID/PXL_20221127_121543166.jpg?v=3"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
+  <img src="/alvin-site/JPG_VID/PXL_20221127_121616273.jpg?v=3"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
+  <img src="/alvin-site/JPG_VID/PXL_20221127_123817518.jpg?v=3"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
 </div>
 
 ⚽ **3 years from today — Santiago Bernabéu, Real Madrid C.F. under transformation (Nov 2022).**  
