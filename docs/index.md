@@ -3,12 +3,12 @@
 .hero {
   display: flex;
   align-items: flex-start;
-  gap: 16px;
-  margin: 0 0 12px 0;
+  gap: 20px;
+  margin: 0 0 24px 0;
 }
 .hero__img {
-  width: 600px;              /* desktop/tablet */
-  max-width: 89vw;
+  width: 480px;              /* desktop/tablet */
+  max-width: 48vw;
   height: auto;
   border-radius: 12px;
   box-shadow: 0 0 12px rgba(0,0,0,0.4);
@@ -17,15 +17,15 @@
 .hero__body { flex: 1 1 auto; }
 
 /* Stack on phones */
-@media (max-width: 680px) {
+@media (max-width: 768px) {
   .hero {
     flex-direction: column;
     align-items: center;
-    text-align: left;       /* keep body text left-aligned */
+    text-align: center;       /* keep body text left-aligned */
   }
   .hero__img {
-    width: 300px;           /* smaller avatar on mobile */
-    max-width: 70vw;
+    width: 60%;           /* smaller avatar on mobile */
+    max-width: 30px;
   }
 }
 </style>
