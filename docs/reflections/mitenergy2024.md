@@ -1,7 +1,8 @@
 # [MIT Energy Conference](https://www.mitenergyconference.org/) 2024 — Balanced Transitions
 
-<div style="display:flex;flex-wrap:wrap;gap:10px">
-  <img src="/alvin-site/JPG_VID/PXL_20240311_125821047.jpg?v=3" alt="mitenergybadge" width="48%">
+<div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+  <img src="/alvin-site/JPG_VID/PXL_20240311_125821047.jpg?v=3"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
 </div>
 
 March 11–12, I had the privilege of attending the **MIT Energy Conference 2024** in Boston — themed *“Short & Long: A Balanced Approach to the Energy Transition.”*
@@ -42,29 +43,34 @@ Conferences like these reminded me of the same lessons I carried from Europe and
 
 ## 📸 Glimpses  
 
-<div style="display:flex;flex-wrap:wrap;gap:10px">
-  <img src="/alvin-site/JPG_VID/PXL_20240312_012824786.NIGHT.jpg?v=3" alt="mitdome" width="48%">
+<div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+  <img src="/alvin-site/JPG_VID/PXL_20240312_012824786.NIGHT.jpg?v=3"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
 </div>
 - MIT’s iconic columns under winter skies — timeless, yet future-focused.  
 
-<div style="display:flex;flex-wrap:wrap;gap:10px">
-  <img src="/alvin-site/JPG_VID/PXL_20240312_195247114.jpg?v=3" alt="mitenergypeers" width="48%">
+<div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+  <img src="/alvin-site/JPG_VID/PXL_20240312_195247114.jpg?v=3"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
 </div>
 - Conversations with fellow attendees on **grid flexibility, financing models, and S&OP for energy**.  
 
-<div style="display:flex;flex-wrap:wrap;gap:10px">
-  <img src="/alvin-site/JPG_VID/PXL_20240312_140700265.jpg?v=3" alt="mitenergypanel" width="48%">
+<div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+  <img src="/alvin-site/JPG_VID/PXL_20240312_140700265.jpg?v=3"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
 </div>
 - Panel: *Short & Long: A Balanced Approach to the Energy Transition*  
 
-<div style="display:flex;flex-wrap:wrap;gap:10px">
-  <img src="/alvin-site/JPG_VID/PXL_20240311_184220243.jpg?v=3" alt="mitpcb" width="48%">
+<div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+  <img src="/alvin-site/JPG_VID/PXL_20240311_184220243.jpg?v=3"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
 </div>
 - *PCB Closeup*:
   Precision-etched power electronics — the invisible layer enabling grid stability, efficiency, and system control.  
 
-<div style="display:flex;flex-wrap:wrap;gap:10px">
-  <img src="/alvin-site/JPG_VID/PXL_20240311_194015611.jpg?v=3" alt="mithydro" width="48%">
+<div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+  <img src="/alvin-site/JPG_VID/PXL_20240311_194015611.jpg?v=3"
+       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
 </div>
 - *Hydrogen Electrolyzer Prototype*: 
   Transparent demo stack showing how electrochemistry, fluid dynamics, and control boards integrate for clean hydrogen production.  
