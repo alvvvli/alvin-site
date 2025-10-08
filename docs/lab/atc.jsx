@@ -3,29 +3,28 @@ import React, { useMemo, useState } from "react";
 /**
  * ATC Hub Scheduler — 3D Segways Edition (Horizontal + Vertical)
  * --------------------------------------------------------------
- * A flight routing + ATC scheduling game, now with a 3D airspace model.
+ * Flight routing + ATC scheduling with a 3D airspace model.
  *
  * New concepts
  * - Horizontal corridors: H↔E and H↔W (great-circle simplification)
- * - Vertical segways: discrete altitude layers (e.g., FL290, FL310, ...)
- * - Separation: ≥ SEP_MIN minutes on the same corridor & altitude; or OK if
- *   vertical separation ≥ 1000 ft (configurable)
- * - Greedy altitude assignment: resolve conflicts by bumping flights up/down
- *   within available layers, else flag a conflict
- * - 3D viewer: CSS-perspective layers with flight pins; hover for details
+ * - Vertical segways: discrete altitude layers (FL290/310/330/350/370)
+ * - Separation: ≥ SEP_MIN minutes on same corridor & altitude; vertical sep via different FLs
+ * - Greedy altitude assignment; unresolved legs flagged as conflicts
+ * - 3D viewer: CSS-perspective slabs with flight pins
  *
- * Base game rules from CE260 Assignment III remain: banked hub schedule with
- * 45-min layover at hub, spoke 30-min turn, LF≤80%, TLC objective.
+ * CE260 rules kept: banked hub schedule (45-min hub layover), 30-min spoke turns,
+ * LF≤80%, goal = minimize Total Logistics Cost (TLC).
  */
 
 /***** UTILITIES *****/
 const toMin = (h, m = 0) => h * 60 + m;
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const pad2 = (n) => String(n).padStart(2, "0");
 const fmtHMM = (mins) => {
   const m = ((mins % (24 * 60)) + 24 * 60) % (24 * 60);
   const h = Math.floor(m / 60);
-  const mm = String(Math.floor(m % 60)).padStart(2, "0");
-  return `${h}:${mm}`;
+  const mm = pad2(Math.floor(m % 60));
+  return `${pad2(h)}:${mm}`; // HTML time input requires 2-digit hours
 };
 
 /***** DEFAULTS *****/
@@ -76,15 +75,16 @@ function makeWaves({ waves, firstArriveH, spacingMin }) {
   return Array.from({ length: waves }, (_, k) => firstArriveH + k * spacingMin);
 }
 
-function mkFlightsFromWaves({ arrHmins, miles, layoverH }) {
+function mkFlightsFromWaves({ arrHmins, miles, layoverH, alphaHr, betaHrPerMile }) {
+  // ✅ FIX: use current α/β (was mistakenly locked to DEFAULTS)
   const legs = { E: [], W: [] };
   for (const S of ["E", "W"]) {
-    const bh = blockMins(miles[S], DEFAULTS.alphaHr, DEFAULTS.betaHrPerMile);
+    const bh = blockMins(miles[S], alphaHr, betaHrPerMile);
     arrHmins.forEach((arrH, idx) => {
       const depS = arrH - bh; // S->H
       const depH = arrH + layoverH; // H->S
       const arrS = depH + bh; // back to S
-      legs[S].push({ id: `${S}${idx+1}` , S, depS, arrH, depH, arrS, BHmin: bh });
+      legs[S].push({ id: `${S}${idx + 1}`, S, depS, arrH, depH, arrS, BHmin: bh });
     });
   }
   return legs;
@@ -98,8 +98,17 @@ function capacityCheck({ waves, capSeats, demandDir }) {
 
 function assignByQuantile(loadPerFlight, pref48) {
   const total = pref48.reduce((a, b) => a + b, 0);
-  const cdf = pref48.reduce((a, p) => { const last = a.length ? a[a.length - 1] : 0; a.push(last + p / total); return a; }, []);
-  const qcuts = []; let acc = 0; while (acc < 1 - 1e-9) { qcuts.push(Math.min(acc + loadPerFlight, 1)); acc += loadPerFlight; }
+  const cdf = pref48.reduce((a, p) => {
+    const last = a.length ? a[a.length - 1] : 0;
+    a.push(last + p / total);
+    return a;
+  }, []);
+  const qcuts = [];
+  let acc = 0;
+  while (acc < 1 - 1e-9) {
+    qcuts.push(Math.min(acc + loadPerFlight, 1));
+    acc += loadPerFlight;
+  }
   const binCenters = pref48.map((_, i) => i * 30 + 15);
   const assignedIdx = cdf.map((c) => qcuts.findIndex((q) => c <= q));
   return { binCenters, assignedIdx };
@@ -123,37 +132,33 @@ function scheduleDelayForUniformWaves({ waves, firstDepMin, spacingMin, pref48 }
 }
 
 /***** 3D AIRSPACE ENGINE *****/
-function planAltitudes({ legs, arrH, altLayers, sepMin }) {
-  // Build corridor intervals for each flight leg with a cruise window.
-  // Simplify: Use midpoint of each leg as the corridor-constrained window.
-  // E corridor: H↔E; W corridor: H↔W.
+function planAltitudes({ legs, altLayers, sepMin }) {
   const flights = [];
   for (const S of ["E", "W"]) {
-    legs[S].forEach((l, k) => {
-      // outbound H->S segment occupies corridor around [depH, depH + BHmin]
+    legs[S].forEach((l) => {
       flights.push({ key: `${l.id}-HS`, corridor: S, dir: "HS", start: l.depH, end: l.depH + l.BHmin });
-      // inbound S->H segment occupies [depS, arrH]
       flights.push({ key: `${l.id}-SH`, corridor: S, dir: "SH", start: l.depS, end: l.arrH });
     });
   }
-
-  // Greedy assignment: sort by start time; try lowest layer first.
   flights.sort((a, b) => a.start - b.start);
   const layerUse = {}; // corridor -> layer index -> last end
   const assigned = [];
   for (const f of flights) {
     const corr = f.corridor;
     if (!layerUse[corr]) layerUse[corr] = altLayers.map(() => -Infinity);
-    let placed = false; let layerIdx = 0;
+    let placed = false;
+    let layerIdx = 0;
     for (; layerIdx < altLayers.length; layerIdx++) {
       const lastEnd = layerUse[corr][layerIdx];
-      if (f.start - lastEnd >= sepMin) { // enough temporal sep on this layer
-        layerUse[corr][layerIdx] = f.end; placed = true; break;
+      if (f.start - lastEnd >= sepMin) {
+        layerUse[corr][layerIdx] = f.end;
+        placed = true;
+        break;
       }
     }
     assigned.push({ ...f, layerIdx, placed });
   }
-  const conflicts = assigned.filter(a => !a.placed);
+  const conflicts = assigned.filter((a) => !a.placed);
   return { assigned, conflicts };
 }
 
@@ -181,14 +186,18 @@ export default function App() {
   const [altLayers, setAltLayers] = useState(DEFAULTS.altLayers);
   const [sepMin, setSepMin] = useState(DEFAULTS.sepMin);
 
-  const arrH = useMemo(
-    () => makeWaves({ waves, firstArriveH, spacingMin: spacing }),
-    [waves, firstArriveH, spacing]
-  );
+  const arrH = useMemo(() => makeWaves({ waves, firstArriveH, spacingMin: spacing }), [waves, firstArriveH, spacing]);
 
   const legs = useMemo(
-    () => mkFlightsFromWaves({ arrHmins: arrH, miles: { E: mE, W: mW }, layoverH: DEFAULTS.layoverH }),
-    [arrH, mE, mW]
+    () =>
+      mkFlightsFromWaves({
+        arrHmins: arrH,
+        miles: { E: mE, W: mW },
+        layoverH: DEFAULTS.layoverH,
+        alphaHr: alpha,
+        betaHrPerMile: beta,
+      }),
+    [arrH, mE, mW, alpha, beta]
   );
 
   const bhE = blockMins(mE, alpha, beta);
@@ -224,16 +233,11 @@ export default function App() {
   const SchD = (schedDelayMin / 60) * totalPax;
   const TLC = OWN + BLK + SVC + votT * TravT + votS * SchD;
 
-  // Simple rotation feasibility (same as v1)
-  const feasE = true; // keep simple here (focus on 3D); could re-plug the old function if needed
-  const feasW = true;
-
   // 3D altitude planner
-  const plan = useMemo(() => planAltitudes({ legs, arrH, altLayers, sepMin }), [legs, arrH, altLayers, sepMin]);
+  const plan = useMemo(() => planAltitudes({ legs, altLayers, sepMin }), [legs, altLayers, sepMin]);
   const conflicts = plan.conflicts.length;
 
-  // UI helpers
-  const altString = altLayers.map(fl => `FL${fl}`).join(", ");
+  const altString = altLayers.map((fl) => `FL${fl}`).join(", ");
 
   return (
     <div className="min-h-screen bg-[#0b0f14] text-[#e6eef9]">
@@ -251,7 +255,7 @@ export default function App() {
       <div className="max-w-7xl mx-auto px-4 py-6">
         <header className="flex items-center justify-between gap-4 mb-4">
           <h1 className="text-2xl md:text-3xl font-semibold">ATC Hub Scheduler — 3D Segways Edition</h1>
-          <div className="text-sm opacity-80">WEX Lab · v2.0</div>
+          <div className="text-sm opacity-80">WEX Lab · v2.1</div>
         </header>
 
         <div className="grid lg:grid-cols-3 gap-4">
@@ -318,7 +322,7 @@ export default function App() {
                       <div className="slab">
                         <div className="slabLabel">FL{fl}</div>
                         {plan.assigned.filter(a=>a.layerIdx===idx).map(f=>{
-                          const tMid = (f.start+f.end)/2; // place pin by time
+                          const tMid = (f.start+f.end)/2; // pin by time
                           const x = ((tMid % (24*60))/(24*60))*90 + 5; // 5-95%
                           const y = f.corridor==='E'? 30 : 65; // E higher, W lower
                           const cls = `pin ${f.corridor==='W'?'W':''} ${f.placed?'':'bad'}`;
@@ -329,7 +333,7 @@ export default function App() {
                   );
                 })}
               </div>
-              <div className="text-xs opacity-70 mt-1">Pins are placed at each leg's cruise window time on its assigned layer. Layers are stacked in perspective (closer = lower FL).</div>
+              <div className="text-xs opacity-70 mt-1">Pins represent leg cruise windows on assigned FLs. Layers stack in perspective (near = lower FL).</div>
             </div>
           </section>
 
@@ -376,13 +380,13 @@ export default function App() {
             </div>
 
             <div className="mt-3 text-xs opacity-70 leading-relaxed">
-              <p>Tip: Conflicts drop when you add altitude layers or loosen spacing. Tighter spacing reduces schedule delay but increases same-alt separation pressure — classic hub-banking trade.</p>
+              <p>Tip: Tight spacing lowers schedule delay but raises same-layer conflicts. Add layers or widen banks to deconflict.</p>
             </div>
           </section>
         </div>
 
         <footer className="mt-6 text-xs opacity-70">
-          <p>3D model is a training abstraction: layers = discrete FLs; corridor pins indicate cruise-window occupancy for each leg. Extend by adding SIDs/STARs, runway queues, and meteo penalties.</p>
+          <p>Training abstraction: layers as discrete FLs; pins show cruise-window occupancy. Extend with runway queues, SIDs/STARs, or weather penalties.</p>
         </footer>
       </div>
     </div>
