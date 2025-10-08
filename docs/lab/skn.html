@@ -43,7 +43,7 @@
   .platform::before{content:"";position:absolute;left:0;right:0;top:44px;height:4px;background:repeating-linear-gradient(90deg,var(--rail) 0 16px,transparent 16px 24px)}
   .platform .label{position:absolute;top:10px;left:10px;font:600 13px/1 system-ui;opacity:.8}
   .platform .target{
-    position:absolute;left:6px;right:6px;bottom:10px;height:90px;border:1px dashed rgba(150,170,200,.35);
+    position:absolute;left:6px;right:6px;bottom:10px;height:100px;border:1px dashed rgba(150,170,200,.35);
     border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--muted);
     background: rgba(255,255,255,.02);
   }
@@ -142,7 +142,9 @@
 <script>
 (function(){
   const AUTO_START = false; // set true if you want auto-run inside iframes
-
+  // Drop forgiveness (tune as you like)
+  const DROP_BUFFER_X_PCT = 0.35; // accept if center-X is within platform column ± 35% of train width
+  const DROP_BUFFER_Y = 36;       // extra px above/below the dashed zone that count as a valid drop
   const lanesEl = document.getElementById('lanes');
   const board = document.getElementById('board');
   const toast = document.getElementById('toast');
@@ -268,49 +270,56 @@
 
 function checkDrop(t){
   const me = rect(t.el);
-  const cx = (me.left + me.right) / 2;   // train center X
-
-  // find which platform column contains the center X
+  const cx = (me.left + me.right) / 2;
+  const trainW = me.width;
   const plats = [...document.querySelectorAll('.platform')];
-  let hitPlatId = null, chosenTarget = null, chosenRect = null;
+
+  // pick the platform whose (buffered) column contains the train center
+  let hitPlat = null, chosenTarget = null, chosenRect = null;
 
   for (const p of plats){
     const pr = rect(p);
-    if (cx >= pr.left && cx <= pr.right){
-      hitPlatId = p.dataset.id;
-      // use that column's drop zone as the chosen target
+    const bufferX = Math.max(24, trainW * DROP_BUFFER_X_PCT); // widen column by train size
+    const left = pr.left - bufferX;
+    const right = pr.right + bufferX;
+
+    if (cx >= left && cx <= right){
+      hitPlat = p;
       chosenTarget = p.querySelector('.target');
       chosenRect = rect(chosenTarget);
       break;
     }
   }
 
-  // if we didn't land within any column, let the train continue
-  if (!hitPlatId) return;
+  // no column matched → keep moving
+  if (!hitPlat) return;
 
-  // also require some vertical overlap with the chosen zone
-  const meBottom = me.bottom, meTop = me.top;
-  const vertOverlap = !(meBottom < chosenRect.top || meTop > chosenRect.bottom);
+  // require *some* vertical proximity to the drop zone, but with extra forgiveness
+  const expandedTop = chosenRect.top - DROP_BUFFER_Y;
+  const expandedBottom = chosenRect.bottom + DROP_BUFFER_Y;
+  const vertOk = !(me.bottom < expandedTop || me.top > expandedBottom);
+  if (!vertOk) return;
 
-  if (!vertOverlap) return; // not really "dropped" in the zone; keep moving
+  const ok = String(hitPlat.dataset.id) === String(t.el.dataset.target);
 
-  const ok = String(hitPlatId) === String(t.el.dataset.target);
-
-  if(ok){
-    // score based on horizontal accuracy vs zone center
+  if (ok){
+    // score based on horizontal accuracy vs zone center (looser thresholds)
     const center = (chosenRect.left + chosenRect.right) / 2;
     const dx = Math.abs(cx - center);
-    let add = 60; if(dx < 18) add=100; else if(dx < 48) add=80; else add=60;
+    let add = 60; if (dx < 36) add = 100; else if (dx < 90) add = 80; else add = 60;
+
     score += Math.round(add * combo);
     combo = Math.min(10, combo + 0.25);
     scoreEl.textContent = score;
-    comboEl.textContent = 'x' + combo.toFixed(2).replace(/\.00$/, '');
+    comboEl.textContent = 'x' + combo.toFixed(2).replace(/\.00$/,'');
+    if (navigator.vibrate) try{ navigator.vibrate(12); }catch(e){}
     showToast('On-time dispatch ✓', 'good');
   } else {
     score = Math.max(0, score - 75);
     combo = 1;
     scoreEl.textContent = score;
     comboEl.textContent = 'x' + combo;
+    if (navigator.vibrate) try{ navigator.vibrate(30); }catch(e){}
     showToast('Wrong platform — delay!', 'bad');
   }
 
