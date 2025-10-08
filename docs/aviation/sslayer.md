@@ -3,7 +3,7 @@
 <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
   <img src="/alvin-site/JPG_VID/PXL_20250110_224749673.jpg"
        style="width:48%;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.3);">
-  <img src="/alvin-site/JPG_VID/jpgjalsafran.jpg"
+  <img src="/alvin-site/JPG_VID/jalsafran.jpg"
        style="width:48%;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.3);">
 </div>
 
