@@ -16,5 +16,5 @@ Explore lightweight demos for reconciliation, routing, and validation.
 - [PartMatrix Demo](partmatrix.md) — Excel-logic matching and lookups  
 - [Siemens AGV Simulation](agv.md) — AGV routing and scheduling visualization  
 - [Gas Turbine Reconciliation](turbine.md) — Component matching and ERP validation
-- [Shinkansen Shuffle](skn.md) — Real-model dispatch game featuring E5–N700S trains and precision-timing challenge
-- [ATC Hub Scheduler](atc.jsx) — Flight-bank routing game featuring multi-wave scheduling, 3D altitude separation, and cost-optimization challenge
+- [Shinkansen Shuffle](skn.md) — Dispatch game with real-model Shinkansen timing precision
+- [ATC Hub Scheduler](atc.md) — Flight-bank routing sim with 3D altitude and cost trade-offs
