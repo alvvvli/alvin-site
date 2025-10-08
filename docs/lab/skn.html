@@ -1,6 +1,6 @@
 <script>
 (function(){
-  const AUTO_START = false; // set true if you want auto-run inside iframes
+  const AUTO_START = true; // set true if you want auto-run inside iframes
   // Drop forgiveness (tune as you like)
   const DROP_BUFFER_X_PCT = 0.35; // accept if center-X is within platform column ± 35% of train width
   const DROP_BUFFER_Y = 36;       // extra px above/below the dashed zone that count as a valid drop
@@ -86,46 +86,54 @@
     spawnTimer = setTimeout(()=>{ spawnTrain(); scheduleSpawn(); }, between(SPAWN_MS_MIN, SPAWN_MS_MAX));
   }
 
-  function spawnTrain(){
-    const br = board.getBoundingClientRect(); if (!br.width || !br.height) return;
-
-    const platform = Math.ceil(Math.random()*PLATFORM_COUNT);
-    const theme = rand(THEMES);
-    const model = rand(MODELS);
-
-    const usable = Math.max(200, board.clientHeight - 210); // taller zones on mobile
-    const y = 96 + Math.floor(Math.random() * usable);
-
-    const el = document.createElement('div');
-    el.className = `train ${theme} ${model.livery}`;
-    el.style.top  = y + 'px';
-    el.style.left = (board.clientWidth + 10) + 'px';
-    el.dataset.target = String(platform);
-    el.dataset.vx     = String(-between(0.12, TRAIN_SPEED));
-    el.dataset.model  = model.code;
-
-    el.innerHTML = `<span class="badge">P${platform}</span>
-                    <span class="nose"></span>
-                    <div class="cars">${'<div class="car"></div>'.repeat(5 + Math.floor(Math.random()*4))}</div>`;
-
-    board.appendChild(el);
-    const obj = {el, grabbed:false, x: board.clientWidth + 10, y, vx: parseFloat(el.dataset.vx)};
-    trains.add(obj);
-
-    // debug: confirm spawns in console
-    console.log('spawn', {platform, model: model.code, x: obj.x, y: obj.y, vx: obj.vx});
-
-    el.addEventListener('pointerdown', e=>{
-      obj.grabbed=true; el.setPointerCapture(e.pointerId);
-      obj.offsetX = e.clientX - obj.x; obj.offsetY = e.clientY - obj.y;
-    });
-    el.addEventListener('pointermove', e=>{
-      if(!obj.grabbed) return;
-      obj.x = e.clientX - obj.offsetX; obj.y = e.clientY - obj.offsetY;
-      updateTrain(obj);
-    });
-    el.addEventListener('pointerup', ()=>{ obj.grabbed=false; checkDrop(obj); });
+function spawnTrain(){
+  // Wait until the board has a real size (common inside iframes)
+  if (!board.clientWidth || !board.clientHeight){
+    requestAnimationFrame(spawnTrain); // try on the next frame
+    return;
   }
+
+  const platform = Math.ceil(Math.random()*PLATFORM_COUNT);
+  const theme = rand(THEMES);
+  const model = rand(MODELS);
+
+  const usable = Math.max(200, board.clientHeight - 210);
+  const y = 96 + Math.floor(Math.random() * usable);
+
+  const el = document.createElement('div');
+  el.className = `train ${theme} ${model.livery}`;
+  el.style.top  = y + 'px';
+
+  // Start slightly inside the board so it's visible *immediately*
+  const startX = Math.max(10, board.clientWidth - 140); // 140 ≈ train width minus nose
+  el.style.left = startX + 'px';
+
+  el.dataset.target = String(platform);
+  el.dataset.vx     = String(-between(0.12, TRAIN_SPEED));
+  el.dataset.model  = model.code;
+
+  el.innerHTML = `<span class="badge">P${platform}</span>
+                  <span class="nose"></span>
+                  <div class="cars">${'<div class="car"></div>'.repeat(5 + Math.floor(Math.random()*4))}</div>`;
+
+  board.appendChild(el);
+  const obj = {el, grabbed:false, x: startX, y, vx: parseFloat(el.dataset.vx)};
+  trains.add(obj);
+
+  // debug
+  console.log('spawn', {platform, model: model.code, x: obj.x, y: obj.y, vx: obj.vx});
+
+  el.addEventListener('pointerdown', e=>{
+    obj.grabbed=true; el.setPointerCapture(e.pointerId);
+    obj.offsetX = e.clientX - obj.x; obj.offsetY = e.clientY - obj.y;
+  });
+  el.addEventListener('pointermove', e=>{
+    if(!obj.grabbed) return;
+    obj.x = e.clientX - obj.offsetX; obj.y = e.clientY - obj.offsetY;
+    updateTrain(obj);
+  });
+  el.addEventListener('pointerup', ()=>{ obj.grabbed=false; checkDrop(obj); });
+}
 
   function killTrain(t){ if(!t || !t.el) return; t.el.remove(); }
   function updateTrain(t){ if(!t.el) return; t.el.style.left = t.x+'px'; t.el.style.top = t.y+'px'; }
@@ -146,6 +154,12 @@
     }
     requestAnimationFrame(gameLoop);
   }
+  
+  // boot
+  initBoard();
+  requestAnimationFrame(gameLoop);
+  if (AUTO_START) startGame();
+
 
   function checkDrop(t){
     const me = rect(t.el);
