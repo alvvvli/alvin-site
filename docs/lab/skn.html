@@ -1,161 +1,21 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>Shinkansen Shuffle — WEX Lab</title>
-<style>
-  :root{
-    --bg:#0b0f14; --panel:#0f172a; --rail:#1b2437; --ink:#e6eef9; --muted:#9fb4d1;
-    --accent:#60a5fa; --ok:#16a34a; --bad:#ef4444; --warn:#eab308; --platform:#111827;
-    --line:#1f2a44; --faint:rgba(255,255,255,.06);
-
-    /* mobile scaling knobs */
-    --train-w:160px;
-    --board-min:520px;
-    --hud-gap:12px;
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0;background:var(--bg);color:var(--ink);
-    font:15px/1.5 system-ui,Segoe UI,Roboto,Ubuntu,sans-serif;
-    user-select:none;-webkit-user-select:none; /* nicer drag */
-    -webkit-tap-highlight-color: transparent;
-  }
-  .wrap{max-width:1100px;margin:0 auto;padding:18px}
-  header{display:flex;align-items:center;gap:10px;margin:6px 0 14px}
-  h1{font-size:22px;margin:0;display:flex;align-items:center;gap:10px}
-  h1 .badge{font-size:12px;padding:6px 10px;border:1px solid var(--line);border-radius:999px;color:var(--muted)}
-
-  .hud{display:flex;gap:var(--hud-gap);flex-wrap:wrap;align-items:center;margin:8px 0 14px}
-  .hud .card{background:var(--panel);padding:10px 14px;border-radius:14px;box-shadow:0 4px 24px rgba(0,0,0,.35);border:1px solid var(--line);min-width:86px;text-align:center}
-  .hud strong{display:block;font-size:18px}
-  .btn{appearance:none;border:none;background:var(--accent);color:#081016;font-weight:700;padding:12px 16px;border-radius:16px;cursor:pointer}
-  .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
-
-  /* BOARD */
-  .board{position:relative;background:linear-gradient(180deg,var(--panel),#0b121d);border:1px solid var(--line);border-radius:16px;overflow:hidden;min-height:var(--board-min)}
-  .sky{position:absolute;inset:0;background:radial-gradient(1000px 300px at 70% 0%,rgba(96,165,250,.15),transparent); z-index:0;}
-  .lanes{position:absolute;inset:72px 0 0 0;display:grid;grid-template-columns:repeat(5,1fr);gap:0;height:calc(100% - 72px); z-index:1;}
-  .platform{position:relative;border-left:1px solid var(--faint)}
-  .platform:first-child{border-left:none}
-  .platform::before{content:"";position:absolute;left:0;right:0;top:44px;height:4px;background:repeating-linear-gradient(90deg,var(--rail) 0 16px,transparent 16px 24px)}
-  .platform .label{position:absolute;top:10px;left:10px;font:600 13px/1 system-ui;opacity:.8}
-  .platform .target{
-    position:absolute;left:6px;right:6px;bottom:10px;height:100px;border:1px dashed rgba(150,170,200,.35);
-    border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--muted);
-    background: rgba(255,255,255,.02);
-  }
-
-  /* TRAINS */
-  .train{position:absolute;top:96px;width:var(--train-w);height:48px;border-radius:40px;background:#e8f2ff;color:#0b0f14;box-shadow:0 8px 24px rgba(0,0,0,.35);
-         border:2px solid rgba(0,0,0,.08);display:flex;align-items:center;gap:10px;padding:0 12px;cursor:grab;touch-action:none; z-index:2;}
-  .train:active{cursor:grabbing}
-  .nose{width:16px;height:16px;border-radius:50%;background:currentColor;opacity:.9}
-  .cars{display:flex;gap:4px;margin-left:auto}
-  .car{width:14px;height:10px;border-radius:2px;background:rgba(0,0,0,.35)}
-  .pill,.badge{font-size:12px}
-  .badge{padding:3px 9px;border-radius:999px;color:#091018;background:var(--accent);font-weight:700}
-
-  /* Liveries (approximate) */
-  .livery-e5{background:
-      linear-gradient( to bottom, #00a489 0 50%, #e8f2ff 50% 100%),
-      linear-gradient( to right, transparent 0 16%, #ff5fa2 16% 24%, transparent 24% 100%);}
-  .livery-h5{background:
-      linear-gradient( to bottom, #00a489 0 50%, #e8f2ff 50% 100%),
-      linear-gradient( to right, transparent 0 16%, #8a63d2 16% 24%, transparent 24% 100%);}
-  .livery-e6{background:
-      linear-gradient( to bottom, #b4002d 0 38%, #e8f2ff 38% 100%),
-      linear-gradient( to right, transparent 0 18%, #c0c6cf 18% 24%, transparent 24% 100%);}
-  .livery-e7{background:
-      linear-gradient( to bottom, #6ba5ff 0 34%, #efe9db 34% 100%),
-      linear-gradient( to right, transparent 0 18%, #b87333 18% 21%, #6ba5ff 21% 24%, transparent 24% 100%);}
-  .livery-n700s{background:
-      linear-gradient( to bottom, #f6fbff 0 100%),
-      linear-gradient( to right, transparent 0 18%, #2456ff 18% 24%, transparent 24% 100%);}
-  .livery-800{background:
-      linear-gradient( to bottom, #ffffff 0 100%),
-      linear-gradient( to right, transparent 0 18%, #d12b2b 18% 24%, transparent 24% 100%);}
-
-  .theme-red{--accent:#fb7185}
-  .theme-green{--accent:#34d399}
-  .theme-yellow{--accent:#facc15}
-  .theme-purple{--accent:#c084fc}
-  .theme-blue{--accent:#60a5fa}
-
-  /* TOASTS */
-  .toast{position:absolute;left:50%;top:18px;transform:translateX(-50%);background:#0b111c;border:1px solid var(--line);padding:10px 14px;border-radius:12px;color:var(--ink);opacity:0;pointer-events:none;transition:opacity .2s, transform .3s; z-index:3;}
-  .toast.show{opacity:1;transform:translate(-50%,0)}
-  .toast.bad{border-color:#3b0d14;color:#ff8aa0}
-  .toast.good{border-color:#0d3b1b;color:#9fffd0}
-
-  /* ——— MOBILE HERO ——— */
-  @media (max-width: 760px){
-    :root{
-      --train-w: 62vw;       /* bigger trains, adapt to width */
-      --board-min: 70vh;     /* taller board on phones */
-      --hud-gap: 10px;
-    }
-    .wrap{padding:14px}
-    h1{font-size:24px}
-    .hud{justify-content:space-between}
-    .hud .card{flex:1 1 30%; min-width:unset; padding:12px}
-    .btn{flex:1 1 45%; padding:14px 16px; font-size:16px}
-    .lanes{inset:84px 0 0 0}
-    .platform .target{height:88px}         /* larger drop zone */
-    .badge{font-size:13px}
-  }
-</style>
-</head>
-<body>
-  <div class="wrap">
-    <header>
-      <h1>🚄 Shinkansen Shuffle <span class="badge">WEX Interactive Lab</span></h1>
-    </header>
-
-    <div class="hud">
-      <div class="card">Score <strong id="score">0</strong></div>
-      <div class="card">Time <strong id="time">60</strong>s</div>
-      <div class="card">Combo <strong id="combo">x1</strong></div>
-      <button class="btn" id="playBtn">Start</button>
-      <button class="btn ghost" id="howBtn">How to Play</button>
-    </div>
-
-    <div class="board" id="board">
-      <div class="sky"></div>
-      <div class="lanes" id="lanes"></div>
-      <div class="toast" id="toast"></div>
-    </div>
-  </div>
-
-  <dialog id="howDialog">
-    <h2>How to Play</h2>
-    <p>Drag each incoming train to the <strong>matching platform</strong> before it reaches the end. 
-      Drop inside the dashed zone to dispatch on time. Correct drops build <strong>combo</strong> and boost points.</p>
-    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:14px">
-      <button class="btn ghost" id="closeHow">Close</button>
-      <button class="btn" id="startFromHow">Start Game</button>
-    </div>
-  </dialog>
-
 <script>
 (function(){
   const AUTO_START = false; // set true if you want auto-run inside iframes
   // Drop forgiveness (tune as you like)
   const DROP_BUFFER_X_PCT = 0.35; // accept if center-X is within platform column ± 35% of train width
   const DROP_BUFFER_Y = 36;       // extra px above/below the dashed zone that count as a valid drop
+
   const lanesEl = document.getElementById('lanes');
-  const board = document.getElementById('board');
-  const toast = document.getElementById('toast');
+  const board   = document.getElementById('board');
+  const toast   = document.getElementById('toast');
   const scoreEl = document.getElementById('score');
-  const timeEl = document.getElementById('time');
+  const timeEl  = document.getElementById('time');
   const comboEl = document.getElementById('combo');
   const playBtn = document.getElementById('playBtn');
-  const howBtn = document.getElementById('howBtn');
-  const howDialog = document.getElementById('howDialog');
-  const closeHow = document.getElementById('closeHow');
-  const startFromHow = document.getElementById('startFromHow');
+  const howBtn  = document.getElementById('howBtn');
+  const howDialog   = document.getElementById('howDialog');
+  const closeHow    = document.getElementById('closeHow');
+  const startFromHow= document.getElementById('startFromHow');
 
   const PLATFORM_COUNT = 5;
   const SPAWN_MS_MIN = 1100, SPAWN_MS_MAX = 1900;
@@ -187,7 +47,7 @@
 
   const rand=a=>a[Math.floor(Math.random()*a.length)];
   const between=(a,b)=>a+Math.random()*(b-a);
-
+  const rect = el => el.getBoundingClientRect();
   function vibrate(ms){ if(navigator.vibrate) try{ navigator.vibrate(ms); }catch(e){} }
 
   function showToast(msg, type){
@@ -238,11 +98,11 @@
 
     const el = document.createElement('div');
     el.className = `train ${theme} ${model.livery}`;
-    el.style.top = y + 'px';
+    el.style.top  = y + 'px';
     el.style.left = (board.clientWidth + 10) + 'px';
     el.dataset.target = String(platform);
-    el.dataset.vx = String(-between(0.12, TRAIN_SPEED));
-    el.dataset.model = model.code;
+    el.dataset.vx     = String(-between(0.12, TRAIN_SPEED));
+    el.dataset.model  = model.code;
 
     el.innerHTML = `<span class="badge">P${platform}</span>
                     <span class="nose"></span>
@@ -251,6 +111,9 @@
     board.appendChild(el);
     const obj = {el, grabbed:false, x: board.clientWidth + 10, y, vx: parseFloat(el.dataset.vx)};
     trains.add(obj);
+
+    // debug: confirm spawns in console
+    console.log('spawn', {platform, model: model.code, x: obj.x, y: obj.y, vx: obj.vx});
 
     el.addEventListener('pointerdown', e=>{
       obj.grabbed=true; el.setPointerCapture(e.pointerId);
@@ -266,88 +129,65 @@
 
   function killTrain(t){ if(!t || !t.el) return; t.el.remove(); }
   function updateTrain(t){ if(!t.el) return; t.el.style.left = t.x+'px'; t.el.style.top = t.y+'px'; }
-  const rect = el => el.getBoundingClientRect();
 
-function checkDrop(t){
-  const me = rect(t.el);
-  const cx = (me.left + me.right) / 2;
-  const trainW = me.width;
-  const plats = [...document.querySelectorAll('.platform')];
-
-  // pick the platform whose (buffered) column contains the train center
-  let hitPlat = null, chosenTarget = null, chosenRect = null;
-
-  for (const p of plats){
-    const pr = rect(p);
-    const bufferX = Math.max(24, trainW * DROP_BUFFER_X_PCT); // widen column by train size
-    const left = pr.left - bufferX;
-    const right = pr.right + bufferX;
-
-    if (cx >= left && cx <= right){
-      hitPlat = p;
-      chosenTarget = p.querySelector('.target');
-      chosenRect = rect(chosenTarget);
-      break;
+  // ---------- FIX: game loop must be top-level, not inside checkDrop ----------
+  let last = performance.now();
+  function gameLoop(now){
+    const dt = now - last; last = now;
+    if(running){
+      trains.forEach(t=>{
+        if(!t.grabbed){ t.x += t.vx * dt; updateTrain(t); }
+        if(t.x < -300){
+          showToast('Missed dispatch — minor delay announced.', 'bad');
+          combo=1; comboEl.textContent='x'+combo;
+          t.el.remove(); trains.delete(t);
+        }
+      });
     }
+    requestAnimationFrame(gameLoop);
   }
 
-  // no column matched → keep moving
-  if (!hitPlat) return;
+  function checkDrop(t){
+    const me = rect(t.el);
+    const cx = (me.left + me.right) / 2;
+    const trainW = me.width;
+    const plats = [...document.querySelectorAll('.platform')];
 
-  // delta movement for smooth animation (and to pull trains on-screen)
-let last = performance.now();
-function gameLoop(now){
-  const dt = now - last; last = now;
-
-  if (running){
-    trains.forEach(t=>{
-      if (!t.grabbed) {           // move only when not dragging
-        t.x += t.vx * dt;         // vx is pixels per ms (negative → left)
-        updateTrain(t);
+    let hitPlat = null, chosenTarget = null, chosenRect = null;
+    for (const p of plats){
+      const pr = rect(p);
+      const bufferX = Math.max(24, trainW * DROP_BUFFER_X_PCT);
+      const left = pr.left - bufferX, right = pr.right + bufferX;
+      if (cx >= left && cx <= right){
+        hitPlat = p; chosenTarget = p.querySelector('.target'); chosenRect = rect(chosenTarget); break;
       }
-      if (t.x < -300){            // missed the station, remove it
-        showToast('Missed dispatch — minor delay announced.', 'bad');
-        combo = 1; comboEl.textContent = 'x' + combo;
-        t.el.remove(); trains.delete(t);
-      }
-    });
+    }
+    if (!hitPlat) return;
+
+    const expandedTop = chosenRect.top - DROP_BUFFER_Y;
+    const expandedBottom = chosenRect.bottom + DROP_BUFFER_Y;
+    const vertOk = !(me.bottom < expandedTop || me.top > expandedBottom);
+    if (!vertOk) return;
+
+    const ok = String(hitPlat.dataset.id) === String(t.el.dataset.target);
+    if (ok){
+      const center = (chosenRect.left + chosenRect.right) / 2;
+      const dx = Math.abs(cx - center);
+      let add = 60; if (dx < 36) add = 100; else if (dx < 90) add = 80;
+      score += Math.round(add * combo);
+      combo = Math.min(10, combo + 0.25);
+      scoreEl.textContent = score;
+      comboEl.textContent = 'x' + combo.toFixed(2).replace(/\.00$/,'');
+      vibrate(12); showToast('On-time dispatch ✓', 'good');
+    } else {
+      score = Math.max(0, score - 75);
+      combo = 1;
+      scoreEl.textContent = score;
+      comboEl.textContent = 'x' + combo;
+      vibrate(30); showToast('Wrong platform — delay!', 'bad');
+    }
+    t.el.remove(); trains.delete(t);
   }
-
-  requestAnimationFrame(gameLoop);
-}
-
-  // require *some* vertical proximity to the drop zone, but with extra forgiveness
-  const expandedTop = chosenRect.top - DROP_BUFFER_Y;
-  const expandedBottom = chosenRect.bottom + DROP_BUFFER_Y;
-  const vertOk = !(me.bottom < expandedTop || me.top > expandedBottom);
-  if (!vertOk) return;
-
-  const ok = String(hitPlat.dataset.id) === String(t.el.dataset.target);
-
-  if (ok){
-    // score based on horizontal accuracy vs zone center (looser thresholds)
-    const center = (chosenRect.left + chosenRect.right) / 2;
-    const dx = Math.abs(cx - center);
-    let add = 60; if (dx < 36) add = 100; else if (dx < 90) add = 80; else add = 60;
-
-    score += Math.round(add * combo);
-    combo = Math.min(10, combo + 0.25);
-    scoreEl.textContent = score;
-    comboEl.textContent = 'x' + combo.toFixed(2).replace(/\.00$/,'');
-    if (navigator.vibrate) try{ navigator.vibrate(12); }catch(e){}
-    showToast('On-time dispatch ✓', 'good');
-  } else {
-    score = Math.max(0, score - 75);
-    combo = 1;
-    scoreEl.textContent = score;
-    comboEl.textContent = 'x' + combo;
-    if (navigator.vibrate) try{ navigator.vibrate(30); }catch(e){}
-    showToast('Wrong platform — delay!', 'bad');
-  }
-
-  t.el.remove();
-  trains.delete(t);
-}
 
   // UI wiring
   playBtn.addEventListener('click', startGame);
@@ -357,9 +197,8 @@ function gameLoop(now){
   document.addEventListener('visibilitychange', ()=>{ if(document.hidden && running) endGame(); });
 
   // boot
-  initBoard(); requestAnimationFrame(gameLoop);
+  initBoard();
+  requestAnimationFrame(gameLoop);   // <- runs the loop
   if (AUTO_START) startGame();
 })();
 </script>
-</body>
-</html>
