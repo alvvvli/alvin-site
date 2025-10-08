@@ -29,8 +29,11 @@ extra:
       link: https://www.linkedin.com/in/alvin-li-596a3316a/
   head:
     - '<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">'
+
 extra_css:
   - assets/custom.css
+  - assets/embeds.css
+  
 nav:
   - Home: index.md
   - Interactive Lab:
