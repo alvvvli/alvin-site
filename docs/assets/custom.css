@@ -1,3 +1,9 @@
+html {
+  zoom: 1.2;        /* works in most browsers */
+  -moz-transform: scale(1.2);  /* Firefox fallback */
+  -moz-transform-origin: top center;
+}
+
 html, :root, body {
   font-size: 125% !important;
 }
