@@ -35,11 +35,11 @@ nav:
   - Home: index.md
   - Interactive Lab:
       - Overview: lab/index.md
-      - PartMatrix Demo: lab/partmatrix.md
-      - Siemens AGV Simulation: lab/agv.md
-      - Gas Turbine Reconciliation: lab/turbine.md
-      - Shinkansen Shuffle: lab/skn.md
-      - ATC Hub Scheduler: lab/atc.md
+      - 🧩 PartMatrix Demo: lab/partmatrix.md
+      - 🛹 Siemens AGV Simulation: lab/agv.md
+      - 🔩 Gas Turbine Reconciliation: lab/turbine.md
+      - 🚅 Shinkansen Shuffle: lab/skn.md
+      - ✈️ ATC Hub Scheduler: lab/atc.jsx
   - Aviation:
       - Overview: aviation/index.md
       - Airbus Acubed Silicon Valley Innovation Hub: aviation/acubed.md
