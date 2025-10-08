@@ -10,4 +10,4 @@ Short, surgical notes from factories, maintenance bays, and cabins.
 - [Condor A330neo IFE, Redefined](condorife.md)
 - [Jamco Quest for Excellence](jamco.md)
 - [Airbus Hamburg Finkenwerder](airbushamburg.md)
-- [Panasonic 𝗦𝗼𝘂𝗻𝗱𝗦𝗹𝗮𝘆𝗲𝗿 𝘅 Japan Airlines Safran 𝗘𝘂𝗽𝗵𝗼𝗻𝘆 𝗦𝗲𝗮𝘁𝘀 (𝗔𝟯𝟱𝟬)](sslayer.md)
+- [Panasonic SoundSlayer x Japan Airlines Safran Euphony Seats (A350)](sslayer.md)
