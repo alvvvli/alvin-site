@@ -1,4 +1,4 @@
-## 💠Panasonic 𝗦𝗼𝘂𝗻𝗱𝗦𝗹𝗮𝘆𝗲𝗿 𝘅 Japan Airlines Safran 𝗘𝘂𝗽𝗵𝗼𝗻𝘆 𝗦𝗲𝗮𝘁𝘀 (𝗔𝟯𝟱𝟬)
+## 💠Panasonic SoundSlayer x Japan Airlines Safran Euphony Seats (A350)
 
 <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
   <img src="/alvin-site/JPG_VID/PXL_20250110_224749673.jpg"
