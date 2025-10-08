@@ -294,6 +294,28 @@ function checkDrop(t){
   // no column matched → keep moving
   if (!hitPlat) return;
 
+  // delta movement for smooth animation (and to pull trains on-screen)
+let last = performance.now();
+function gameLoop(now){
+  const dt = now - last; last = now;
+
+  if (running){
+    trains.forEach(t=>{
+      if (!t.grabbed) {           // move only when not dragging
+        t.x += t.vx * dt;         // vx is pixels per ms (negative → left)
+        updateTrain(t);
+      }
+      if (t.x < -300){            // missed the station, remove it
+        showToast('Missed dispatch — minor delay announced.', 'bad');
+        combo = 1; comboEl.textContent = 'x' + combo;
+        t.el.remove(); trains.delete(t);
+      }
+    });
+  }
+
+  requestAnimationFrame(gameLoop);
+}
+
   // require *some* vertical proximity to the drop zone, but with extra forgiveness
   const expandedTop = chosenRect.top - DROP_BUFFER_Y;
   const expandedBottom = chosenRect.bottom + DROP_BUFFER_Y;
