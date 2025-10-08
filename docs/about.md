@@ -7,7 +7,7 @@
   margin-bottom: 24px;
 }
 .hero img {
-  width: 240px;
+  width: 200px;
   border-radius: 12px;
   box-shadow: 0 0 12px rgba(0,0,0,0.4);
 }
