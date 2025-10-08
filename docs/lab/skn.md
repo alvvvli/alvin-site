@@ -4,7 +4,7 @@
   <iframe src="./skn.html" style="width:100%;height:100%;border:0;" title="Shinkansen Shuffle — WEX Lab"></iframe>
 </div>
 
-<iframe width="560" height="315" style="border-radius:12px; margin-top:10px; aspect-ratio:16/9;" src="https://www.youtube.com/embed/d0E5iD5BLzY" frameborder="0" allowfullscreen> </iframe>
+<iframe width="560" height="315" style="border-radius:12px; margin-top:10px; aspect-ratio:16/9;" src="https://www.youtube.com/embed/ID" frameborder="0" allowfullscreen> </iframe>
 
 ### 📘 Overview
 | Feature | Description |
