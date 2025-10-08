@@ -9,7 +9,7 @@
     <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
 
-    <!-- Babel to transpile JSX in-browser -->
+    <!-- Babel (for JSX live transpile) -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <style>
@@ -20,28 +20,47 @@
         color: #e6eef9;
         font-family: system-ui, Segoe UI, Roboto, sans-serif;
       }
-      /* full height for the app mount */
-      #root { height: 100%; }
 
-      /* horizontal breathing room (respects iOS safe areas) */
+      /* Inner app layout padding */
       .page-pad {
         padding-left:  max(20px, env(safe-area-inset-left, 0));
         padding-right: max(20px, env(safe-area-inset-right, 0));
+        padding-top:   max(8px, env(safe-area-inset-top, 0));
+        padding-bottom:max(8px, env(safe-area-inset-bottom, 0));
         box-sizing: border-box;
         height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      #root {
+        flex: 1 1 auto;
+        height: 100%;
+      }
+
+      /* 👇 Frame appearance when loaded inside modal */
+      html, body, .page-pad {
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      @media (min-width: 768px) {
+        .page-pad {
+          padding-left:  max(24px, env(safe-area-inset-left, 0));
+          padding-right: max(24px, env(safe-area-inset-right, 0));
+        }
       }
     </style>
   </head>
   <body>
-    <!-- NEW: padding wrapper so the app doesn't touch the edges -->
+    <!-- ✅ Adds soft margin + safe-area respect -->
     <div class="page-pad">
       <div id="root"></div>
     </div>
 
-    <!-- your React component (JSX) -->
+    <!-- React app (your component) -->
     <script type="text/babel" data-presets="react,typescript" src="./atc.browser.jsx"></script>
 
-    <!-- mount -->
+    <!-- Mount React root -->
     <script type="text/babel">
       const root = ReactDOM.createRoot(document.getElementById('root'));
       root.render(React.createElement(App));
