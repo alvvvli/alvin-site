@@ -14,4 +14,3 @@ Meta pieces—principles, structure, and learning loops.
 - [GE Vernova Japan — Cross-Border Collaboration](gevjp.md)
 - [Lessons from GE Vernova Leadership](francisjulia.md)
 - [Growth is like a lattice](lattice.md)
-- [Panasonic SoundSlayer at CES 2025](sslayer.md)
