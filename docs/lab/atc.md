@@ -1,6 +1,9 @@
 # ✈️ ATC Scheduler
 
-<iframe src="/alvin-site/lab/index.html" style="width:100%;height:100%;border:0;" title="ATC Scheduler"></iframe>
+<div style="max-width:1000px;margin:0 auto;border-radius:12px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.25);aspect-ratio:16/9;">
+  <!-- if this page is docs/lab/atc.md, the wrapper is one level up at docs/lab/index.html -->
+  <iframe src="../" style="width:100%;height:100%;border:0;" loading="lazy" title="ATC Scheduler"></iframe>
+</div>
 
 
 ## 📘 Overview
