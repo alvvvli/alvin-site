@@ -12,11 +12,10 @@
   }
   *{box-sizing:border-box}
   html,body{height:100%}
-  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,Segoe UI,Roboto,Ubuntu,sans-serif}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,Segoe UI,Roboto,Ubuntu,sans-serif; user-select:none;-webkit-user-select:none;}
   .wrap{max-width:1100px;margin:0 auto;padding:18px}
   header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
   h1{font-size:20px;margin:0}
-  .tag{font-size:12px;padding:4px 8px;border:1px solid var(--line);border-radius:999px;color:var(--muted)}
 
   .hud{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin:8px 0 14px}
   .hud .card{background:var(--panel);padding:10px 14px;border-radius:14px;box-shadow:0 4px 24px rgba(0,0,0,.35);border:1px solid var(--line)}
@@ -47,31 +46,25 @@
   .car{width:14px;height:8px;border-radius:2px;background:rgba(0,0,0,.35)}
   .badge{font-size:11px;padding:2px 8px;border-radius:999px;color:#091018;background:var(--accent);font-weight:700}
 
-  /* Liveries (approximate colors, based on operators) */
+  /* Liveries (approximate) */
   .livery-e5{background:
       linear-gradient( to bottom, #00a489 0 50%, #e8f2ff 50% 100%),
-      linear-gradient( to right, transparent 0 16%, #ff5fa2 16% 24%, transparent 24% 100%);
-    background-blend-mode: normal; background-repeat:no-repeat;}
+      linear-gradient( to right, transparent 0 16%, #ff5fa2 16% 24%, transparent 24% 100%);}
   .livery-h5{background:
       linear-gradient( to bottom, #00a489 0 50%, #e8f2ff 50% 100%),
-      linear-gradient( to right, transparent 0 16%, #8a63d2 16% 24%, transparent 24% 100%);
-    background-blend-mode: normal; background-repeat:no-repeat;}
+      linear-gradient( to right, transparent 0 16%, #8a63d2 16% 24%, transparent 24% 100%);}
   .livery-e6{background:
       linear-gradient( to bottom, #b4002d 0 38%, #e8f2ff 38% 100%),
-      linear-gradient( to right, transparent 0 18%, #c0c6cf 18% 24%, transparent 24% 100%);
-    background-blend-mode: normal; background-repeat:no-repeat;}
+      linear-gradient( to right, transparent 0 18%, #c0c6cf 18% 24%, transparent 24% 100%);}
   .livery-e7{background:
       linear-gradient( to bottom, #6ba5ff 0 34%, #efe9db 34% 100%),
-      linear-gradient( to right, transparent 0 18%, #b87333 18% 21%, #6ba5ff 21% 24%, transparent 24% 100%);
-    background-blend-mode: normal; background-repeat:no-repeat;}
+      linear-gradient( to right, transparent 0 18%, #b87333 18% 21%, #6ba5ff 21% 24%, transparent 24% 100%);}
   .livery-n700s{background:
       linear-gradient( to bottom, #f6fbff 0 100%),
-      linear-gradient( to right, transparent 0 18%, #2456ff 18% 24%, transparent 24% 100%);
-    background-blend-mode: normal; background-repeat:no-repeat;}
+      linear-gradient( to right, transparent 0 18%, #2456ff 18% 24%, transparent 24% 100%);}
   .livery-800{background:
       linear-gradient( to bottom, #ffffff 0 100%),
-      linear-gradient( to right, transparent 0 18%, #d12b2b 18% 24%, transparent 24% 100%);
-    background-blend-mode: normal; background-repeat:no-repeat;}
+      linear-gradient( to right, transparent 0 18%, #d12b2b 18% 24%, transparent 24% 100%);}
 
   .theme-red{--accent:#fb7185}
   .theme-green{--accent:#34d399}
@@ -85,14 +78,6 @@
   .toast.bad{border-color:#3b0d14;color:#ff8aa0}
   .toast.good{border-color:#0d3b1b;color:#9fffd0}
 
-  /* MODAL */
-  dialog{border:none;border-radius:16px;background:#0c1422;color:var(--ink);padding:22px;max-width:560px;box-shadow:0 20px 80px rgba(0,0,0,.55);border:1px solid var(--line)}
-  dialog::backdrop{background:rgba(0,0,0,.5)}
-  dialog h2{margin:0 0 6px}
-  dialog .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
-  .pill{display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted);font-size:12px}
-
-  /* MOBILE */
   @media (max-width:850px){
     .lanes{inset:88px 0 0}
     .train{width:140px}
@@ -101,16 +86,15 @@
 </head>
 <body>
   <div class="wrap">
-    <header>
-      <h1>🚄 Shinkansen Shuffle</h1>
-    </header>
+    <header><h1>🚄 Shinkansen Shuffle</h1></header>
 
     <div class="hud">
-      <div class="card" id="scoreBox">Score <strong id="score">0</strong></div>
+      <div class="card">Score <strong id="score">0</strong></div>
       <div class="card">Time <strong id="time">60</strong>s</div>
       <div class="card">Combo <strong id="combo">x1</strong></div>
       <button class="btn" id="playBtn">Start</button>
       <button class="btn ghost" id="howBtn">How to Play</button>
+      <div class="card" style="font-size:12px;color:var(--muted)">Trains <strong id="dbg">0</strong></div>
     </div>
 
     <div class="board" id="board">
@@ -123,13 +107,12 @@
   <dialog id="howDialog">
     <h2>How to Play</h2>
     <p>Drag each incoming train to the <strong>matching platform</strong> before it reaches the end. 
-      Drop inside the dashed zone to dispatch on time. Correct drops build <strong>combo</strong> and boost points.
-      Wrong drops trigger a <em>delay announcement</em> and reset combo. You have 60 seconds — aim for JR Pro!</p>
+    Drop inside the dashed zone to dispatch on time. Correct drops build <strong>combo</strong>.</p>
     <div class="grid">
-      <div><span class="pill">Perfect dispatch</span> +100 × combo</div>
-      <div><span class="pill">Early drop</span> +60</div>
-      <div><span class="pill">Late drop</span> +40</div>
-      <div><span class="pill bad">Wrong lane</span> −75 & reset combo</div>
+      <div><span class="pill">Perfect</span> +100 × combo</div>
+      <div><span class="pill">Good</span> +80</div>
+      <div><span class="pill">Okay</span> +60</div>
+      <div><span class="pill bad">Wrong lane</span> −75 + reset combo</div>
     </div>
     <div style="margin-top:14px;display:flex;gap:10px;justify-content:flex-end">
       <button class="btn ghost" id="closeHow">Close</button>
@@ -139,6 +122,8 @@
 
 <script>
 (function(){
+  const AUTO_START = true;
+
   const lanesEl = document.getElementById('lanes');
   const board = document.getElementById('board');
   const toast = document.getElementById('toast');
@@ -150,13 +135,14 @@
   const howDialog = document.getElementById('howDialog');
   const closeHow = document.getElementById('closeHow');
   const startFromHow = document.getElementById('startFromHow');
+  const dbgEl = document.getElementById('dbg');
 
   const PLATFORM_COUNT = 5;
   const SPAWN_MS_MIN = 1100, SPAWN_MS_MAX = 1900;
   const TRAIN_SPEED = 0.18; // px per ms
 
   let running=false, score=0, timeLeft=60, combo=1, tickTimer=null, spawnTimer=null;
-  let trains = new Set();
+  const trains = new Set();
 
   function initBoard(){
     lanesEl.innerHTML='';
@@ -182,21 +168,21 @@
     if(running) return;
     running=true; score=0; timeLeft=60; combo=1;
     trains.forEach(killTrain); trains.clear();
-    scoreEl.textContent=score; timeEl.textContent=timeLeft; comboEl.textContent='x'+combo;
+    scoreEl.textContent=score; timeEl.textContent=timeLeft; comboEl.textContent='x'+combo; dbgEl.textContent='0';
 
     tickTimer = setInterval(()=>{
-      timeLeft--; timeEl.textContent=timeLeft; 
+      timeLeft--; timeEl.textContent=timeLeft;
       if(timeLeft<=0) endGame();
     }, 1000);
 
-    spawnTrain();       // spawn immediately
-    scheduleSpawn();    // then continue spawns
+    spawnTrain();       // first train immediately
+    scheduleSpawn();    // then timer
     showToast('Dispatch started — good luck, Chief!', 'good');
   }
 
   function endGame(){
     running=false; clearInterval(tickTimer); clearTimeout(spawnTimer);
-    trains.forEach(killTrain); trains.clear();
+    trains.forEach(killTrain); trains.clear(); dbgEl.textContent='0';
     const rank = score>=3500 ? 'JR East Pro' : score>=2500 ? 'Station Master' : score>=1500 ? 'Dispatcher' : 'Conductor';
     showToast(`Time! Score ${score} — Rank: ${rank}`, 'good');
     playBtn.textContent='Play Again';
@@ -207,32 +193,36 @@
     spawnTimer = setTimeout(()=>{ spawnTrain(); scheduleSpawn(); }, between(SPAWN_MS_MIN, SPAWN_MS_MAX));
   }
 
-  // Accurate Shinkansen models (operator + livery)
+  // Models (with livery classes)
   const MODELS = [
-    {code:'E5', name:'Hayabusa', operator:'JR East', livery:'livery-e5'},
-    {code:'H5', name:'Hayabusa', operator:'JR Hokkaido', livery:'livery-h5'},
-    {code:'E6', name:'Komachi', operator:'JR East', livery:'livery-e6'},
-    {code:'E7', name:'Kagayaki', operator:'JR East', livery:'livery-e7'},
-    {code:'W7', name:'Kagayaki', operator:'JR West', livery:'livery-e7'},
-    {code:'N700S', name:'Nozomi', operator:'JR Central/West/Kyushu', livery:'livery-n700s'},
-    {code:'800', name:'Tsubame', operator:'JR Kyushu', livery:'livery-800'}
+    {code:'E5', livery:'livery-e5'},
+    {code:'H5', livery:'livery-h5'},
+    {code:'E6', livery:'livery-e6'},
+    {code:'E7', livery:'livery-e7'},
+    {code:'W7', livery:'livery-e7'},
+    {code:'N700S', livery:'livery-n700s'},
+    {code:'800', livery:'livery-800'}
   ];
   const THEMES=['theme-blue','theme-green','theme-yellow','theme-purple','theme-red'];
 
   function spawnTrain(){
+    // Force a layout read so board width/height are non-zero
+    const br = board.getBoundingClientRect();
+    if (br.width === 0 || br.height === 0) return;
+
     const platform = Math.ceil(Math.random()*PLATFORM_COUNT);
     const theme = rand(THEMES);
     const model = rand(MODELS);
 
-    const usable = Math.max(160, board.clientHeight - 220); // safe for small iframes
+    const usable = Math.max(160, board.clientHeight - 220);
     const y = 96 + Math.floor(Math.random() * usable);
 
     const el = document.createElement('div');
     el.className = `train ${theme} ${model.livery}`;
     el.style.top = y + 'px';
     el.style.left = (board.clientWidth + 10) + 'px';
-    el.dataset.target = platform;
-    el.dataset.vx = - (between(0.12, TRAIN_SPEED));
+    el.dataset.target = String(platform);
+    el.dataset.vx = String(-between(0.12, TRAIN_SPEED));
     el.dataset.model = model.code;
 
     el.innerHTML = `<span class="badge">P${platform}</span>
@@ -242,7 +232,7 @@
 
     board.appendChild(el);
     const obj = {el, grabbed:false, x: board.clientWidth + 10, y, vx: parseFloat(el.dataset.vx)};
-    trains.add(obj);
+    trains.add(obj); dbgEl.textContent = String(trains.size);
 
     el.addEventListener('pointerdown', e=>{
       obj.grabbed=true; el.setPointerCapture(e.pointerId);
@@ -284,20 +274,23 @@
           combo = 1; scoreEl.textContent=score; comboEl.textContent='x'+combo;
           showToast('Wrong platform — delay!', 'bad');
         }
-        t.el.remove(); trains.delete(t);
+        t.el.remove(); trains.delete(t); dbgEl.textContent = String(trains.size);
         break;
       }
     }
   }
 
-  function gameLoop(){
+  // delta-time game loop
+  let last = performance.now();
+  function gameLoop(now){
+    const dt = now - last; last = now;
     if(running){
       trains.forEach(t=>{
-        if(!t.grabbed){ t.x += t.vx * 16; updateTrain(t); }
+        if(!t.grabbed){ t.x += t.vx * dt; updateTrain(t); }
         if(t.x < -200){ // missed
           showToast('Missed dispatch — minor delay announced.', 'bad');
           combo=1; comboEl.textContent='x'+combo;
-          t.el.remove(); trains.delete(t);
+          t.el.remove(); trains.delete(t); dbgEl.textContent = String(trains.size);
         }
       });
     }
@@ -305,6 +298,7 @@
   }
 
   // UI wiring
+  document.addEventListener('visibilitychange', ()=>{ if(document.hidden && running) endGame(); });
   playBtn.addEventListener('click', startGame);
   howBtn.addEventListener('click', ()=>howDialog.showModal());
   closeHow.addEventListener('click', ()=>howDialog.close());
@@ -313,6 +307,7 @@
   // boot
   initBoard();
   requestAnimationFrame(gameLoop);
+  if (AUTO_START) { startGame(); }  // auto start for iframe sanity
 })();
 </script>
 </body>
