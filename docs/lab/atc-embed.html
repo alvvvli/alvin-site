@@ -5,27 +5,43 @@
     <title>ATC Hub Scheduler — 3D Segways Edition</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- ✅ React + ReactDOM (UMD) -->
+    <!-- React + ReactDOM (UMD) -->
     <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
 
-    <!-- ✅ Babel to transpile JSX in-browser -->
+    <!-- Babel to transpile JSX in-browser -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <style>
-      html,body { margin:0; height:100%;
-        background:#0b0f14; color:#e6eef9;
-        font-family:system-ui,Segoe UI,Roboto,sans-serif; }
-      #root { height:100%; }
+      html, body {
+        margin: 0;
+        height: 100%;
+        background: #0b0f14;
+        color: #e6eef9;
+        font-family: system-ui, Segoe UI, Roboto, sans-serif;
+      }
+      /* full height for the app mount */
+      #root { height: 100%; }
+
+      /* horizontal breathing room (respects iOS safe areas) */
+      .page-pad {
+        padding-left:  max(20px, env(safe-area-inset-left, 0));
+        padding-right: max(20px, env(safe-area-inset-right, 0));
+        box-sizing: border-box;
+        height: 100%;
+      }
     </style>
   </head>
   <body>
-    <div id="root"></div>
+    <!-- NEW: padding wrapper so the app doesn't touch the edges -->
+    <div class="page-pad">
+      <div id="root"></div>
+    </div>
 
-    <!-- 🧠 your React component (JSX) -->
+    <!-- your React component (JSX) -->
     <script type="text/babel" data-presets="react,typescript" src="./atc.browser.jsx"></script>
 
-    <!-- 🪄 mount it -->
+    <!-- mount -->
     <script type="text/babel">
       const root = ReactDOM.createRoot(document.getElementById('root'));
       root.render(React.createElement(App));
