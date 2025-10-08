@@ -39,6 +39,7 @@ nav:
       - Siemens AGV Simulation: lab/agv.md
       - Gas Turbine Reconciliation: lab/turbine.md
       - Shinkansen Shuffle: lab/skn.md
+      - ATC Hub Scheduler: lab/atc.md
   - Aviation:
       - Overview: aviation/index.md
       - Airbus Acubed Silicon Valley Innovation Hub: aviation/acubed.md
