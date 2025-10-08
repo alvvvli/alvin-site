@@ -1,6 +1,6 @@
 ## 🚅 𝗧𝗵𝗲 𝗦𝗼𝘂𝗻𝗱 𝗼𝗳 𝗕𝗿𝗮𝗸𝗶𝗻𝗴 - 𝗧𝗛𝗦𝗥 𝟳𝟬𝟬𝗧 (𝗦𝗵𝗶𝗻𝗸𝗮𝗻𝘀𝗲𝗻 𝗙𝗮𝗺𝗶𝗹𝘆)
 
-<iframe src="https://www.youtube.com/embed/XUD_TXu9Uew" style="width:80%;aspect-ratio:16/9;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);overflow:hidden;margin-top:10px;" frameborder="0" allowfullscreen> </iframe>
+<iframe src="https://www.youtube.com/embed/XUD_TXu9Uew" style="width:80%;aspect-ratio:9/16;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);overflow:hidden;margin-top:10px;" frameborder="0" allowfullscreen> </iframe>
 
 ## At **300 km/h**, deceleration is a symphony of engineering
 
