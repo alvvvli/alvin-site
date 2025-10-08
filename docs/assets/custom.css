@@ -17,3 +17,12 @@ html, :root, body {
 .md-typeset h3 {
   line-height: 1.25;
 }
+
+.md-nav__link {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+.md-nav__item {
+  margin-bottom: 4px;
+}
