@@ -1,7 +1,7 @@
 # 🚄 Shinkansen Shuffle  
 ### ⚙️ Demo
 <div style="max-width:1000px;margin:0 auto;border-radius:12px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.25);height:95vh;">
-  <iframe src="./skn.html" style="width:100%;height:100%;border:0;" title="Shinkansen Shuffle — WEX Lab"></iframe>
+  <iframe src="/alvin-site/lab/skn.html" style="width:100%;height:100%;border:0;" title="Shinkansen Shuffle — WEX Lab"></iframe>
 </div>
 
 <iframe width="560" height="315" style="border-radius:12px; margin-top:10px; aspect-ratio:16/9;" src="https://www.youtube.com/embed/ID" frameborder="0" allowfullscreen> </iframe>
