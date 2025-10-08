@@ -17,4 +17,4 @@ Explore lightweight demos for reconciliation, routing, and validation.
 - [Siemens AGV Simulation](agv.md) — AGV routing and scheduling visualization  
 - [Gas Turbine Reconciliation](turbine.md) — Component matching and ERP validation
 - [Shinkansen Shuffle](skn.md) — Dispatch game with real-model Shinkansen timing precision
-- [ATC Hub Scheduler](atc.md) — Flight-bank routing sim with 3D altitude and cost trade-offs
+- [ATC Scheduler](atc.md) — Flight-bank routing sim with 3D altitude and cost trade-offs
