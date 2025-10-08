@@ -22,4 +22,5 @@ Interfaces, dwell time, coupling systems, catenary geometry, and border ops.
 - [Dubai Metro - Logistics-Minded Connector](dxbmetro.md)
 - [Uzbekistan's High Speed Rail](afro.md)
 - [New Tashkent Metro](tosh.md)
+- [THSR Platform Measurement](thsrmsr.md)
 - [THSR 700T Braking Symphony](thsrbrake.md)
