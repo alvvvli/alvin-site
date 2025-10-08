@@ -1,6 +1,4 @@
 # 🔩 Gas Turbine Reconciliation Engine  
-
-### ⚙️ Demo
 <iframe 
   src="/alvin-site/lab/parts_match_integrated.html" 
   width="100%" 
