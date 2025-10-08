@@ -155,12 +155,6 @@ function spawnTrain(){
     requestAnimationFrame(gameLoop);
   }
   
-  // boot
-  initBoard();
-  requestAnimationFrame(gameLoop);
-  if (AUTO_START) startGame();
-
-
   function checkDrop(t){
     const me = rect(t.el);
     const cx = (me.left + me.right) / 2;
