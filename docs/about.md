@@ -61,4 +61,4 @@
 
 ---
 
-This site runs on **MkDocs** + **Material**.
+This site runs on MkDocs + Material.
