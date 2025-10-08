@@ -1,8 +1,7 @@
 # ✈️ ATC Scheduler
 
-<div style="max-width:1000px;margin:0 auto;border-radius:12px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.25);aspect-ratio:16/9;">
-  <iframe src="atc-embed.html" style="width:100%;height:100%;border:0;" loading="lazy" title="ATC Scheduler"></iframe>
-</div>
+<iframe src="/alvin-site/lab/atc-embed.html" style="width:100%;height:100%;border:0;" loading="lazy" title="ATC Scheduler"></iframe>
+
 
 ## 📘 Overview
 | Feature | Description |
