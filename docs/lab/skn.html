@@ -2,29 +2,40 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
 <title>Shinkansen Shuffle — WEX Lab</title>
 <style>
   :root{
     --bg:#0b0f14; --panel:#0f172a; --rail:#1b2437; --ink:#e6eef9; --muted:#9fb4d1;
     --accent:#60a5fa; --ok:#16a34a; --bad:#ef4444; --warn:#eab308; --platform:#111827;
     --line:#1f2a44; --faint:rgba(255,255,255,.06);
+
+    /* mobile scaling knobs */
+    --train-w:160px;
+    --board-min:520px;
+    --hud-gap:12px;
   }
   *{box-sizing:border-box}
   html,body{height:100%}
-  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,Segoe UI,Roboto,Ubuntu,sans-serif; user-select:none;-webkit-user-select:none;}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font:15px/1.5 system-ui,Segoe UI,Roboto,Ubuntu,sans-serif;
+    user-select:none;-webkit-user-select:none; /* nicer drag */
+    -webkit-tap-highlight-color: transparent;
+  }
   .wrap{max-width:1100px;margin:0 auto;padding:18px}
-  header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-  h1{font-size:20px;margin:0}
+  header{display:flex;align-items:center;gap:10px;margin:6px 0 14px}
+  h1{font-size:22px;margin:0;display:flex;align-items:center;gap:10px}
+  h1 .badge{font-size:12px;padding:6px 10px;border:1px solid var(--line);border-radius:999px;color:var(--muted)}
 
-  .hud{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin:8px 0 14px}
-  .hud .card{background:var(--panel);padding:10px 14px;border-radius:14px;box-shadow:0 4px 24px rgba(0,0,0,.35);border:1px solid var(--line)}
+  .hud{display:flex;gap:var(--hud-gap);flex-wrap:wrap;align-items:center;margin:8px 0 14px}
+  .hud .card{background:var(--panel);padding:10px 14px;border-radius:14px;box-shadow:0 4px 24px rgba(0,0,0,.35);border:1px solid var(--line);min-width:86px;text-align:center}
   .hud strong{display:block;font-size:18px}
-  .btn{appearance:none;border:none;background:var(--accent);color:#081016;font-weight:700;padding:10px 14px;border-radius:14px;cursor:pointer}
+  .btn{appearance:none;border:none;background:var(--accent);color:#081016;font-weight:700;padding:12px 16px;border-radius:16px;cursor:pointer}
   .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
 
   /* BOARD */
-  .board{position:relative;background:linear-gradient(180deg,var(--panel),#0b121d);border:1px solid var(--line);border-radius:16px;overflow:hidden;min-height:520px}
+  .board{position:relative;background:linear-gradient(180deg,var(--panel),#0b121d);border:1px solid var(--line);border-radius:16px;overflow:hidden;min-height:var(--board-min)}
   .sky{position:absolute;inset:0;background:radial-gradient(1000px 300px at 70% 0%,rgba(96,165,250,.15),transparent); z-index:0;}
   .lanes{position:absolute;inset:72px 0 0 0;display:grid;grid-template-columns:repeat(5,1fr);gap:0;height:calc(100% - 72px); z-index:1;}
   .platform{position:relative;border-left:1px solid var(--faint)}
@@ -32,19 +43,20 @@
   .platform::before{content:"";position:absolute;left:0;right:0;top:44px;height:4px;background:repeating-linear-gradient(90deg,var(--rail) 0 16px,transparent 16px 24px)}
   .platform .label{position:absolute;top:10px;left:10px;font:600 13px/1 system-ui;opacity:.8}
   .platform .target{
-    position:absolute;left:6px;right:6px;bottom:10px;height:68px;border:1px dashed rgba(150,170,200,.35);
+    position:absolute;left:6px;right:6px;bottom:10px;height:76px;border:1px dashed rgba(150,170,200,.35);
     border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--muted);
     background: rgba(255,255,255,.02);
   }
 
   /* TRAINS */
-  .train{position:absolute;top:96px;width:160px;height:42px;border-radius:40px;background:#e8f2ff;color:#0b0f14;box-shadow:0 8px 24px rgba(0,0,0,.35);
+  .train{position:absolute;top:96px;width:var(--train-w);height:48px;border-radius:40px;background:#e8f2ff;color:#0b0f14;box-shadow:0 8px 24px rgba(0,0,0,.35);
          border:2px solid rgba(0,0,0,.08);display:flex;align-items:center;gap:10px;padding:0 12px;cursor:grab;touch-action:none; z-index:2;}
   .train:active{cursor:grabbing}
-  .nose{width:14px;height:14px;border-radius:50%;background:currentColor;opacity:.9}
+  .nose{width:16px;height:16px;border-radius:50%;background:currentColor;opacity:.9}
   .cars{display:flex;gap:4px;margin-left:auto}
-  .car{width:14px;height:8px;border-radius:2px;background:rgba(0,0,0,.35)}
-  .badge{font-size:11px;padding:2px 8px;border-radius:999px;color:#091018;background:var(--accent);font-weight:700}
+  .car{width:14px;height:10px;border-radius:2px;background:rgba(0,0,0,.35)}
+  .pill,.badge{font-size:12px}
+  .badge{padding:3px 9px;border-radius:999px;color:#091018;background:var(--accent);font-weight:700}
 
   /* Liveries (approximate) */
   .livery-e5{background:
@@ -78,15 +90,29 @@
   .toast.bad{border-color:#3b0d14;color:#ff8aa0}
   .toast.good{border-color:#0d3b1b;color:#9fffd0}
 
-  @media (max-width:850px){
-    .lanes{inset:88px 0 0}
-    .train{width:140px}
+  /* ——— MOBILE HERO ——— */
+  @media (max-width: 760px){
+    :root{
+      --train-w: 62vw;       /* bigger trains, adapt to width */
+      --board-min: 70vh;     /* taller board on phones */
+      --hud-gap: 10px;
+    }
+    .wrap{padding:14px}
+    h1{font-size:24px}
+    .hud{justify-content:space-between}
+    .hud .card{flex:1 1 30%; min-width:unset; padding:12px}
+    .btn{flex:1 1 45%; padding:14px 16px; font-size:16px}
+    .lanes{inset:84px 0 0 0}
+    .platform .target{height:88px}         /* larger drop zone */
+    .badge{font-size:13px}
   }
 </style>
 </head>
 <body>
   <div class="wrap">
-    <header><h1>🚄 Shinkansen Shuffle</h1></header>
+    <header>
+      <h1>🚄 Shinkansen Shuffle <span class="badge">WEX Interactive Lab</span></h1>
+    </header>
 
     <div class="hud">
       <div class="card">Score <strong id="score">0</strong></div>
@@ -94,7 +120,6 @@
       <div class="card">Combo <strong id="combo">x1</strong></div>
       <button class="btn" id="playBtn">Start</button>
       <button class="btn ghost" id="howBtn">How to Play</button>
-      <div class="card" style="font-size:12px;color:var(--muted)">Trains <strong id="dbg">0</strong></div>
     </div>
 
     <div class="board" id="board">
@@ -107,14 +132,8 @@
   <dialog id="howDialog">
     <h2>How to Play</h2>
     <p>Drag each incoming train to the <strong>matching platform</strong> before it reaches the end. 
-    Drop inside the dashed zone to dispatch on time. Correct drops build <strong>combo</strong>.</p>
-    <div class="grid">
-      <div><span class="pill">Perfect</span> +100 × combo</div>
-      <div><span class="pill">Good</span> +80</div>
-      <div><span class="pill">Okay</span> +60</div>
-      <div><span class="pill bad">Wrong lane</span> −75 + reset combo</div>
-    </div>
-    <div style="margin-top:14px;display:flex;gap:10px;justify-content:flex-end">
+      Drop inside the dashed zone to dispatch on time. Correct drops build <strong>combo</strong> and boost points.</p>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:14px">
       <button class="btn ghost" id="closeHow">Close</button>
       <button class="btn" id="startFromHow">Start Game</button>
     </div>
@@ -122,7 +141,7 @@
 
 <script>
 (function(){
-  const AUTO_START = true;
+  const AUTO_START = false; // set true if you want auto-run inside iframes
 
   const lanesEl = document.getElementById('lanes');
   const board = document.getElementById('board');
@@ -135,7 +154,6 @@
   const howDialog = document.getElementById('howDialog');
   const closeHow = document.getElementById('closeHow');
   const startFromHow = document.getElementById('startFromHow');
-  const dbgEl = document.getElementById('dbg');
 
   const PLATFORM_COUNT = 5;
   const SPAWN_MS_MIN = 1100, SPAWN_MS_MAX = 1900;
@@ -154,35 +172,48 @@
     }
   }
 
-  function rand(arr){return arr[Math.floor(Math.random()*arr.length)]}
-  function between(a,b){return a+Math.random()*(b-a)}
+  const THEMES=['theme-blue','theme-green','theme-yellow','theme-purple','theme-red'];
+  const MODELS = [
+    {code:'E5', livery:'livery-e5'},
+    {code:'H5', livery:'livery-h5'},
+    {code:'E6', livery:'livery-e6'},
+    {code:'E7', livery:'livery-e7'},
+    {code:'W7', livery:'livery-e7'},
+    {code:'N700S', livery:'livery-n700s'},
+    {code:'800', livery:'livery-800'}
+  ];
+
+  const rand=a=>a[Math.floor(Math.random()*a.length)];
+  const between=(a,b)=>a+Math.random()*(b-a);
+
+  function vibrate(ms){ if(navigator.vibrate) try{ navigator.vibrate(ms); }catch(e){} }
 
   function showToast(msg, type){
     toast.textContent=msg; toast.classList.remove('good','bad');
     if(type) toast.classList.add(type);
     toast.classList.add('show');
-    setTimeout(()=>toast.classList.remove('show'), 900);
+    setTimeout(()=>toast.classList.remove('show'), 850);
   }
 
   function startGame(){
     if(running) return;
     running=true; score=0; timeLeft=60; combo=1;
     trains.forEach(killTrain); trains.clear();
-    scoreEl.textContent=score; timeEl.textContent=timeLeft; comboEl.textContent='x'+combo; dbgEl.textContent='0';
+    scoreEl.textContent=score; timeEl.textContent=timeLeft; comboEl.textContent='x'+combo;
 
     tickTimer = setInterval(()=>{
-      timeLeft--; timeEl.textContent=timeLeft;
+      timeLeft--; timeEl.textContent=timeLeft; 
       if(timeLeft<=0) endGame();
     }, 1000);
 
-    spawnTrain();       // first train immediately
-    scheduleSpawn();    // then timer
-    showToast('Dispatch started — good luck, Chief!', 'good');
+    spawnTrain();
+    scheduleSpawn();
+    showToast('Dispatch started — good luck!', 'good');
   }
 
   function endGame(){
     running=false; clearInterval(tickTimer); clearTimeout(spawnTimer);
-    trains.forEach(killTrain); trains.clear(); dbgEl.textContent='0';
+    trains.forEach(killTrain); trains.clear();
     const rank = score>=3500 ? 'JR East Pro' : score>=2500 ? 'Station Master' : score>=1500 ? 'Dispatcher' : 'Conductor';
     showToast(`Time! Score ${score} — Rank: ${rank}`, 'good');
     playBtn.textContent='Play Again';
@@ -193,28 +224,14 @@
     spawnTimer = setTimeout(()=>{ spawnTrain(); scheduleSpawn(); }, between(SPAWN_MS_MIN, SPAWN_MS_MAX));
   }
 
-  // Models (with livery classes)
-  const MODELS = [
-    {code:'E5', livery:'livery-e5'},
-    {code:'H5', livery:'livery-h5'},
-    {code:'E6', livery:'livery-e6'},
-    {code:'E7', livery:'livery-e7'},
-    {code:'W7', livery:'livery-e7'},
-    {code:'N700S', livery:'livery-n700s'},
-    {code:'800', livery:'livery-800'}
-  ];
-  const THEMES=['theme-blue','theme-green','theme-yellow','theme-purple','theme-red'];
-
   function spawnTrain(){
-    // Force a layout read so board width/height are non-zero
-    const br = board.getBoundingClientRect();
-    if (br.width === 0 || br.height === 0) return;
+    const br = board.getBoundingClientRect(); if (!br.width || !br.height) return;
 
     const platform = Math.ceil(Math.random()*PLATFORM_COUNT);
     const theme = rand(THEMES);
     const model = rand(MODELS);
 
-    const usable = Math.max(160, board.clientHeight - 220);
+    const usable = Math.max(200, board.clientHeight - 210); // taller zones on mobile
     const y = 96 + Math.floor(Math.random() * usable);
 
     const el = document.createElement('div');
@@ -227,12 +244,11 @@
 
     el.innerHTML = `<span class="badge">P${platform}</span>
                     <span class="nose"></span>
-                    <div class="cars">${'<div class="car"></div>'.repeat(5 + Math.floor(Math.random()*4))}</div>
-                    <div style="position:absolute;left:12px;bottom:-18px;font:600 10px/1 system-ui;color:var(--muted);opacity:.9">${model.code}</div>`;
+                    <div class="cars">${'<div class="car"></div>'.repeat(5 + Math.floor(Math.random()*4))}</div>`;
 
     board.appendChild(el);
     const obj = {el, grabbed:false, x: board.clientWidth + 10, y, vx: parseFloat(el.dataset.vx)};
-    trains.add(obj); dbgEl.textContent = String(trains.size);
+    trains.add(obj);
 
     el.addEventListener('pointerdown', e=>{
       obj.grabbed=true; el.setPointerCapture(e.pointerId);
@@ -248,49 +264,46 @@
 
   function killTrain(t){ if(!t || !t.el) return; t.el.remove(); }
   function updateTrain(t){ if(!t.el) return; t.el.style.left = t.x+'px'; t.el.style.top = t.y+'px'; }
-  function rect(el){return el.getBoundingClientRect()}
+  const rect = el => el.getBoundingClientRect();
 
   function checkDrop(t){
-    const targetId = t.el.dataset.target;
     const targets = [...document.querySelectorAll('.target')];
     const me = rect(t.el);
-    let dropped=false;
     for(const zone of targets){
       const r = rect(zone);
       const overlap = !(me.right < r.left || me.left > r.right || me.bottom < r.top || me.top > r.bottom);
       if(overlap){
-        dropped=true;
-        const ok = zone.dataset.id === targetId;
+        const ok = zone.dataset.id === t.el.dataset.target;
         if(ok){
           const center = (r.left + r.right)/2;
           const dx = Math.abs((me.left+me.right)/2 - center);
-          let add = 60; if(dx < 18) add=100; else if(dx < 48) add=80; else add=60;
+          let add = 60; if(dx < 22) add=100; else if(dx < 54) add=80; else add=60;
           score += Math.round(add * combo);
           combo = Math.min(10, combo + 0.25);
           scoreEl.textContent=score; comboEl.textContent='x'+combo.toFixed(2).replace(/\.00$/,'');
-          showToast('On-time dispatch ✓', 'good');
+          showToast('On-time dispatch ✓', 'good'); vibrate(12);
         } else {
           score = Math.max(0, score - 75);
           combo = 1; scoreEl.textContent=score; comboEl.textContent='x'+combo;
-          showToast('Wrong platform — delay!', 'bad');
+          showToast('Wrong platform — delay!', 'bad'); vibrate(30);
         }
-        t.el.remove(); trains.delete(t); dbgEl.textContent = String(trains.size);
-        break;
+        t.el.remove(); trains.delete(t);
+        return;
       }
     }
   }
 
-  // delta-time game loop
+  // delta movement for smoothness
   let last = performance.now();
   function gameLoop(now){
     const dt = now - last; last = now;
     if(running){
       trains.forEach(t=>{
         if(!t.grabbed){ t.x += t.vx * dt; updateTrain(t); }
-        if(t.x < -200){ // missed
-          showToast('Missed dispatch — minor delay announced.', 'bad');
+        if(t.x < -300){
+          showToast('Missed dispatch — minor delay announced.', 'bad'); vibrate(16);
           combo=1; comboEl.textContent='x'+combo;
-          t.el.remove(); trains.delete(t); dbgEl.textContent = String(trains.size);
+          t.el.remove(); trains.delete(t);
         }
       });
     }
@@ -298,16 +311,15 @@
   }
 
   // UI wiring
-  document.addEventListener('visibilitychange', ()=>{ if(document.hidden && running) endGame(); });
   playBtn.addEventListener('click', startGame);
   howBtn.addEventListener('click', ()=>howDialog.showModal());
   closeHow.addEventListener('click', ()=>howDialog.close());
   startFromHow.addEventListener('click', ()=>{ howDialog.close(); startGame(); });
+  document.addEventListener('visibilitychange', ()=>{ if(document.hidden && running) endGame(); });
 
   // boot
-  initBoard();
-  requestAnimationFrame(gameLoop);
-  if (AUTO_START) { startGame(); }  // auto start for iframe sanity
+  initBoard(); requestAnimationFrame(gameLoop);
+  if (AUTO_START) startGame();
 })();
 </script>
 </body>
