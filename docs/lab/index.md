@@ -16,4 +16,4 @@ Explore lightweight demos for reconciliation, routing, and validation.
 - [PartMatrix Demo](partmatrix.md) — Excel-logic matching and lookups  
 - [Siemens AGV Simulation](agv.md) — AGV routing and scheduling visualization  
 - [Gas Turbine Reconciliation](turbine.md) — Component matching and ERP validation
-- [Shinkansen Shuffle](skn.md)
+- [Shinkansen Shuffle](skn.md) — Real-model dispatch game featuring E5–N700S trains and precision-timing challenge
