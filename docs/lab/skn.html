@@ -142,6 +142,10 @@
 <script>
 (function(){
   const AUTO_START = false; // set true if you want auto-run inside iframes
+    // --- Drop forgiveness knobs ---
+  const DROP_BUFFER_X_PCT = 0.55;  // accept if train center is within column ± 55% of train width
+  const DROP_BUFFER_MIN   = 40;    // minimum px buffer even for short trains
+  const DROP_BUFFER_Y     = 90;    // extra vertical px above/below the dashed zone
 
   const lanesEl = document.getElementById('lanes');
   const board = document.getElementById('board');
@@ -266,32 +270,66 @@
   function updateTrain(t){ if(!t.el) return; t.el.style.left = t.x+'px'; t.el.style.top = t.y+'px'; }
   const rect = el => el.getBoundingClientRect();
 
-  function checkDrop(t){
-    const targets = [...document.querySelectorAll('.target')];
-    const me = rect(t.el);
-    for(const zone of targets){
-      const r = rect(zone);
-      const overlap = !(me.right < r.left || me.left > r.right || me.bottom < r.top || me.top > r.bottom);
-      if(overlap){
-        const ok = zone.dataset.id === t.el.dataset.target;
-        if(ok){
-          const center = (r.left + r.right)/2;
-          const dx = Math.abs((me.left+me.right)/2 - center);
-          let add = 60; if(dx < 22) add=100; else if(dx < 54) add=80; else add=60;
-          score += Math.round(add * combo);
-          combo = Math.min(10, combo + 0.25);
-          scoreEl.textContent=score; comboEl.textContent='x'+combo.toFixed(2).replace(/\.00$/,'');
-          showToast('On-time dispatch ✓', 'good'); vibrate(12);
-        } else {
-          score = Math.max(0, score - 75);
-          combo = 1; scoreEl.textContent=score; comboEl.textContent='x'+combo;
-          showToast('Wrong platform — delay!', 'bad'); vibrate(30);
-        }
-        t.el.remove(); trains.delete(t);
-        return;
-      }
+function checkDrop(t){
+  const me = rect(t.el);
+  const cx = (me.left + me.right) / 2;        // train center X
+  const w  = me.width;
+
+  // Find which column the center falls in (with generous horizontal buffer)
+  const plats = [...document.querySelectorAll('.platform')];
+  let hitPlat = null, targetEl = null, targetBox = null;
+
+  for (const p of plats){
+    const pr = rect(p);
+    const buf = Math.max(DROP_BUFFER_MIN, w * DROP_BUFFER_X_PCT);
+    const left  = pr.left  - buf;
+    const right = pr.right + buf;
+    if (cx >= left && cx <= right){
+      hitPlat   = p;
+      targetEl  = p.querySelector('.target');
+      targetBox = rect(targetEl);
+      break;
     }
   }
+
+  // No column found → let the train keep moving
+  if (!hitPlat) return;
+
+  // Require only loose vertical proximity to the (expanded) drop zone
+  const top    = targetBox.top    - DROP_BUFFER_Y;
+  const bottom = targetBox.bottom + DROP_BUFFER_Y;
+  const vertOK = !(me.bottom < top || me.top > bottom);
+  if (!vertOK) return;
+
+  // Success if the chosen platform id matches the badge
+  const ok = String(hitPlat.dataset.id) === String(t.el.dataset.target);
+
+  if (ok){
+    // Very forgiving accuracy scoring (all 3 tiers are wider)
+    const zoneCenter = (targetBox.left + targetBox.right) / 2;
+    const dx = Math.abs(cx - zoneCenter);
+    let add = 60;            // default
+    if (dx < 60)  add = 100; // perfect ±60px
+    else if (dx < 140) add = 80;
+
+    score += Math.round(add * combo);
+    combo  = Math.min(10, combo + 0.25);
+    scoreEl.textContent  = score;
+    comboEl.textContent  = 'x' + combo.toFixed(2).replace(/\.00$/,'');
+    showToast('On-time dispatch ✓', 'good'); vibrate(12);
+  } else {
+    score = Math.max(0, score - 75);
+    combo = 1;
+    scoreEl.textContent = score;
+    comboEl.textContent = 'x' + combo;
+    showToast('Wrong platform — delay!', 'bad'); vibrate(30);
+  }
+
+  // Remove train after judging
+  t.el.remove();
+  trains.delete(t);
+}
+
 
   // delta movement for smoothness
   let last = performance.now();
