@@ -267,7 +267,13 @@ function App() {
 
   /* ---------------------------- UI --------------------------- */
   return (
-    <div style={{ minHeight: "100vh", background: "#0b0f14", color: "#e6eef9" }}>
+    <div style={{
+      minHeight: "100vh",
+      background: "#0b0f14",
+      color: "#e6eef9",
+      overflowY: "auto",
+      WebkitOverflowScrolling: "touch"
+    }}>
       <style>{`
         .card { background:#0f172a; border-radius:16px; box-shadow: 0 6px 24px rgba(0,0,0,.25); }
         .chip { background:#0b1219; border:1px solid #1f2a44; border-radius:10px; padding:.5rem .75rem; color:inherit; }
@@ -294,7 +300,7 @@ function App() {
           <div style={{ opacity:.8, fontSize:"14px" }}>WEX Lab · v2.3</div>
         </header>
 
-        <div style={{ display:"grid", gap:"16px", gridTemplateColumns:"1fr",  }}>
+        <div style={{ display:"grid", gap:"16px", gridTemplateColumns:"1fr" }}>
           <section className="card" style={{ padding:"16px" }}>
             <h2 style={{ fontSize:"18px", fontWeight: 500, marginBottom:"12px" }}>Waves, Network & Airspace</h2>
 
