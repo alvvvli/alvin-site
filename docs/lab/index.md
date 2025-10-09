@@ -13,8 +13,8 @@ Explore lightweight demos for reconciliation, routing, and validation.
 </div>
 
 ## Explore:
+- [ATC Scheduler](atc.md) — Flight-bank routing sim with 3D altitude and cost trade-offs
 - [PartMatrix Demo](partmatrix.md) — Excel-logic matching and lookups  
 - [Siemens AGV Simulation](agv.md) — AGV routing and scheduling visualization  
 - [Gas Turbine Reconciliation](turbine.md) — Component matching and ERP validation
 - [Shinkansen Shuffle](skn.md) — Dispatch game with real-model Shinkansen timing precision
-- [ATC Scheduler](atc.md) — Flight-bank routing sim with 3D altitude and cost trade-offs
