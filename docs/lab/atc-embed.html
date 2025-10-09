@@ -13,47 +13,53 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <style>
+      /* Base */
       html, body {
         margin: 0;
-        height: 100%;
+        height: auto;                  /* allow page to grow */
+        min-height: 100%;
         background: #0b0f14;
         color: #e6eef9;
         font-family: system-ui, Segoe UI, Roboto, sans-serif;
+        overflow-y: auto;              /* enable vertical scroll */
+        -webkit-overflow-scrolling: touch;
       }
-
-      /* Inner app layout padding */
+    
+      /* Inner app layout padding (keeps nice gutters and safe-area) */
       .page-pad {
-        padding-left:  max(20px, env(safe-area-inset-left, 0));
-        padding-right: max(20px, env(safe-area-inset-right, 0));
-        padding-top:   max(8px, env(safe-area-inset-top, 0));
-        padding-bottom:max(8px, env(safe-area-inset-bottom, 0));
+        padding-left:  max(20px, env(safe-area-inset-left));
+        padding-right: max(20px, env(safe-area-inset-right));
+        padding-top:   max(8px,  env(safe-area-inset-top));
+        padding-bottom:max(8px,  env(safe-area-inset-bottom));
         box-sizing: border-box;
-        height: 100%;
+        min-height: 100vh;             /* fill viewport, but allow more */
         display: flex;
         flex-direction: column;
       }
-
+    
       #root {
         flex: 1 1 auto;
-        height: 100%;
+        min-height: 100%;              /* the React app may grow and scroll */
       }
-
-      /* 👇 Frame appearance when loaded inside modal */
-      html, body, .page-pad {
+    
+      /* If you really want rounded corners when embedded in a modal/iframe,
+         don't hide overflow globally—only clip the background layer. */
+      .frame-rounded {
         border-radius: 12px;
-        overflow: hidden;
+        background-clip: padding-box;  /* keeps the rounded look */
       }
+    
       @media (min-width: 768px) {
         .page-pad {
-          padding-left:  max(24px, env(safe-area-inset-left, 0));
-          padding-right: max(24px, env(safe-area-inset-right, 0));
+          padding-left:  max(24px, env(safe-area-inset-left));
+          padding-right: max(24px, env(safe-area-inset-right));
         }
       }
     </style>
   </head>
   <body>
     <!-- ✅ Adds soft margin + safe-area respect -->
-    <div class="page-pad">
+    <div class="page-pad frame-rounded">
       <div id="root"></div>
     </div>
 
