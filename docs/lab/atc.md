@@ -140,12 +140,20 @@
 
 
 ## 📘 Overview
-| Feature | Description |
-|----------|--------------|
-| **Gameplay** | Drag each Shinkansen to its correct platform before it leaves the screen |
-| **Models Included** | E5 / H5 / E6 / E7 / W7 / N700S / 800 (accurate JR liveries) |
-| **Objective** | Dispatch correctly to build combo and score; wrong lane resets combo |
-| **Timer** | 60 seconds per session |
-| **Ranks** | Conductor → Dispatcher → Station Master → JR East Pro |
-| **Inspiration** | Based on Japanese high-speed rail punctuality and platform management |
+| Feature              | Description                                                                                                                                                                |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Gameplay**         | Tune a hub-and-spoke schedule: choose waves, first hub arrival, spacing, spoke distances, and altitude layers to run the network efficiently.                              |
+| **Objective**        | Serve demand while minimizing **Total Logistics Cost (TLC)** and avoiding 3D airspace conflicts.                                                                           |
+| **Network**          | Single hub with two corridors (H↔E, H↔W); optional through flows (E↔W) via the hub.                                                                                        |
+| **Airspace Model**   | Discrete flight levels (e.g., **FL290–370**) with same-level separation in minutes; vertical deconfliction by assigning different FLs. Pins show each leg’s cruise window. |
+| **Scheduling Rules** | Banked waves, **45-min hub layover**, **30-min spoke turns**, LF capped at ~80% per flight.                                                                                |
+| **Cost Function**    | **TLC = OWN + BLK + SVC + VOT_Travel + VOT_SchedDelay** (ownership, block-hour, servicing, value-of-time for travel & schedule delay).                                     |
+| **Block Time Model** | Linear: **BH (hrs) = α + β · miles** (editable).                                                                                                                           |
+| **Capacity Check**   | Real-time check of seats vs. demand per corridor; shows flights needed and whether capacity is OK.                                                                         |
+| **3D Viewer**        | Interactive, borderless mode; drag to rotate, **Shift+drag** to pan, wheel to zoom; conflicts highlighted.                                                                 |
+| **Controls**         | Sliders/inputs for waves, arrival time, spacing, miles, α/β, FL list, and separation; quick reset + fullscreen.                                                            |
+| **Scoring/Metrics**  | Live TLC breakdown, average travel & schedule delay, block-hours, conflicts count, and capacity status.                                                                    |
+| **Session Flow**     | Open-ended sandbox (no timer); iterate to deconflict airspace and drive TLC down.                                                                                          |
+| **Inspiration**      | Banked-hub scheduling and ATC separation concepts adapted from university transport/ATC assignments.                                                                       |
+
 
