@@ -24,7 +24,7 @@
         overflow-y: auto;              /* enable vertical scroll */
         -webkit-overflow-scrolling: touch;
       }
-    
+
       /* Inner app layout padding (keeps nice gutters and safe-area) */
       .page-pad {
         padding-left:  max(20px, env(safe-area-inset-left));
@@ -36,27 +36,47 @@
         display: flex;
         flex-direction: column;
       }
-    
+
       #root {
         flex: 1 1 auto;
         min-height: 100%;              /* the React app may grow and scroll */
       }
-    
+
       /* If you really want rounded corners when embedded in a modal/iframe,
          don't hide overflow globally—only clip the background layer. */
       .frame-rounded {
         border-radius: 12px;
         background-clip: padding-box;  /* keeps the rounded look */
       }
-    
+
       @media (min-width: 768px) {
         .page-pad {
           padding-left:  max(24px, env(safe-area-inset-left));
           padding-right: max(24px, env(safe-area-inset-right));
         }
       }
+
+      /* ✅ Fullscreen should scroll (cross-browser safe) */
+      :root:fullscreen,
+      body:fullscreen,
+      .page-pad:fullscreen,
+      #root:fullscreen {
+        height: auto !important;
+        min-height: 100vh !important;
+        overflow-y: auto !important;
+      }
+
+      /* Safari/WebKit prefix */
+      :-webkit-full-screen,
+      .page-pad:-webkit-full-screen,
+      #root:-webkit-full-screen {
+        height: auto !important;
+        min-height: 100vh !important;
+        overflow-y: auto !important;
+      }
     </style>
   </head>
+
   <body>
     <!-- ✅ Adds soft margin + safe-area respect -->
     <div class="page-pad frame-rounded">
@@ -70,6 +90,36 @@
     <script type="text/babel">
       const root = ReactDOM.createRoot(document.getElementById('root'));
       root.render(React.createElement(App));
+    </script>
+
+    <!-- ✅ Fullscreen scroll behavior helper -->
+    <script>
+      // Select best fullscreen target (page container)
+      function fsTarget() {
+        return document.querySelector('.page-pad') || document.documentElement;
+      }
+
+      // Public API: can be called by buttons or host iframe
+      window.enterFullscreen = () => {
+        const el = fsTarget();
+        if (el.requestFullscreen) el.requestFullscreen();
+        else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen(); // Safari
+      };
+
+      window.exitFullscreen = () => {
+        if (document.exitFullscreen) document.exitFullscreen();
+        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+      };
+
+      // On fullscreen enter, re-enable scrolling and min-height
+      document.addEventListener('fullscreenchange', () => {
+        const el = document.fullscreenElement || document.webkitFullscreenElement;
+        if (el) {
+          el.style.overflowY = 'auto';
+          el.style.height = 'auto';
+          el.style.minHeight = '100vh';
+        }
+      });
     </script>
   </body>
 </html>
