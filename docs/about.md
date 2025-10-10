@@ -15,6 +15,9 @@
   flex: 1;
   min-width: 240px;
 }
+.linkedin-badge {
+  margin-top: 16px;
+}
 @media (max-width: 768px) {
   .hero {
     flex-direction: column;
@@ -27,6 +30,10 @@
   }
   .hero-text {
     text-align: center;
+  }
+  .linkedin-badge {
+    display: flex;
+    justify-content: center;
   }
 }
 </style>
@@ -52,12 +59,13 @@
   <a href="mailto:alvin2001berkeley@gmail.com">alvin2001berkeley@gmail.com</a>)</span>
 </p>
 
-<p>
-  <strong>🔗 LinkedIn:</strong>
-  <a href="https://www.linkedin.com/in/alvin-li-596a3316a/" target="_blank">
-    https://www.linkedin.com/in/alvin-li-596a3316a/
-  </a>
-</p>
+<div class="linkedin-badge">
+  <div class="badge-base LI-profile-badge" data-locale="en_US" data-size="medium" data-theme="dark" data-type="VERTICAL" data-vanity="alvin-li-596a3316a" data-version="v1">
+    <a class="badge-base__link LI-simple-link" href="https://sg.linkedin.com/in/alvin-li-596a3316a?trk=profile-badge">Alvin Li</a>
+  </div>
+</div>
+
+<script src="https://platform.linkedin.com/badges/js/profile.js" async defer></script>
 
 ---
 
