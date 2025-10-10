@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Parts Match — Simple + Pro</title>
+<style>
+:root{
+  --bg:#0b0f14; --panel:#0f141b; --ink:#e6eef9; --muted:#9fb4d1;
+  --accent:#60a5fa; --ok:#16a34a; --bad:#ef4444; --warn:#eab308; --line:#1f2a44;
+}
+*{box-sizing:border-box}
+html,body{scrollbar-gutter:stable;}
+body{ margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 system-ui,Segoe UI,Roboto,Ubuntu,sans-serif; }
+.wrap{max-width:1100px;margin:0 auto;padding:28px 16px 100px}
+h1{margin:0 0 10px;font-size:clamp(22px,3.2vw,34px)}
+.lede{color:var(--muted);margin:0 0 18px}
+
+/* Tabs */
+.tabs{display:flex;gap:8px;margin:12px 0 18px;flex-wrap:wrap}
+.tab{padding:10px 14px;border-radius:999px;border:1px solid var(--line);cursor:pointer;background:#0c121b}
+.tab.active{background:#1f4ab8;border-color:#163a94}
+.badge{display:inline-block;padding:2px 8px;border-radius:999px;background:#153568;border:1px solid #26497a;color:#b8cdf0;margin-left:8px}
+
+/* Cards */
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:14px;overflow:hidden}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+
+/* Controls */
+.btn{background:#1f2a44;color:#fff;border:1px solid #223456;border-radius:10px;padding:10px 14px;cursor:pointer}
+.btn:hover{filter:brightness(1.08)}
+.btn.primary{background:#1f4ab8;border-color:#163a94}
+.kpi{display:inline-flex;gap:8px;align-items:center;padding:6px 10px;border:1px solid var(--line);border-radius:10px;background:#0c121b;color:#b9c8e2}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
+select,textarea,input{background:#0c1118;border:1px solid #223147;color:#eaf2ff;border-radius:10px;padding:8px}
+
+/* Tables */
+.card.table-wrap{overflow-x:auto}
+table{width:100%;table-layout:fixed;border-spacing:0 6px}
+th,td{word-break:break-word;overflow-wrap:anywhere;padding:10px 12px;text-align:left}
+th{color:#a6b7d3;font-weight:600;border-bottom:1px solid var(--line)}
+tr{background:#0b1119}
+tr td:first-child{border-radius:8px 0 0 8px}
+tr td:last-child{border-radius:0 8px 8px 0}
+.ok{color:#86efac} .bad{color:#fecaca} .sus{color:#fde68a}
+.hide{display:none}
+.hint{font-size:13px;color:#95adce;margin:6px 0 2px}
+
+/* Row overfill tints (applied to <tr> via JS) */
+tr.state-ok td   { background:linear-gradient(90deg, rgba(22,163,74,.16), rgba(22,163,74,.08)), #0b1119; }
+tr.state-bad td  { background:linear-gradient(90deg, rgba(239,68,68,.18), rgba(239,68,68,.09)), #0b1119; }
+tr.state-sus td  { background:linear-gradient(90deg, rgba(234,179,8,.16), rgba(234,179,8,.06)), #0b1119; }
+
+/* PRO table stability (4 cols now) */
+#pro #p_table{table-layout:fixed;width:100%;border-spacing:0 6px}
+#pro #p_table td:nth-child(4) {text-align: left;}              
+#pro #p_table th,#pro #p_table td{word-break:break-word;overflow-wrap:anywhere;white-space:normal;overflow:hidden;padding:10px 8px}
+#pro #p_table select{width:100%;max-width:clamp(180px,95%,240px);box-sizing:border-box;text-overflow:ellipsis;white-space:nowrap;overflow:hidden}
+#pro .card.table-wrap{overflow-x:clip;border-left:1px solid var(--line);border-right:1px solid var(--line)}
+
+/* SIMPLE table stability (3 cols) */
+#simple #s_table{table-layout:fixed;width:99.9%;border-spacing:0 6px}
+#simple #s_table th,#simple #s_table td{word-break:break-word;overflow-wrap:anywhere;white-space:normal;overflow:hidden;padding-left:8px;padding-right:8px}
+#simple #s_table th:first-child,#simple #s_table td:first-child{ text-align:center; }
+#simple #s_table td:nth-child(3){ text-align:left; } /* chooser hugs left */
+#simple #s_table select{width:100%;max-width:220px;box-sizing:border-box;text-overflow:ellipsis;white-space:nowrap;overflow:hidden}
+#simple .card.table-wrap{overflow-x:clip;border-left:1px solid var(--line);border-right:1px solid var(--line)}
+
+/* Column balance */
+#simple #s_table th,#simple #s_table td,#pro #p_table th,#pro #p_table td{padding-left:8px;padding-right:8px}
+
+/* Keyboard focus ring */
+.tab:focus,.btn:focus,select:focus{outline:2px solid var(--accent);outline-offset:2px}
+
+/* Narrow screens */
+@media (max-width:900px){
+  #pro #p_table select{
+    max-width:clamp(160px,92%,220px)}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Parts Match — Simple <span class="badge">for everyone</span> & Pro <span class="badge">engineers</span></h1>
+  <p class="lede">Start in <b>Simple</b> mode (friendly fake codes). Switch to <b>Pro</b> mode to see the ERP/BOM/CRM-style reconciliation you used at GEV.</p>
+
+  <!-- Tabs with ARIA -->
+  <div class="tabs" role="tablist" aria-label="Mode switch">
+    <button class="tab active" id="tabSimple" role="tab" aria-selected="true" aria-controls="simple">🎯 Simple Mode</button>
+    <button class="tab" id="tabPro" role="tab" aria-selected="false" aria-controls="pro">🔧 Pro Mode</button>
+  </div>
+
+  <!-- SIMPLE -->
+  <section id="simple" class="mode" role="tabpanel" aria-labelledby="tabSimple">
+    <div class="card">
+      <div class="row">
+        <button id="s_regen" class="btn primary">New Round</button>
+        <button id="s_check" class="btn">Check Answers</button>
+        <span class="kpi">Score: <b id="s_score">0</b></span>
+        <span class="kpi">Seed: <span id="s_seed">—</span></span>
+      </div>
+    </div>
+
+    <div class="card table-wrap">
+      <table id="s_table">
+        <colgroup>
+          <col style="width:6%"><!-- # -->
+          <col style="width:44%"><!-- Official Part -->
+          <col style="width:50%"><!-- Choose Warehouse Label -->
+        </colgroup>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Official Part</th>
+            <th>Choose Warehouse Label</th>
+          </tr>
+        </thead>
+        <tbody id="s_tbl"></tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <b>How it works</b>
+      <ul class="lede">
+        <li>We auto-create easy part numbers like <code>TUR-1021-A</code>, <code>VAN-2044</code>.</li>
+        <li>Warehouse labels are slightly messy versions (missing dash, extra zero, lowercase, swapped digits).</li>
+        <li>Pick the label that refers to the same part. Click <b>Check Answers</b> to score points.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- PRO -->
+  <section id="pro" class="mode hide" role="tabpanel" aria-labelledby="tabPro">
+    <div class="card">
+      <div class="row">
+        <button class="btn primary" id="p_generate">Generate Scenario</button>
+        <button class="btn" id="p_reset">Reset</button>
+        <span class="kpi">Total: <b id="p_total">0</b></span>
+        <span class="kpi">Mismatches: <b id="p_mis">0</b></span>
+        <span class="kpi">Resolved: <b id="p_res">0</b></span>
+        <span class="kpi">Score: <b id="p_score">0</b></span>
+      </div>
+      <p class="hint">Tip: Use <b>Auto-Normalize</b> to auto-match obvious BOM = ERP rows (quick wins).</p>
+      <div class="row">
+        <button class="btn" id="p_auto">Auto-Normalize</button>
+        <button class="btn" id="p_reconcile">Reconcile</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <b>Data source</b>
+      <p class="help">We generate realistic families (<span class="mono">DLN</span>, <span class="mono">HGP</span>, <span class="mono">IGV</span>, etc.) then create BOM / ERP / CRM variants with deliberate noise.</p>
+    </div>
+
+    <div class="card table-wrap">
+      <table id="p_table">
+        <colgroup>
+          <col style="width:6%"><!-- # -->
+          <col style="width:30%"><!-- BOM -->
+          <col style="width:30%"><!-- ERP -->
+          <col style="width:34%"><!-- CRM Options -->
+        </colgroup>
+        <thead>
+          <tr><th>#</th><th>BOM</th><th>ERP</th><th>CRM Options</th></tr>
+        </thead>
+        <tbody id="p_tbl"></tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+<script>
+/* ---------- shared helpers ---------- */
+let seed=Date.now()%100000;
+function sRand(){seed=(seed*1664525+1013904223)%4294967296;return seed/4294967296;}
+function pick(a){return a[Math.floor(sRand()*a.length)];}
+function normalize(s){return s.toUpperCase().replace(/[^A-Z0-9]/g,'').replace(/^0+/,'');}
+
+/* ---------- tabs with ARIA + keyboard ---------- */
+const tabSimple=document.getElementById('tabSimple');
+const tabPro=document.getElementById('tabPro');
+function showSimple(){tabSimple.classList.add('active');tabPro.classList.remove('active');tabSimple.setAttribute('aria-selected','true');tabPro.setAttribute('aria-selected','false');document.getElementById('simple').classList.remove('hide');document.getElementById('pro').classList.add('hide');}
+function showPro(){tabPro.classList.add('active');tabSimple.classList.remove('active');tabPro.setAttribute('aria-selected','true');tabSimple.setAttribute('aria-selected','false');document.getElementById('pro').classList.remove('hide');document.getElementById('simple').classList.add('hide');}
+tabSimple.onclick=showSimple; tabPro.onclick=showPro;
+document.querySelector('.tabs').addEventListener('keydown',(e)=>{
+  const keys=['ArrowLeft','ArrowRight','Home','End','Enter',' '];
+  if(!keys.includes(e.key)) return;
+  e.preventDefault();
+  if(e.key==='ArrowLeft'||e.key==='Home'){tabSimple.focus();showSimple();}
+  if(e.key==='ArrowRight'||e.key==='End'){tabPro.focus();showPro();}
+  if(e.key==='Enter'||e.key===' '){(document.activeElement===tabSimple)?showSimple():showPro();}
+});
+
+/* ============================ SIMPLE MODE ============================ */
+const S_PREFIX=['TUR','VAN','COO','NOZ','IGN','FLT','BLD','COM','HGP','DLN'];
+const S_SUFFIX=['','','','-A','-B','-C'];
+function s_makeBase(){return `${pick(S_PREFIX)}-${1000+Math.floor(sRand()*9000)}${pick(S_SUFFIX)}`;}
+function s_messy(s){
+  const ops=[x=>x.replace('-',''),x=>x.replace(/(\d)/,'0$1'),x=>x.replace(/(\d)(\d)/,'$2$1'),
+             x=>x+pick(['','-R1','-TW','-V2']),x=>x.toLowerCase()];
+  let out=s; const n=1+Math.floor(sRand()*2); for(let i=0;i<n;i++) out=pick(ops)(out); return out;
+}
+const S={rows:[],score:0,show:false};
+function s_newRound(){
+  seed=Date.now()%100000; document.getElementById('s_seed').textContent=seed;
+  S.rows=[]; for(let i=0;i<10;i++){
+    const base=s_makeBase();
+    const correct=s_messy(base);
+    const wrong1=s_messy(base).replace(/.$/,m=>m==='9'?'8':String.fromCharCode(m.charCodeAt(0)+1));
+    const wrong2=s_messy(s_makeBase());
+    const opts=[correct,wrong1,wrong2].sort(()=>sRand()-0.5);
+    S.rows.push({id:i+1,base,correct:normalize(correct),opts,choice:''});
+  }
+  S.score=0; S.show=false; s_paint();
+}
+function s_check(){
+  let score=0; S.show=true;
+  S.rows.forEach(r=>{ if(!r.choice) return; score += (normalize(r.choice)===r.correct)?5:-2; });
+  S.score=score; s_paint();
+}
+function s_paint(){
+  const tbody=document.getElementById('s_tbl'); tbody.innerHTML='';
+  S.rows.forEach(r=>{
+    const tr=document.createElement('tr');
+    // tint state
+    let cls='state-sus';
+    if(S.show){
+      if(!r.choice) cls='state-sus';
+      else cls = (normalize(r.choice)===r.correct) ? 'state-ok' : 'state-bad';
+    }
+    tr.className=cls;
+    tr.innerHTML=`
+      <td>${r.id}</td>
+      <td><code>${r.base}</code></td>
+      <td>
+        <select data-id="${r.id}">
+          <option value="">Choose…</option>
+          ${r.opts.map(o=>`<option ${o===r.choice?'selected':''}>${o}</option>`).join('')}
+        </select>
+      </td>`;
+    tbody.appendChild(tr);
+  });
+  tbody.querySelectorAll('select').forEach(sel=>{
+    sel.onchange=(e)=>{
+      const id=+e.target.dataset.id;
+      const row=S.rows.find(x=>x.id===id);
+      row.choice=e.target.value;
+      if(S.show) s_paint(); // live update tint after "Check Answers"
+    };
+  });
+  document.getElementById('s_score').textContent=S.score;
+}
+document.getElementById('s_regen').onclick=s_newRound;
+document.getElementById('s_check').onclick=s_check;
+
+/* ============================ PRO MODE ============================ */
+const FAMILIES=['DLN','HGP','IGV','NOZ','VSV','LPT','HPT','CC','BLADE','SEAL'];
+const SERIES=['7HA','9FA','M501J','LM2500','E2C'];
+function p_base(){
+  const block1=String(10+Math.floor(sRand()*990)).padStart(3,'0');
+  const block2=String(1+Math.floor(sRand()*9999)).padStart(4,'0');
+  return `${pick(FAMILIES)}-${block1}-${block2}-${pick(SERIES)}`;
+}
+function p_mutate(pn){
+  const ops=[
+    s=>s.replace(/-/g,''), s=>s.replace(/(\d)(\d)/,'$2$1'),
+    s=>s+pick(['-A','-B','-TW','-CN','-R1']),
+    s=>s.replace(/(\d+)/,m=>m.padStart(m.length+1,'0')),
+    s=>s.replace(/([A-Z]+)-/,m=>m.toLowerCase()),
+    s=>s.replace(/(\d{3})-(\d{4})/,'$2-$1')
+  ];
+  let s=pn; const n=1+Math.floor(sRand()*2); for(let i=0;i<n;i++) s=pick(ops)(s); return s;
+}
+function p_variants(real){
+  const bom=real;
+  const erp=(sRand()<0.6?p_mutate(real):real);
+  const trueOpt=(sRand()<0.7?p_mutate(real):real);
+  const d1=p_mutate(real).replace(/.$/,x=>x==='9'?'8':String.fromCharCode(x.charCodeAt(0)+1));
+  const d2=p_mutate(real).replace(/^./,x=>x==='Z'?'Y':String.fromCharCode(x.charCodeAt(0)+1));
+  const options=[trueOpt,d1,d2].sort(()=>sRand()-0.5);
+  return {bom,erp,options,answer:normalize(trueOpt),answerRaw:trueOpt};
+}
+const P={rows:[],score:0,resolved:0};
+function p_generate(){
+  seed=Date.now()%100000;
+  P.rows=Array.from({length:12},(_,i)=>{const base=p_base();return{id:i+1,...p_variants(base),chosen:null,status:'sus'};});
+  P.score=0; P.resolved=0; p_paint();
+}
+function p_auto(){
+  P.rows.forEach(r=>{
+    const nB=normalize(r.bom), nE=normalize(r.erp);
+    if(nB===nE && r.status!=='ok'){
+      r.status='ok'; P.resolved++; P.score+=3;
+    }
+  });
+  p_paint();
+}
+function p_reconcile(){
+  P.rows.forEach(r=>{
+    if(r.status==='ok' || !r.chosen) return;
+    const right=normalize(r.chosen)===r.answer;
+    r.status = right ? 'ok' : 'bad';
+    if(right){ P.score+=5; P.resolved++; } else { P.score-=2; }
+  });
+  p_paint();
+}
+function p_paint(){
+  const tbody=document.getElementById('p_tbl'); tbody.innerHTML='';
+  P.rows.forEach((r,idx)=>{
+    // Live or finalized tint
+    let cls='state-sus';
+    const hasChoice=!!r.chosen;
+    const isCorrect=hasChoice && (normalize(r.chosen)===r.answer);
+    if(r.status==='ok') cls='state-ok';
+    else if(r.status==='bad') cls='state-bad';
+    else if(hasChoice) cls = isCorrect ? 'state-ok' : 'state-bad';
+
+    const tr=document.createElement('tr');
+    tr.className=cls;
+    tr.innerHTML=`
+      <td class="mono">${r.id}</td>
+      <td class="mono">${r.bom}</td>
+      <td class="mono">${r.erp}</td>
+      <td>
+        <select data-idx="${idx}">
+          <option value="">— choose CRM option —</option>
+          ${r.options.map(o=>`<option ${r.chosen===o?'selected':''}>${o}</option>`).join('')}
+        </select>
+      </td>`;
+    tbody.appendChild(tr);
+  });
+  tbody.querySelectorAll('select').forEach(sel=>{
+    sel.onchange=(e)=>{
+      const i=+e.target.dataset.idx;
+      P.rows[i].chosen=e.target.value||null;
+      p_paint(); // live update tint
+    };
+  });
+  document.getElementById('p_total').textContent=P.rows.length;
+  document.getElementById('p_mis').textContent=P.rows.filter(x=>x.status!=='ok').length;
+  document.getElementById('p_res').textContent=P.resolved;
+  document.getElementById('p_score').textContent=P.score;
+}
+document.getElementById('p_generate').onclick=p_generate;
+document.getElementById('p_reset').onclick=p_generate;
+document.getElementById('p_auto').onclick=p_auto;
+document.getElementById('p_reconcile').onclick=p_reconcile;
+
+/* boot */
+s_newRound();
+p_generate();
+</script>
+</body>
+</html>

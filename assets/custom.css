@@ -1,0 +1,28 @@
+html {
+  zoom: 1.2;        /* works in most browsers */
+  -moz-transform: scale(1.2);  /* Firefox fallback */
+  -moz-transform-origin: top center;
+}
+
+html, :root, body {
+  font-size: 125% !important;
+}
+
+.md-typeset {
+  line-height: 1.8;
+}
+
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3 {
+  line-height: 1.25;
+}
+
+.md-nav__link {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+.md-nav__item {
+  margin-bottom: 4px;
+}
