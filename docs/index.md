@@ -8,18 +8,26 @@
 }
 
 .hero__img {
-  width: 300px;              /* desktop/tablet */
+  width: 300px;
   border-radius: 12px;
   box-shadow: 0 0 12px rgba(0,0,0,0.4);
+  display: block;
+}
+
+.hero__caption {
+  font-size: 0.8rem;
+  color: #9fb4d1;
+  margin-top: 6px;
+  text-align: center;
 }
 
 .hero__body {
   flex: 1 1 auto;
-  text-align: left;          /* ensure left alignment for text & bullets */
+  text-align: left;
 }
 
 .hero__body ul {
-  padding-left: 20px;        /* indent bullets nicely */
+  padding-left: 20px;
   list-style-position: outside;
 }
 
@@ -31,20 +39,22 @@
   }
 
   .hero__img {
-    width: 60%;              /* smaller avatar on mobile */
+    width: 60%;
     max-width: 320px;
   }
 
   .hero__body {
-    text-align: left;        /* override centering for bullet points */
+    text-align: left;
     width: 90%;
   }
 }
 </style>
 
 <div class="hero">
-  <img src="/alvin-site/assets/yomori-512.png" alt="Alvin Li" class="hero__img" />
-  <p class="hero__caption">Source: Kou Yamori (<em>Call of the Night</em> S2 E1)</p>
+  <div>
+    <img src="/alvin-site/assets/yomori-512.png" alt="Kou Yamori — Call of the Night S2 E1" class="hero__img" />
+    <p class="hero__caption">Source: Kou Yamori (<em>Call of the Night</em> S2 E1)</p>
+  </div>
   <div class="hero__body">
     <p><strong>Precision across logistics, infrastructure, and industrial systems.</strong></p>
     <p>I share concise observations from industrial plants, laboratories, airports, rail hubs, and stadiums — places where scale and discipline define how things run.</p>
