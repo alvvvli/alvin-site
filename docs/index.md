@@ -56,7 +56,7 @@
 </style>
 
 <div class="hero">
-  <div class="hero_imgbox">
+  <div class="hero__imgbox">
     <img src="/alvin-site/assets/yomori-512.png" alt="Kou Yamori — Call of the Night S2 E1" class="hero__img" />
     <p class="hero__caption">
       Source: <a href="https://yofukashi-no-uta.com/" target="_blank" rel="noopener">「よふかしのうた」製作委員会</a>
