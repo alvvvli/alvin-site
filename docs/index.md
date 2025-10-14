@@ -7,6 +7,11 @@
   margin: 0 0 24px 0;
 }
 
+.hero__imgbox {
+  flex: 1 1 100%;
+  text-align: center;
+}
+
 .hero__img {
   width: 300px;
   border-radius: 12px;
@@ -51,10 +56,10 @@
 </style>
 
 <div class="hero">
-  <div>
+  <div class="hero_imgbox">
     <img src="/alvin-site/assets/yomori-512.png" alt="Kou Yamori — Call of the Night S2 E1" class="hero__img" />
     <p class="hero__caption">
-      Source: <a href="https://yofukashi-no-uta.com/" target="_blank" rel="noopener"><em>Call of the Night</em> Official Site</a>
+      Source: <a href="https://yofukashi-no-uta.com/" target="_blank" rel="noopener">「よふかしのうた」製作委員会</a>
     </p>
   </div>
   <div class="hero__body">
