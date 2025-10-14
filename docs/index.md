@@ -53,7 +53,9 @@
 <div class="hero">
   <div>
     <img src="/alvin-site/assets/yomori-512.png" alt="Kou Yamori — Call of the Night S2 E1" class="hero__img" />
-    <p class="hero__caption">Source: Kotoyama: Kou Yamori ("Call of the Night" S2 E1)</p>
+    <p class="hero__caption">
+      Source: <a href="https://yofukashi-no-uta.com/" target="_blank" rel="noopener"><em>Call of the Night</em> Official Site</a>
+    </p>
   </div>
   <div class="hero__body">
     <p><strong>Precision across logistics, infrastructure, and industrial systems.</strong></p>
