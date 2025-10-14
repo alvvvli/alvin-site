@@ -43,8 +43,8 @@
 </style>
 
 <div class="hero">
-  <img src="/alvin-site/assets/yomori-512.png"
-       alt="Alvin Li" class="hero__img" />
+  <img src="/alvin-site/assets/yomori-512.png" alt="Alvin Li" class="hero__img" />
+  <p class="hero__caption">Source: Kou Yamori (<em>Call of the Night</em> S2 E1)</p>
   <div class="hero__body">
     <p><strong>Precision across logistics, infrastructure, and industrial systems.</strong></p>
     <p>I share concise observations from industrial plants, laboratories, airports, rail hubs, and stadiums — places where scale and discipline define how things run.</p>
