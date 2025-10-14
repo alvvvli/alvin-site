@@ -1,14 +1,14 @@
 <style>
 .hero {
   display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
+  flex-direction: column;
+  align-items: center;
   gap: 20px;
   margin: 0 0 24px 0;
+  text-align: center;
 }
 
 .hero__imgbox {
-  flex: 1 1 100%;
   text-align: center;
 }
 
@@ -17,6 +17,7 @@
   border-radius: 12px;
   box-shadow: 0 0 12px rgba(0,0,0,0.4);
   display: block;
+  margin: 0 auto; /* ensures center alignment */
 }
 
 .hero__caption {
@@ -27,7 +28,7 @@
 }
 
 .hero__body {
-  flex: 1 1 auto;
+  max-width: 700px;
   text-align: left;
 }
 
@@ -37,17 +38,10 @@
 }
 
 @media (max-width: 768px) {
-  .hero {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
   .hero__img {
     width: 60%;
     max-width: 320px;
   }
-
   .hero__body {
     text-align: left;
     width: 90%;
