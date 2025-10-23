@@ -1,0 +1,45 @@
+<style>
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: 0 0 24px 0;
+  gap: 12px;
+}
+.hero img {
+  width: 85%;
+  max-width: 720px;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.4);
+}
+.hero__caption {
+  font-size: 0.8rem;
+  color: #9fb4d1;
+}
+</style>
+
+# Taiwan Railway × Geismar — Track Maintenance Automation in the Field
+
+<div class="hero">
+  <img src="../JPG_VID/geismar1.jpg" alt="Geismar Track Maintenance Gantry — Yongkang Station" />
+  <p class="hero__caption">Captured at TRA Yongkang Station Yard (永康車站), Tainan City</p>
+</div>
+
+Captured beyond Taiwan Railway Administration, MOTC Yongkang Station (永康車站) yard,  
+the modular rail-handling system deployed by **Geismar Rail Industry Technologies & Services** comprises:
+
+1. Track-panel lifting gantries (LRB / TPL series)  
+2. Self-propelled carriers (MPV / TRC series)
+
+These units streamline Taiwan’s rail renewal with synchronized hydraulic lift and balanced load panel transfer.
+
+<div class="hero">
+  <img src="../JPG_VID/geismar2.jpg" alt="Geismar Track Carrier Operation" />
+  <img src="../JPG_VID/geismar3.jpg" alt="Geismar Gantry Detail" />
+</div>
+
+European machine precision meets Taiwan’s ongoing rail modernization.
+
+## Tags
+`RailEngineering`  `Geismar`  `TaiwanRailway`  `MaintenanceOfWay`  `Infrastructure`  `IndustrialDesign`  `RollingStock`  `TrackRenewal`
