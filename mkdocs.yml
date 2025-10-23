@@ -72,6 +72,7 @@ nav:
       - New Tashkent Metro: rail/tosh.md
       - THSR Platform Measurement: rail/thsrmsr.md
       - THSR 700T Braking Symphony: rail/thsrbrake.md
+      - Taiwan Railway × Geismar — Track Maintenance Automation: rail/geismar.md
   - Automation:
       - Overview: automation/index.md
       - ABB Flexley + Cambrian: automation/abb-flexley-cambrian.md
