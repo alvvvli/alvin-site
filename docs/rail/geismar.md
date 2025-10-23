@@ -5,17 +5,31 @@
   align-items: center;
   text-align: center;
   margin: 0 0 24px 0;
-  gap: 12px;
+  gap: 10px;
 }
 .hero img {
-  width: 85%;
-  max-width: 720px;
+  width: 55%;                /* smaller hero image */
+  max-width: 480px;
   border-radius: 12px;
-  box-shadow: 0 0 12px rgba(0,0,0,0.4);
+  box-shadow: 0 0 10px rgba(0,0,0,0.4);
 }
 .hero__caption {
   font-size: 0.8rem;
   color: #9fb4d1;
+  margin-top: 4px;
+}
+
+/* secondary image grid */
+.img-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  margin: 20px 0;
+}
+.img-grid img {
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.3);
 }
 </style>
 
