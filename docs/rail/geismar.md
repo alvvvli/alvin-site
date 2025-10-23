@@ -22,7 +22,7 @@
 # Taiwan Railway × Geismar — Track Maintenance Automation in the Field
 
 <div class="hero">
-  <img src="../JPG_VID/geismar1.jpg" alt="Geismar Track Maintenance Gantry — Yongkang Station" />
+  <img src="/alvin-site/JPG_VID/geismar1.jpg" alt="Geismar Track Maintenance Gantry — Yongkang Station" />
   <p class="hero__caption">Captured at TRA Yongkang Station Yard (永康車站), Tainan City</p>
 </div>
 
@@ -35,8 +35,8 @@ the modular rail-handling system deployed by **Geismar Rail Industry Technologie
 These units streamline Taiwan’s rail renewal with synchronized hydraulic lift and balanced load panel transfer.
 
 <div class="hero">
-  <img src="../JPG_VID/geismar2.jpg" alt="Geismar Track Carrier Operation" />
-  <img src="../JPG_VID/geismar3.jpg" alt="Geismar Gantry Detail" />
+  <img src="/alvin-site/JPG_VID/geismar2.jpg" alt="Geismar Track Carrier Operation" />
+  <img src="/alvin-site/JPG_VID/geismar3.jpg" alt="Geismar Gantry Detail" />
 </div>
 
 European machine precision meets Taiwan’s ongoing rail modernization.
