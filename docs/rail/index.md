@@ -24,3 +24,4 @@ Interfaces, dwell time, coupling systems, catenary geometry, and border ops.
 - [New Tashkent Metro](tosh.md)
 - [THSR Platform Measurement](thsrmsr.md)
 - [THSR 700T Braking Symphony](thsrbrake.md)
+- [Taiwan Railway × Geismar — Track Maintenance Automation](geismar.md)
