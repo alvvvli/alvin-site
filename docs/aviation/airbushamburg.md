@@ -29,7 +29,4 @@ Above, the iconic **Beluga transporter** landed: a visible reminder of the **sup
 
 Engineering, logistics, and aviation’s future — **synchronized on one runway**.  
 
----
-
-### Tags  
 `#AerospaceEngineering` `#AdvancedManufacturing` `#GlobalSupplyChain` `#AviationIndustry` `#IndustrialOperations` `#Airbus`
