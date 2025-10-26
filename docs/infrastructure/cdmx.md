@@ -18,6 +18,5 @@ This is **mobility as social infrastructure**, turning geography into opportunit
 A reminder that supply chains and urban networks share the same truth:  
 **integration builds resilience.**  
 
-### **Tags:** 
 `#UrbanMobility` `#Resilience` `#MexicoCity` `#GlobalInfrastructure`
 
