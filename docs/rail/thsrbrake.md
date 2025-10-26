@@ -20,5 +20,4 @@ a hallmark of the Shinkansen lineage.
 From the hum of regeneration to the hiss of precision,
 every sound carries the weight of design.
 
-## Tags
 `#Shinkansen` `#700T` `#KawasakiHeavyIndustries` `#HitachiRail` `#NipponSharyo` `#RailEngineering` `#DecelerationCurve` `#RegenerativeBraking` `#RheostaticBraking` `#PneumaticBraking` `#VVVFInverter` `#RailSystems` `#PrecisionInMotion` `#JapanEngineering` `#TaiwanHighSpeedRail`
