@@ -30,6 +30,4 @@
 These numbers aren’t just specs — they are **quiet proof of how Tokyo builds resilience into every curve**.  
 
 ---
-
-### Tags  
 `#Tokyo` `#Infrastructure` `#Engineering` `#BridgeDesign` `#UrbanLogistics` `#Resilience`
