@@ -13,5 +13,4 @@ Every layer — form, texture, acoustic flow — embodies Japan's industrial dis
 
 🔗 Link: [Japan Airlines A350-1000 Launch 2024](http://press.jal.co.jp/en/items/uploads/A350-1000%20Launch%20Release%20FNL-1.pdf)
 
-## Tags
 `#Panasonic` `#JapanAirlines` `#AviationDesign` `#SoundSlayer` `#CES2025` `#IndustrialDesign` `#EngineeringPrecision`
