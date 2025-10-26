@@ -27,6 +27,4 @@ Beneath Tashkent’s **ornate, Soviet-era stations**, these new-generation units
 Here, **urban mobility** becomes both a **technical achievement** and a **cultural statement**: progress built on precision, pragmatism, and legacy integration.
 
 ---
-
-### **Tags:**  
 `#UrbanMobility` `#RailSystems` `#Infrastructure` `#Resilience` `#Tashkent` `#RollingStock` `#TractionSystems` `#IndustrialDesign` `#RailEngineering`
