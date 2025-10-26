@@ -24,6 +24,4 @@ Efficiency here isn’t about raw speed — it’s about **predictable rhythm**,
 This is logistics at an urban scale — where the principle of *flow efficiency* extends beyond freight to everyday human mobility.
 
 ---
-
-### **Tags:**  
 `#UrbanMobility` `#Infrastructure` `#Logistics` `#FlowEfficiency` `#Netherlands` `#Engineering` `#TransportSystems` `#SustainableDesign` `#HumanFactors`
