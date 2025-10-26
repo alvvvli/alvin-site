@@ -29,6 +29,4 @@ Cold-chain sourcing, just-in-time distribution, and rapid turnover at stations m
 The E7 bento shows how **rail logistics**, **cultural branding**, and **cold-chain operations** converge — a small product representing Japan’s larger discipline in supply chain precision.  
 
 ---
-
-### Tags  
 `#Shinkansen` `#SupplyChain` `#Operations` `#JIT` `#RailLogistics` `#ColdChain`
