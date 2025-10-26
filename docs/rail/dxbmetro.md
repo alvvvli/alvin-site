@@ -28,6 +28,4 @@ In a **city engineered around ambition**, the Dubai Metro stands as proof that *
 في <b>مدينة طموحة كدبي</b>، يبرهن هذا المترو أن <b>الأتمتة والتصميم البشري</b> يمكن أن يتكاملا — حيث يُبنى الكفاءة بالأناقة، والتقدم بالدقة.
 
 ---
-
-## **Tags:** 
 `#DubaiMetro` `#UrbanMobility` `#Infrastructure` `#Automation` `#Engineering` `#Logistics` `#Resilience` `#MiddleEast`
