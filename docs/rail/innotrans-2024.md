@@ -22,6 +22,4 @@ A hands-on look into the precision behind European rail innovation.
 > Every lever, every touchscreen, every iconic beep is part of the discipline that keeps millions moving daily.
 
 ---
-
-### Tags
 `#InnoTrans2024` `#RailInnovation` `#SupplyChain` `#Siemens` `#Stadler` `#Alstom` `#BVG`
