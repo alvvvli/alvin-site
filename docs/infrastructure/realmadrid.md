@@ -31,7 +31,5 @@ This is how a **stadium evolves from venue to infrastructure icon** — where sp
 
 **From blueprint to grandstand: performance built on structure.**  
 
----
-
-### Tags  
+--- 
 `#MegaProject` `#RealMadrid` `#SportsLogistics` `#Engineering` `#Infrastructure` `#StadiumDesign`
