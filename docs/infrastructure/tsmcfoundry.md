@@ -32,6 +32,4 @@ Walking past **Fab 18 in Tainan today**, it’s striking how that vision scaled 
 From **visionary pitch decks** to **world-dominating infrastructure**, TSMC reshaped how semiconductors are built — and how global supply chains are structured.  
 
 ---
-
-### Tags  
 `#Semiconductors` `#TSMC` `#Innovation` `#GlobalSupplyChain` `#Infrastructure` `#AdvancedManufacturing`
