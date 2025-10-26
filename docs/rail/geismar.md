@@ -55,5 +55,4 @@ These units streamline Taiwan’s rail renewal with synchronized hydraulic lift 
 
 European machine precision meets Taiwan’s ongoing rail modernization.
 
-## Tags
 `RailEngineering`  `Geismar`  `TaiwanRailway`  `MaintenanceOfWay`  `Infrastructure`  `IndustrialDesign`  `RollingStock`  `TrackRenewal`
