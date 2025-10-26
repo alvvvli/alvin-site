@@ -15,6 +15,4 @@ A small component — yet critical for security and seamless passenger flow.
 In rail operations, even the simplest hardware is integrated into broader standards of **safety, interoperability, and reliability**.  
 
 ---
-
-### Tags  
 `#RailSecurity` `#RailTech` `#PassengerExperience`
