@@ -25,6 +25,4 @@ From rail in Berlin to aviation in California, each step deepens my perspective 
       style="width:48%;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);">
 </div>
 
-## Tags
-
 `#Aviation` `#SiliconValley` `#Innovation` `#SupplyChains` `#AI` `#FutureOfFlight`

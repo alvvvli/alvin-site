@@ -25,6 +25,4 @@ Once a landscape defined by distance, **precision engineering** and **electrifie
 The Afrosiyob embodies how **strategic investment in rail electrification** drives regional cohesion, technical advancement, and sustainable growth.
 
 ---
-
-### **Tags:**  
 `#HighSpeedRail` `#Infrastructure` `#Electrification` `#CentralAsia` `#Uzbekistan` `#Talgo` `#RailEngineering` `#PowerSystems` `#Mobility` `#Resilience`

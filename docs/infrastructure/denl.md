@@ -20,6 +20,4 @@ a corridor linking **Maasvlakte to Duisburg**, Europe’s sea-to-inland supply c
 This border isn’t just geography — it’s **Europe’s logistics made seamless**.  
 
 ---
-
-### Tags  
 `#CrossBorderLogistics` `#Infrastructure` `#Schengen` `#Europe`

@@ -24,8 +24,5 @@ Developed for **inspection and measurement on concrete infrastructure**, SPIRADE
 ---
 
 By combining **robotics** with **civil infrastructure management**, JR East demonstrates how digital inspection technologies are reshaping rail maintenance.  
-
----
-
-### Tags  
+  
 `#JR東日本` `#Robotics` `#Infrastructure` `#RailMaintenance` `#Automation`

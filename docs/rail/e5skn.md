@@ -37,6 +37,4 @@ More than speed — it’s **resilience, system integration, and infrastructure 
 速度以上に示すのは、「システム統合」と「インフラ運営力」です。  
 
 ---
-
-### Tags  
 `#新幹線` `#RailLogistics` `#Operations` `#SupplyChain` `#Infrastructure`

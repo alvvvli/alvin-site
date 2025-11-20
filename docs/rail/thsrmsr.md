@@ -16,6 +16,5 @@ At **Taichung HSR Station**, the calibration ruler ensures that every door on **
 A visual reminder that system reliability is built on *cumulative precision* —
 from scheduling algorithms to physical tolerances at every stop.
 
-## Tags
 `#RailOperations` `#RailEngineering` `#THSR` `#Infrastructure` `#Precision`
 

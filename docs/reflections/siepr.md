@@ -16,6 +16,4 @@ Nearly two years later, the lessons stay sharp: there is always more to learn, a
 🔗 [Event Recap — Stanford SIEPR 2024](https://siepr.stanford.edu/siepr-events/summits/2024-siepr-economic-summit)
 
 ---
-
-### Tags  
 `#EconomicPolicy` `#GlobalEconomy` `#TechnologyLeadership` `#FutureOfMobility` `#AIInnovation`

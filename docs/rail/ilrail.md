@@ -19,5 +19,4 @@ From the **deep tunnel of Jerusalem–Yitzhak Navon Station** to the steep desce
 
 A strong case of **logistics-minded rail engineering** — precision and reliability maintaining continuity through topographical challenge.
 
-### Tags
 `#IsraelRailways` `#Siemens` `#Infrastructure` `#RailEngineering` `#Mobility` `#Logistics`

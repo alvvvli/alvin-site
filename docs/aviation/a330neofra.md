@@ -18,7 +18,4 @@ The **A330neo** integrates next-generation wing technology adapted from the A350
 
 Seen here on Condor’s fleet, the left wing is more than structure — it’s an engineered balance of lift, drag, and resilience that defines modern long-haul economics.  
 
----
-
-### Tags  
 `#A330neo` `#Condor` `#AviationEngineering` `#Aerodynamics` `#FrankfurtAirport`

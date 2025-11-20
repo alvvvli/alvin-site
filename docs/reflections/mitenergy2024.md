@@ -83,6 +83,4 @@ Conferences like these reminded me of the same lessons I carried from Europe and
 > MIT 2024 made that crystal clear.
 >
 
-## Hashtags
-
 `#Hydrogen` `#EnergyTransition` `#Electrochemistry` `#PowerElectronics` `#CleanTech` `#HardwareMatters` `#MITEnergy` `#Decarbonization` `#FutureGrid`

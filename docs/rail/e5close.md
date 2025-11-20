@@ -19,6 +19,4 @@ It keeps the train's safety systems in control — only after onboard interlocks
 A small detail, but it shows how **layered redundancy** keeps 320 km/h travel running with precision.  
 
 ---
-
-### Tags  
 `#RailTech` `#Mobility` `#HumanFactors` `#Japan`

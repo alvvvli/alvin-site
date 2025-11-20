@@ -29,7 +29,4 @@ A demonstration of how **teleoperation merges with mobility** — framing roboti
 
 This exhibit signals Japan’s vision of robotics as **infrastructure-grade technology**, bridging human control with autonomous mobility.  
 
----
-
-### Tags  
 `#Robotics` `#Teleoperation` `#FutureTech` `#Tokyo` `#Automation` `#UrbanMobility`

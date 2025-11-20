@@ -33,6 +33,4 @@
 - **Resilience in one horizon** → logistics, energy, and industrial base operating side by side.  
 
 ---
-
-### Tags  
 `#Resilience` `#EnergyTransition` `#Logistics` `#PortOfRotterdam` `#Infrastructure`

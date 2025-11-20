@@ -31,6 +31,4 @@ The result → **clearer UI, sharper visuals, deeper fidelity, and greater immer
 The A330neo’s IFE marks a shift where **technology and design converge**, making passenger engagement a core element of airline differentiation.  
 
 ---
-
-### Tags  
 `#AviationEngineering` `#IFE` `#CabinInnovation` `#PassengerExperience` `#Safran` `#FlightPath3D` `#FutureOfTravel`

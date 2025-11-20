@@ -19,7 +19,5 @@
 From visible form to hidden force — precision moves rail forward.
 
 ---
-
-### Tags  
 `#OEMEngineering` `#RollingStock` `#RailEngineering` `#TransportTechnology`  
 `#MobilityInnovation` `#FutureOfTransport` `#IndustrialDesign`

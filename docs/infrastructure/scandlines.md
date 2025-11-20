@@ -17,5 +17,4 @@ Each step, from vehicle staging to roll-on roll-off sequencing, represents **a c
 Scandlines’ corridor design shows how **operational synchronization** and **engineering discipline** deliver reliability across national borders —
 a hallmark of **European logistics architecture**.
 
-**Tags:**
 `#Logistics` `#SupplyChain` `#Infrastructure` `#Scandlines` `#FlowEngineering` `#Mobility`

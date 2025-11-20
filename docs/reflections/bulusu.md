@@ -17,7 +17,4 @@ These takeaways became real while working on our [**Siemens Tecnomatix airport A
 
 I’m grateful for the mentorship and perspective Dr. Bulusu shared. It’s humbling to be reminded that engineering excellence is built less on perfect grades, and more on **rigor, dedication, and applied creativity**.  
 
----
-
-## Tags  
 `#Reflections` `#EngineeringMindset` `#NASA` `#AirTransportation` `#LearningByDoing`

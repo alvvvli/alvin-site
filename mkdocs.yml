@@ -29,15 +29,20 @@ extra:
       link: https://www.linkedin.com/in/alvin-li-596a3316a/
   head:
     - '<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">'
+
 extra_css:
   - assets/custom.css
+  - assets/embeds.css
+  
 nav:
   - Home: index.md
   - Interactive Lab:
       - Overview: lab/index.md
-      - PartMatrix Demo: lab/partmatrix.md
-      - Siemens AGV Simulation: lab/agv.md
-      - Gas Turbine Reconciliation: lab/turbine.md
+      - ✈️ ATC Scheduler: lab/atc.md
+      - 🧩 PartMatrix Demo: lab/partmatrix.md
+      - 🛹 Siemens AGV Simulation: lab/agv.md
+      - 🔩 Gas Turbine Reconciliation: lab/turbine.md
+      - 🚅 Shinkansen Shuffle: lab/skn.md
   - Aviation:
       - Overview: aviation/index.md
       - Airbus Acubed Silicon Valley Innovation Hub: aviation/acubed.md
@@ -45,6 +50,7 @@ nav:
       - Condor A330neo IFE, Redefined: aviation/condorife.md
       - Jamco Quest for Excellence: aviation/jamco.md
       - Airbus Hamburg Finkenwerder: aviation/airbushamburg.md
+      - Panasonic SoundSlayer x Japan Airlines Safran Euphony Seats (A350): aviation/sslayer.md
   - Rail: 
       - Overview: rail/index.md
       - InnoTrans 2024 Cabin: rail/innotrans-2024.md
@@ -66,6 +72,7 @@ nav:
       - New Tashkent Metro: rail/tosh.md
       - THSR Platform Measurement: rail/thsrmsr.md
       - THSR 700T Braking Symphony: rail/thsrbrake.md
+      - Taiwan Railway × Geismar — Track Maintenance Automation: rail/geismar.md
   - Automation:
       - Overview: automation/index.md
       - ABB Flexley + Cambrian: automation/abb-flexley-cambrian.md
@@ -99,5 +106,4 @@ nav:
       - GE Vernova Japan — Cross-Border Collaboration: reflections/gevjp.md
       - Lessons from GE Vernova Leadership: reflections/francisjulia.md
       - Growth is like a lattice: reflections/lattice.md
-      - Panasonic SoundSlayer at CES 2025: reflections/sslayer.md
   - About: about.md

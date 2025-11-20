@@ -7,13 +7,16 @@
   margin-bottom: 24px;
 }
 .hero img {
-  width: 240px;
+  width: 200px;
   border-radius: 12px;
   box-shadow: 0 0 12px rgba(0,0,0,0.4);
 }
 .hero-text {
   flex: 1;
   min-width: 240px;
+}
+.linkedin-badge {
+  margin-top: 16px;
 }
 @media (max-width: 768px) {
   .hero {
@@ -28,6 +31,10 @@
   .hero-text {
     text-align: center;
   }
+  .linkedin-badge {
+    display: flex;
+    justify-content: center;
+  }
 }
 </style>
 
@@ -39,7 +46,7 @@
     <p><strong>I'm Alvin.</strong></p>
     <p>I study and build systems that move industries — across logistics, infrastructure, and manufacturing.</p>
     <p>My focus is precision, clarity, and discipline in how things run.</p>
-    <p>UC Berkeley · Wageningen University & Research · University of Copenhagen · GE Vernova Taipei</p>
+    <p>UC Berkeley · National University of Singapore · Wageningen University & Research · University of Copenhagen · GE Vernova</p>
   </div>
 </div>
 
@@ -52,12 +59,12 @@
   <a href="mailto:alvin2001berkeley@gmail.com">alvin2001berkeley@gmail.com</a>)</span>
 </p>
 
-<p>
-  <strong>🔗 LinkedIn:</strong>
-  <a href="https://www.linkedin.com/in/alvin-li-596a3316a/" target="_blank">
-    https://www.linkedin.com/in/alvin-li-596a3316a/
-  </a>
-</p>
+<script src="https://platform.linkedin.com/badges/js/profile.js" async defer></script>
+<div class="linkedin-badge">
+  <div class="badge-base LI-profile-badge" data-locale="en_US" data-size="large" data-theme="dark" data-type="HORIZONTAL" data-vanity="alvin-li-596a3316a" data-version="v1">
+    <a class="badge-base__link LI-simple-link" href="https://sg.linkedin.com/in/alvin-li-596a3316a?trk=profile-badge">Alvin Li</a>
+  </div>
+</div>
 
 ---
 

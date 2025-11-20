@@ -21,6 +21,4 @@
 From **maintenance precision** to **passenger flow**, these components form the backbone of **European rail reliability** — small details scaling into system-wide performance.  
 
 ---
-
-### Tags  
 `#RailTech` `#Standardization` `#PassengerExperience` `#SafetySystems` `#Interoperability`

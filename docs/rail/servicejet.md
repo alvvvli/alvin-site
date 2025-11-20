@@ -21,6 +21,4 @@ The **ÖBB ServiceJet**, based on Stadler’s Service fleet, integrates **infrar
 Infrared inspection is not just about detecting cracks — it extends the **predictive maintenance horizon**, reducing unplanned downtime and ensuring ÖBB’s dense passenger network maintains resilience.  
 
 ---
-
-### Tags  
 `#ÖBB` `#Stadler` `#RailTech` `#Infrared` `#PredictiveMaintenance`

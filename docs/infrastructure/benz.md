@@ -27,6 +27,4 @@ From early combustion breakthroughs to cutting-edge electric prototypes, the mus
 The Mercedes-Benz Museum captures **mobility as an evolving system** — one where history, technology, and infrastructure intersect.  
 
 ---
-
-### Tags  
 `#Automotive` `#EngineeringHeritage` `#Innovation` `#Stuttgart` `#MobilityHistory`

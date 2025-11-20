@@ -17,5 +17,4 @@ At Automatica, ABB showcased the **Flexley Mover AMR** integrated with **Cambria
 - **ABB cobots** seamlessly picking and placing parts  
 - **End-to-end automation**: from material flow → part picking → flexible manufacturing  
 
-## Tags
 `#Robotics` `#Automation` `#Industry40` 

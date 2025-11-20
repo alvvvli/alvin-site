@@ -26,7 +26,5 @@ From prototype to passenger-ready product, premium aircraft seating demonstrates
 
 Premium cabin seats highlight how **aviation supply chains** translate complex OEM requirements into passenger touchpoints, where **comfort and safety converge with global logistics discipline**.  
 
----
-
-### Tags  
+--- 
 `#Aviation` `#AircraftInteriors` `#SupplyChain` `#AIX` `#CabinInnovation`
