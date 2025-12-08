@@ -65,4 +65,4 @@ The result is a **cyber-physical performance system**: a continuously running, h
 The industrial precision of these systems is what enables the scale, safety, and fluidity of *KÀ*.  
 It is a rare example of entertainment engineering operating with operational discipline found in aerospace, rail, and advanced manufacturing.
 
-`CirqueDuSoleil` `KA` `TAIT` `FTSI` `MeyerSound` `Solotech` `AutomationEngineering` `MotionControl` `LiveSystems` `IndustrialDesign`
+`#CirqueDuSoleil` `#KÀ` `#TAIT` `#FTSI` `#MeyerSound` `#Solotech` `#AutomationEngineering` `#MotionControl` `#LiveSystems` `#IndustrialDesign`
