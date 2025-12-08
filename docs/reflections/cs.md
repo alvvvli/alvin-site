@@ -69,13 +69,4 @@ It is a rare example of entertainment engineering operating with operational dis
 
 ## Tags
 
-`CirqueDuSoleil`  
-`KA`  
-`TAIT`  
-`FTSI`  
-`MeyerSound`  
-`Solotech`  
-`AutomationEngineering`  
-`MotionControl`  
-`LiveSystems`  
-`IndustrialDesign`
+`CirqueDuSoleil` `KA` `TAIT` `FTSI` `MeyerSound` `Solotech` `AutomationEngineering` `MotionControl` `LiveSystems` `IndustrialDesign`
