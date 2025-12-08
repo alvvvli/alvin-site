@@ -67,5 +67,3 @@
 </div>
 
 ---
-
-This site runs on MkDocs + Material.
