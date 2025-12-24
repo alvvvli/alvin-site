@@ -297,7 +297,6 @@ function App() {
       <div style={{ maxWidth: "1120px", margin: "0 auto", padding: "24px 16px" }}>
         <header style={{ display:"flex", justifyContent:"space-between", alignItems:"center", gap:"16px", marginBottom:"16px" }}>
           <h1 style={{ fontSize:"28px", lineHeight:1.2, fontWeight: 600 }}>ATC Hub Scheduler — 3D Segways Edition</h1>
-          <div style={{ opacity:.8, fontSize:"14px" }}>WEX Lab · v2.3</div>
         </header>
 
         <div style={{ display:"grid", gap:"16px", gridTemplateColumns:"1fr" }}>
