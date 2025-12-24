@@ -255,7 +255,6 @@ export default function App() {
       <div className="max-w-7xl mx-auto px-4 py-6">
         <header className="flex items-center justify-between gap-4 mb-4">
           <h1 className="text-2xl md:text-3xl font-semibold">ATC Hub Scheduler — 3D Segways Edition</h1>
-          <div className="text-sm opacity-80">WEX Lab · v2.1</div>
         </header>
 
         <div className="grid lg:grid-cols-3 gap-4">
