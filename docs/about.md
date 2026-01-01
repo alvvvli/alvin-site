@@ -41,7 +41,7 @@
 # About
 
 <div class="hero">
-  <img src="/alvin-site/JPG_VID/bk1.jpeg" alt="bk2">
+  <img src="/alvin-site/JPG_VID/bk2.jpeg" alt="bk2">
   <div class="hero-text">
     <p><strong>I'm Alvin.</strong></p>
     <p>I study and build systems that move industries — across logistics, infrastructure, and manufacturing.</p>
