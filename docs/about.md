@@ -49,9 +49,18 @@
     <p>I'm Alvin.</p>
     <p>I study and build systems that move industries — across logistics, infrastructure, and manufacturing.</p>
     <p>My focus is precision, clarity, and discipline in how things run.</p>
-    <p><strong> `⚡GE Vernova`</strong> <strong>`✈️FAA ATSA`</strong> <strong>`🚅InnoTrans`</strong></p>
-    <p><strong>🏛️</strong></p>
-    <p>`UC Berkeley` `National University of Singapore` `Wageningen University & Research` `University of Copenhagen`</p>
+    <div class="md-tags">
+  <span class="md-tag">⚡ GE Vernova</span>
+  <span class="md-tag">✈️ FAA ATSA</span>
+  <span class="md-tag">🚅 InnoTrans</span>
+</div>
+
+<div class="md-tags">
+  <span class="md-tag">🏛️ UC Berkeley</span>
+  <span class="md-tag">National University of Singapore</span>
+  <span class="md-tag">Wageningen University &amp; Research</span>
+  <span class="md-tag">University of Copenhagen</span>
+</div>
   </div>
 </div>
 
@@ -68,5 +77,5 @@
   <div class="badge-base LI-profile-badge" data-locale="en_US" data-size="large" data-theme="dark" data-type="HORIZONTAL" data-vanity="alvin-li-596a3316a" data-version="v1">
   </div>
 </div>
-
+\
 ---
