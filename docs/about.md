@@ -49,7 +49,7 @@
     <p>I'm Alvin.</p>
     <p>I study and build systems that move industries — across logistics, infrastructure, and manufacturing.</p>
     <p>My focus is precision, clarity, and discipline in how things run.</p>
-    <p><strong> GE Vernova</strong> · <strong>InnoTrans</strong></p> · 
+    <p><strong> GE Vernova</strong> · <strong>FAA Air Traffic Skills Assessment</strong></p> · <strong>InnoTrans</strong></p>
     <p>UC Berkeley · National University of Singapore · Wageningen University & Research · University of Copenhagen</p>
   </div>
 </div>
