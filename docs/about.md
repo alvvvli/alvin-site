@@ -15,6 +15,9 @@
   flex: 1;
   min-width: 240px;
 }
+.hero-text p:first-child {
+  margin-top: 0;
+}
 .linkedin-badge {
   margin-top: 16px;
 }
@@ -56,7 +59,7 @@
   <p><strong>📧 Email:</strong>
     <a href="mailto:alvgrli@berkeley.edu">alvgrli@berkeley.edu</a>
     <span style="color:#9fb4d1;"
-    <p>personal:<a href="mailto:alvin2001berkeley@gmail.com">alvin2001berkeley@gmail.com</a>)</span>
+    <p>personal:<a href="mailto:alvin2001berkeley@gmail.com">alvin2001berkeley@gmail.com</a></span>
   </p>
 </div>
 
