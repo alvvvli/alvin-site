@@ -56,10 +56,10 @@
 ---
 
 <div class="hero-text">
-  <p><strong>📧 Email:</strong>
+  <p><strong>📧 </strong>
     <a href="mailto:alvgrli@berkeley.edu">alvgrli@berkeley.edu</a>
     <span style="color:#9fb4d1;"
-    <p>personal:<a href="mailto:alvin2001berkeley@gmail.com">alvin2001berkeley@gmail.com</a></span>
+    <p><strong> | </strong><a href="mailto:alvin2001berkeley@gmail.com">alvin2001berkeley@gmail.com</a></span>
   </p>
 </div>
 
