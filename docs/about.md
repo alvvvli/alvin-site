@@ -56,8 +56,8 @@
     </div>
 
   <div class="md-tags">
-      <span class="md-tag">🏛️ UC Berkeley</span>
-      <span class="md-tag">National University of Singapore</span>
+      <span class="md-tag">UC Berkeley</span>
+      <span class="md-tag">🏛️ National University of Singapore</span>
       <span class="md-tag">Wageningen University &amp; Research</span>
       <span class="md-tag">University of Copenhagen</span>
   </div>
