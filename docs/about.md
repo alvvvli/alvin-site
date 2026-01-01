@@ -50,17 +50,17 @@
     <p>I study and build systems that move industries — across logistics, infrastructure, and manufacturing.</p>
     <p>My focus is precision, clarity, and discipline in how things run.</p>
     <div class="md-tags">
-  <span class="md-tag">⚡ GE Vernova</span>
-  <span class="md-tag">✈️ FAA ATSA</span>
-  <span class="md-tag">🚅 InnoTrans</span>
-</div>
+      <span class="md-tag">⚡ GE Vernova</span>
+      <span class="md-tag">✈️ FAA ATSA</span>
+      <span class="md-tag">🚅 InnoTrans</span>
+    </div>
 
-<div class="md-tags">
-  <span class="md-tag">🏛️ UC Berkeley</span>
-  <span class="md-tag">National University of Singapore</span>
-  <span class="md-tag">Wageningen University &amp; Research</span>
-  <span class="md-tag">University of Copenhagen</span>
-</div>
+  <div class="md-tags">
+      <span class="md-tag">🏛️ UC Berkeley</span>
+      <span class="md-tag">National University of Singapore</span>
+      <span class="md-tag">Wageningen University &amp; Research</span>
+      <span class="md-tag">University of Copenhagen</span>
+  </div>
   </div>
 </div>
 
