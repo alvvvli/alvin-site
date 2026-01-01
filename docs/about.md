@@ -77,5 +77,4 @@
   <div class="badge-base LI-profile-badge" data-locale="en_US" data-size="large" data-theme="dark" data-type="HORIZONTAL" data-vanity="alvin-li-596a3316a" data-version="v1">
   </div>
 </div>
-\
 ---
