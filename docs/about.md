@@ -3,8 +3,8 @@
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
-  gap: 20px;
-  margin-bottom: 24px;
+  gap: 15px;
+  margin-bottom: 20px;
 }
 .hero img {
   width: 200px;
@@ -43,7 +43,7 @@
 <div class="hero">
   <img src="/alvin-site/JPG_VID/bk2.jpeg" alt="bk2">
   <div class="hero-text">
-    <p><strong>I'm Alvin.</strong></p>
+    <p>I'm Alvin.</p>
     <p>I study and build systems that move industries — across logistics, infrastructure, and manufacturing.</p>
     <p>My focus is precision, clarity, and discipline in how things run.</p>
     <p>UC Berkeley · National University of Singapore · Wageningen University & Research · University of Copenhagen · GE Vernova</p>
@@ -52,12 +52,13 @@
 
 ---
 
-<p>
-  <strong>📧 Email:</strong>
-  <a href="mailto:alvgrli@berkeley.edu">alvgrli@berkeley.edu</a>
-  <span style="color:#9fb4d1;">(personal:
-  <a href="mailto:alvin2001berkeley@gmail.com">alvin2001berkeley@gmail.com</a>)</span>
-</p>
+<div class="hero-text">
+  <p><strong>📧 Email:</strong>
+    <a href="mailto:alvgrli@berkeley.edu">alvgrli@berkeley.edu</a>
+    <span style="color:#9fb4d1;"
+    <p>personal:<a href="mailto:alvin2001berkeley@gmail.com">alvin2001berkeley@gmail.com</a>)</span>
+  </p>
+</div>
 
 <script src="https://platform.linkedin.com/badges/js/profile.js" async defer></script>
 <div class="linkedin-badge">
