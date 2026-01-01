@@ -7,7 +7,7 @@
   margin-bottom: 20px;
 }
 .hero img {
-  width: 200px;
+  width: 350px;
   border-radius: 12px;
   box-shadow: 0 0 12px rgba(0,0,0,0.4);
 }
@@ -62,8 +62,6 @@
       <span class="md-tag">University of Copenhagen</span>
   </div>
   </div>
-</div>
-
 <div class="hero-text">
   <p><strong>📧 </strong>
     <a href="mailto:alvgrli@berkeley.edu">alvgrli@berkeley.edu</a>
@@ -71,6 +69,8 @@
     <p><strong>  |  </strong><a href="mailto:alvin2001berkeley@gmail.com">alvin2001berkeley@gmail.com</a></span>
   </p>
 </div>
+</div>
+
 
 <script src="https://platform.linkedin.com/badges/js/profile.js" async defer></script>
 <div class="linkedin-badge">
