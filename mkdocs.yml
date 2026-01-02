@@ -33,6 +33,7 @@ extra:
 extra_css:
   - assets/custom.css
   - assets/embeds.css
+  - assets/navy-bg.css
   
 nav:
   - Home: index.md
