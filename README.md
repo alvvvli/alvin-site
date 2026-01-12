@@ -1,23 +1,23 @@
-# Alvin Site — Quickstart
+# dbd
 
-## Prereqs
+## prq
 ```bash
 python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install mkdocs-material mkdocs-minify-plugin mkdocs-glightbox
 ```
 
-## Run
+## run
 ```bash
 cd alvin-site
 mkdocs serve
 ```
 
-## Build
+## build
 ```bash
 mkdocs build
 ```
 
-## Deploy (GitHub Pages)
+## deploy
 ```bash
 pip install mkdocs-gh-deploy
 mkdocs gh-deploy -b gh-pages
