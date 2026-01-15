@@ -269,7 +269,7 @@ function App() {
   return (
     <div style={{
       minHeight: "100vh",
-      background: "#0b0f14",
+      background: "#111c33",
       color: "#e6eef9",
       overflowY: "auto",
       WebkitOverflowScrolling: "touch"
