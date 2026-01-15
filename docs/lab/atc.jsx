@@ -240,7 +240,7 @@ export default function App() {
   const altString = altLayers.map((fl) => `FL${fl}`).join(", ");
 
   return (
-    <div className="min-h-screen bg-[#0b0f14] text-[#e6eef9]">
+    <div className="min-h-screen bg-[#111c33] text-[#e6eef9]">
       <style>{`
         .airspace { perspective: 900px; height: 340px; position: relative; overflow:hidden; border-radius: 16px; }
         .layer { position:absolute; left:0; right:0; top:0; bottom:0; transform-style: preserve-3d;}
