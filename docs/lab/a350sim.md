@@ -1,4 +1,4 @@
-# 🛫 A350 Procedure Trainer
+# 🛫 ULR Procedure Trainer
 
 <div class="trainer-hero">
   <div class="trainer-hero__left">
