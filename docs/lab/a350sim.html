@@ -1,0 +1,1081 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>A350 Procedure Trainer (Toy)</title>
+  <style>
+    html, body { margin:0; height:100%; overflow:hidden; background:#070b16; }
+    #wrap { position:relative; width:100%; height:100%; }
+    canvas { display:block; }
+
+    #hud { position:absolute; left:0; top:0; width:100%; height:100%; pointer-events:none; }
+
+    #panel {
+      position:absolute; left:12px; bottom:12px;
+      width:min(460px, 42vw);
+      color:#e7ecff;
+      font:12px/1.35 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      background:rgba(0,0,0,0.40);
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:12px;
+      padding:12px 12px;
+    }
+    #panel .title { font-weight:700; font-size:13px; margin-bottom:6px; }
+    #panel .row { display:flex; gap:10px; flex-wrap:wrap; margin:6px 0; opacity:0.95; }
+    #panel .chip {
+      padding:4px 8px; border-radius:999px;
+      background:rgba(255,255,255,0.07);
+      border:1px solid rgba(255,255,255,0.08);
+    }
+    #panel .good { color:#bff7cf; }
+    #panel .warn { color:#ffd39a; }
+    #panel .bad  { color:#ff9aa8; }
+    #panel .dim { opacity:0.80; }
+    #panel .hr { height:1px; background:rgba(255,255,255,0.10); margin:10px 0; }
+    #panel kbd{
+      background:rgba(255,255,255,0.10);
+      border:1px solid rgba(255,255,255,0.15);
+      border-bottom-color:rgba(255,255,255,0.25);
+      padding:1px 6px; border-radius:6px;
+      font:12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    #help {
+      position:absolute; left:12px; top:12px;
+      color:#d7deff; font:12px/1.35 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      background:rgba(0,0,0,0.35);
+      border:1px solid rgba(255,255,255,0.08);
+      padding:10px 12px; border-radius:12px;
+      max-width:640px;
+    }
+    #help b { color:#ffffff; }
+    #help .dim { opacity:0.85; }
+  </style>
+</head>
+<body>
+<div id="wrap">
+  <div id="help">
+    <div><b>A350 Toy Procedure Trainer</b> — ILS approach, stabilized gates, checklist gating</div>
+    <div class="dim">
+      W/S pitch · A/D roll · Q/E yaw · R/F throttle · Z/X flaps · G gear · hold B brakes · P pause · <b>SPACE ACK</b>
+      · 1 reset trainer · 2 reset runway
+    </div>
+  </div>
+
+  <div id="panel">
+    <div class="title" id="phaseTitle">PHASE</div>
+    <div class="row" id="chips"></div>
+    <div class="hr"></div>
+    <div id="stepText"></div>
+    <div class="hr"></div>
+    <div class="dim" id="notes"></div>
+  </div>
+
+  <canvas id="hud"></canvas>
+</div>
+
+<script type="module">
+import * as THREE from "https://unpkg.com/three@0.160.0/build/three.module.js";
+
+/* ---------------------------
+   UNITS + HELPERS
+--------------------------- */
+const FT_PER_M = 3.280839895;
+const M_PER_FT = 1 / FT_PER_M;
+const KTS_PER_MPS = 1.943844492;
+const MPS_PER_KTS = 1 / KTS_PER_MPS;
+
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const rad = d => d * Math.PI / 180;
+const deg = r => r * 180 / Math.PI;
+const sign = x => x < 0 ? -1 : 1;
+
+function isaRho(alt_m){
+  const rho0 = 1.225;
+  const H = 8500.0;
+  return rho0 * Math.exp(-alt_m / H);
+}
+
+function wrapAngle(a){
+  // [-pi, pi]
+  while (a > Math.PI) a -= 2*Math.PI;
+  while (a < -Math.PI) a += 2*Math.PI;
+  return a;
+}
+
+/* ---------------------------
+   RUNWAY / ILS GEOMETRY
+   Coordinate system:
+   +x runway heading (east), z lateral, y up
+   Threshold at x=0, runway extends x=0..3600
+--------------------------- */
+const RWY = {
+  heading: 0,                 // rad, along +x
+  threshold: new THREE.Vector3(0, 0, 0),
+  length: 3600,
+  width: 60,
+  gsDeg: 3.0,
+  locScaleMPerDot: 25,        // 1 dot = 25m lateral (toy)
+  gsScaleMPerDot: 15,         // 1 dot = 15m vertical error (toy)
+  decisionAltAglFt: 200,      // toy DA
+};
+
+/* ---------------------------
+   SIM STATE (toy physics + trainer)
+--------------------------- */
+const sim = {
+  paused: false,
+
+  // pose/velocity
+  pos: new THREE.Vector3(-12000, 25000 * M_PER_FT, 0),
+  vel: new THREE.Vector3(155 * MPS_PER_KTS, 0, 0),
+
+  // attitude
+  pitch: rad(2),
+  roll: 0,
+  yaw: 0,
+
+  // controls
+  throttle: 0.55,
+  flaps: 0,         // 0..4
+  gearDown: true,
+  brakes: 0,
+
+  // aircraft params (toy)
+  mass: 175000,
+  wingArea: 443,
+  maxThrust: 2 * 320000,
+  g: 9.80665,
+
+  // control rates (toy)
+  pitchRate: rad(28),
+  rollRate:  rad(45),
+  yawRate:   rad(18),
+
+  // ground
+  onGround: false,
+
+  // outputs
+  iasKts: 0,
+  altFt: 0,
+  vsFpm: 0,
+
+  // trainer / scoring
+  score: 100,
+  faults: 0,
+  gate1000Checked: false,
+  gate500Checked: false,
+  lastCallout: "",
+  calloutTimer: 0
+};
+
+function resetTrainer(){
+  sim.pos.set(-12000, 25000 * M_PER_FT, 0);
+  sim.vel.set(155 * MPS_PER_KTS, 0, 0);
+  sim.pitch = rad(2);
+  sim.roll = 0;
+  sim.yaw = 0;
+
+  sim.throttle = 0.55;
+  sim.flaps = 0;
+  sim.gearDown = true;
+  sim.brakes = 0;
+
+  sim.onGround = false;
+
+  sim.score = 100;
+  sim.faults = 0;
+  sim.gate1000Checked = false;
+  sim.gate500Checked = false;
+  sim.lastCallout = "";
+  sim.calloutTimer = 0;
+
+  trainer.reset();
+}
+
+function resetRunway(){
+  sim.pos.set(120, 0.5, 0);
+  sim.vel.set(0, 0, 0);
+  sim.pitch = 0;
+  sim.roll = 0;
+  sim.yaw = 0;
+
+  sim.throttle = 0.0;
+  sim.flaps = 1;
+  sim.gearDown = true;
+  sim.brakes = 1;
+
+  sim.onGround = true;
+
+  sim.score = 100;
+  sim.faults = 0;
+  sim.gate1000Checked = false;
+  sim.gate500Checked = false;
+  sim.lastCallout = "";
+  sim.calloutTimer = 0;
+
+  trainer.resetTakeoff();
+}
+
+const keys = new Set();
+addEventListener("keydown", (e) => {
+  keys.add(e.code);
+  if (e.code === "KeyP") sim.paused = !sim.paused;
+  if (e.code === "Digit1") resetTrainer();
+  if (e.code === "Digit2") resetRunway();
+  if (e.code === "KeyG") sim.gearDown = !sim.gearDown;
+  if (e.code === "KeyZ") sim.flaps = clamp(sim.flaps + 1, 0, 4);
+  if (e.code === "KeyX") sim.flaps = clamp(sim.flaps - 1, 0, 4);
+  if (e.code === "Space") trainer.ack();
+});
+addEventListener("keyup", (e) => keys.delete(e.code));
+
+/* ---------------------------
+   ILS deviation (toy)
+--------------------------- */
+function ilsDeviation(pos){
+  // localizer: lateral deviation from centerline (z)
+  // glideslope: compare current altitude vs desired 3° line to threshold
+  const dx = RWY.threshold.x - pos.x; // distance to threshold if approaching from x<0
+  const dist = Math.max(dx, 1);       // meters
+  const desiredAlt = Math.tan(rad(RWY.gsDeg)) * dist; // meters above threshold
+  const gsErrM = pos.y - desiredAlt;
+
+  const locDots = clamp(pos.z / RWY.locScaleMPerDot, -2.5, 2.5);
+  const gsDots  = clamp(gsErrM / RWY.gsScaleMPerDot, -2.5, 2.5);
+
+  return { locDots, gsDots, distM: dist, gsErrM };
+}
+
+/* ---------------------------
+   Targeting / procedure logic
+--------------------------- */
+function vrefToy(){
+  // toy schedule
+  if (sim.flaps >= 3 && sim.gearDown) return 140;
+  if (sim.flaps === 2) return 155;
+  if (sim.flaps === 1) return 175;
+  return 190;
+}
+
+function band(val, target, tol){
+  return Math.abs(val - target) <= tol;
+}
+
+function callout(text, penalty=0){
+  if (text === sim.lastCallout) return;
+  sim.lastCallout = text;
+  sim.calloutTimer = 3.0;
+  if (penalty > 0){
+    sim.score = clamp(sim.score - penalty, 0, 100);
+    sim.faults += 1;
+  }
+}
+
+/* ---------------------------
+   TRAINER STATE MACHINE
+   - checklist gating
+   - stabilized approach gates
+--------------------------- */
+const trainer = (() => {
+  // Steps:
+  // 0 CRZ setup
+  // 1 DES to 6000
+  // 2 APP intercept LOC/GS at 3000
+  // 3 FINAL config + stabilize at 1000/500
+  // 4 LAND flare + touchdown
+  // 5 ROLL stop
+
+  const state = {
+    mode: "ILS20C",
+    phase: "CRZ",
+    step: 0,
+    awaitingAck: false,
+    msg: "",
+    note: "",
+    targets: {
+      spd: 0,
+      alt: 0,
+      vs: 0,
+      config: ""
+    }
+  };
+
+  function setPhase(phase, step, msg, note){
+    state.phase = phase;
+    state.step = step;
+    state.msg = msg;
+    state.note = note;
+  }
+
+  function requireAck(msg){
+    state.awaitingAck = true;
+    state.msg = msg;
+  }
+
+  function ack(){
+    if (!state.awaitingAck) return;
+    state.awaitingAck = false;
+  }
+
+  function reset(){
+    setPhase("CRZ", 0,
+      "CRZ: Brief + setup. Maintain ~25000 ft, ~155 kt (toy).",
+      "Goal: begin descent planning. Keep wings level, stay near centerline (LOC dots ~0). Press SPACE once stable."
+    );
+    state.awaitingAck = true;
+
+    state.targets.spd = 155;
+    state.targets.alt = 25000;
+    state.targets.vs = 0;
+    state.targets.config = "Clean / gear as desired";
+  }
+
+  function resetTakeoff(){
+    setPhase("T/O", 0,
+      "T/O: Line up. Set FLAPS 1. Brakes held. Advance thrust then release.",
+      "Rotate when speed > 150 kt and pitch > 5°. (Toy cues.) Press SPACE when ready."
+    );
+    state.awaitingAck = true;
+    state.targets.spd = 0;
+    state.targets.alt = 0;
+    state.targets.vs = 0;
+    state.targets.config = "FLAPS 1, GEAR DOWN";
+  }
+
+  function update(dt){
+    // callout fade
+    if (sim.calloutTimer > 0) sim.calloutTimer -= dt;
+
+    const alt = sim.altFt;
+    const ias = sim.iasKts;
+    const vs  = sim.vsFpm;
+    const agl = Math.max(alt - 0, 0); // sea level runway
+    const ils = ilsDeviation(sim.pos);
+
+    // stabilized approach conditions (toy)
+    const vTgt = vrefToy();
+    const spdOkFinal = (ias >= vTgt - 10) && (ias <= vTgt + 10);
+    const sinkOk = Math.abs(vs) <= 1000; // fpm
+    const locOk = Math.abs(ils.locDots) <= 1.0;
+    const gsOk  = Math.abs(ils.gsDots) <= 1.0;
+    const cfgOkFinal = (sim.flaps >= 3) && sim.gearDown;
+
+    // scoring drips (gentle)
+    if (!sim.onGround && agl < 3000){
+      if (Math.abs(ils.locDots) > 2.0) { sim.score = clamp(sim.score - dt * 1.8, 0, 100); }
+      if (Math.abs(ils.gsDots)  > 2.0) { sim.score = clamp(sim.score - dt * 1.8, 0, 100); }
+    }
+
+    // gates
+    if (!sim.onGround && !sim.gate1000Checked && agl <= 1000){
+      sim.gate1000Checked = true;
+      if (spdOkFinal && sinkOk && locOk && gsOk && cfgOkFinal){
+        callout("1000' STABLE ✅", 0);
+      } else {
+        callout("1000' UNSTABLE ❌ (penalty)", 12);
+      }
+    }
+
+    if (!sim.onGround && !sim.gate500Checked && agl <= 500){
+      sim.gate500Checked = true;
+      if (spdOkFinal && sinkOk && locOk && gsOk && cfgOkFinal){
+        callout("500' STABLE ✅", 0);
+      } else {
+        callout("500' UNSTABLE ❌ (penalty)", 18);
+      }
+    }
+
+    // touchdown detection -> landing phase
+    if (sim.onGround && state.phase !== "ROLL" && state.phase !== "T/O"){
+      setPhase("ROLL", 5, "ROLL: Maintain centerline. Brake to stop.", "Keep it straight. Hold B for brakes. Score penalizes runway excursion.");
+      state.targets.spd = 0;
+      state.targets.alt = 0;
+      state.targets.vs = 0;
+      state.targets.config = "Spoilers/Autobrake not modeled";
+    }
+
+    // phase logic (gated)
+    if (state.awaitingAck) return;
+
+    if (state.phase === "CRZ"){
+      // need stable cruise
+      const ok = band(alt, 25000, 800) && band(ias, 155, 15) && Math.abs(vs) < 400;
+      if (ok){
+        requireAck("CRZ stable. Press SPACE to begin DES.");
+      } else {
+        state.msg = "CRZ: Hold ~25000 ft and ~155 kt. Reduce oscillations.";
+      }
+      if (!state.awaitingAck && ok){
+        // will be acked in next press; keep
+      }
+      // once acked (awaitingAck false), transition
+      if (!state.awaitingAck && ok && keys.has("Space") === false){
+        // no-op; transition happens on ack() call
+      }
+    }
+
+    // Transition on ack events
+    // We detect phase transitions by checking state + ack toggles:
+    // We'll implement transitions in ack() effect:
+  }
+
+  // A slightly more explicit transition on ACK (cleaner)
+  function ackTransition(){
+    // called after awaitingAck clears
+    if (state.phase === "CRZ" && state.step === 0){
+      setPhase("DES", 1,
+        "DES: Descend to 6000 ft. Target ~250 kt, VS about -1500 fpm.",
+        "Manage energy: don't dive. Keep LOC within ±2 dots."
+      );
+      state.targets.spd = 250;
+      state.targets.alt = 6000;
+      state.targets.vs = -1500;
+      state.targets.config = "FLAPS 0-1, GEAR as needed";
+      return;
+    }
+
+    if (state.phase === "DES" && state.step === 1){
+      setPhase("APP", 2,
+        "APP: Intercept ILS. Target 3000 ft by 10 km, speed ~180 kt, FLAPS 2.",
+        "Capture LOC first, then GS. Keep needles centered (±1 dot)."
+      );
+      state.targets.spd = 180;
+      state.targets.alt = 3000;
+      state.targets.vs = -700;
+      state.targets.config = "FLAPS 2, GEAR DOWN by GS alive";
+      return;
+    }
+
+    if (state.phase === "APP" && state.step === 2){
+      setPhase("FINAL", 3,
+        "FINAL: Configure. Target VREF (toy) +5, FLAPS 3/4, GEAR DOWN.",
+        "Stabilized at 1000' and 500'. If unstable, go-around (not modeled; reset with 1)."
+      );
+      state.targets.spd = vrefToy() + 5;
+      state.targets.alt = 0; // on GS
+      state.targets.vs = -700;
+      state.targets.config = "FLAPS 3/4, GEAR DOWN";
+      return;
+    }
+
+    if (state.phase === "FINAL" && state.step === 3){
+      setPhase("LAND", 4,
+        "LAND: Flare at ~30-20 ft. Reduce thrust, gentle pitch up.",
+        "Touchdown in first third of runway. Keep centerline."
+      );
+      state.targets.spd = vrefToy();
+      state.targets.alt = 0;
+      state.targets.vs = -300;
+      state.targets.config = "Configured";
+      return;
+    }
+
+    if (state.phase === "T/O" && state.step === 0){
+      setPhase("T/O", 1,
+        "T/O: Advance thrust. Release brakes. Maintain centerline.",
+        "Rotate >150 kt with pitch >5° then climb. (Toy cues.)"
+      );
+      state.targets.config = "FLAPS 1, GEAR DOWN";
+      return;
+    }
+  }
+
+  function tick(dt){
+    const alt = sim.altFt;
+    const ias = sim.iasKts;
+    const vs  = sim.vsFpm;
+    const ils = ilsDeviation(sim.pos);
+
+    // If awaiting ack, keep message, but do not auto-advance.
+    // Provide “completion hints” per phase.
+    if (state.phase === "CRZ" && state.step === 0){
+      const ok = band(alt, 25000, 800) && band(ias, 155, 15) && Math.abs(vs) < 400;
+      if (!state.awaitingAck){
+        if (ok) requireAck("CRZ stable. Press SPACE to begin DES.");
+      }
+      if (!ok) state.msg = "CRZ: Hold ~25000 ft and ~155 kt. Press SPACE when stable.";
+    }
+
+    if (state.phase === "DES" && state.step === 1){
+      const okAlt = alt < 6800;
+      const okSpd = (ias <= 270);
+      const ok = okAlt && okSpd;
+
+      state.msg = "DES: Aim for 6000 ft. Keep speed under control (≤270 kt).";
+      state.note = "Suggested: throttle down, pitch slightly down for ~-1200 to -1800 fpm. Keep LOC within ±2 dots.";
+
+      if (ok && !state.awaitingAck){
+        requireAck("DES complete (near 6000 ft). Press SPACE to set up APP.");
+      }
+    }
+
+    if (state.phase === "APP" && state.step === 2){
+      const okAlt = band(alt, 3000, 600);
+      const okCfg = (sim.flaps >= 2);
+      const okLoc = Math.abs(ils.locDots) <= 1.5;
+      const ok = okAlt && okCfg && okLoc;
+
+      state.msg = "APP: Intercept ILS. FLAPS 2. Capture LOC (≤±1.5 dots) near 3000 ft.";
+      state.note = "Once LOC is controlled and GS is close, extend gear and go to FINAL config.";
+
+      if (ok && !state.awaitingAck){
+        requireAck("APP stable for intercept. Press SPACE to enter FINAL.");
+      }
+    }
+
+    if (state.phase === "FINAL" && state.step === 3){
+      // final: require configured and reasonably on needles
+      const vTgt = vrefToy();
+      const okCfg = (sim.flaps >= 3) && sim.gearDown;
+      const okSpd = (sim.iasKts >= vTgt - 15) && (sim.iasKts <= vTgt + 15);
+      const okNeedles = Math.abs(ils.locDots) <= 1.2 && Math.abs(ils.gsDots) <= 1.2;
+      const ok = okCfg && okSpd && okNeedles;
+
+      state.msg = "FINAL: Configure (FLAPS 3/4 + GEAR DOWN) and fly needles (≤±1.2 dots).";
+      state.note = "Stabilized gates at 1000'/500'. If you're chasing needles wildly, you're late.";
+
+      if (ok && sim.altFt < 1200 && !state.awaitingAck){
+        requireAck("FINAL stabilized. Press SPACE to arm LAND (manual flare).");
+      }
+    }
+
+    if (state.phase === "LAND" && state.step === 4){
+      state.msg = "LAND: Flare at ~30-20 ft, reduce thrust, keep centerline.";
+      state.note = "If you float: reduce pitch slightly. If you slam: reduce sink earlier (not at 10 ft).";
+      // auto completes on touchdown (handled in update())
+    }
+
+    if (state.phase === "ROLL" && state.step === 5){
+      const lat = Math.abs(sim.pos.z);
+      if (lat > RWY.width * 0.8) { sim.score = clamp(sim.score - dt * 6.0, 0, 100); }
+      if (sim.iasKts < 5){
+        state.msg = "ROLL complete. Press 1 to restart approach, or 2 for takeoff.";
+        state.note = "Score is frozen once stopped.";
+      } else {
+        state.msg = "ROLL: Brake to stop. Maintain centerline.";
+        state.note = "Hold B. Small yaw inputs help. Avoid runway excursion.";
+      }
+    }
+
+    // callouts
+    if (!sim.onGround){
+      if (sim.altFt < 2500 && Math.abs(ils.locDots) > 2.2) callout("LOC: >2 dots", 0);
+      if (sim.altFt < 2500 && Math.abs(ils.gsDots)  > 2.2) callout("GS: >2 dots", 0);
+      if (sim.altFt < 1500 && sim.gearDown === false) callout("GEAR", 0);
+    }
+
+    update(dt);
+  }
+
+  function update(dt){ /* scoring/gates done in outer update() above */ }
+
+  return {
+    state,
+    reset,
+    resetTakeoff,
+    ack: () => {
+      if (!state.awaitingAck) return;
+      state.awaitingAck = false;
+      ackTransition();
+    },
+    tick
+  };
+})();
+
+trainer.reset();
+
+/* ---------------------------
+   THREE SCENE
+--------------------------- */
+const wrap = document.getElementById("wrap");
+const renderer = new THREE.WebGLRenderer({ antialias:true });
+renderer.setPixelRatio(devicePixelRatio);
+renderer.setSize(wrap.clientWidth, wrap.clientHeight);
+wrap.insertBefore(renderer.domElement, document.getElementById("hud"));
+
+const scene = new THREE.Scene();
+scene.fog = new THREE.Fog(0x070b16, 2000, 14000);
+
+const camera = new THREE.PerspectiveCamera(60, wrap.clientWidth / wrap.clientHeight, 0.1, 80000);
+
+const hemi = new THREE.HemisphereLight(0xcfd7ff, 0x101833, 1.0);
+scene.add(hemi);
+const dir = new THREE.DirectionalLight(0xffffff, 0.9);
+dir.position.set(-2, 6, 2);
+scene.add(dir);
+
+// runway plane
+const runway = new THREE.Mesh(
+  new THREE.PlaneGeometry(RWY.length, RWY.width, 1, 1),
+  new THREE.MeshStandardMaterial({ color: 0x1a2030, roughness: 0.95 })
+);
+runway.rotation.x = -Math.PI/2;
+runway.position.set(RWY.length/2, 0, 0);
+scene.add(runway);
+
+// runway stripes
+const stripeMat = new THREE.MeshStandardMaterial({ color: 0xf2f5ff, roughness: 0.8 });
+for (let i=0;i<36;i++){
+  const stripe = new THREE.Mesh(new THREE.BoxGeometry(30, 0.02, 2.0), stripeMat);
+  stripe.position.set(120 + i * 90, 0.01, 0);
+  scene.add(stripe);
+}
+
+// ground
+const ground = new THREE.Mesh(
+  new THREE.PlaneGeometry(100000, 100000, 1, 1),
+  new THREE.MeshStandardMaterial({ color: 0x0b1024, roughness: 1.0 })
+);
+ground.rotation.x = -Math.PI/2;
+ground.position.y = -0.02;
+scene.add(ground);
+
+// ILS "antenna" marker at threshold
+const ilsMarker = new THREE.Mesh(
+  new THREE.CylinderGeometry(0.6, 0.6, 12, 16),
+  new THREE.MeshStandardMaterial({ color: 0xa7b7ff, roughness: 0.4 })
+);
+ilsMarker.position.set(0, 6, 0);
+scene.add(ilsMarker);
+
+// aircraft (toy block model)
+const aircraft = new THREE.Group();
+const body = new THREE.Mesh(
+  new THREE.BoxGeometry(16, 2.5, 2.8),
+  new THREE.MeshStandardMaterial({ color: 0xdfe6ff, roughness: 0.6 })
+);
+aircraft.add(body);
+
+const wing = new THREE.Mesh(
+  new THREE.BoxGeometry(6.0, 0.25, 28.0),
+  new THREE.MeshStandardMaterial({ color: 0xb8c4ff, roughness: 0.6 })
+);
+wing.position.set(-1.2, 0, 0);
+aircraft.add(wing);
+
+const tail = new THREE.Mesh(
+  new THREE.BoxGeometry(2.0, 3.5, 4.0),
+  new THREE.MeshStandardMaterial({ color: 0xb8c4ff, roughness: 0.6 })
+);
+tail.position.set(-7.0, 1.5, 0);
+aircraft.add(tail);
+
+scene.add(aircraft);
+
+addEventListener("resize", () => {
+  renderer.setSize(wrap.clientWidth, wrap.clientHeight);
+  camera.aspect = wrap.clientWidth / wrap.clientHeight;
+  camera.updateProjectionMatrix();
+  hud.width = wrap.clientWidth * devicePixelRatio;
+  hud.height = wrap.clientHeight * devicePixelRatio;
+});
+
+/* ---------------------------
+   HUD (2D canvas): PFD-ish + ILS + FD
+--------------------------- */
+const hud = document.getElementById("hud");
+const hctx = hud.getContext("2d");
+hud.width = wrap.clientWidth * devicePixelRatio;
+hud.height = wrap.clientHeight * devicePixelRatio;
+
+function drawHorizon(cx, cy, pitchDeg, rollDeg){
+  const W = hud.width, H = hud.height;
+
+  hctx.save();
+  hctx.translate(cx, cy);
+  hctx.rotate(-rad(rollDeg));
+
+  // pitch ladder scale
+  const pxPerDeg = 6 * devicePixelRatio;
+  hctx.translate(0, pitchDeg * pxPerDeg);
+
+  // sky/ground blocks
+  hctx.fillStyle = "rgba(90,130,255,0.18)";
+  hctx.fillRect(-W, -H, W*2, H);
+  hctx.fillStyle = "rgba(110,80,40,0.16)";
+  hctx.fillRect(-W, 0, W*2, H);
+
+  // horizon line
+  hctx.strokeStyle = "rgba(255,255,255,0.55)";
+  hctx.lineWidth = 2 * devicePixelRatio;
+  hctx.beginPath();
+  hctx.moveTo(-220*devicePixelRatio, 0);
+  hctx.lineTo( 220*devicePixelRatio, 0);
+  hctx.stroke();
+
+  // pitch ladder marks
+  hctx.strokeStyle = "rgba(255,255,255,0.35)";
+  hctx.lineWidth = 1 * devicePixelRatio;
+  for (let p=-30; p<=30; p+=5){
+    if (p === 0) continue;
+    const y = -p * pxPerDeg;
+    const len = (p % 10 === 0) ? 120 : 70;
+    hctx.beginPath();
+    hctx.moveTo(-len*devicePixelRatio, y);
+    hctx.lineTo( len*devicePixelRatio, y);
+    hctx.stroke();
+  }
+
+  hctx.restore();
+
+  // fixed aircraft symbol
+  hctx.save();
+  hctx.translate(cx, cy);
+  hctx.strokeStyle = "rgba(255,255,255,0.85)";
+  hctx.lineWidth = 2 * devicePixelRatio;
+  hctx.beginPath();
+  hctx.moveTo(-40*devicePixelRatio, 0);
+  hctx.lineTo(-10*devicePixelRatio, 0);
+  hctx.moveTo( 40*devicePixelRatio, 0);
+  hctx.lineTo( 10*devicePixelRatio, 0);
+  hctx.moveTo(-10*devicePixelRatio, 0);
+  hctx.lineTo(0, 8*devicePixelRatio);
+  hctx.lineTo(10*devicePixelRatio, 0);
+  hctx.stroke();
+  hctx.restore();
+}
+
+function drawIlsNeedles(cx, cy, locDots, gsDots){
+  // classic cross needles with dots
+  const dotPx = 18 * devicePixelRatio;
+
+  // LOC (horizontal needle moves left/right)
+  hctx.save();
+  hctx.translate(cx, cy);
+  hctx.strokeStyle = "rgba(145,255,170,0.9)";
+  hctx.lineWidth = 2 * devicePixelRatio;
+
+  const locX = clamp(locDots, -2.5, 2.5) * dotPx;
+  hctx.beginPath();
+  hctx.moveTo(locX, -90*devicePixelRatio);
+  hctx.lineTo(locX,  90*devicePixelRatio);
+  hctx.stroke();
+
+  // GS (vertical needle moves up/down)
+  const gsY = clamp(gsDots, -2.5, 2.5) * dotPx;
+  hctx.beginPath();
+  hctx.moveTo(-120*devicePixelRatio, gsY);
+  hctx.lineTo( 120*devicePixelRatio, gsY);
+  hctx.stroke();
+
+  // dots
+  hctx.fillStyle = "rgba(145,255,170,0.55)";
+  for (let i=-2; i<=2; i++){
+    if (i===0) continue;
+    hctx.beginPath(); hctx.arc(i*dotPx, 0, 2.2*devicePixelRatio, 0, Math.PI*2); hctx.fill();
+    hctx.beginPath(); hctx.arc(0, i*dotPx, 2.2*devicePixelRatio, 0, Math.PI*2); hctx.fill();
+  }
+
+  hctx.restore();
+}
+
+function drawFD(cx, cy, fdRollCmdDeg, fdPitchCmdDeg){
+  // simple FD cue bars: magenta-like
+  hctx.save();
+  hctx.translate(cx, cy);
+
+  const pxPerDeg = 6 * devicePixelRatio;
+  const rollPx = clamp(fdRollCmdDeg, -20, 20) * pxPerDeg;
+  const pitchPx = clamp(fdPitchCmdDeg, -15, 15) * pxPerDeg;
+
+  hctx.strokeStyle = "rgba(255,95,220,0.95)";
+  hctx.lineWidth = 3 * devicePixelRatio;
+
+  // roll bar (vertical cue)
+  hctx.beginPath();
+  hctx.moveTo(rollPx, -18*devicePixelRatio);
+  hctx.lineTo(rollPx,  18*devicePixelRatio);
+  hctx.stroke();
+
+  // pitch bar (horizontal cue)
+  hctx.beginPath();
+  hctx.moveTo(-30*devicePixelRatio, -pitchPx);
+  hctx.lineTo( 30*devicePixelRatio, -pitchPx);
+  hctx.stroke();
+
+  hctx.restore();
+}
+
+function drawTextBlock(x, y, lines, color="rgba(215,222,255,0.95)"){
+  hctx.save();
+  hctx.fillStyle = color;
+  hctx.font = `${12 * devicePixelRatio}px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace`;
+  for (let i=0;i<lines.length;i++){
+    hctx.fillText(lines[i], x, y + i * 18 * devicePixelRatio);
+  }
+  hctx.restore();
+}
+
+function drawHUD(){
+  const W = hud.width, H = hud.height;
+  hctx.clearRect(0,0,W,H);
+
+  const cx = W * 0.52;
+  const cy = H * 0.50;
+
+  // attitude + ILS + FD
+  drawHorizon(cx, cy, deg(sim.pitch), deg(sim.roll));
+
+  const ils = ilsDeviation(sim.pos);
+  drawIlsNeedles(cx, cy, ils.locDots, ils.gsDots);
+
+  // FD commands (toy guidance):
+  // roll command to drive LOC to 0
+  const fdRollCmd = clamp(-ils.locDots * 8, -25, 25);
+
+  // pitch command to manage GS + speed (weighted blend)
+  const tgtSpd = trainer.state.targets.spd || (vrefToy()+5);
+  const spdErr = (tgtSpd - sim.iasKts); // + if slow
+  const gsErr = -ils.gsDots;            // + if below GS (need pitch up)
+  const fdPitchCmd = clamp(gsErr * 4 + spdErr * 0.08, -15, 15);
+
+  drawFD(cx, cy, fdRollCmd, fdPitchCmd);
+
+  // sides: numeric readout
+  const vref = vrefToy();
+  drawTextBlock(18*devicePixelRatio, 90*devicePixelRatio, [
+    `IAS   ${sim.iasKts.toFixed(0)} kt`,
+    `ALT   ${sim.altFt.toFixed(0)} ft`,
+    `VS    ${sim.vsFpm.toFixed(0)} fpm`,
+    `PITCH ${deg(sim.pitch).toFixed(1)}°`,
+    `ROLL  ${deg(sim.roll).toFixed(1)}°`,
+    `THR   ${(sim.throttle*100).toFixed(0)}%`,
+    `FLAPS ${sim.flaps}`,
+    `GEAR  ${sim.gearDown ? "DOWN" : "UP"}`,
+    `SCORE ${sim.score.toFixed(0)}`
+  ]);
+
+  // bottom callout
+  if (sim.calloutTimer > 0){
+    hctx.save();
+    hctx.font = `${14 * devicePixelRatio}px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace`;
+    hctx.fillStyle = "rgba(255,210,120,0.95)";
+    hctx.fillText(sim.lastCallout, W*0.52, H*0.86);
+    hctx.restore();
+  }
+
+  // top-right LOC/GS dots
+  drawTextBlock(W - 240*devicePixelRatio, 90*devicePixelRatio, [
+    `LOC ${ils.locDots.toFixed(2)} dots`,
+    `GS  ${ils.gsDots.toFixed(2)} dots`,
+    `VREF~ ${vref.toFixed(0)} kt (toy)`
+  ], "rgba(145,255,170,0.9)");
+}
+
+/* ---------------------------
+   UI PANEL (procedure trainer text)
+--------------------------- */
+const phaseTitle = document.getElementById("phaseTitle");
+const chipsEl = document.getElementById("chips");
+const stepText = document.getElementById("stepText");
+const notes = document.getElementById("notes");
+
+function chip(text, cls=""){
+  const div = document.createElement("div");
+  div.className = `chip ${cls}`.trim();
+  div.textContent = text;
+  return div;
+}
+
+function updatePanel(){
+  const st = trainer.state;
+  phaseTitle.textContent = `${st.phase} — Step ${st.step}`;
+
+  chipsEl.innerHTML = "";
+  const ils = ilsDeviation(sim.pos);
+  const agl = Math.max(sim.altFt, 0);
+
+  chipsEl.appendChild(chip(`SPD tgt ${st.targets.spd || "-"} kt`));
+  chipsEl.appendChild(chip(`ALT tgt ${st.targets.alt || "GS"}`));
+  chipsEl.appendChild(chip(`CFG ${st.targets.config || "-"}`));
+  chipsEl.appendChild(chip(`LOC ${ils.locDots.toFixed(2)}`));
+  chipsEl.appendChild(chip(`GS ${ils.gsDots.toFixed(2)}`));
+  chipsEl.appendChild(chip(`AGL ${agl.toFixed(0)} ft`));
+
+  // status chips
+  const vTgt = st.targets.spd || (vrefToy()+5);
+  const spdOk = Math.abs(sim.iasKts - vTgt) <= 15;
+  const needlesOk = Math.abs(ils.locDots) <= 1.5 && Math.abs(ils.gsDots) <= 1.5;
+  const cfgOk = (st.phase === "FINAL" || st.phase === "LAND")
+    ? (sim.flaps >= 3 && sim.gearDown)
+    : true;
+
+  chipsEl.appendChild(chip(spdOk ? "SPD OK" : "SPD OFF", spdOk ? "good" : "warn"));
+  chipsEl.appendChild(chip(needlesOk ? "ILS OK" : "ILS OFF", needlesOk ? "good" : "warn"));
+  chipsEl.appendChild(chip(cfgOk ? "CFG OK" : "CFG OFF", cfgOk ? "good" : "bad"));
+
+  const ackLine = st.awaitingAck ? `\n\nPress <kbd>SPACE</kbd> to ACK.` : "";
+  stepText.innerHTML = `${st.msg}${ackLine}`.replaceAll("<kbd>", "").replaceAll("</kbd>","");
+  // restore kbd markup properly:
+  stepText.innerHTML = st.msg + (st.awaitingAck ? `<div style="margin-top:8px"><kbd>SPACE</kbd> ACK / Continue</div>` : "");
+
+  notes.textContent = st.note || "";
+}
+
+/* ---------------------------
+   TOY FLIGHT MODEL STEP
+--------------------------- */
+function stepPhysics(dt){
+  // Inputs
+  const pitchIn = (keys.has("KeyW") ? 1 : 0) - (keys.has("KeyS") ? 1 : 0);
+  const rollIn  = (keys.has("KeyD") ? 1 : 0) - (keys.has("KeyA") ? 1 : 0);
+  const yawIn   = (keys.has("KeyE") ? 1 : 0) - (keys.has("KeyQ") ? 1 : 0);
+  const thrIn   = (keys.has("KeyR") ? 1 : 0) - (keys.has("KeyF") ? 1 : 0);
+
+  sim.brakes = keys.has("KeyB") ? 1 : 0;
+  sim.throttle = clamp(sim.throttle + thrIn * dt * 0.35, 0, 1);
+
+  // Attitude update (toy)
+  sim.pitch += pitchIn * sim.pitchRate * dt;
+  sim.roll  += rollIn  * sim.rollRate  * dt;
+  sim.yaw   += yawIn   * sim.yawRate   * dt;
+
+  sim.pitch = clamp(sim.pitch, rad(-15), rad(20));
+  sim.roll  = clamp(sim.roll,  rad(-45), rad(45));
+  sim.yaw   = wrapAngle(sim.yaw);
+
+  // Atmosphere
+  const alt_m = Math.max(sim.pos.y, 0);
+  const rho = isaRho(alt_m);
+  const v = sim.vel.length();
+  const v_safe = Math.max(v, 1e-3);
+
+  // Directions from yaw
+  const fwd = new THREE.Vector3(Math.cos(sim.yaw), 0, -Math.sin(sim.yaw)).normalize();
+  const right = new THREE.Vector3().crossVectors(new THREE.Vector3(0,1,0), fwd).normalize();
+
+  // AoA estimate
+  const gamma = Math.asin(clamp(sim.vel.y / v_safe, -0.99, 0.99));
+  const alpha = sim.pitch - gamma;
+
+  // Coeffs (toy)
+  const flapsBoost = [0.0, 0.25, 0.55, 0.85, 1.10][sim.flaps];
+  const gearDrag = sim.gearDown ? 0.020 : 0.0;
+
+  const CL = clamp(0.25 + 4.8 * alpha + flapsBoost, -0.5, 2.4);
+  const CD = clamp(0.030 + 0.09 * CL*CL + flapsBoost*0.04 + gearDrag, 0.02, 0.40);
+
+  const q = 0.5 * rho * v*v;
+  const L = q * sim.wingArea * CL;
+  const D = q * sim.wingArea * CD;
+
+  const thrustAltFactor = clamp(1.0 - alt_m / 15000.0, 0.65, 1.0);
+  const T = sim.maxThrust * sim.throttle * thrustAltFactor;
+  const W = sim.mass * sim.g;
+
+  // Forces
+  const bank = sim.roll;
+  const liftUp = L * Math.cos(bank);
+
+  const horizVel = new THREE.Vector3(sim.vel.x, 0, sim.vel.z);
+  const hv = horizVel.length();
+  const horizDir = hv > 1e-3 ? horizVel.clone().normalize() : fwd.clone();
+
+  let ax = 0, ay = 0, az = 0;
+
+  // thrust + drag
+  const thrustVec = fwd.clone().multiplyScalar(T / sim.mass);
+  const dragVec = horizDir.clone().multiplyScalar(-D / sim.mass);
+
+  ax += thrustVec.x + dragVec.x;
+  az += thrustVec.z + dragVec.z;
+
+  // vertical
+  ay += (liftUp - W) / sim.mass;
+
+  // turning sideforce (toy)
+  const sideForce = (L * Math.sin(bank)) / sim.mass;
+  ax += right.x * sideForce;
+  az += right.z * sideForce;
+
+  // Ground contact
+  if (sim.pos.y <= 0.01){
+    if (sim.vel.y < -1.5){
+      sim.vel.y *= -0.25; // bounce
+    } else {
+      sim.onGround = true;
+      sim.pos.y = 0.01;
+      sim.vel.y = 0;
+    }
+  } else {
+    sim.onGround = false;
+  }
+
+  if (sim.onGround){
+    // takeoff rotate cue (toy)
+    const rotateReady = (L > 0.9 * W) && (sim.pitch > rad(5)) && (sim.gearDown);
+    if (rotateReady){
+      sim.onGround = false;
+      sim.vel.y = Math.max(sim.vel.y, 2.0);
+    }
+
+    // friction + braking
+    const mu = 0.02 + 0.30 * sim.brakes;
+    const friction = mu * sim.g;
+    if (hv > 0.01){
+      const fricVec = horizDir.clone().multiplyScalar(-friction);
+      ax += fricVec.x;
+      az += fricVec.z;
+    }
+    ay = 0;
+  }
+
+  // Integrate
+  sim.vel.x += ax * dt;
+  sim.vel.y += ay * dt;
+  sim.vel.z += az * dt;
+
+  // damping
+  sim.vel.multiplyScalar(1.0 - 0.0025);
+
+  sim.pos.addScaledVector(sim.vel, dt);
+
+  // runway excursion safety (penalty)
+  if (sim.onGround && sim.pos.x >= 0 && sim.pos.x <= RWY.length){
+    if (Math.abs(sim.pos.z) > RWY.width * 0.55) sim.score = clamp(sim.score - dt * 8.0, 0, 100);
+  }
+
+  // derived outputs
+  sim.iasKts = sim.vel.length() * KTS_PER_MPS;
+  sim.altFt = sim.pos.y * FT_PER_M;
+  sim.vsFpm = (sim.vel.y * FT_PER_M) * 60.0;
+}
+
+/* ---------------------------
+   MAIN LOOP
+--------------------------- */
+let last = performance.now();
+function animate(now){
+  requestAnimationFrame(animate);
+  const dt = clamp((now - last) / 1000, 0, 0.033);
+  last = now;
+
+  if (!sim.paused){
+    stepPhysics(dt);
+
+    // trainer tick (procedural gating + scoring + messages)
+    trainer.tick(dt);
+  }
+
+  // update aircraft pose
+  aircraft.position.copy(sim.pos);
+  aircraft.rotation.set(sim.pitch, sim.yaw, sim.roll, "XYZ");
+
+  // chase camera
+  const back = new THREE.Vector3(-85, 28, 26);
+  back.applyAxisAngle(new THREE.Vector3(0,1,0), sim.yaw);
+  const camPos = sim.pos.clone().add(back);
+  camera.position.lerp(camPos, 0.10);
+  camera.lookAt(sim.pos.x + 40, sim.pos.y + 10, sim.pos.z);
+
+  drawHUD();
+  updatePanel();
+  renderer.render(scene, camera);
+}
+requestAnimationFrame(animate);
+
+</script>
+</body>
+</html>
