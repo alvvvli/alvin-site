@@ -1,4 +1,4 @@
-# 🛫 A350 Procedure Trainer (v2)
+# 🛫 A350 Procedure Trainer
 
 <div class="iframe-wrap">
   <iframe
