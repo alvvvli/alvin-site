@@ -1,21 +1,11 @@
-/* =========================================
-   GLOBAL: light readability + nav spacing
-========================================= */
+/* GLOBAL */
 
 .md-typeset { line-height: 1.7; }
-
-.md-typeset h1,
-.md-typeset h2,
-.md-typeset h3 { line-height: 1.25; }
-
+.md-typeset h1, .md-typeset h2, .md-typeset h3 { line-height: 1.25; }
 .md-nav__link { padding-top: 6px; padding-bottom: 6px; }
 .md-nav__item { margin-bottom: 4px; }
 
-
-/* =========================================
-   A350SIM: "Option B" = bleed into right TOC
-   (keep TOC, expand content, pull sim right)
-========================================= */
+/* A350SIM: "Option B" = bleed into right TOC */
 
 /* 1) Remove Material width clamps on this page */
 body[data-md-url^="lab/a350sim"] .md-grid,
