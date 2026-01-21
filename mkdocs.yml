@@ -39,7 +39,7 @@ nav:
   - Home: index.md
   - Interactive Lab:
       - Overview: lab/index.md
-      - ✈️ A350 Procedure Trainer: lab/a350sim.md
+      - ✈️ Ultra Long Range (ULR) Procedure Trainer: lab/a350sim.md
       - ✈️ ATC Scheduler: lab/atc.md
       - 🧩 PartMatrix Demo: lab/partmatrix.md
       - 🛹 Siemens AGV Simulation: lab/agv.md
