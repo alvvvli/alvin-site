@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>A350 Procedure Trainer v2 (Toy) — A/THR + AP LOC/GS + FMA</title>
+  <title>ULR Procedure Trainer — A/THR + AP LOC/GS + FMA</title>
   <style>
     html, body { margin:0; height:100%; overflow:hidden; background:#070b16; }
     #wrap { position:relative; width:100%; height:100%; }
@@ -102,7 +102,7 @@
 <body>
 <div id="wrap">
   <div id="help">
-    <div><b>A350 Toy Procedure Trainer v2</b> — ILS + stabilized gates + <b>A/THR</b> + <b>AP LOC/G/S</b> + <b>FMA</b></div>
+    <div><b>ULR Procedure Trainer</b> — ILS + stabilized gates + <b>A/THR</b> + <b>AP LOC/G/S</b> + <b>FMA</b></div>
     <div class="dim">
       W/S pitch · A/D roll · Q/E yaw · R/F throttle · Z/X flaps · G gear · hold B brakes · P pause · SPACE ACK · 1 reset approach · 2 reset runway
       <br/>
@@ -387,7 +387,7 @@ addEventListener("keydown", (e) => {
 
   if (e.code === "Space") trainer.ack();
 
-  // v2 toggles
+  // toggles
   if (e.code === "KeyT") sim.athrOn = !sim.athrOn;
   if (e.code === "KeyM") sim.apOn = !sim.apOn;
   if (e.code === "KeyL") sim.apLocArmed = !sim.apLocArmed;
@@ -1123,7 +1123,7 @@ function updatePanel(){
 }
 
  /* ===========================
-   INTERACTIVE UI (v2 add-on)
+   INTERACTIVE UI
 =========================== */
 const ctrlEl = document.getElementById("ctrl");
 const thrEl  = document.getElementById("thr");
