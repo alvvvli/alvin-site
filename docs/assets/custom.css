@@ -35,18 +35,20 @@ body[data-md-url^="lab/a350sim/"] .md-content {
   max-width: 100%;
 }
 
-/* ===== A350/ULR trainer page: kill right TOC sidebar ===== */
+/* ===== A350 trainer bay: full-width + no sidebars ===== */
+body[data-md-url^="lab/a350sim/"] .md-sidebar--primary,
 body[data-md-url^="lab/a350sim/"] .md-sidebar--secondary {
   display: none !important;
 }
 
-/* Expand main content to reclaim the space */
-body[data-md-url^="lab/a350sim/"] .md-content {
-  max-width: 100% !important;
-}
-
-/* Optional: remove the "extra" right margin Material keeps */
+body[data-md-url^="lab/a350sim/"] .md-content,
 body[data-md-url^="lab/a350sim/"] .md-content__inner {
   max-width: 100% !important;
+  margin: 0 !important;
+}
+
+/* Optional: give the sim more vertical room */
+body[data-md-url^="lab/a350sim/"] .trainer-frame {
+  height: min(92vh, 1200px);
 }
 
