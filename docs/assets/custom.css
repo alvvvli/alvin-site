@@ -43,3 +43,13 @@ body[data-md-url^="lab/a350sim/"] .md-content__inner {
 body[data-md-url^="lab/a350sim/"] .trainer-frame {
   height: min(92vh, 1200px);
 }
+
+/* A350SIM: let content use more horizontal space */
+body[data-md-url^="lab/a350sim/"] .md-grid {
+  max-width: 100% !important;     /* remove site-wide clamp */
+}
+
+body[data-md-url^="lab/a350sim/"] .md-content__inner {
+  max-width: 100% !important;     /* remove inner clamp */
+}
+
