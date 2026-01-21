@@ -17,11 +17,13 @@
       <span class="pill">Single-file</span>
       <span class="pill">Toy physics</span>
       <span class="pill">Procedure flow</span>
+      <span class="pill">Trainer UI</span>
     </div>
   </div>
 
   <div class="trainer-hero__right">
     <div class="kbd-grid">
+      <div class="kbd-row"><span class="k">H</span> HUD minimal (hide help/panel)</div>
       <div class="kbd-row"><span class="k">T</span> A/THR</div>
       <div class="kbd-row"><span class="k">M</span> AP1</div>
       <div class="kbd-row"><span class="k">L</span> LOC</div>
@@ -31,8 +33,8 @@
       <div class="kbd-row"><span class="k">Z/X</span> flaps</div>
       <div class="kbd-row"><span class="k">G</span> gear</div>
       <div class="kbd-row"><span class="k">B</span> brakes</div>
-      <div class="kbd-row"><span class="k">1</span> reset app</div>
-      <div class="kbd-row"><span class="k">2</span> reset rwy</div>
+      <div class="kbd-row"><span class="k">SPACE</span> ACK / Continue</div>
+      <div class="kbd-row"><span class="k">1 / 2</span> reset app / rwy</div>
     </div>
   </div>
 </div>
@@ -61,15 +63,16 @@
 
 ## Notes
 
-- This is a **toy trainer** (not Airbus control laws).
-- Best experience: **desktop**, full-screen.
-- If UI overlaps inside the sim: reduce sim overlay font sizes in `a350sim.html` (I can give you a clean patch).
+- This is a **toy procedure trainer** (not Airbus control laws).
+- Best experience: **desktop + full screen**.
+- If the sim UI overlaps: use **H** (HUD minimal) and/or open full screen.
 
 <style>
 /* ===========================
    A350 Trainer Page Styling
-   (scoped to this page only)
+   (page-scoped)
 =========================== */
+
 .trainer-hero{
   display:grid;
   grid-template-columns: 1.25fr 0.75fr;
@@ -81,11 +84,32 @@
   backdrop-filter: blur(8px);
 }
 
-.trainer-kicker{ opacity:0.75; letter-spacing:0.5px; text-transform:uppercase; font-size:12px; }
-.trainer-title{ font-size:28px; font-weight:800; margin-top:4px; }
-.trainer-subtitle{ opacity:0.85; margin-top:6px; line-height:1.4; }
+.trainer-kicker{
+  opacity:0.75;
+  letter-spacing:0.5px;
+  text-transform:uppercase;
+  font-size:12px;
+}
 
-.trainer-actions{ display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+.trainer-title{
+  font-size:28px;
+  font-weight:800;
+  margin-top:4px;
+}
+
+.trainer-subtitle{
+  opacity:0.85;
+  margin-top:6px;
+  line-height:1.4;
+}
+
+.trainer-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+
 .trainer-btn{
   display:inline-flex;
   align-items:center;
@@ -97,12 +121,19 @@
   text-decoration:none !important;
   font-weight:700;
 }
+
 .trainer-btn.primary{
   border-color: rgba(145,255,170,0.30);
   background: rgba(145,255,170,0.12);
 }
 
-.trainer-meta{ margin-top:12px; display:flex; gap:8px; flex-wrap:wrap; }
+.trainer-meta{
+  margin-top:12px;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
 .pill{
   display:inline-flex;
   padding:4px 10px;
@@ -119,6 +150,7 @@
   background: rgba(255,255,255,0.04);
   padding: 12px;
 }
+
 .kbd-row{
   display:flex;
   gap:10px;
@@ -126,8 +158,9 @@
   padding: 4px 0;
   opacity:0.92;
 }
+
 .k{
-  min-width:56px;
+  min-width: 78px;
   display:inline-flex;
   justify-content:center;
   padding:3px 8px;
@@ -147,9 +180,10 @@
 
 .trainer-frame{
   width:100%;
-  height: min(84vh, 980px);
+  height: min(86vh, 1020px);
   background: rgba(0,0,0,0.25);
 }
+
 .trainer-frame iframe{
   width:100%;
   height:100%;
@@ -170,8 +204,25 @@
   .trainer-hero{ grid-template-columns: 1fr; }
   .trainer-title{ font-size:24px; }
   .trainer-frame{ height: 78vh; }
+  .k{ min-width: 72px; }
 }
 
-/* Optional: make MkDocs content use full width on this page */
-body[data-md-url^="lab/a350sim/"] .md-content__inner{ max-width: 100%; }
+/* ===========================
+   MkDocs: make this page feel
+   like a dedicated trainer bay
+=========================== */
+
+/* Full width content */
+body[data-md-url^="lab/a350sim/"] .md-content__inner{
+  max-width: 100% !important;
+}
+
+/* Optional: hide sidebars to reduce chrome */
+body[data-md-url^="lab/a350sim/"] .md-sidebar--primary,
+body[data-md-url^="lab/a350sim/"] .md-sidebar--secondary{
+  display:none !important;
+}
+body[data-md-url^="lab/a350sim/"] .md-content{
+  margin-left: 0 !important;
+}
 </style>
