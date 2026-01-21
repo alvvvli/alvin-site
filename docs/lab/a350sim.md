@@ -1,4 +1,4 @@
-# 🛫 ULR Procedure Trainer
+# 🛫 Ultra Long Range (ULR) Procedure Trainer
 
 <div class="trainer-hero">
   <div class="trainer-hero__left">
