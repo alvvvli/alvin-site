@@ -2,8 +2,8 @@
 
 # 🧪 Interactive Lab
 
-A compact suite of logic-driven simulations inspired by real industrial workflows
-Explore lightweight demos for reconciliation, routing, and validation.
+### Logic-driven simulations inspired by real operational systems.
+Focused on reconciliation, routing, and validation.
 
 <div style="display:flex;flex-wrap:wrap;gap:10px">
   <img src="/alvin-site/JPG_VID/slr1.jpg" 
@@ -13,6 +13,7 @@ Explore lightweight demos for reconciliation, routing, and validation.
 </div>
 
 ## Explore:
+- [ULR Procedure Scheduler](a350sim.md) — a logic-driven flight procedure simulator
 - [ATC Scheduler](atc.md) — Flight-bank routing sim with 3D altitude and cost trade-offs
 - [PartMatrix Demo](partmatrix.md) — Excel-logic matching and lookups  
 - [Siemens AGV Simulation](agv.md) — AGV routing and scheduling visualization  
