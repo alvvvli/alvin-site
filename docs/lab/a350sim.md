@@ -31,54 +31,22 @@
   </div>
 </div>
 
-<div class="trainer-card">
-  <div class="trainer-frame">
-    <iframe
-      id="a350sim"
-      tabindex="0"
-      src="../a350sim.html"
-      title="A350 Procedure Trainer"
-      loading="lazy"
-      allow="fullscreen"
-    ></iframe>
-  </div>
-
-  <div class="trainer-foot">
-    <div class="trainer-foot__left">
-      <b>Mouse/touch:</b> drag to command pitch/roll (AP OFF). Double-click to center.
-      <span class="hint">Click inside the sim once to capture keyboard.</span>
-    </div>
-    <div class="trainer-foot__right">
-      <a href="../a350sim.html" target="_blank" rel="noopener">Full screen</a>
-    </div>
-  </div>
+<div class="trainer-footline">
+  <b>Mouse/touch:</b> drag to command pitch/roll (AP OFF). Double-click to center.
+  <span class="hint">Click inside the sim once to capture keyboard.</span>
 </div>
 
-<!-- Focus helper: make keyboard controls reach the iframe -->
-<script>
-  (function(){
-    const f = document.getElementById('a350sim');
-    if (!f) return;
-
-    // 1) Try focusing after load (may be blocked by browser until user gesture)
-    f.addEventListener('load', () => {
-      try { f.focus(); } catch(e) {}
-    });
-
-    // 2) Most reliable: focus on click/touch
-    f.addEventListener('pointerdown', () => {
-      try { f.focus(); } catch(e) {}
-    });
-
-    // 3) Click anywhere in the card to focus
-    const card = f.closest('.trainer-card');
-    if (card){
-      card.addEventListener('pointerdown', () => {
-        try { f.focus(); } catch(e) {}
-      });
-    }
-  })();
-</script>
+<!-- FULL-BLEED SIM (uses assets/embeds.css: .embed-bleed + .frame) -->
+<div class="embed-bleed">
+  <iframe
+    class="frame"
+    id="a350sim"
+    src="../a350sim.html"
+    title="A350 Procedure Trainer"
+    loading="lazy"
+    allow="fullscreen"
+  ></iframe>
+</div>
 
 ---
 
@@ -104,6 +72,7 @@
   border: 1px solid rgba(255,255,255,0.10);
   background: rgba(0,0,0,0.20);
   backdrop-filter: blur(8px);
+  margin-bottom: 12px;
 }
 
 .trainer-title{
@@ -168,38 +137,17 @@
   font-weight:800;
 }
 
-.trainer-card{
-  margin-top: 16px;
-  border-radius: 18px;
-  border: 1px solid rgba(255,255,255,0.10);
-  background: rgba(0,0,0,0.18);
-  overflow:hidden;
-}
-
-.trainer-frame{
-  width:100%;
-  height: min(86vh, 1020px);
-  background: rgba(0,0,0,0.25);
-}
-
-.trainer-frame iframe{
-  width:100%;
-  height:100%;
-  border:0;
-  display:block;
-}
-
-.trainer-foot{
-  display:flex;
-  justify-content:space-between;
-  gap: 12px;
+.trainer-footline{
+  margin: 6px 0 12px;
   padding: 10px 14px;
-  border-top: 1px solid rgba(255,255,255,0.10);
-  opacity:0.9;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(0,0,0,0.14);
   font-size: 12px;
+  opacity: 0.92;
 }
 
-.trainer-foot .hint{
+.trainer-footline .hint{
   opacity:0.75;
   margin-left:10px;
 }
@@ -207,28 +155,23 @@
 @media (max-width: 980px){
   .trainer-hero{ grid-template-columns: 1fr; }
   .trainer-title{ font-size:24px; }
-  .trainer-frame{ height: 78vh; }
   .k{ min-width: 72px; }
 }
 
 /* ===========================
-   MkDocs: dedicated trainer bay
-   IMPORTANT: update slug if needed
+   MkDocs: widen THIS page only
+   (needed so full-bleed looks clean)
 =========================== */
 
-/* Full width content */
-body[data-md-url^="lab/ulr/"] .md-content__inner{
+body[data-md-url^="lab/a350sim"] .md-grid,
+body[data-md-url^="lab/a350sim"] .md-content__inner{
   max-width: 100% !important;
 }
 
-/* Hide sidebars (left nav + right TOC) */
-body[data-md-url^="lab/ulr/"] .md-sidebar--primary,
-body[data-md-url^="lab/ulr/"] .md-sidebar--secondary{
-  display:none !important;
+body[data-md-url^="lab/a350sim"] .md-main__inner{
+  overflow-x: clip;
 }
-
-/* Remove left margin when primary sidebar is hidden */
-body[data-md-url^="lab/ulr/"] .md-content{
-  margin-left: 0 !important;
+body[data-md-url^="lab/a350sim"]{
+  overflow-x: hidden;
 }
 </style>
