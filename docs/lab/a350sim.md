@@ -36,17 +36,43 @@
   <span class="hint">Click inside the sim once to capture keyboard.</span>
 </div>
 
-<!-- FULL-BLEED SIM (uses assets/embeds.css: .embed-bleed + .frame) -->
-<div class="embed-bleed">
-  <iframe
-    class="frame"
-    id="a350sim"
-    src="../a350sim.html"
-    title="A350 Procedure Trainer"
-    loading="lazy"
-    allow="fullscreen"
-  ></iframe>
+<div class="trainer-card">
+  <div class="trainer-frame">
+    <iframe
+      id="a350sim"
+      src="../a350sim.html"
+      title="A350 Procedure Trainer"
+      loading="lazy"
+      allow="fullscreen"
+    ></iframe>
+  </div>
+
+  <div class="trainer-foot">
+    <div class="trainer-foot__left">
+      <b>Tip:</b> If keys don’t work, click inside the sim once (iframe focus).
+    </div>
+    <div class="trainer-foot__right">
+      <a href="../a350sim.html" target="_blank" rel="noopener">Full screen</a>
+    </div>
+  </div>
 </div>
+
+<!-- Focus helper (best-effort; browsers may require user click) -->
+<script>
+  (function(){
+    const f = document.getElementById('a350sim');
+    if (!f) return;
+
+    // focus on user gesture (reliable)
+    f.addEventListener('pointerdown', () => { try { f.focus(); } catch(e){} });
+
+    // also allow clicking the card area to focus the iframe
+    const card = f.closest('.trainer-card');
+    if (card){
+      card.addEventListener('pointerdown', () => { try { f.focus(); } catch(e){} });
+    }
+  })();
+</script>
 
 ---
 
@@ -152,26 +178,47 @@
   margin-left:10px;
 }
 
+/* ===== The safe embed card ===== */
+.trainer-card{
+  margin-top: 12px;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(0,0,0,0.18);
+  overflow:hidden;
+}
+
+.trainer-frame{
+  width:100%;
+  height: min(86vh, 980px);
+  background: rgba(0,0,0,0.25);
+}
+
+.trainer-frame iframe{
+  width:100%;
+  height:100%;
+  border:0;
+  display:block;
+}
+
+.trainer-foot{
+  display:flex;
+  justify-content:space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  border-top: 1px solid rgba(255,255,255,0.10);
+  opacity:0.9;
+  font-size: 12px;
+}
+
 @media (max-width: 980px){
   .trainer-hero{ grid-template-columns: 1fr; }
   .trainer-title{ font-size:24px; }
   .k{ min-width: 72px; }
+  .trainer-frame{ height: 76vh; }
 }
 
-/* ===========================
-   MkDocs: widen THIS page only
-   (needed so full-bleed looks clean)
-=========================== */
-
-body[data-md-url^="lab/a350sim"] .md-grid,
-body[data-md-url^="lab/a350sim"] .md-content__inner{
-  max-width: 100% !important;
-}
-
-body[data-md-url^="lab/a350sim"] .md-main__inner{
-  overflow-x: clip;
-}
-body[data-md-url^="lab/a350sim"]{
-  overflow-x: hidden;
-}
+/* NOTE:
+   Do NOT hide sidebars or do layout hacks here.
+   We'll do right-TOC behavior in custom.css cleanly.
+*/
 </style>
