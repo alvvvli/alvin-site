@@ -72,6 +72,56 @@
     <div class="dim" id="notes"></div>
   </div>
 
+  <div id="ctrl">
+  <div class="ctrl-row">
+    <button class="btn" data-toggle="athr">A/THR</button>
+    <button class="btn" data-toggle="ap">AP1</button>
+    <button class="btn" data-toggle="loc">LOC</button>
+    <button class="btn" data-toggle="gs">G/S</button>
+    <button class="btn" data-toggle="gear">GEAR</button>
+    <button class="btn" data-toggle="pause">PAUSE</button>
+    <button class="btn ghost" data-action="reset1">RESET APP</button>
+    <button class="btn ghost" data-action="reset2">RESET RWY</button>
+  </div>
+
+  <div class="ctrl-grid">
+    <div class="box">
+      <div class="lbl">THR</div>
+      <input id="thr" type="range" min="0" max="100" value="55" />
+      <div class="readout"><span id="thrV">55</span>%</div>
+      <div class="hint">A/THR ON will override slowly</div>
+    </div>
+
+    <div class="box">
+      <div class="lbl">SPD TARGET</div>
+      <input id="spd" type="range" min="0" max="340" step="5" value="155" />
+      <div class="readout"><span id="spdV">155</span> kt</div>
+      <div class="hint">Used by A/THR and AP pitch bias</div>
+    </div>
+
+    <div class="box">
+      <div class="lbl">FLAPS</div>
+      <div class="stepper">
+        <button class="btn sm" data-action="flapsDown">-</button>
+        <div class="readout"><span id="flapsV">0</span></div>
+        <button class="btn sm" data-action="flapsUp">+</button>
+      </div>
+      <div class="hint">0..4 (toy configs)</div>
+    </div>
+
+    <div class="box">
+      <div class="lbl">BRAKES</div>
+      <input id="brk" type="range" min="0" max="100" value="0" />
+      <div class="readout"><span id="brkV">0</span>%</div>
+      <div class="hint">Optional: hold B still works</div>
+    </div>
+  </div>
+
+  <div class="ctrl-row dim">
+    <div>Mouse/touch: drag on screen to command <b>Pitch/Roll</b> (AP OFF). Double-click to center.</div>
+  </div>
+</div>
+
   <canvas id="hud"></canvas>
 </div>
 
