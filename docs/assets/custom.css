@@ -1,6 +1,5 @@
 /* =========================================
    GLOBAL: light readability + nav spacing
-   (safe site-wide)
 ========================================= */
 
 .md-typeset { line-height: 1.7; }
@@ -14,42 +13,31 @@
 
 
 /* =========================================
-   PAGE-SCOPED: /lab/a350sim/
-   - kill RIGHT TOC sidebar
-   - full-width content
+   A350SIM: "Option B" = bleed into right TOC
+   (keep TOC, expand content, pull sim right)
 ========================================= */
 
-/* Hide RIGHT sidebar (TOC) — robust selectors */
-body[data-md-url^="lab/a350sim/"] [data-md-component="sidebar-secondary"],
-body[data-md-url^="lab/a350sim/"] .md-sidebar--secondary,
-body[data-md-url^="lab/a350sim/"] aside.md-sidebar--secondary {
-  display: none !important;
-  visibility: hidden !important;
-}
-
-body[data-md-url^="lab/a350sim/"] [data-md-component="sidebar-primary"],
-body[data-md-url^="lab/a350sim/"] .md-sidebar--primary,
-body[data-md-url^="lab/a350sim/"] aside.md-sidebar--primary {
-  display: none !important;
-}
-
-/* Reclaim width */
-body[data-md-url^="lab/a350sim/"] .md-content,
-body[data-md-url^="lab/a350sim/"] .md-content__inner {
+/* 1) Remove Material width clamps on this page */
+body[data-md-url^="lab/a350sim"] .md-grid,
+body[data-md-url^="lab/a350sim"] .md-content__inner {
   max-width: 100% !important;
 }
 
-/* Optional: give the sim more vertical room */
-body[data-md-url^="lab/a350sim/"] .trainer-frame {
+/* 2) Let the main container clip overflow so no horizontal scrollbar */
+body[data-md-url^="lab/a350sim"] .md-main__inner {
+  overflow-x: clip;
+}
+body[data-md-url^="lab/a350sim"] {
+  overflow-x: hidden; /* fallback */
+}
+
+/* 3) The actual "bleed": pull the sim/card into the right TOC column */
+body[data-md-url^="lab/a350sim"] .trainer-card {
+  position: relative;
+  margin-right: -260px;   /* tune: -220 to -340 */
+}
+
+/* Optional: if your sim is directly in .trainer-frame, you can also pull that */
+body[data-md-url^="lab/a350sim"] .trainer-frame {
   height: min(92vh, 1200px);
 }
-
-/* A350SIM: let content use more horizontal space */
-body[data-md-url^="lab/a350sim/"] .md-grid {
-  max-width: 100% !important;     /* remove site-wide clamp */
-}
-
-body[data-md-url^="lab/a350sim/"] .md-content__inner {
-  max-width: 100% !important;     /* remove inner clamp */
-}
-
