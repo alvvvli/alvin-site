@@ -1,54 +1,45 @@
-html {
-  zoom: 1.2;        /* works in most browsers */
-  -moz-transform: scale(1.2);  /* Firefox fallback */
-  -moz-transform-origin: top center;
-}
+/* =========================================
+   GLOBAL: light readability + nav spacing
+   (safe site-wide)
+========================================= */
 
-html, :root, body {
-  font-size: 125% !important;
-}
-
-.md-typeset {
-  line-height: 1.8;
-}
+.md-typeset { line-height: 1.7; }
 
 .md-typeset h1,
 .md-typeset h2,
-.md-typeset h3 {
-  line-height: 1.25;
+.md-typeset h3 { line-height: 1.25; }
+
+.md-nav__link { padding-top: 6px; padding-bottom: 6px; }
+.md-nav__item { margin-bottom: 4px; }
+
+
+/* =========================================
+   PAGE-SCOPED: /lab/a350sim/
+   - kill RIGHT TOC sidebar
+   - full-width content
+========================================= */
+
+/* Hide RIGHT sidebar (TOC) — robust selectors */
+body[data-md-url^="lab/a350sim/"] [data-md-component="sidebar-secondary"],
+body[data-md-url^="lab/a350sim/"] .md-sidebar--secondary,
+body[data-md-url^="lab/a350sim/"] aside.md-sidebar--secondary {
+  display: none !important;
+  visibility: hidden !important;
 }
 
-.md-nav__link {
-  padding-top: 6px;
-  padding-bottom: 6px;
-}
-
-.md-nav__item {
-  margin-bottom: 4px;
-}
-
+body[data-md-url^="lab/a350sim/"] [data-md-component="sidebar-primary"],
 body[data-md-url^="lab/a350sim/"] .md-sidebar--primary,
-body[data-md-url^="lab/a350sim/"] .md-sidebar--secondary {
-  display: none;
-}
-body[data-md-url^="lab/a350sim/"] .md-content {
-  max-width: 100%;
-}
-
-/* ===== A350 trainer bay: full-width + no sidebars ===== */
-body[data-md-url^="lab/a350sim/"] .md-sidebar--primary,
-body[data-md-url^="lab/a350sim/"] .md-sidebar--secondary {
+body[data-md-url^="lab/a350sim/"] aside.md-sidebar--primary {
   display: none !important;
 }
 
+/* Reclaim width */
 body[data-md-url^="lab/a350sim/"] .md-content,
 body[data-md-url^="lab/a350sim/"] .md-content__inner {
   max-width: 100% !important;
-  margin: 0 !important;
 }
 
 /* Optional: give the sim more vertical room */
 body[data-md-url^="lab/a350sim/"] .trainer-frame {
   height: min(92vh, 1200px);
 }
-
