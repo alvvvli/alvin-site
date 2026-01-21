@@ -7,27 +7,19 @@
 
 /* A350SIM: "Option B" = bleed into right TOC */
 
-/* 1) Remove Material width clamps on this page */
-body[data-md-url^="lab/a350sim"] .md-grid,
-body[data-md-url^="lab/a350sim"] .md-content__inner {
-  max-width: 100% !important;
+/* 1) Hide the right TOC sidebar */
+body[data-md-url^="lab/a350sim/"] [data-md-component="sidebar-secondary"],
+body[data-md-url^="lab/a350sim/"] .md-sidebar--secondary,
+body[data-md-url^="lab/a350sim/"] aside.md-sidebar--secondary {
+  display: none !important;
 }
 
-/* 2) Let the main container clip overflow so no horizontal scrollbar */
-body[data-md-url^="lab/a350sim"] .md-main__inner {
-  overflow-x: clip;
-}
-body[data-md-url^="lab/a350sim"] {
-  overflow-x: hidden; /* fallback */
+/* 2) Remove any reserved space for the TOC */
+body[data-md-url^="lab/a350sim/"] .md-content {
+  margin-right: 0 !important;
 }
 
-/* 3) The actual "bleed": pull the sim/card into the right TOC column */
-body[data-md-url^="lab/a350sim"] .trainer-card {
-  position: relative;
-  margin-right: -260px;   /* tune: -220 to -340 */
-}
-
-/* Optional: if your sim is directly in .trainer-frame, you can also pull that */
-body[data-md-url^="lab/a350sim"] .trainer-frame {
-  height: min(92vh, 1200px);
+/* 3) Optional: widen the main grid clamp for this page */
+body[data-md-url^="lab/a350sim/"] .md-grid {
+  max-width: none !important;
 }
