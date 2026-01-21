@@ -2,8 +2,7 @@
 
 <div class="trainer-hero">
   <div class="trainer-hero__left">
-    <div class="trainer-kicker">Interactive Lab</div>
-    <div class="trainer-title">Procedure Trainer v2</div>
+    <div class="trainer-title">Procedure Trainer</div>
     <div class="trainer-subtitle">
       ILS + stabilized gates · A/THR · AP (LOC/G/S) · FMA · mouse/touch yoke
     </div>
@@ -11,13 +10,6 @@
     <div class="trainer-actions">
       <a class="trainer-btn primary" href="../a350sim.html" target="_blank" rel="noopener">Open Full Screen</a>
       <a class="trainer-btn" href="../a350sim.html" target="_blank" rel="noopener">Open in New Tab</a>
-    </div>
-
-    <div class="trainer-meta">
-      <span class="pill">Single-file</span>
-      <span class="pill">Toy physics</span>
-      <span class="pill">Procedure flow</span>
-      <span class="pill">Trainer UI</span>
     </div>
   </div>
 
