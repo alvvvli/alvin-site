@@ -26,3 +26,11 @@ html, :root, body {
 .md-nav__item {
   margin-bottom: 4px;
 }
+
+body[data-md-url^="lab/a350sim/"] .md-sidebar--primary,
+body[data-md-url^="lab/a350sim/"] .md-sidebar--secondary {
+  display: none;
+}
+body[data-md-url^="lab/a350sim/"] .md-content {
+  max-width: 100%;
+}
