@@ -1,8 +1,9 @@
-/* existing */
+/* Generic full-bleed embed */
 .embed-bleed{
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
   width: 100vw;
+  max-width: 100vw;     /* prevents accidental overflow */
 }
 
 .embed-bleed .frame{
@@ -12,17 +13,3 @@
   display: block;
   background: #0b0f14;
 }
-
-/* A350SIM: bleed into right TOC without killing TOC */
-body[data-md-url^="lab/a350sim"] .trainer-card{
-  position: relative;
-  margin-right: -260px; /* tune */
-}
-
-body[data-md-url^="lab/a350sim"] .md-grid,
-body[data-md-url^="lab/a350sim"] .md-content__inner{
-  max-width: 100% !important;
-}
-
-body[data-md-url^="lab/a350sim"] .md-main__inner{ overflow-x: clip; }
-body[data-md-url^="lab/a350sim"]{ overflow-x: hidden; }
