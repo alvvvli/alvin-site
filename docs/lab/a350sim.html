@@ -50,6 +50,53 @@
       padding:1px 6px; border-radius:6px;
       font:12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     }
+      #ctrl{
+    position:absolute;
+    right:12px;
+    bottom:12px;
+    width:min(640px, 52vw);
+    color:#e7ecff;
+    font:12px/1.35 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    background:rgba(0,0,0,0.40);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:12px;
+    padding:12px;
+    pointer-events:auto;
+    backdrop-filter: blur(6px);
+  }
+
+  .ctrl-row{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px; }
+  .ctrl-row.dim{ opacity:0.85; }
+
+  .ctrl-grid{
+    display:grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap:10px;
+  }
+
+  .box{
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:12px;
+    padding:10px;
+  }
+
+  .btn{
+    cursor:pointer;
+    background:rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.12);
+    color:#e7ecff;
+    padding:6px 10px;
+    border-radius:10px;
+  }
+
+  .btn.on{
+    background: rgba(145,255,170,0.14);
+    border-color: rgba(145,255,170,0.55);
+    color:#bff7cf;
+  }
+
+  input[type="range"]{ width:100%; accent-color:#8fb0ff; }  
   </style>
 </head>
 <body>
@@ -1075,6 +1122,164 @@ function updatePanel(){
   notes.textContent = st.note || "";
 }
 
+ /* ===========================
+   INTERACTIVE UI (v2 add-on)
+=========================== */
+const ctrlEl = document.getElementById("ctrl");
+const thrEl  = document.getElementById("thr");
+const spdEl  = document.getElementById("spd");
+const brkEl  = document.getElementById("brk");
+const thrV   = document.getElementById("thrV");
+const spdV   = document.getElementById("spdV");
+const brkV   = document.getElementById("brkV");
+const flapsV = document.getElementById("flapsV");
+
+const toggleButtons = {
+  athr: ctrlEl.querySelector('[data-toggle="athr"]'),
+  ap:   ctrlEl.querySelector('[data-toggle="ap"]'),
+  loc:  ctrlEl.querySelector('[data-toggle="loc"]'),
+  gs:   ctrlEl.querySelector('[data-toggle="gs"]'),
+  gear: ctrlEl.querySelector('[data-toggle="gear"]'),
+  pause:ctrlEl.querySelector('[data-toggle="pause"]'),
+};
+
+function syncUIFromSim(){
+  // sliders -> reflect sim
+  thrEl.value = Math.round(sim.throttle * 100);
+  spdEl.value = Math.round(sim.spdTarget / 5) * 5;
+  brkEl.value = Math.round(sim.brakes * 100);
+
+  thrV.textContent = thrEl.value;
+  spdV.textContent = spdEl.value;
+  brkV.textContent = brkEl.value;
+  flapsV.textContent = sim.flaps;
+
+  // button states
+  const setOn = (btn, on) => btn.classList.toggle("on", !!on);
+
+  setOn(toggleButtons.athr, sim.athrOn);
+  setOn(toggleButtons.ap, sim.apOn);
+  setOn(toggleButtons.loc, sim.apLocArmed);
+  setOn(toggleButtons.gs, sim.apGsArmed);
+  setOn(toggleButtons.gear, sim.gearDown);
+  setOn(toggleButtons.pause, sim.paused);
+
+  // warn if arming LOC/GS with AP off (trainer-like)
+  toggleButtons.loc.classList.toggle("warn", sim.apLocArmed && !sim.apOn);
+  toggleButtons.gs.classList.toggle("warn",  sim.apGsArmed && !sim.apOn);
+}
+
+ctrlEl.addEventListener("click", (e) => {
+  const t = e.target.closest("[data-toggle], [data-action]");
+  if (!t) return;
+
+  const tog = t.getAttribute("data-toggle");
+  const act = t.getAttribute("data-action");
+
+  if (tog){
+    if (tog === "athr") sim.athrOn = !sim.athrOn;
+    if (tog === "ap")   sim.apOn = !sim.apOn;
+    if (tog === "loc")  sim.apLocArmed = !sim.apLocArmed;
+    if (tog === "gs")   sim.apGsArmed = !sim.apGsArmed;
+    if (tog === "gear") sim.gearDown = !sim.gearDown;
+    if (tog === "pause") sim.paused = !sim.paused;
+  }
+
+  if (act){
+    if (act === "reset1") resetApproach();
+    if (act === "reset2") resetRunway();
+    if (act === "flapsUp") sim.flaps = clamp(sim.flaps + 1, 0, 4);
+    if (act === "flapsDown") sim.flaps = clamp(sim.flaps - 1, 0, 4);
+  }
+
+  syncUIFromSim();
+});
+
+// sliders -> drive sim
+thrEl.addEventListener("input", () => {
+  sim.throttle = clamp(parseFloat(thrEl.value) / 100, 0, 1);
+  thrV.textContent = thrEl.value;
+});
+
+spdEl.addEventListener("input", () => {
+  sim.spdTarget = clamp(parseFloat(spdEl.value), 0, 340);
+  spdV.textContent = spdEl.value;
+});
+
+brkEl.addEventListener("input", () => {
+  sim.brakes = clamp(parseFloat(brkEl.value) / 100, 0, 1);
+  brkV.textContent = brkEl.value;
+});
+
+/* ===========================
+   MOUSE / TOUCH: drag to command pitch/roll (AP OFF)
+   - simple "virtual yoke" that feeds into attitude directly
+=========================== */
+const yoke = {
+  active:false,
+  lastX:0, lastY:0,
+  pitchCmd:0, rollCmd:0, // -1..+1
+};
+
+function setYokeFromDrag(dx, dy){
+  // dx -> roll, dy -> pitch
+  yoke.rollCmd  = clamp(yoke.rollCmd  + dx * 0.003, -1, 1);
+  yoke.pitchCmd = clamp(yoke.pitchCmd - dy * 0.003, -1, 1);
+}
+
+function yokeCenter(){
+  yoke.rollCmd = 0;
+  yoke.pitchCmd = 0;
+}
+
+function pointerPos(ev){
+  const r = renderer.domElement.getBoundingClientRect();
+  return { x: ev.clientX - r.left, y: ev.clientY - r.top };
+}
+
+// Use the WebGL canvas as interaction surface
+renderer.domElement.style.touchAction = "none";
+
+renderer.domElement.addEventListener("pointerdown", (ev) => {
+  // ignore if clicking on control panel
+  const path = ev.composedPath?.() || [];
+  if (path.includes(ctrlEl)) return;
+
+  yoke.active = true;
+  const p = pointerPos(ev);
+  yoke.lastX = p.x; yoke.lastY = p.y;
+  renderer.domElement.setPointerCapture(ev.pointerId);
+});
+
+renderer.domElement.addEventListener("pointermove", (ev) => {
+  if (!yoke.active) return;
+  const p = pointerPos(ev);
+  const dx = p.x - yoke.lastX;
+  const dy = p.y - yoke.lastY;
+  yoke.lastX = p.x; yoke.lastY = p.y;
+  setYokeFromDrag(dx, dy);
+});
+
+renderer.domElement.addEventListener("pointerup", (ev) => {
+  yoke.active = false;
+});
+
+renderer.domElement.addEventListener("dblclick", () => yokeCenter());
+
+/* Apply yoke commands each frame (when AP off) */
+function applyYoke(dt){
+  if (sim.apOn) return; // AP owns pitch/roll
+  // rate-limited like a spring
+  const pitchRate = sim.pitchRate * 0.85;
+  const rollRate  = sim.rollRate  * 0.85;
+
+  sim.pitch += yoke.pitchCmd * pitchRate * dt;
+  sim.roll  += yoke.rollCmd  * rollRate  * dt;
+
+  sim.pitch = clamp(sim.pitch, rad(-15), rad(20));
+  sim.roll  = clamp(sim.roll,  rad(-45), rad(45));
+}
+ 
 /* ===========================
    MAIN LOOP
 =========================== */
@@ -1093,6 +1298,9 @@ function animate(now){
 
     // update FMA strings (post mode logic)
     updateFMA();
+
+    // virtual yardstick
+    applyYoke(dt);
 
     // physics integration
     stepPhysics(dt);
