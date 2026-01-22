@@ -280,7 +280,7 @@
     </div>
 
     <div class="ctrl-row dim">
-      <div>Mouse/touch: drag on screen to command <b>Pitch/Roll</b> (AP OFF). Double-click to center. <b>V</b>: ROTATE assist (≥VROT).</div>
+      <div>Mouse/touch: drag on screen to command <b>Pitch/Roll</b> (AP OFF). Double-click to center.</div>
     </div>
   </div>
 
@@ -331,6 +331,9 @@ const RWY = {
   gsScaleMPerDot: 15,
   decisionAltAglFt: 200,
 };
+
+// ✅ CG height above runway when "on ground" (prevents model clipping)
+const GROUND_CG_Y = 1.35; // meters (tune 1.0–1.8)
 
 function ilsDeviation(pos){
   const dx = RWY.threshold.x - pos.x;
@@ -406,15 +409,6 @@ const sim = {
   locCaptured: false,
   gsCaptured: false,
 
-  // Takeoff rotate assist (intent key)
-  takeoff: {
-    vrotKts: 150,          // speed gate
-    minPitchDeg: 5,        // must exceed this to lift
-    targetPitchDeg: 7,     // rotate command target
-    rateDegPerSec: 4.0,    // smooth ramp rate
-    liftGate: 0.95,        // L >= 0.95W to lift (toy)
-  },
-
   // UI visibility
   ui: { panelOpen: true, ctrlOpen: true },
 };
@@ -470,7 +464,7 @@ function resetApproach(){
 }
 
 function resetRunway(){
-  sim.pos.set(120, 0.5, 0);
+  sim.pos.set(120, GROUND_CG_Y, 0); // ✅ was 0.5
   sim.vel.set(0, 0, 0);
   sim.pitch = 0;
   sim.roll = 0;
@@ -567,8 +561,8 @@ const trainer = (() => {
 
   function resetTakeoff(){
     set("T/O", 0,
-      "T/O: FLAPS 1. Brakes held. Advance thrust, then release. Hold V at ≥150 kt to rotate. Press SPACE.",
-      "Hold V to ROTATE after 150 kt. Target ~7° (smooth ramp).",
+      "T/O: FLAPS 1. Brakes held. Advance thrust, then release. Press SPACE.",
+      "Rotate >150 kt with pitch >5°. (Toy.)",
       { spd:0, alt:0, config:"FLAPS 1, GEAR DOWN" }
     );
     state.awaitingAck = true;
@@ -691,7 +685,7 @@ function applyUiVisibility(){
   ctrlEl.style.display  = sim.ui.ctrlOpen  ? "" : "none";
 
   panelOpen.style.display = sim.ui.panelOpen ? "none" : "inline-flex";
-  ctrlOpen.style.display  = sim.ui.ctrlOpen  ? "none" : "inline-flex";
+  ctrlOpen.style.display  = sim.ui.ctrlOpen ? "none" : "inline-flex";
 }
 
 panelClose.addEventListener("click", (e)=>{ e.preventDefault(); sim.ui.panelOpen=false; applyUiVisibility(); });
@@ -787,7 +781,7 @@ function updateFMA(){
 }
 
 /* ===========================
-   PHYSICS STEP (same toy model + ROTATE assist)
+   PHYSICS STEP (same toy model)
 =========================== */
 function stepPhysics(dt){
   const pitchIn = (keys.has("KeyW") ? 1 : 0) - (keys.has("KeyS") ? 1 : 0);
@@ -797,17 +791,6 @@ function stepPhysics(dt){
 
   sim.brakes = keys.has("KeyB") ? 1 : 0;
   sim.throttle = clamp(sim.throttle + thrIn * dt * 0.35, 0, 1);
-
-  // --- ROTATE assist (hold V) ---
-  const rotateHeld = keys.has("KeyV");
-  const vrotOk = sim.iasKts >= sim.takeoff.vrotKts;
-
-  // Smoothly command pitch-up during takeoff roll when V is held (even if AP is ON)
-  if (sim.onGround && rotateHeld && vrotOk) {
-    const tgt = rad(sim.takeoff.targetPitchDeg);
-    const maxStep = rad(sim.takeoff.rateDegPerSec) * dt;
-    sim.pitch += clamp(tgt - sim.pitch, -maxStep, maxStep);
-  }
 
   if (!sim.apOn){
     sim.pitch += pitchIn * sim.pitchRate * dt;
@@ -865,27 +848,23 @@ function stepPhysics(dt){
   ax += right.x * sideForce;
   az += right.z * sideForce;
 
-  if (sim.pos.y <= 0.01){
+  // ✅ Ground contact at CG height (prevents runway clipping)
+  if (sim.pos.y <= GROUND_CG_Y){
     if (sim.vel.y < -1.5) sim.vel.y *= -0.25;
     else {
       sim.onGround = true;
-      sim.pos.y = 0.01;
+      sim.pos.y = GROUND_CG_Y;
       sim.vel.y = 0;
     }
-  } else sim.onGround = false;
+  } else {
+    sim.onGround = false;
+  }
 
   if (sim.onGround){
-    const vrotOk2 = sim.iasKts >= sim.takeoff.vrotKts;
-    const pitchOk = sim.pitch >= rad(sim.takeoff.minPitchDeg);
-    const liftOk  = L >= sim.takeoff.liftGate * W;
-
-    // liftoff requires: VROT + pitch gate + lift gate + gear down (toy)
-    if (vrotOk2 && pitchOk && liftOk && sim.gearDown){
+    const rotateReady = (L > 0.9 * W) && (sim.pitch > rad(5)) && (sim.gearDown);
+    if (rotateReady){
       sim.onGround = false;
       sim.vel.y = Math.max(sim.vel.y, 2.0);
-      callout("ROTATE ✅", 0);
-    } else if (rotateHeld && !vrotOk2 && sim.iasKts > 40){
-      callout(`WAIT VROT ${sim.takeoff.vrotKts} kt`, 0);
     }
 
     const mu = 0.02 + 0.30 * sim.brakes;
@@ -918,15 +897,27 @@ function stepPhysics(dt){
    THREE SCENE
 =========================== */
 const wrap = document.getElementById("wrap");
-const renderer = new THREE.WebGLRenderer({ antialias:true });
+
+// ✅ Better depth handling (reduces z-fighting & low-angle flicker)
+const renderer = new THREE.WebGLRenderer({
+  antialias: true,
+  logarithmicDepthBuffer: true,
+  powerPreference: "high-performance",
+});
 renderer.setPixelRatio(devicePixelRatio);
 renderer.setSize(wrap.clientWidth, wrap.clientHeight);
 wrap.insertBefore(renderer.domElement, document.getElementById("hud"));
 
 const scene = new THREE.Scene();
-scene.fog = new THREE.Fog(0x070b16, 2000, 14000);
+scene.fog = new THREE.Fog(0x070b16, 2000, 18000);
 
-const camera = new THREE.PerspectiveCamera(60, wrap.clientWidth / wrap.clientHeight, 0.1, 80000);
+// ✅ Increase near plane + reduce far plane to improve depth precision
+const camera = new THREE.PerspectiveCamera(
+  60,
+  wrap.clientWidth / wrap.clientHeight,
+  1.0,    // was 0.1
+  40000   // was 80000
+);
 
 const hemi = new THREE.HemisphereLight(0xcfd7ff, 0x101833, 1.0);
 scene.add(hemi);
@@ -934,28 +925,51 @@ const dir = new THREE.DirectionalLight(0xffffff, 0.9);
 dir.position.set(-2, 6, 2);
 scene.add(dir);
 
+// ✅ Ground as background: push down + avoid depth-write fights
+const ground = new THREE.Mesh(
+  new THREE.PlaneGeometry(80000, 80000, 1, 1),
+  new THREE.MeshStandardMaterial({
+    color: 0x0b1024,
+    roughness: 1.0,
+    depthWrite: false,
+  })
+);
+ground.rotation.x = -Math.PI/2;
+ground.position.y = -2.0;
+ground.renderOrder = 0;
+scene.add(ground);
+
+// ✅ Runway
+const runwayMat = new THREE.MeshStandardMaterial({
+  color: 0x1a2030,
+  roughness: 0.95
+});
 const runway = new THREE.Mesh(
   new THREE.PlaneGeometry(RWY.length, RWY.width, 1, 1),
-  new THREE.MeshStandardMaterial({ color: 0x1a2030, roughness: 0.95 })
+  runwayMat
 );
 runway.rotation.x = -Math.PI/2;
 runway.position.set(RWY.length/2, 0, 0);
+runway.renderOrder = 1;
 scene.add(runway);
 
-const stripeMat = new THREE.MeshStandardMaterial({ color: 0xf2f5ff, roughness: 0.8 });
+// ✅ Stripes as plane decals (no coplanar z-fight)
+const stripeMat = new THREE.MeshStandardMaterial({
+  color: 0xf2f5ff,
+  roughness: 0.8,
+  polygonOffset: true,
+  polygonOffsetFactor: -2,
+  polygonOffsetUnits: -2,
+  depthWrite: false,
+});
+
 for (let i=0;i<36;i++){
-  const stripe = new THREE.Mesh(new THREE.BoxGeometry(30, 0.02, 2.0), stripeMat);
-  stripe.position.set(120 + i * 90, 0.01, 0);
+  const stripe = new THREE.Mesh(new THREE.PlaneGeometry(30, 2.0), stripeMat);
+  stripe.rotation.x = -Math.PI/2;
+  stripe.position.set(120 + i * 90, 0.03, 0);
+  stripe.renderOrder = 2;
   scene.add(stripe);
 }
-
-const ground = new THREE.Mesh(
-  new THREE.PlaneGeometry(100000, 100000, 1, 1),
-  new THREE.MeshStandardMaterial({ color: 0x0b1024, roughness: 1.0 })
-);
-ground.rotation.x = -Math.PI/2;
-ground.position.y = -0.02;
-scene.add(ground);
 
 const ilsMarker = new THREE.Mesh(
   new THREE.CylinderGeometry(0.6, 0.6, 12, 16),
@@ -1420,7 +1434,6 @@ requestAnimationFrame(animate);
 
 // initial UI sync so buttons match state
 syncUIFromSim();
-
 </script>
 </body>
 </html>
