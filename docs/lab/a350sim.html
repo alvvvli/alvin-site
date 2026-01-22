@@ -50,7 +50,6 @@
     .ui-close:hover{ background: rgba(255,255,255,0.10); }
     .ui-close:active{ transform: translateY(1px); }
 
-    /* Reopen chips (only show when panel is closed) */
     .ui-fab{
       position:absolute;
       bottom:12px;
@@ -78,7 +77,7 @@
       background:rgba(0,0,0,0.35);
       border:1px solid rgba(255,255,255,0.08);
       padding:10px 12px; border-radius:12px;
-      max-width:780px;
+      max-width:820px;
       pointer-events:none;
     }
     #help b { color:#ffffff; }
@@ -138,7 +137,6 @@
       backdrop-filter: blur(6px);
       z-index: 40;
 
-      /* important: keep usable on smaller heights */
       max-height: calc(100vh - 24px);
       overflow: auto;
     }
@@ -214,6 +212,20 @@
 <body>
 <div id="wrap">
 
+  <!-- HELP -->
+  <div id="help">
+    <b>Shortcuts</b> <span class="dim">|</span>
+    <b>1</b> Reset APP <span class="dim">|</span>
+    <b>2</b> Reset RWY <span class="dim">|</span>
+    <b>V</b>/<b>3</b> Set V1 <span class="dim">|</span>
+    <b>C</b>/<b>4</b> Set V2 + Auto-rotate <span class="dim">|</span>
+    <b>R/F</b> Throttle +/- <span class="dim">|</span>
+    <b>W/S</b> Pitch <span class="dim">|</span>
+    <b>A/D</b> Roll <span class="dim">|</span>
+    <b>B</b> Hold brake <span class="dim">|</span>
+    <b>P</b> Pause
+  </div>
+
   <!-- PROCEDURE PANEL -->
   <div id="panel">
     <div class="ui-bar">
@@ -272,10 +284,10 @@
       </div>
 
       <div class="box">
-        <div class="lbl">BRAKES</div>
+        <div class="lbl">BRAKES CMD</div>
         <input id="brk" type="range" min="0" max="100" value="0" />
         <div class="readout"><span id="brkV">0</span>%</div>
-        <div class="hint">Optional: hold B still works</div>
+        <div class="hint">Hold <b>B</b> for full braking (doesn't change cmd)</div>
       </div>
     </div>
 
@@ -305,7 +317,6 @@ const MPS_PER_KTS = 1 / KTS_PER_MPS;
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const rad = d => d * Math.PI / 180;
 const deg = r => r * 180 / Math.PI;
-const sign = x => x < 0 ? -1 : 1;
 
 function isaRho(alt_m){
   const rho0 = 1.225, H = 8500.0;
@@ -322,7 +333,7 @@ function band(val, target, tol){ return Math.abs(val - target) <= tol; }
    RUNWAY / ILS GEOMETRY (toy)
 =========================== */
 const RWY = {
-  heading: 0,                 // rad along +x
+  heading: 0,
   threshold: new THREE.Vector3(0, 0, 0),
   length: 3600,
   width: 60,
@@ -347,7 +358,7 @@ function ilsDeviation(pos){
 }
 
 /* ===========================
-   SIM STATE (toy physics + trainer + AP)
+   SIM STATE
 =========================== */
 const sim = {
   paused: false,
@@ -359,13 +370,14 @@ const sim = {
   roll: 0,
   yaw: 0,
 
-  // direct pilot controls (when AP off)
   throttle: 0.55,
-  flaps: 0,         // 0..4
+  flaps: 0,
   gearDown: true,
+
+  // brakes: command vs effective (effective = max(cmd, B-hold))
+  brakesCmd: 0,
   brakes: 0,
 
-  // aircraft params (toy)
   mass: 175000,
   wingArea: 443,
   maxThrust: 2 * 320000,
@@ -377,12 +389,10 @@ const sim = {
 
   onGround: false,
 
-  // outputs
   iasKts: 0,
   altFt: 0,
   vsFpm: 0,
 
-  // scoring
   score: 100,
   faults: 0,
   gate1000Checked: false,
@@ -390,26 +400,22 @@ const sim = {
   lastCallout: "",
   calloutTimer: 0,
 
-  // A/THR + AP
-  spdTarget: 180,          // kt
+  spdTarget: 180,
   athrOn: false,
   apOn: false,
   apLocArmed: false,
   apGsArmed: false,
 
-  // mode annunciations
   fma: {
-    col1: "MAN THR",  // A/THR column
-    col2: "---",      // lateral (LOC)
-    col3: "---",      // vertical (G/S)
-    ap:   ""          // AP1
+    col1: "MAN THR",
+    col2: "---",
+    col3: "---",
+    ap:   ""
   },
 
-  // capture state
   locCaptured: false,
   gsCaptured: false,
 
-  // UI visibility
   ui: { panelOpen: true, ctrlOpen: true },
 };
 
@@ -418,6 +424,20 @@ function vrefToy(){
   if (sim.flaps === 2) return 155;
   if (sim.flaps === 1) return 175;
   return 190;
+}
+
+// ✅ Toy takeoff speeds (keyed off flap + mass)
+function vTakeoffToy(){
+  const flapAdj =
+    (sim.flaps >= 2) ? -8 :
+    (sim.flaps === 1) ? -4 : 0;
+
+  const massAdj = clamp((sim.mass - 175000) / 10000, -8, 8);
+
+  const VR = clamp(150 + massAdj + flapAdj, 120, 190);
+  const V1 = clamp(VR - 5, 110, 185);
+  const V2 = clamp(VR + 10, 120, 220);
+  return { V1, VR, V2 };
 }
 
 function callout(text, penalty=0){
@@ -433,6 +453,7 @@ function callout(text, penalty=0){
 function resetApproach(){
   sim.pos.set(-12000, 25000 * M_PER_FT, 0);
   sim.vel.set(155 * MPS_PER_KTS, 0, 0);
+
   sim.pitch = rad(2);
   sim.roll = 0;
   sim.yaw = 0;
@@ -440,6 +461,8 @@ function resetApproach(){
   sim.throttle = 0.55;
   sim.flaps = 0;
   sim.gearDown = true;
+
+  sim.brakesCmd = 0;
   sim.brakes = 0;
 
   sim.onGround = false;
@@ -451,7 +474,6 @@ function resetApproach(){
   sim.lastCallout = "";
   sim.calloutTimer = 0;
 
-  // AP/A/THR default off
   sim.athrOn = false;
   sim.apOn = false;
   sim.apLocArmed = false;
@@ -460,12 +482,14 @@ function resetApproach(){
   sim.gsCaptured = false;
   sim.spdTarget = 180;
 
+  takeoffAssist.disarm(true);
   trainer.reset();
 }
 
 function resetRunway(){
-  sim.pos.set(120, GROUND_CG_Y, 0); // ✅ was 0.5
+  sim.pos.set(120, GROUND_CG_Y, 0);
   sim.vel.set(0, 0, 0);
+
   sim.pitch = 0;
   sim.roll = 0;
   sim.yaw = 0;
@@ -473,7 +497,9 @@ function resetRunway(){
   sim.throttle = 0.0;
   sim.flaps = 1;
   sim.gearDown = true;
-  sim.brakes = 1;
+
+  sim.brakesCmd = 0;
+  sim.brakes = 0;
 
   sim.onGround = true;
 
@@ -492,6 +518,7 @@ function resetRunway(){
   sim.gsCaptured = false;
   sim.spdTarget = 0;
 
+  takeoffAssist.disarm(true);
   trainer.resetTakeoff();
 }
 
@@ -499,6 +526,7 @@ function resetRunway(){
    INPUTS
 =========================== */
 const keys = new Set();
+
 addEventListener("keydown", (e) => {
   keys.add(e.code);
 
@@ -512,7 +540,6 @@ addEventListener("keydown", (e) => {
 
   if (e.code === "Space") trainer.ack();
 
-  // toggles
   if (e.code === "KeyT") sim.athrOn = !sim.athrOn;
   if (e.code === "KeyM") sim.apOn = !sim.apOn;
   if (e.code === "KeyL") sim.apLocArmed = !sim.apLocArmed;
@@ -521,7 +548,19 @@ addEventListener("keydown", (e) => {
   if (e.code === "BracketLeft") sim.spdTarget = clamp(sim.spdTarget - 5, 0, 340);
   if (e.code === "BracketRight") sim.spdTarget = clamp(sim.spdTarget + 5, 0, 340);
 
-  // ESC closes controls first, then procedure
+  // ✅ V1/V2 shortcuts
+  if (e.code === "Digit3" || e.code === "KeyV"){
+    const {V1} = vTakeoffToy();
+    sim.spdTarget = Math.round(V1);
+    callout(`V1 ${Math.round(V1)} kt`, 0);
+  }
+  if (e.code === "Digit4" || e.code === "KeyC"){
+    const {V2} = vTakeoffToy();
+    sim.spdTarget = Math.round(V2);
+    takeoffAssist.arm();
+    callout(`V2 ${Math.round(V2)} kt — AUTO ROTATE`, 0);
+  }
+
   if (e.code === "Escape"){
     if (sim.ui.ctrlOpen) sim.ui.ctrlOpen = false;
     else sim.ui.panelOpen = false;
@@ -531,7 +570,65 @@ addEventListener("keydown", (e) => {
 addEventListener("keyup", (e) => keys.delete(e.code));
 
 /* ===========================
-   TRAINER STATE MACHINE (kept concise)
+   TAKEOFF ASSIST (V2 / AUTO ROTATE)
+=========================== */
+const takeoffAssist = {
+  armed: false,
+  disarm(silent=false){
+    this.armed = false;
+    if (!silent) callout("TAKEOFF ASSIST OFF", 0);
+  },
+  arm(){
+    this.armed = true;
+
+    // Avoid mode fights during takeoff assist
+    sim.apOn = false;
+    sim.apLocArmed = false;
+    sim.apGsArmed = false;
+    sim.locCaptured = false;
+    sim.gsCaptured = false;
+
+    sim.athrOn = false; // keep TO power stable
+    sim.brakesCmd = 0;
+    sim.throttle = Math.max(sim.throttle, 1.0);
+  },
+  update(dt){
+    if (!this.armed) return;
+
+    const {VR, V2} = vTakeoffToy();
+
+    // force takeoff roll settings
+    sim.brakesCmd = 0;
+    sim.throttle = 1.0;
+
+    if (sim.onGround){
+      // pre-rotate: start feeding pitch from VR-12 → VR
+      const t = clamp((sim.iasKts - (VR - 12)) / 12, 0, 1);
+      const tgtPitch = rad(2 + 10 * t); // ~2° → ~12°
+      const err = tgtPitch - sim.pitch;
+      sim.pitch += clamp(err, -rad(18) * dt, rad(18) * dt);
+
+      // keep target speed at V2 once armed (so HUD is consistent)
+      sim.spdTarget = Math.round(V2);
+    } else {
+      // airborne: hold modest pitch until a bit of climb
+      const agl = Math.max(sim.altFt, 0);
+      const tgtPitch = (agl < 250) ? rad(10) : rad(6);
+      const err = tgtPitch - sim.pitch;
+      sim.pitch += clamp(err, -rad(12) * dt, rad(12) * dt);
+
+      sim.spdTarget = Math.round(V2);
+
+      // auto-disarm after clear of runway / stable climb
+      if (agl > 500) this.disarm(true);
+    }
+
+    sim.pitch = clamp(sim.pitch, rad(-10), rad(18));
+  }
+};
+
+/* ===========================
+   TRAINER STATE MACHINE
 =========================== */
 const trainer = (() => {
   const state = {
@@ -560,9 +657,10 @@ const trainer = (() => {
   }
 
   function resetTakeoff(){
+    const {V1, VR, V2} = vTakeoffToy();
     set("T/O", 0,
-      "T/O: FLAPS 1. Brakes held. Advance thrust, then release. Press SPACE.",
-      "Rotate >150 kt with pitch >5°. (Toy.)",
+      `T/O: FLAPS 1. Advance thrust. Rotate at VR≈${Math.round(VR)} kt (V1≈${Math.round(V1)}, V2≈${Math.round(V2)}). Press SPACE.`,
+      "Shortcut: press C (or 4) for V2 + auto-rotate. Hold B to brake.",
       { spd:0, alt:0, config:"FLAPS 1, GEAR DOWN" }
     );
     state.awaitingAck = true;
@@ -670,7 +768,7 @@ const trainer = (() => {
 trainer.reset();
 
 /* ===========================
-   UI VISIBILITY (X close + reopen)
+   UI VISIBILITY
 =========================== */
 const panelEl = document.getElementById("panel");
 const ctrlEl  = document.getElementById("ctrl");
@@ -697,7 +795,7 @@ ctrlOpen .addEventListener("click", ()=>{ sim.ui.ctrlOpen=true;  applyUiVisibili
 applyUiVisibility();
 
 /* ===========================
-   AUTOTHROTTLE (A/THR) — toy speed hold
+   A/THR (toy speed hold)
 =========================== */
 const athr = {
   integ: 0,
@@ -714,7 +812,7 @@ const athr = {
 };
 
 /* ===========================
-   AUTOPILOT (AP1) — toy ILS capture/track
+   AP (toy ILS)
 =========================== */
 const ap = {
   rollCmdDeg: 0,
@@ -781,7 +879,7 @@ function updateFMA(){
 }
 
 /* ===========================
-   PHYSICS STEP (same toy model)
+   PHYSICS STEP
 =========================== */
 function stepPhysics(dt){
   const pitchIn = (keys.has("KeyW") ? 1 : 0) - (keys.has("KeyS") ? 1 : 0);
@@ -789,7 +887,9 @@ function stepPhysics(dt){
   const yawIn   = (keys.has("KeyE") ? 1 : 0) - (keys.has("KeyQ") ? 1 : 0);
   const thrIn   = (keys.has("KeyR") ? 1 : 0) - (keys.has("KeyF") ? 1 : 0);
 
-  sim.brakes = keys.has("KeyB") ? 1 : 0;
+  // brakes effective: hold B forces full braking, otherwise use cmd
+  sim.brakes = keys.has("KeyB") ? 1 : clamp(sim.brakesCmd, 0, 1);
+
   sim.throttle = clamp(sim.throttle + thrIn * dt * 0.35, 0, 1);
 
   if (!sim.apOn){
@@ -848,7 +948,7 @@ function stepPhysics(dt){
   ax += right.x * sideForce;
   az += right.z * sideForce;
 
-  // ✅ Ground contact at CG height (prevents runway clipping)
+  // ✅ Ground contact at CG height
   if (sim.pos.y <= GROUND_CG_Y){
     if (sim.vel.y < -1.5) sim.vel.y *= -0.25;
     else {
@@ -861,10 +961,14 @@ function stepPhysics(dt){
   }
 
   if (sim.onGround){
-    const rotateReady = (L > 0.9 * W) && (sim.pitch > rad(5)) && (sim.gearDown);
+    // ✅ Rotate gate based on IAS vs VR (more deterministic than L>0.9W)
+    const {VR} = vTakeoffToy();
+    const rotateReady = (sim.iasKts >= (VR - 1.5)) && (sim.pitch > rad(4.5)) && sim.gearDown;
+
     if (rotateReady){
       sim.onGround = false;
-      sim.vel.y = Math.max(sim.vel.y, 2.0);
+      sim.vel.y = Math.max(sim.vel.y, 2.5);
+      callout("ROTATE", 0);
     }
 
     const mu = 0.02 + 0.30 * sim.brakes;
@@ -894,11 +998,10 @@ function stepPhysics(dt){
 }
 
 /* ===========================
-   THREE SCENE
+   THREE SCENE (z-fight hardened)
 =========================== */
 const wrap = document.getElementById("wrap");
 
-// ✅ Better depth handling (reduces z-fighting & low-angle flicker)
 const renderer = new THREE.WebGLRenderer({
   antialias: true,
   logarithmicDepthBuffer: true,
@@ -911,12 +1014,12 @@ wrap.insertBefore(renderer.domElement, document.getElementById("hud"));
 const scene = new THREE.Scene();
 scene.fog = new THREE.Fog(0x070b16, 2000, 18000);
 
-// ✅ Increase near plane + reduce far plane to improve depth precision
+// ✅ better depth precision
 const camera = new THREE.PerspectiveCamera(
   60,
   wrap.clientWidth / wrap.clientHeight,
-  1.0,    // was 0.1
-  40000   // was 80000
+  1.0,
+  40000
 );
 
 const hemi = new THREE.HemisphereLight(0xcfd7ff, 0x101833, 1.0);
@@ -925,7 +1028,7 @@ const dir = new THREE.DirectionalLight(0xffffff, 0.9);
 dir.position.set(-2, 6, 2);
 scene.add(dir);
 
-// ✅ Ground as background: push down + avoid depth-write fights
+// ✅ ground pushed down, no depthWrite
 const ground = new THREE.Mesh(
   new THREE.PlaneGeometry(80000, 80000, 1, 1),
   new THREE.MeshStandardMaterial({
@@ -939,7 +1042,6 @@ ground.position.y = -2.0;
 ground.renderOrder = 0;
 scene.add(ground);
 
-// ✅ Runway
 const runwayMat = new THREE.MeshStandardMaterial({
   color: 0x1a2030,
   roughness: 0.95
@@ -953,7 +1055,7 @@ runway.position.set(RWY.length/2, 0, 0);
 runway.renderOrder = 1;
 scene.add(runway);
 
-// ✅ Stripes as plane decals (no coplanar z-fight)
+// ✅ stripes with polygonOffset (no coplanar fight)
 const stripeMat = new THREE.MeshStandardMaterial({
   color: 0xf2f5ff,
   roughness: 0.8,
@@ -962,7 +1064,6 @@ const stripeMat = new THREE.MeshStandardMaterial({
   polygonOffsetUnits: -2,
   depthWrite: false,
 });
-
 for (let i=0;i<36;i++){
   const stripe = new THREE.Mesh(new THREE.PlaneGeometry(30, 2.0), stripeMat);
   stripe.rotation.x = -Math.PI/2;
@@ -1001,6 +1102,9 @@ aircraft.add(tail);
 
 scene.add(aircraft);
 
+/* ===========================
+   HUD CANVAS
+=========================== */
 const hud = document.getElementById("hud");
 const hctx = hud.getContext("2d");
 hud.width = wrap.clientWidth * devicePixelRatio;
@@ -1014,9 +1118,6 @@ addEventListener("resize", () => {
   hud.height = wrap.clientHeight * devicePixelRatio;
 });
 
-/* ===========================
-   HUD DRAW
-=========================== */
 function drawText(x,y,txt, color="rgba(215,222,255,0.95)", size=12){
   hctx.save();
   hctx.fillStyle = color;
@@ -1176,8 +1277,8 @@ function drawHUD(){
   const cy = H * 0.52;
 
   drawFMA();
-
   drawHorizon(cx, cy, deg(sim.pitch), deg(sim.roll));
+
   const ils = ilsDeviation(sim.pos);
   drawIlsNeedles(cx, cy, ils.locDots, ils.gsDots);
 
@@ -1198,15 +1299,18 @@ function drawHUD(){
   line(`SPD*  ${sim.spdTarget.toFixed(0)} kt`);
   line(`FLAPS ${sim.flaps}`);
   line(`GEAR  ${sim.gearDown ? "DOWN" : "UP"}`);
+  line(`BRK   ${(sim.brakes*100).toFixed(0)}%`);
   line(`A/THR ${sim.athrOn ? "ON" : "OFF"}`);
   line(`AP1   ${sim.apOn ? "ON" : "OFF"}`);
   line(`LOC   ${sim.apLocArmed ? "ARM" : "OFF"} ${sim.locCaptured ? "(CAP)" : ""}`);
   line(`G/S   ${sim.apGsArmed ? "ARM" : "OFF"} ${sim.gsCaptured ? "(CAP)" : ""}`);
   line(`SCORE ${sim.score.toFixed(0)}`);
 
-  drawText(W - 260*devicePixelRatio, 90*devicePixelRatio, `LOC ${ils.locDots.toFixed(2)} dots`, "rgba(145,255,170,0.95)");
-  drawText(W - 260*devicePixelRatio, 110*devicePixelRatio, `GS  ${ils.gsDots.toFixed(2)} dots`, "rgba(145,255,170,0.95)");
-  drawText(W - 260*devicePixelRatio, 130*devicePixelRatio, `VREF~ ${vrefToy().toFixed(0)} kt`, "rgba(145,255,170,0.95)");
+  const {V1, VR, V2} = vTakeoffToy();
+  drawText(W - 290*devicePixelRatio, 90*devicePixelRatio, `LOC ${ils.locDots.toFixed(2)} dots`, "rgba(145,255,170,0.95)");
+  drawText(W - 290*devicePixelRatio, 110*devicePixelRatio, `GS  ${ils.gsDots.toFixed(2)} dots`, "rgba(145,255,170,0.95)");
+  drawText(W - 290*devicePixelRatio, 130*devicePixelRatio, `V1 ${Math.round(V1)}  VR ${Math.round(VR)}  V2 ${Math.round(V2)}`, "rgba(145,255,170,0.95)");
+  drawText(W - 290*devicePixelRatio, 150*devicePixelRatio, `VREF~ ${vrefToy().toFixed(0)} kt`, "rgba(145,255,170,0.95)");
 
   if (sim.calloutTimer > 0){
     drawText(W*0.46, H*0.88, sim.lastCallout, "rgba(255,210,120,0.95)", 14);
@@ -1237,10 +1341,12 @@ function updatePanel(){
   chipsEl.innerHTML = "";
   const ils = ilsDeviation(sim.pos);
   const agl = Math.max(sim.altFt, 0);
+  const {V1, VR, V2} = vTakeoffToy();
 
   chipsEl.appendChild(chip(`SPD tgt ${sim.spdTarget.toFixed(0)} kt`));
   chipsEl.appendChild(chip(`ALT tgt ${st.targets.alt || "GS"}`));
   chipsEl.appendChild(chip(`CFG ${st.targets.config || "-"}`));
+  chipsEl.appendChild(chip(`V1/VR/V2 ${Math.round(V1)}/${Math.round(VR)}/${Math.round(V2)}`));
   chipsEl.appendChild(chip(`LOC ${ils.locDots.toFixed(2)}`));
   chipsEl.appendChild(chip(`GS ${ils.gsDots.toFixed(2)}`));
   chipsEl.appendChild(chip(`AGL ${agl.toFixed(0)} ft`));
@@ -1261,7 +1367,7 @@ function updatePanel(){
 }
 
 /* ===========================
-   INTERACTIVE UI
+   CONTROLS UI
 =========================== */
 const thrEl  = document.getElementById("thr");
 const spdEl  = document.getElementById("spd");
@@ -1283,7 +1389,9 @@ const toggleButtons = {
 function syncUIFromSim(){
   thrEl.value = Math.round(sim.throttle * 100);
   spdEl.value = Math.round(sim.spdTarget / 5) * 5;
-  brkEl.value = Math.round(sim.brakes * 100);
+
+  // show cmd on slider, but readout displays cmd as % (effective shown on HUD)
+  brkEl.value = Math.round(sim.brakesCmd * 100);
 
   thrV.textContent = thrEl.value;
   spdV.textContent = spdEl.value;
@@ -1340,18 +1448,14 @@ spdEl.addEventListener("input", () => {
 });
 
 brkEl.addEventListener("input", () => {
-  sim.brakes = clamp(parseFloat(brkEl.value) / 100, 0, 1);
+  sim.brakesCmd = clamp(parseFloat(brkEl.value) / 100, 0, 1);
   brkV.textContent = brkEl.value;
 });
 
 /* ===========================
    MOUSE / TOUCH: drag to command pitch/roll (AP OFF)
 =========================== */
-const yoke = {
-  active:false,
-  lastX:0, lastY:0,
-  pitchCmd:0, rollCmd:0,
-};
+const yoke = { active:false, lastX:0, lastY:0, pitchCmd:0, rollCmd:0 };
 
 function setYokeFromDrag(dx, dy){
   yoke.rollCmd  = clamp(yoke.rollCmd  + dx * 0.003, -1, 1);
@@ -1387,7 +1491,7 @@ renderer.domElement.addEventListener("pointerup", () => { yoke.active = false; }
 renderer.domElement.addEventListener("dblclick", () => yokeCenter());
 
 function applyYoke(dt){
-  if (sim.apOn) return;
+  if (sim.apOn || takeoffAssist.armed) return; // assist owns pitch during takeoff
   const pitchRate = sim.pitchRate * 0.85;
   const rollRate  = sim.rollRate  * 0.85;
 
@@ -1402,12 +1506,14 @@ function applyYoke(dt){
    MAIN LOOP
 =========================== */
 let last = performance.now();
+
 function animate(now){
   requestAnimationFrame(animate);
   const dt = clamp((now - last) / 1000, 0, 0.033);
   last = now;
 
   if (!sim.paused){
+    takeoffAssist.update(dt);
     athr.update(dt);
     ap.update(dt);
     updateFMA();
@@ -1430,9 +1536,8 @@ function animate(now){
   updatePanel();
   renderer.render(scene, camera);
 }
-requestAnimationFrame(animate);
 
-// initial UI sync so buttons match state
+requestAnimationFrame(animate);
 syncUIFromSim();
 </script>
 </body>
