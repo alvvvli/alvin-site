@@ -1,4 +1,4 @@
-o9<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -280,7 +280,7 @@ o9<!doctype html>
     </div>
 
     <div class="ctrl-row dim">
-        <div>Mouse/touch: drag on screen to command <b>Pitch/Roll</b> (AP OFF). Double-click to center. <b>V</b>: ROTATE assist (≥VROT).</div>
+      <div>Mouse/touch: drag on screen to command <b>Pitch/Roll</b> (AP OFF). Double-click to center. <b>V</b>: ROTATE assist (≥VROT).</div>
     </div>
   </div>
 
@@ -356,15 +356,6 @@ const sim = {
   roll: 0,
   yaw: 0,
 
-    // Takeoff rotate assist (intent key)
-  takeoff: {
-    vrotKts: 150,                 // speed gate
-    minPitchDeg: 5,               // must exceed this to lift
-    targetPitchDeg: 7,            // rotate command target
-    rateDegPerSec: 4.0,           // smooth ramp rate
-    liftGate: 0.95,               // L >= 0.95W to lift (toy)
-  },
-  
   // direct pilot controls (when AP off)
   throttle: 0.55,
   flaps: 0,         // 0..4
@@ -414,6 +405,15 @@ const sim = {
   // capture state
   locCaptured: false,
   gsCaptured: false,
+
+  // Takeoff rotate assist (intent key)
+  takeoff: {
+    vrotKts: 150,          // speed gate
+    minPitchDeg: 5,        // must exceed this to lift
+    targetPitchDeg: 7,     // rotate command target
+    rateDegPerSec: 4.0,    // smooth ramp rate
+    liftGate: 0.95,        // L >= 0.95W to lift (toy)
+  },
 
   // UI visibility
   ui: { panelOpen: true, ctrlOpen: true },
@@ -567,9 +567,8 @@ const trainer = (() => {
 
   function resetTakeoff(){
     set("T/O", 0,
-      "T/O: FLAPS 1. Brakes held. Advance thrust, then release. Press SPACE.",
-      "Hold V to ROTATE after 150 kt. Target ~7° (smooth ramp).",
       "T/O: FLAPS 1. Brakes held. Advance thrust, then release. Hold V at ≥150 kt to rotate. Press SPACE.",
+      "Hold V to ROTATE after 150 kt. Target ~7° (smooth ramp).",
       { spd:0, alt:0, config:"FLAPS 1, GEAR DOWN" }
     );
     state.awaitingAck = true;
@@ -788,24 +787,27 @@ function updateFMA(){
 }
 
 /* ===========================
-   PHYSICS STEP (same toy model)
+   PHYSICS STEP (same toy model + ROTATE assist)
 =========================== */
 function stepPhysics(dt){
   const pitchIn = (keys.has("KeyW") ? 1 : 0) - (keys.has("KeyS") ? 1 : 0);
   const rollIn  = (keys.has("KeyD") ? 1 : 0) - (keys.has("KeyA") ? 1 : 0);
   const yawIn   = (keys.has("KeyE") ? 1 : 0) - (keys.has("KeyQ") ? 1 : 0);
   const thrIn   = (keys.has("KeyR") ? 1 : 0) - (keys.has("KeyF") ? 1 : 0);
-  const rotateHeld = keys.has("KeyV");
-  const vrotOk = sim.iasKts >= sim.takeoff.vrotKts;
-
-  if (sim.onGround && rotateHeld && vrotOk) {
-  const tgt = rad(sim.takeoff.targetPitchDeg);
-  const maxStep = rad(sim.takeoff.rateDegPerSec) * dt;
-  sim.pitch += clamp(tgt - sim.pitch, -maxStep, maxStep);
-  }
 
   sim.brakes = keys.has("KeyB") ? 1 : 0;
   sim.throttle = clamp(sim.throttle + thrIn * dt * 0.35, 0, 1);
+
+  // --- ROTATE assist (hold V) ---
+  const rotateHeld = keys.has("KeyV");
+  const vrotOk = sim.iasKts >= sim.takeoff.vrotKts;
+
+  // Smoothly command pitch-up during takeoff roll when V is held (even if AP is ON)
+  if (sim.onGround && rotateHeld && vrotOk) {
+    const tgt = rad(sim.takeoff.targetPitchDeg);
+    const maxStep = rad(sim.takeoff.rateDegPerSec) * dt;
+    sim.pitch += clamp(tgt - sim.pitch, -maxStep, maxStep);
+  }
 
   if (!sim.apOn){
     sim.pitch += pitchIn * sim.pitchRate * dt;
@@ -873,16 +875,16 @@ function stepPhysics(dt){
   } else sim.onGround = false;
 
   if (sim.onGround){
-    const vrotOk2  = sim.iasKts >= sim.takeoff.vrotKts;
-    const pitchOk  = sim.pitch >= rad(sim.takeoff.minPitchDeg);
-    const liftOk   = L >= sim.takeoff.liftGate * W;
+    const vrotOk2 = sim.iasKts >= sim.takeoff.vrotKts;
+    const pitchOk = sim.pitch >= rad(sim.takeoff.minPitchDeg);
+    const liftOk  = L >= sim.takeoff.liftGate * W;
 
     // liftoff requires: VROT + pitch gate + lift gate + gear down (toy)
-    if (vrotOk2 && pitchOk && liftOk && sim.gearDown) {
+    if (vrotOk2 && pitchOk && liftOk && sim.gearDown){
       sim.onGround = false;
       sim.vel.y = Math.max(sim.vel.y, 2.0);
       callout("ROTATE ✅", 0);
-    } else if (rotateHeld && !vrotOk2 && sim.iasKts > 40) {
+    } else if (rotateHeld && !vrotOk2 && sim.iasKts > 40){
       callout(`WAIT VROT ${sim.takeoff.vrotKts} kt`, 0);
     }
 
