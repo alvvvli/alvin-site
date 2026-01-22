@@ -2,7 +2,7 @@
 
 # 🧪 Interactive Lab
 
-### Logic-driven simulations inspired by real operational systems.
+Logic-driven simulations inspired by real operational systems.
 Focused on reconciliation, routing, and validation.
 
 <div style="display:flex;flex-wrap:wrap;gap:10px">
