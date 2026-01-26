@@ -37,7 +37,6 @@
 
 Aviation reliability isn’t only aircraft + MRO. A big part is *simulator infrastructure and training operations*—the system that keeps crews standardized and ready for high-consequence, low-frequency events without touching a real airframe.
 <div class="img-grid">
-  <img src="/alvin-site/JPG_VID/aatc1.jpeg">
   <img src="/alvin-site/JPG_VID/aatc2.jpeg">
   <img src="/alvin-site/JPG_VID/aatc3.jpeg">
   <img src="/alvin-site/JPG_VID/aatc4.jpeg">
@@ -52,6 +51,8 @@ Aviation reliability isn’t only aircraft + MRO. A big part is *simulator infra
 - **Throughput discipline:** tight session turnovers, consistent instructor delivery, repeatable malfunction injection.
 
 Training centers like AATC run like an industrial operation: standardization + configuration control + uptime strategy. Quiet work, big reliability impact.
-
+<div class="img-grid">
+<img src="/alvin-site/JPG_VID/aatc1.jpeg">
+</div>
 
 `#A350` `#Airbus` `#FullFlightSimulator` `#FlightOps` `#ReliabilityEngineering` `#Singapore`
