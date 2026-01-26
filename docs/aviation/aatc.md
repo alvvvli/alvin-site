@@ -37,10 +37,10 @@
 
 Aviation reliability isn’t only aircraft + MRO. A big part is *simulator infrastructure and training operations*—the system that keeps crews standardized and ready for high-consequence, low-frequency events without touching a real airframe.
 <div class="img-grid">
-  <img src="/alvin-site/JPG_VID/aatc1.jepg">
-  <img src="/alvin-site/JPG_VID/aatc2.jepg">
-  <img src="/alvin-site/JPG_VID/aatc3.jepg">
-  <img src="/alvin-site/JPG_VID/aatc4.jepg">
+  <img src="/alvin-site/JPG_VID/aatc1.jpeg">
+  <img src="/alvin-site/JPG_VID/aatc2.jpeg">
+  <img src="/alvin-site/JPG_VID/aatc3.jpeg">
+  <img src="/alvin-site/JPG_VID/aatc4.jpeg">
 </div>
 
 ## What makes A350 FFS ops non-trivial
