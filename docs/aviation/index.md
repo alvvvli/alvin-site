@@ -5,6 +5,7 @@ Short, surgical notes from factories, maintenance bays, and cabins.
 </div>
 
 ## Explore:
+- [Airbus Asia Training Centre FFS](aatc.md)
 - [Airbus Acubed Silicon Valley Innovation Hub](acubed.md)
 - [Condor A330neo Wing](a330neofra.md)
 - [Condor A330neo IFE, Redefined](condorife.md)
