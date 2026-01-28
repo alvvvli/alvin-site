@@ -1,4 +1,4 @@
-# ✈️ Seletar ATC Tower (Singapore): turning complexity into controlled flow
+# ✈️ Seletar ATC Tower (Singapore): from complexity to controlled flow
 
 A good tower = **real-time operations engineering**: multiple moving assets, tight constraints, and zero room for ambiguity — yet the output feels calm and predictable.
 
