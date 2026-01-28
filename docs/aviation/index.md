@@ -7,6 +7,7 @@ Short, surgical notes from factories, maintenance bays, and cabins.
 ## Explore:
 - [Airbus Asia Training Centre FFS](aatc.md)
 - [Airbus Acubed Silicon Valley Innovation Hub](acubed.md)
+- [Seletar Control Tower](sel.md)
 - [Condor A330neo Wing](a330neofra.md)
 - [Condor A330neo IFE, Redefined](condorife.md)
 - [Jamco Quest for Excellence](jamco.md)
