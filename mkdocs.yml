@@ -6,7 +6,7 @@ theme:
   name: material
   palette:
     - scheme: slate
-      primary: black
+      primary: indigo
       accent: blue
   features:
     - navigation.tabs
