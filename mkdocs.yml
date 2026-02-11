@@ -6,8 +6,8 @@ theme:
   name: material
   palette:
     - scheme: slate
-      primary: indigo
-      accent: blue
+      primary: black
+      accent: indigo
   features:
     - navigation.tabs
     - navigation.tracking
