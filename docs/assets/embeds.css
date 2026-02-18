@@ -1,15 +1,20 @@
-/* Generic full-bleed embed */
 .embed-bleed{
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
   width: 100vw;
-  max-width: 100vw;     /* prevents accidental overflow */
+  max-width: 100vw;
+  overflow: hidden;
 }
 
 .embed-bleed .frame{
-  width: 110%;
-  height: calc(100vh - var(--md-header-height) - 24px);
+  --zoom: 1.10;
+
+  width: calc(100% / var(--zoom));
+  height: calc((100vh - var(--md-header-height) - 24px) / var(--zoom));
   border: 0;
   display: block;
   background: #0b0f14;
+
+  transform: scale(var(--zoom));
+  transform-origin: top left;
 }
