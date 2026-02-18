@@ -57,10 +57,10 @@
     </p>
   </div>
   <div class="hero__body">
-    <p><strong>Precision across logistics, infrastructure, and industrial systems.</strong></p>
-    <p>I share concise observations from industrial plants, laboratories, airports, rail hubs, and stadiums — places where scale and discipline define how things run.</p>
+    <p><strong>Precision across global infrastructure and industrial systems.</strong></p>
+    <p>I share firsthand observations from industrial plants, laboratories, airports, rail hubs, and stadiums — places where scale and discipline define how things run.</p>
     <ul>
-      <li><strong>Focus:</strong> Aerospace ·  Logistics · Rail Systems · Advanced Manufacturing · Energy Transition</li>
+      <li><strong>Focus:</strong> Aerospace · Energy Transition · Rail Systems · Advanced Manufacturing · Logistics</li>
       <li><strong>Style:</strong> Clear, concise, and visually grounded</li>
       <li><strong>Why:</strong> Finding structure and discipline that elevates performance</li>
     </ul>
