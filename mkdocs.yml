@@ -1,5 +1,5 @@
 site_name: Alvin Li
-site_description: Logistics, Infrastructure, Precision in Motion
+site_description: Global Infrastructure Precision in Motion
 site_url: https://alvvvli.github.io/alvin-site/
 
 theme:
@@ -7,7 +7,7 @@ theme:
   palette:
     - scheme: slate
       primary: indigo 
-      accent: lime
+      accent: dark blue
   features:
     - navigation.tabs
     - navigation.tracking
