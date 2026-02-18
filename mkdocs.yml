@@ -5,7 +5,7 @@ site_url: https://alvvvli.github.io/alvin-site/
 theme:
   name: material
   palette:
-    - scheme: default
+    - scheme: slate
       primary: indigo 
       accent: lime
   features:
