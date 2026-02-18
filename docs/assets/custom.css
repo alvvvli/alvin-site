@@ -1,5 +1,7 @@
 /* GLOBAL */
-html { font-size: 110%; }
+:root {
+  --md-typeset-font-size: 1.1rem;
+}
 
 .md-typeset { line-height: 1.7; }
 .md-typeset h1, .md-typeset h2, .md-typeset h3 { line-height: 1.25; }
