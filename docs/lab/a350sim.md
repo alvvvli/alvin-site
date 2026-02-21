@@ -4,9 +4,7 @@
   <div class="trainer-hero__left">
     <div class="trainer-title">Procedure Trainer</div>
     <div class="trainer-subtitle">
-      ILS + stabilized gates · A/THR · AP (LOC/G/S) · FMA · mouse/touch yoke
-    </div>
-
+  </div>
     <div class="trainer-actions">
       <a class="trainer-btn primary" href="../a350sim.html" target="_blank" rel="noopener">↗️Full Screen</a>
       <a class="trainer-btn" href="../a350sim.html" target="_blank" rel="noopener">↗️New Tab</a>
