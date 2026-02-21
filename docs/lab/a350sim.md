@@ -8,8 +8,8 @@
     </div>
 
     <div class="trainer-actions">
-      <a class="trainer-btn primary" href="../a350sim.html" target="_blank" rel="noopener">Open Full Screen</a>
-      <a class="trainer-btn" href="../a350sim.html" target="_blank" rel="noopener">Open in New Tab</a>
+      <a class="trainer-btn primary" href="../a350sim.html" target="_blank" rel="noopener">↗️Full Screen</a>
+      <a class="trainer-btn" href="../a350sim.html" target="_blank" rel="noopener">↗️New Tab</a>
     </div>
   </div>
 
