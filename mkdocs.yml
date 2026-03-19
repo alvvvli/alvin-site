@@ -48,14 +48,12 @@ nav:
   - Aviation:
       - Overview: aviation/index.md
       - Singapore Airshow 2026:
-          - Overview: 
-          - Static Display: 
-          - Flying Display: 
-          - OEM & Industry Pavilions: 
-          - MRO / Services / Aftermarket: 
-          - Defense & Government Presence: 
-          - Cabin / Interiors / Passenger Experience:
-          - Innovation / Startups / Digital: 
+        - Engines: aviation/sa2026/engines.md
+        - Gears & Parts: aviation/sa2026/gears-parts.md
+        - Avionics: aviation/sa2026/avionics.md
+        - Defense: aviation/sa2026/defense.md
+        - Maintenance, Repair, and Overhaul (MRO): aviation/sa2026/mro.md
+        - Innovations: aviation/sa2026/innovations.md
       - Airbus Asia Training Centre FFS: aviation/aatc.md
       - Airbus Acubed Silicon Valley Innovation Hub: aviation/acubed.md
       - Seletar Control Tower: aviation/sel.md
