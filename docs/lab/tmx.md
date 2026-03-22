@@ -18,14 +18,11 @@
   src="../tmx.html"
   width="100%"
   height="820"
-  style="
-    border:1px solid rgba(255,255,255,0.10);
-    border-radius:16px;
-    background:#07111f;
-  "
-  loading="lazy">
+  style="border:1px solid rgba(255,255,255,0.10); border-radius:16px; background:#07111f;"
+  loading="lazy"
+  allowfullscreen
+  allow="fullscreen">
 </iframe>
-🔍 Overview
 
 | Aspect | Details | Defaults |
 |---|---|---|
