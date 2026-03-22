@@ -1,5 +1,3 @@
-🛠️🚗 Tecnomatix-Inspired AGV Plant Builder
-
 <div style="margin: 1rem 0 1.2rem 0;">
   <a href="../tmx.html" target="_blank"
      style="
@@ -12,7 +10,7 @@
        color:#dbe7ff;
        border:1px solid rgba(255,255,255,.10);
      ">
-    Open Full Screen Demo ↗
+    Full screen ↗
   </a>
 </div>
 
