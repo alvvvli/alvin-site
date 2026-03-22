@@ -3,76 +3,146 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AGV Plant Builder — Tecnomatix-Inspired Demo</title>
+  <title>AGV Plant Builder</title>
   <style>
     :root{
       --bg:#07111f;
-      --panel:#0d1a2b;
-      --panel2:#10233a;
-      --line:#1d3557;
-      --grid:rgba(125,160,220,.10);
+      --panel:rgba(9,18,34,.62);
+      --panel2:rgba(15,31,54,.66);
       --text:#dbe7ff;
       --muted:#8fa6c9;
-      --cyan:#63b3ff;
-      --green:#4ade80;
-      --amber:#ffd166;
-      --red:#ff6b6b;
-      --purple:#8b5cf6;
-      --robot:#9aa8bb;
+      --glass-border:rgba(255,255,255,.08);
+      --glass-shadow:0 10px 40px rgba(0,0,0,.28);
+      --blur:14px;
     }
     *{box-sizing:border-box}
-    html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Arial,sans-serif;overflow:hidden}
-    #app{display:grid;grid-template-columns:320px 1fr 340px;height:100vh}
-    .sidebar,.rightbar{background:linear-gradient(180deg,var(--panel),#081220);border-right:1px solid rgba(255,255,255,.06);overflow:auto}
-    .rightbar{border-right:none;border-left:1px solid rgba(255,255,255,.06)}
-    .main{position:relative;overflow:hidden}
-    .section{padding:14px 14px 10px;border-bottom:1px solid rgba(255,255,255,.06)}
-    .section h3{margin:0 0 10px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#b8c9e8}
-    .sub{font-size:12px;color:var(--muted);line-height:1.45}
+    html,body{
+      margin:0;height:100%;overflow:hidden;
+      background:radial-gradient(circle at top,#0b1b36 0%, #081220 45%, #07111f 100%);
+      color:var(--text);
+      font-family:Inter,system-ui,Segoe UI,Arial,sans-serif;
+    }
+    #app{position:relative;height:100vh;width:100vw;overflow:hidden}
+    .main{position:absolute;inset:0}
+    #wrap{position:absolute;inset:0}
+    canvas{display:block;width:100%;height:100%}
+
+    .glass{
+      background:linear-gradient(180deg,var(--panel),rgba(6,14,27,.58));
+      border:1px solid var(--glass-border);
+      box-shadow:var(--glass-shadow);
+      backdrop-filter:blur(var(--blur));
+      -webkit-backdrop-filter:blur(var(--blur));
+    }
+
+    .top-hud{
+      position:absolute;left:50%;top:16px;transform:translateX(-50%);
+      width:min(980px,calc(100vw - 280px));
+      z-index:30;border-radius:18px;padding:10px 14px;
+      display:flex;justify-content:space-between;align-items:center;gap:14px;
+      font-size:12px;line-height:1.35
+    }
+    .hud-title{font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#c6d7f7}
+    .hud-help{color:var(--muted)}
+
+    .left-dock{
+      position:absolute;left:16px;top:16px;bottom:16px;width:248px;z-index:25;
+      border-radius:22px;overflow:auto
+    }
+    .right-dock{
+      position:absolute;right:16px;top:16px;bottom:16px;width:300px;z-index:25;
+      border-radius:22px;overflow:auto
+    }
+    .bottom-card{
+      position:absolute;left:16px;bottom:16px;z-index:28;width:min(760px,calc(100vw - 350px));
+      border-radius:24px;padding:16px 18px
+    }
+    .mini-card{
+      position:absolute;right:24px;bottom:20px;z-index:28;
+      border-radius:18px;padding:12px 14px;font-size:12px;letter-spacing:.08em;text-transform:uppercase
+    }
+
+    .section{padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.05)}
+    .section.hero{padding:16px 16px 12px;background:linear-gradient(180deg,rgba(99,179,255,.10),rgba(99,179,255,0))}
+    .section h3{margin:0 0 8px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#c6d7f7}
+    .sub{font-size:11.5px;color:var(--muted);line-height:1.5}
     .row{display:flex;gap:8px;align-items:center;margin:8px 0}
     .row.wrap{flex-wrap:wrap}
-    .label{width:86px;font-size:12px;color:var(--muted)}
-    .value{font-size:12px;color:#fff;min-width:42px;text-align:right}
+    .compact{display:flex;gap:8px;flex-wrap:wrap}
+    .toolgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .label{width:72px;font-size:11px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+    .value{font-size:11px;color:#fff;min-width:42px;text-align:right}
     input[type="range"]{width:100%}
+
     button,select{
-      background:linear-gradient(180deg,#17304d,#11253d);
+      background:linear-gradient(180deg,rgba(23,48,77,.88),rgba(17,37,61,.82));
       color:var(--text);
-      border:1px solid rgba(255,255,255,.08);
-      padding:8px 10px;border-radius:10px;cursor:pointer;font-size:12px
+      border:1px solid rgba(255,255,255,.06);
+      padding:8px 10px;border-radius:12px;cursor:pointer;font-size:12px
     }
     button:hover,select:hover{filter:brightness(1.08)}
     button.active{outline:1px solid rgba(99,179,255,.55);box-shadow:0 0 0 2px rgba(99,179,255,.12) inset}
-    .toolgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-    .kpis{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-    .kpi{background:linear-gradient(180deg,var(--panel2),#0c1b2f);border:1px solid rgba(255,255,255,.05);padding:10px;border-radius:14px}
-    .kpi .n{font-size:22px;font-weight:700}
-    .kpi .t{font-size:11px;color:var(--muted);margin-top:4px}
-    #wrap{position:absolute;inset:0}
-    canvas{display:block;width:100%;height:100%}
-    .hud{
-      position:absolute;left:18px;top:18px;padding:10px 12px;border-radius:14px;
-      background:rgba(7,17,31,.78);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(8px);
-      font-size:12px;line-height:1.45;color:#d6e4ff;max-width:420px;pointer-events:none
-    }
-    .hud b{color:#fff}
+    .pill{padding:2px 8px;border-radius:999px;border:1px solid rgba(255,255,255,.08);font-size:11px;display:inline-block}
+
+    .kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .kpi{background:linear-gradient(180deg,var(--panel2),rgba(12,27,47,.78));border:1px solid rgba(255,255,255,.04);padding:12px;border-radius:18px;min-height:90px}
+    .kpi .n{font-size:20px;font-weight:700}
+    .kpi .t{font-size:11px;color:var(--muted);margin-top:6px}
+
+    .status-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .status-box{padding:10px;border-radius:16px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05)}
+    .tiny{font-size:11px;color:var(--muted)}
     .legend{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px}
-    .chip{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.03);padding:7px 9px;border-radius:999px;border:1px solid rgba(255,255,255,.05)}
+    .chip{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.03);padding:6px 9px;border-radius:999px;border:1px solid rgba(255,255,255,.05)}
     .dot{width:10px;height:10px;border-radius:50%}
     .table{font-size:12px;border:1px solid rgba(255,255,255,.06);border-radius:12px;overflow:hidden}
-    .thead,.trow{display:grid;grid-template-columns:80px 1fr 70px 74px}
+    .thead,.trow{display:grid;grid-template-columns:72px 1fr 58px 66px}
     .thead{background:rgba(255,255,255,.04);color:#cfe0ff}
-    .thead div,.trow div{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.05)}
+    .thead div,.trow div{padding:8px 8px;border-bottom:1px solid rgba(255,255,255,.05)}
     .trow:last-child div{border-bottom:none}
-    .tiny{font-size:11px;color:var(--muted)}
-    .pill{padding:2px 8px;border-radius:999px;border:1px solid rgba(255,255,255,.08);font-size:11px;display:inline-block}
+
+    .bottom-card .step-title{font-size:15px;font-weight:700;letter-spacing:.08em;color:#cfe0ff;margin-bottom:12px}
+    .badge-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+    .badge{padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04)}
+    .callout{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;line-height:1.6;color:#dce8ff}
+
+    @media (max-width: 1280px){
+      .left-dock{width:224px}
+      .right-dock{width:280px}
+      .bottom-card{width:min(680px,calc(100vw - 330px))}
+    }
+    @media (max-width: 1040px){
+      .right-dock{display:none}
+      .top-hud{width:min(840px,calc(100vw - 300px))}
+      .bottom-card{width:min(700px,calc(100vw - 40px))}
+    }
+    @media (max-width: 760px){
+      .left-dock{width:210px;opacity:.94}
+      .top-hud{display:none}
+      .bottom-card{right:16px;width:auto}
+    }
   </style>
 </head>
 <body>
   <div id="app">
-    <aside class="sidebar">
-      <div class="section">
-        <h3>Plant Builder</h3>
-        <div class="sub">A more interactive AGV flow simulator with edit mode, draggable assets, routing, congestion, live KPIs, and station state changes. Built from your existing JS structure and expanded into a plant-style sandbox.</div>
+    <main class="main">
+      <div id="wrap">
+        <canvas id="stage"></canvas>
+      </div>
+    </main>
+
+    <div class="top-hud glass">
+      <div>
+        <div class="hud-title">Plant Schematic HUD</div>
+        <div class="hud-help">Select = move · Conveyor = start/end · Station / Robot / Dock / AGV Spawn = place</div>
+      </div>
+      <div class="hud-help">Space pause · R reset · G grid · L labels</div>
+    </div>
+
+    <aside class="left-dock glass">
+      <div class="section hero">
+        <h3>Builder</h3>
+        <div class="sub">More schematic, less dashboard. Keep the plant visible while tools stay compact and docked.</div>
       </div>
 
       <div class="section">
@@ -80,30 +150,41 @@
         <div class="toolgrid">
           <button id="modeSelect" class="active">Select</button>
           <button id="modePan">Pan</button>
-          <button id="modeConveyor">Add Conveyor</button>
-          <button id="modeStation">Add Station</button>
-          <button id="modeRobot">Add Robot</button>
-          <button id="modeDock">Add Dock</button>
-          <button id="modeAGVSpawn">Add AGV Spawn</button>
+          <button id="modeConveyor">Conveyor</button>
+          <button id="modeStation">Station</button>
+          <button id="modeRobot">Robot</button>
+          <button id="modeDock">Dock</button>
+          <button id="modeAGVSpawn">AGV Spawn</button>
           <button id="modeDelete">Delete</button>
         </div>
-        <div class="sub" style="margin-top:10px">In build mode, click to place assets. In select mode, drag assets to re-layout the plant while the simulation is running.</div>
       </div>
 
       <div class="section">
-        <h3>Simulation</h3>
-        <div class="row"><button id="playPause">⏸ Pause</button><button id="step">Step</button><button id="reset">Reset</button></div>
-        <div class="row"><button id="clearLayout">Clear Layout</button><button id="loadDemo">Load Demo Plant</button></div>
-        <div class="row"><button id="toggleGrid">Grid: On</button><button id="toggleLabels">Labels: On</button></div>
-        <div class="row"><button id="toggleHeat">Heatmap: Off</button><button id="toggleTrails">Trails: On</button></div>
+        <h3>Run</h3>
+        <div class="compact">
+          <button id="playPause">⏸ Pause</button><button id="step">Step</button><button id="reset">Reset</button>
+        </div>
+        <div class="compact" style="margin-top:8px">
+          <button id="clearLayout">Clear</button><button id="loadDemo">Demo Plant</button>
+        </div>
       </div>
 
       <div class="section">
-        <h3>Controls</h3>
+        <h3>Overlays</h3>
+        <div class="compact">
+          <button id="toggleGrid">Grid: On</button><button id="toggleLabels">Labels: On</button>
+        </div>
+        <div class="compact" style="margin-top:8px">
+          <button id="toggleHeat">Heatmap: Off</button><button id="toggleTrails">Trails: On</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>Tuning</h3>
         <div class="row"><div class="label">Playback</div><input id="speed" type="range" min="0.2" max="4" step="0.1" value="1.0"><div class="value" id="speedVal">1.0x</div></div>
         <div class="row"><div class="label">Demand</div><input id="spawn" type="range" min="0.05" max="1.6" step="0.05" value="0.55"><div class="value" id="spawnVal">0.55</div></div>
-        <div class="row"><div class="label">AGV Speed</div><input id="agvSpeed" type="range" min="50" max="220" step="5" value="120"><div class="value" id="agvSpeedVal">120</div></div>
-        <div class="row"><div class="label">Queue Cap</div><input id="queueCap" type="range" min="3" max="24" step="1" value="12"><div class="value" id="queueCapVal">12</div></div>
+        <div class="row"><div class="label">AGV</div><input id="agvSpeed" type="range" min="50" max="220" step="5" value="120"><div class="value" id="agvSpeedVal">120</div></div>
+        <div class="row"><div class="label">Queue</div><input id="queueCap" type="range" min="3" max="24" step="1" value="12"><div class="value" id="queueCapVal">12</div></div>
         <div class="row wrap">
           <select id="preset">
             <option value="balanced">Balanced</option>
@@ -130,21 +211,8 @@
       </div>
     </aside>
 
-    <main class="main">
-      <div id="wrap">
-        <canvas id="stage"></canvas>
-        <div class="hud">
-          <b>Interaction</b><br>
-          Select mode: drag conveyors, stations, robots, docks, AGV spawns.<br>
-          Add Conveyor: click start → click end.<br>
-          Add Station/Dock/Robot: click to place. Delete mode: click asset to remove.<br>
-          Keyboard: <b>Space</b> play/pause, <b>R</b> reset, <b>G</b> grid, <b>L</b> labels.
-        </div>
-      </div>
-    </main>
-
-    <aside class="rightbar">
-      <div class="section">
+    <aside class="right-dock glass">
+      <div class="section hero">
         <h3>Operations KPIs</h3>
         <div class="kpis">
           <div class="kpi"><div class="n" id="kpi_tph">0.0</div><div class="t">Throughput / hr</div></div>
@@ -155,13 +223,11 @@
       </div>
 
       <div class="section">
-        <h3>Selected Asset</h3>
-        <div id="selectionInfo" class="sub">Nothing selected.</div>
-      </div>
-
-      <div class="section">
-        <h3>Dispatch Queue</h3>
-        <div id="queueInfo" class="sub">Queue empty.</div>
+        <h3>Status</h3>
+        <div class="status-grid">
+          <div class="status-box"><div class="tiny">Selected Asset</div><div id="selectionInfo">Nothing selected.</div></div>
+          <div class="status-box"><div class="tiny">Dispatch Queue</div><div id="queueInfo">Queue empty.</div></div>
+        </div>
       </div>
 
       <div class="section">
@@ -176,8 +242,22 @@
         <div id="eventLog" class="sub">System booted. Load a demo plant or start placing assets.</div>
       </div>
     </aside>
+
+    <div class="bottom-card glass">
+      <div class="step-title">Schematic View — Layout & Flow</div>
+      <div class="badge-row">
+        <div class="badge">Conveyors feed pallets into robot cells</div>
+        <div class="badge">Stations merge and buffer WIP</div>
+        <div class="badge">AGVs clear queue to nearest dock</div>
+      </div>
+      <div class="callout">
+        Tip: keep this view plant-first. Use Grid / Labels / Trails as overlays, not as permanent clutter.
+      </div>
+    </div>
+
+    <div class="mini-card glass">Controls</div>
   </div>
 
-<script src="../tmx.js"></script>
+  <script src="./tmx.js"></script>
 </body>
 </html>
