@@ -1,6 +1,12 @@
 🛠️🚗 Tecnomatix-Inspired AGV Plant Builder
 
-A browser-based AGV flow sandbox designed to feel like a lightweight Siemens Tecnomatix-style plant simulation tool. Users can place conveyors, robot cells, stations, docks, and AGV spawn points, then watch pallets move through live queueing and dispatch logic.
+<iframe
+  src="../tools/tecnomatix_agv_plant_builder.html"
+  width="100%"
+  height="780"
+  style="border:1px solid rgba(255,255,255,0.12); border-radius:12px;"
+  loading="lazy">
+</iframe>
 
 🔍 Overview
 
