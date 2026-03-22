@@ -45,7 +45,7 @@ nav:
       - 🛹 Siemens AGV Simulation: lab/agv.md
       - 🔩 Gas Turbine Reconciliation: lab/turbine.md
       - 🚅 Shinkansen Shuffle: lab/skn.md
-      兒Tte_name: Alvin Li
+site_name: Alvin Li
 site_description: Global Infrastructure Precision in Motion
 site_url: https://alvvvli.github.io/alvin-site/
 
