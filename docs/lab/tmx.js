@@ -1,6 +1,3 @@
-// Tecnomatix-style AGV Builder Layer
-// Attach this on top of the HTML shell so logic stays separate from markup.
-// Expected HTML: canvas#stage plus the control/status IDs used below.
 
 (() => {
   const $ = (id) => document.getElementById(id);
