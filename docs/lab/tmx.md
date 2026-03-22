@@ -14,16 +14,6 @@
   </a>
 </div>
 
-<iframe
-  src="../tmx.html"
-  width="100%"
-  height="820"
-  style="border:1px solid rgba(255,255,255,0.10); border-radius:16px; background:#07111f;"
-  loading="lazy"
-  allowfullscreen
-  allow="fullscreen">
-</iframe>
-
 | Aspect | Details | Defaults |
 |---|---|---|
 | Layout | Build and edit conveyors, robot cells, stations, docks, and AGV spawns on a live canvas | Demo plant included |
