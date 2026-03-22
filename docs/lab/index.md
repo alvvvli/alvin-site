@@ -19,3 +19,4 @@ Focused on reconciliation, routing, and validation.
 - [Siemens AGV Simulation](agv.md) — AGV routing and scheduling visualization  
 - [Gas Turbine Reconciliation](turbine.md) — Component matching and ERP validation
 - [Shinkansen Shuffle](skn.md) — Dispatch game with real-model Shinkansen timing precision
+- [Tecnomatix Simuilation](tmx.md)
