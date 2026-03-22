@@ -1,4 +1,3 @@
-
 (() => {
   const $ = (id) => document.getElementById(id);
   const canvas = $('stage');
@@ -40,6 +39,10 @@
     kpi_wip: $('kpi_wip'),
     kpi_util: $('kpi_util'),
     kpi_bn: $('kpi_bn'),
+    zoomInBtn: $('zoomInBtn'),
+    zoomOutBtn: $('zoomOutBtn'),
+    zoomResetBtn: $('zoomResetBtn'),
+    focusBtn: $('focusBtn'),
     modes: {
       select: $('modeSelect'),
       pan: $('modePan'),
@@ -103,6 +106,17 @@
     },
   };
 
+  const camera = {
+    zoom: 1,
+    minZoom: 0.55,
+    maxZoom: 2.8,
+    offsetX: 0,
+    offsetY: 0,
+    dragging: false,
+    lastX: 0,
+    lastY: 0,
+  };
+
   function resize() {
     const rect = canvas.getBoundingClientRect();
     canvas.width = Math.floor(rect.width * DPR);
@@ -117,11 +131,52 @@
   const lerp = (a, b, t) => a + (b - a) * t;
   const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
   const nowSec = () => (performance.now() - state.world.perfStart) / 1000;
-  const snap = (n) => Math.round(n / (state.params.snap * DPR)) * state.params.snap * DPR;
+  const snap = (n) => Math.round(n / state.params.snap) * state.params.snap;
+
+  function worldToScreen(x, y) {
+    return { x: x * camera.zoom + camera.offsetX, y: y * camera.zoom + camera.offsetY };
+  }
+
+  function screenToWorld(x, y) {
+    return { x: (x - camera.offsetX) / camera.zoom, y: (y - camera.offsetY) / camera.zoom };
+  }
+
+  function zoomAt(screenX, screenY, factor) {
+    const before = screenToWorld(screenX, screenY);
+    camera.zoom = clamp(camera.zoom * factor, camera.minZoom, camera.maxZoom);
+    const after = worldToScreen(before.x, before.y);
+    camera.offsetX += screenX - after.x;
+    camera.offsetY += screenY - after.y;
+  }
+
+  function resetCamera() {
+    camera.zoom = 1;
+    camera.offsetX = 0;
+    camera.offsetY = 0;
+  }
+
+  function focusOnPoint(x, y, targetZoom = 1.8) {
+    camera.zoom = clamp(targetZoom, camera.minZoom, camera.maxZoom);
+    camera.offsetX = W() / 2 - x * camera.zoom;
+    camera.offsetY = H() / 2 - y * camera.zoom;
+  }
+
+  function focusSelectedAsset() {
+    const s = state.world.selected;
+    if (!s) return;
+    if (s.type === 'conveyor') {
+      focusOnPoint((s.a.x + s.b.x) / 2, (s.a.y + s.b.y) / 2, 1.45);
+    } else if ('x' in s && 'y' in s) {
+      focusOnPoint(s.x, s.y, 1.9);
+    }
+  }
 
   function screenPoint(evt) {
     const rect = canvas.getBoundingClientRect();
-    return { x: (evt.clientX - rect.left) * DPR, y: (evt.clientY - rect.top) * DPR };
+    const sx = (evt.clientX - rect.left) * DPR;
+    const sy = (evt.clientY - rect.top) * DPR;
+    const wp = screenToWorld(sx, sy);
+    return { x: wp.x, y: wp.y, sx, sy };
   }
 
   function newId(prefix) {
@@ -173,25 +228,26 @@
 
   function loadDemoPlant() {
     clearLayout();
-    addConveyor({ x: 120 * DPR, y: 180 * DPR }, { x: 420 * DPR, y: 180 * DPR });
-    addConveyor({ x: 120 * DPR, y: 320 * DPR }, { x: 420 * DPR, y: 320 * DPR });
-    addConveyor({ x: 120 * DPR, y: 460 * DPR }, { x: 420 * DPR, y: 460 * DPR });
-    addRobot(450 * DPR, 180 * DPR);
-    addRobot(450 * DPR, 320 * DPR);
-    addRobot(450 * DPR, 460 * DPR);
-    addStation(640 * DPR, 320 * DPR);
-    addDock(980 * DPR, 170 * DPR);
-    addDock(980 * DPR, 470 * DPR);
-    addAGVSpawn(700 * DPR, 320 * DPR);
-    addAGVSpawn(740 * DPR, 350 * DPR);
+    addConveyor({ x: 120, y: 180 }, { x: 420, y: 180 });
+    addConveyor({ x: 120, y: 320 }, { x: 420, y: 320 });
+    addConveyor({ x: 120, y: 460 }, { x: 420, y: 460 });
+    addRobot(450, 180);
+    addRobot(450, 320);
+    addRobot(450, 460);
+    addStation(640, 320);
+    addDock(980, 170);
+    addDock(980, 470);
+    addAGVSpawn(700, 320);
+    addAGVSpawn(740, 350);
     refreshAGVs();
+    resetCamera();
   }
 
   class AGV {
     constructor(i, spawn) {
       this.id = `A${i + 1}`;
-      this.x = spawn?.x ?? (700 + i * 24) * DPR;
-      this.y = spawn?.y ?? (320 + i * 18) * DPR;
+      this.x = spawn?.x ?? (700 + i * 24);
+      this.y = spawn?.y ?? (320 + i * 18);
       this.home = { x: this.x, y: this.y };
       this.state = 'idle';
       this.target = null;
@@ -218,7 +274,7 @@
         return;
       }
       const d = dist(this, this.target);
-      const step = state.params.agvSpeed * DPR * dt;
+      const step = state.params.agvSpeed * dt;
       if (d <= step) {
         this.x = this.target.x;
         this.y = this.target.y;
@@ -252,17 +308,14 @@
 
   function refreshAGVs() {
     const w = state.world;
-    const spawns = w.agvSpawns.length ? w.agvSpawns : [{ x: 700 * DPR, y: 320 * DPR }, { x: 740 * DPR, y: 350 * DPR }];
+    const spawns = w.agvSpawns.length ? w.agvSpawns : [{ x: 700, y: 320 }, { x: 740, y: 350 }];
     w.agvs = [];
-    for (let i = 0; i < state.params.agvCount; i++) {
-      w.agvs.push(new AGV(i, spawns[i % spawns.length]));
-    }
+    for (let i = 0; i < state.params.agvCount; i++) w.agvs.push(new AGV(i, spawns[i % spawns.length]));
     if (ui.agvCount) ui.agvCount.textContent = String(state.params.agvCount);
   }
 
   function nearestRobot(p) {
-    let best = null;
-    let bestD = Infinity;
+    let best = null, bestD = Infinity;
     for (const r of state.world.robots) {
       const d = dist(p, r);
       if (d < bestD) { best = r; bestD = d; }
@@ -271,8 +324,7 @@
   }
 
   function nearestStation(p) {
-    let best = null;
-    let bestD = Infinity;
+    let best = null, bestD = Infinity;
     for (const s of state.world.stations) {
       const d = dist(p, s);
       if (d < bestD) { best = s; bestD = d; }
@@ -281,13 +333,12 @@
   }
 
   function nearestDock(p) {
-    let best = null;
-    let bestD = Infinity;
+    let best = null, bestD = Infinity;
     for (const d of state.world.docks) {
       const dd = dist(p, d);
       if (dd < bestD) { best = d; bestD = dd; }
     }
-    return best ?? { x: p.x + 150 * DPR, y: p.y };
+    return best ?? { x: p.x + 150, y: p.y };
   }
 
   function spawnPallet(conveyor) {
@@ -325,8 +376,8 @@
       if (!conveyor) continue;
 
       if (p.state === 'line') {
-        const len = Math.max(40 * DPR, dist(conveyor.a, conveyor.b));
-        p.t += (state.params.palletSpeed * DPR * dt) / len;
+        const len = Math.max(40, dist(conveyor.a, conveyor.b));
+        p.t += (state.params.palletSpeed * dt) / len;
         p.x = lerp(conveyor.a.x, conveyor.b.x, clamp(p.t, 0, 1));
         p.y = lerp(conveyor.a.y, conveyor.b.y, clamp(p.t, 0, 1));
         conveyor.load += 1;
@@ -356,7 +407,7 @@
         p.y += (st.y - p.y) * Math.min(1, dt * 2.5);
         st.load += 1;
         st.status = st.load > state.params.queueCap * 0.7 ? 'Congested' : st.load > 0 ? 'Processing' : 'Ready';
-        if (dist(p, st) < 12 * DPR) {
+        if (dist(p, st) < 12) {
           p.timer += dt;
           if (p.timer > 0.25 && state.world.queue.length < state.params.queueCap) {
             p.state = 'queue';
@@ -365,13 +416,11 @@
           }
         }
       } else if (p.state === 'queue') {
-        const st = state.world.stations[0] ?? { x: 640 * DPR, y: 320 * DPR };
+        const st = state.world.stations[0] ?? { x: 640, y: 320 };
         const idx = state.world.queue.indexOf(p);
-        p.x = st.x + 28 * DPR + (idx % 10) * 16 * DPR;
-        p.y = st.y - 18 * DPR + Math.floor(idx / 10) * 14 * DPR;
+        p.x = st.x + 28 + (idx % 10) * 16;
+        p.y = st.y - 18 + Math.floor(idx / 10) * 14;
         if (idx >= 0 && state.world.queue.length >= state.params.queueCap * 0.85) st.status = 'Queue Full';
-      } else if (p.state === 'agv') {
-        // AGV draw hook owns visible position
       }
     }
   }
@@ -382,7 +431,7 @@
       if (a.carry) {
         a.carry.state = 'agv';
         a.carry.x = a.x;
-        a.carry.y = a.y - 16 * DPR;
+        a.carry.y = a.y - 16;
         const dock = nearestDock(a);
         if (dock) dock.status = 'Receiving';
       }
@@ -391,9 +440,7 @@
 
   function rollingTPH() {
     const t = nowSec();
-    while (state.world.completed.length && t - state.world.completed[0] > 60) {
-      state.world.completed.shift();
-    }
+    while (state.world.completed.length && t - state.world.completed[0] > 60) state.world.completed.shift();
     return state.world.completed.length * 60;
   }
 
@@ -426,11 +473,11 @@
         ? [
             `<b>${s.id}</b>`,
             `Type: ${s.type}`,
-            'x' in s ? `X: ${Math.round(s.x / DPR)}, Y: ${Math.round(s.y / DPR)}` : '',
+            'x' in s ? `X: ${Math.round(s.x)}, Y: ${Math.round(s.y)}` : '',
             s.type === 'station' ? `Role: ${s.role}<br>Load: ${s.load}<br>Status: ${s.status}` : '',
             s.type === 'robot' ? `Queue: ${s.queue}<br>Busy: ${s.busy.toFixed(2)}s` : '',
             s.type === 'dock' ? `Status: ${s.status}` : '',
-            s.type === 'conveyor' ? `Length: ${Math.round(dist(s.a, s.b) / DPR)} px<br>Load: ${s.load}` : '',
+            s.type === 'conveyor' ? `Length: ${Math.round(dist(s.a, s.b))} px<br>Load: ${s.load}` : '',
           ].filter(Boolean).join('<br>')
         : 'Nothing selected.';
     }
@@ -446,26 +493,35 @@
 
   function drawGrid() {
     if (!state.params.showGrid) return;
+    const leftWorld = screenToWorld(0, 0).x;
+    const rightWorld = screenToWorld(W(), 0).x;
+    const topWorld = screenToWorld(0, 0).y;
+    const bottomWorld = screenToWorld(0, H()).y;
+    const step = 40;
+    const startX = Math.floor(leftWorld / step) * step;
+    const startY = Math.floor(topWorld / step) * step;
+
     ctx.save();
     ctx.strokeStyle = colors.grid;
-    ctx.lineWidth = 1;
-    for (let x = 0; x < W(); x += 40 * DPR) {
-      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H()); ctx.stroke();
+    ctx.lineWidth = 1 / camera.zoom;
+    for (let x = startX; x <= rightWorld + step; x += step) {
+      ctx.beginPath(); ctx.moveTo(x, topWorld - step); ctx.lineTo(x, bottomWorld + step); ctx.stroke();
     }
-    for (let y = 0; y < H(); y += 40 * DPR) {
-      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W(), y); ctx.stroke();
+    for (let y = startY; y <= bottomWorld + step; y += step) {
+      ctx.beginPath(); ctx.moveTo(leftWorld - step, y); ctx.lineTo(rightWorld + step, y); ctx.stroke();
     }
     ctx.restore();
   }
 
   function drawLabel(text, x, y) {
+    const fontSize = 11 / camera.zoom;
     ctx.fillStyle = colors.labelFill;
     ctx.strokeStyle = colors.labelStroke;
-    ctx.lineWidth = 1;
-    ctx.font = `${11 * DPR}px system-ui`;
-    const w = ctx.measureText(text).width + 12 * DPR;
+    ctx.lineWidth = 1 / camera.zoom;
+    ctx.font = `${fontSize}px system-ui`;
+    const w = ctx.measureText(text).width + 12 / camera.zoom;
     ctx.beginPath();
-    roundRect(x - w / 2, y - 10 * DPR, w, 20 * DPR, 8 * DPR);
+    roundRect(x - w / 2, y - 10 / camera.zoom, w, 20 / camera.zoom, 8 / camera.zoom);
     ctx.fill();
     ctx.stroke();
     ctx.fillStyle = colors.text;
@@ -487,7 +543,7 @@
     for (const t of state.world.traffic) {
       t.life = Math.max(0, t.life - 0.0025);
       ctx.fillStyle = `rgba(255,120,60,${t.life * 0.08})`;
-      ctx.beginPath(); ctx.arc(t.x, t.y, 28 * DPR, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(t.x, t.y, 28, 0, Math.PI * 2); ctx.fill();
     }
     state.world.traffic = state.world.traffic.filter((t) => t.life > 0.01);
   }
@@ -496,14 +552,14 @@
     ctx.lineCap = 'round';
     for (const c of state.world.conveyors) {
       ctx.strokeStyle = colors.conveyor;
-      ctx.lineWidth = 10 * DPR;
+      ctx.lineWidth = 10;
       ctx.beginPath(); ctx.moveTo(c.a.x, c.a.y); ctx.lineTo(c.b.x, c.b.y); ctx.stroke();
       ctx.strokeStyle = 'rgba(255,255,255,.12)';
-      ctx.lineWidth = 1.5 * DPR;
-      ctx.setLineDash([10 * DPR, 8 * DPR]);
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([10, 8]);
       ctx.beginPath(); ctx.moveTo(c.a.x, c.a.y); ctx.lineTo(c.b.x, c.b.y); ctx.stroke();
       ctx.setLineDash([]);
-      if (state.params.showLabels) drawLabel(c.id, (c.a.x + c.b.x) / 2, (c.a.y + c.b.y) / 2 - 14 * DPR);
+      if (state.params.showLabels) drawLabel(c.id, (c.a.x + c.b.x) / 2, (c.a.y + c.b.y) / 2 - 14);
     }
   }
 
@@ -511,9 +567,9 @@
     for (const s of state.world.stations) {
       ctx.fillStyle = s.status === 'Congested' || s.status === 'Queue Full' ? '#a855f7' : colors.station;
       ctx.strokeStyle = state.world.selected === s ? '#ffffff' : 'rgba(255,255,255,.08)';
-      ctx.lineWidth = state.world.selected === s ? 2.5 * DPR : 1.5 * DPR;
-      ctx.beginPath(); roundRect(s.x - 24 * DPR, s.y - 18 * DPR, 48 * DPR, 36 * DPR, 10 * DPR); ctx.fill(); ctx.stroke();
-      if (state.params.showLabels) drawLabel(s.id, s.x, s.y - 30 * DPR);
+      ctx.lineWidth = state.world.selected === s ? 2.5 : 1.5;
+      ctx.beginPath(); roundRect(s.x - 24, s.y - 18, 48, 36, 10); ctx.fill(); ctx.stroke();
+      if (state.params.showLabels) drawLabel(s.id, s.x, s.y - 30);
     }
   }
 
@@ -521,33 +577,33 @@
     for (const r of state.world.robots) {
       ctx.fillStyle = colors.robot;
       ctx.strokeStyle = state.world.selected === r ? '#ffffff' : 'rgba(255,255,255,.08)';
-      ctx.lineWidth = state.world.selected === r ? 2.5 * DPR : 1.5 * DPR;
-      ctx.beginPath(); ctx.arc(r.x, r.y, 15 * DPR, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
-      ctx.strokeStyle = '#c7d2e2'; ctx.lineWidth = 3 * DPR;
-      ctx.beginPath(); ctx.moveTo(r.x, r.y); ctx.lineTo(r.x + 18 * DPR, r.y - 10 * DPR); ctx.lineTo(r.x + 30 * DPR, r.y - 2 * DPR); ctx.stroke();
-      if (state.params.showLabels) drawLabel(r.id, r.x, r.y - 28 * DPR);
+      ctx.lineWidth = state.world.selected === r ? 2.5 : 1.5;
+      ctx.beginPath(); ctx.arc(r.x, r.y, 15, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+      ctx.strokeStyle = '#c7d2e2'; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.moveTo(r.x, r.y); ctx.lineTo(r.x + 18, r.y - 10); ctx.lineTo(r.x + 30, r.y - 2); ctx.stroke();
+      if (state.params.showLabels) drawLabel(r.id, r.x, r.y - 28);
     }
   }
 
   function drawDocks() {
     for (const d of state.world.docks) {
       ctx.strokeStyle = colors.dock;
-      ctx.lineWidth = 2 * DPR;
-      ctx.strokeRect(d.x - 42 * DPR, d.y - 26 * DPR, 84 * DPR, 52 * DPR);
+      ctx.lineWidth = 2;
+      ctx.strokeRect(d.x - 42, d.y - 26, 84, 52);
       ctx.fillStyle = 'rgba(239,68,68,.08)';
-      ctx.fillRect(d.x - 42 * DPR, d.y - 26 * DPR, 84 * DPR, 52 * DPR);
-      if (state.params.showLabels) drawLabel(d.id, d.x, d.y - 38 * DPR);
+      ctx.fillRect(d.x - 42, d.y - 26, 84, 52);
+      if (state.params.showLabels) drawLabel(d.id, d.x, d.y - 38);
     }
   }
 
   function drawSpawns() {
     for (const s of state.world.agvSpawns) {
       ctx.strokeStyle = colors.agv;
-      ctx.lineWidth = 2 * DPR;
-      ctx.beginPath(); ctx.arc(s.x, s.y, 12 * DPR, 0, Math.PI * 2); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(s.x - 16 * DPR, s.y); ctx.lineTo(s.x + 16 * DPR, s.y); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(s.x, s.y - 16 * DPR); ctx.lineTo(s.x, s.y + 16 * DPR); ctx.stroke();
-      if (state.params.showLabels) drawLabel(s.id, s.x, s.y - 26 * DPR);
+      ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(s.x, s.y, 12, 0, Math.PI * 2); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(s.x - 16, s.y); ctx.lineTo(s.x + 16, s.y); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(s.x, s.y - 16); ctx.lineTo(s.x, s.y + 16); ctx.stroke();
+      if (state.params.showLabels) drawLabel(s.id, s.x, s.y - 26);
     }
   }
 
@@ -555,7 +611,7 @@
     for (const p of state.world.pallets) {
       if (p.done) continue;
       ctx.fillStyle = colors.pallet;
-      ctx.fillRect(p.x - 8 * DPR, p.y - 6 * DPR, 16 * DPR, 12 * DPR);
+      ctx.fillRect(p.x - 8, p.y - 6, 16, 12);
     }
   }
 
@@ -565,17 +621,17 @@
         for (let i = 1; i < a.trail.length; i++) {
           const u = a.trail[i - 1], v = a.trail[i];
           ctx.strokeStyle = `rgba(74,222,128,${v.life * 0.25})`;
-          ctx.lineWidth = 4 * DPR;
+          ctx.lineWidth = 4;
           ctx.beginPath(); ctx.moveTo(u.x, u.y); ctx.lineTo(v.x, v.y); ctx.stroke();
         }
       }
       ctx.fillStyle = colors.agv;
-      ctx.beginPath(); roundRect(a.x - 13 * DPR, a.y - 10 * DPR, 26 * DPR, 20 * DPR, 7 * DPR); ctx.fill();
+      ctx.beginPath(); roundRect(a.x - 13, a.y - 10, 26, 20, 7); ctx.fill();
       if (a.carry) {
         ctx.fillStyle = colors.pallet;
-        ctx.fillRect(a.x - 7 * DPR, a.y - 18 * DPR, 14 * DPR, 9 * DPR);
+        ctx.fillRect(a.x - 7, a.y - 18, 14, 9);
       }
-      if (state.params.showLabels) drawLabel(a.id, a.x, a.y + 22 * DPR);
+      if (state.params.showLabels) drawLabel(a.id, a.x, a.y + 22);
     }
   }
 
@@ -584,11 +640,11 @@
     if (!s) return;
     ctx.save();
     ctx.strokeStyle = 'rgba(255,255,255,.35)';
-    ctx.lineWidth = 2 * DPR;
+    ctx.lineWidth = 2;
     if (s.type === 'conveyor') {
       ctx.beginPath(); ctx.moveTo(s.a.x, s.a.y); ctx.lineTo(s.b.x, s.b.y); ctx.stroke();
     } else {
-      ctx.beginPath(); ctx.arc(s.x, s.y, 22 * DPR, 0, Math.PI * 2); ctx.stroke();
+      ctx.beginPath(); ctx.arc(s.x, s.y, 22, 0, Math.PI * 2); ctx.stroke();
     }
     ctx.restore();
   }
@@ -603,15 +659,13 @@
   }
 
   function hitTest(p) {
+    const radius = 18 / camera.zoom;
+    const lineRadius = 10 / camera.zoom;
     const pools = [state.world.agvs, state.world.stations, state.world.robots, state.world.docks, state.world.agvSpawns];
     for (const pool of pools) {
-      for (const o of pool) {
-        if (dist(p, o) < 18 * DPR) return o;
-      }
+      for (const o of pool) if (dist(p, o) < radius) return o;
     }
-    for (const c of state.world.conveyors) {
-      if (pointSegDist(p, c.a, c.b) < 10 * DPR) return c;
-    }
+    for (const c of state.world.conveyors) if (pointSegDist(p, c.a, c.b) < lineRadius) return c;
     return null;
   }
 
@@ -630,6 +684,9 @@
 
   function draw() {
     ctx.clearRect(0, 0, W(), H());
+    ctx.save();
+    ctx.translate(camera.offsetX, camera.offsetY);
+    ctx.scale(camera.zoom, camera.zoom);
     drawGrid();
     drawHeat();
     drawConveyors();
@@ -642,8 +699,9 @@
     drawSelection();
     if (state.world.tempConveyorStart) {
       ctx.fillStyle = 'rgba(99,179,255,.8)';
-      ctx.beginPath(); ctx.arc(state.world.tempConveyorStart.x, state.world.tempConveyorStart.y, 6 * DPR, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(state.world.tempConveyorStart.x, state.world.tempConveyorStart.y, 6, 0, Math.PI * 2); ctx.fill();
     }
+    ctx.restore();
   }
 
   function resetSim() {
@@ -690,8 +748,20 @@
   ui.loadDemo?.addEventListener('click', () => { loadDemoPlant(); logEvent('Demo plant loaded.'); });
   ui.addAGV?.addEventListener('click', () => { state.params.agvCount += 1; refreshAGVs(); logEvent('Added AGV.'); });
   ui.removeAGV?.addEventListener('click', () => { state.params.agvCount = Math.max(0, state.params.agvCount - 1); refreshAGVs(); logEvent('Removed AGV.'); });
+  ui.zoomInBtn?.addEventListener('click', () => zoomAt(W() / 2, H() / 2, 1.15));
+  ui.zoomOutBtn?.addEventListener('click', () => zoomAt(W() / 2, H() / 2, 0.87));
+  ui.zoomResetBtn?.addEventListener('click', () => resetCamera());
+  ui.focusBtn?.addEventListener('click', () => focusSelectedAsset());
 
   canvas.addEventListener('mousedown', (evt) => {
+    if (evt.button === 1 || evt.button === 2 || state.world.mode === 'pan') {
+      evt.preventDefault();
+      camera.dragging = true;
+      camera.lastX = evt.clientX;
+      camera.lastY = evt.clientY;
+      return;
+    }
+
     const p = screenPoint(evt);
     const sp = { x: snap(p.x), y: snap(p.y) };
 
@@ -723,6 +793,16 @@
   });
 
   canvas.addEventListener('mousemove', (evt) => {
+    if (camera.dragging) {
+      const dx = (evt.clientX - camera.lastX) * DPR;
+      const dy = (evt.clientY - camera.lastY) * DPR;
+      camera.offsetX += dx;
+      camera.offsetY += dy;
+      camera.lastX = evt.clientX;
+      camera.lastY = evt.clientY;
+      return;
+    }
+
     const p = screenPoint(evt);
     const d = state.world.dragging;
     if (!d) return;
@@ -737,12 +817,33 @@
     }
   });
 
-  ['mouseup', 'mouseleave'].forEach((ev) => canvas.addEventListener(ev, () => { state.world.dragging = null; }));
+  canvas.addEventListener('wheel', (evt) => {
+    evt.preventDefault();
+    const rect = canvas.getBoundingClientRect();
+    const sx = (evt.clientX - rect.left) * DPR;
+    const sy = (evt.clientY - rect.top) * DPR;
+    zoomAt(sx, sy, evt.deltaY < 0 ? 1.12 : 0.89);
+  }, { passive: false });
+
+  canvas.addEventListener('mouseup', () => {
+    camera.dragging = false;
+    state.world.dragging = null;
+  });
+  canvas.addEventListener('mouseleave', () => {
+    camera.dragging = false;
+    state.world.dragging = null;
+  });
+  canvas.addEventListener('contextmenu', (evt) => evt.preventDefault());
+
   window.addEventListener('keydown', (e) => {
     if (e.key === ' ') { e.preventDefault(); ui.playPause?.click(); }
     if (e.key.toLowerCase() === 'r') resetSim();
     if (e.key.toLowerCase() === 'g') ui.toggleGrid?.click();
     if (e.key.toLowerCase() === 'l') ui.toggleLabels?.click();
+    if (e.key === '+' || e.key === '=') zoomAt(W() / 2, H() / 2, 1.15);
+    if (e.key === '-') zoomAt(W() / 2, H() / 2, 0.87);
+    if (e.key === '0') resetCamera();
+    if (e.key.toLowerCase() === 'f') focusSelectedAsset();
   });
 
   loadDemoPlant();
@@ -755,9 +856,12 @@
 
   window.TecnomatixAgvBuilder = {
     state,
+    camera,
     loadDemoPlant,
     clearLayout,
     resetSim,
+    resetCamera,
+    focusSelectedAsset,
     setMode,
     exportLayout() {
       return JSON.stringify({
