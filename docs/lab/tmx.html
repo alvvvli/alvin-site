@@ -59,8 +59,65 @@
     }
     .mini-card{
       position:absolute;right:24px;bottom:20px;z-index:28;
-      border-radius:18px;padding:12px 14px;font-size:12px;letter-spacing:.08em;text-transform:uppercase
+      border-radius:18px;padding:12px 14px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+      cursor:pointer;
+      user-select:none;
     }
+
+    .dock-toggle{
+      position:absolute;
+      top:12px;
+      z-index:35;
+      width:32px;
+      height:32px;
+      border-radius:10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:0;
+      font-size:18px;
+      line-height:1;
+      background:linear-gradient(180deg,rgba(23,48,77,.92),rgba(17,37,61,.84));
+      color:var(--text);
+      border:1px solid rgba(255,255,255,.08);
+      cursor:pointer;
+    }
+    .dock-toggle-left{left:12px}
+    .dock-toggle-right{right:12px}
+
+    .left-dock,.right-dock{
+      transition:transform .24s ease, opacity .24s ease;
+    }
+    .left-dock.is-collapsed{
+      transform:translateX(calc(-100% + 44px));
+      opacity:.96;
+    }
+    .right-dock.is-collapsed{
+      transform:translateX(calc(100% - 44px));
+      opacity:.96;
+    }
+
+    .panel-handle{
+      position:absolute;
+      top:18px;
+      width:30px;
+      height:54px;
+      border-radius:12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:16px;
+      font-weight:700;
+      color:#dbe7ff;
+      background:linear-gradient(180deg,rgba(23,48,77,.95),rgba(17,37,61,.88));
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:var(--glass-shadow);
+      cursor:pointer;
+      z-index:34;
+    }
+    .panel-handle.left{left:12px}
+    .panel-handle.right{right:12px}
+    .panel-handle.hidden{display:none}
 
     .section{padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.05)}
     .section.hero{padding:16px 16px 12px;background:linear-gradient(180deg,rgba(99,179,255,.10),rgba(99,179,255,0))}
@@ -132,6 +189,9 @@
     </main>
 
     <div class="top-hud glass">
+      <button id="leftDockToggle" class="dock-toggle dock-toggle-left" title="Toggle Builder Panel">−</button>
+      <button id="rightDockToggle" class="dock-toggle dock-toggle-right" title="Toggle KPI Panel">−</button>
+
       <div>
         <div class="hud-title">Plant Schematic HUD</div>
         <div class="hud-help">Select = move · Conveyor = start/end · Station / Robot / Dock / AGV Spawn = place</div>
@@ -139,7 +199,7 @@
       <div class="hud-help">Space pause · R reset · G grid · L labels</div>
     </div>
 
-    <aside class="left-dock glass">
+    <aside class="left-dock glass" id="leftDock">
       <div class="section hero">
         <h3>Builder</h3>
         <div class="sub">More schematic, less dashboard. Keep the plant visible while tools stay compact and docked.</div>
@@ -211,7 +271,7 @@
       </div>
     </aside>
 
-    <aside class="right-dock glass">
+    <aside class="right-dock glass" id="rightDock">
       <div class="section hero">
         <h3>Operations KPIs</h3>
         <div class="kpis">
@@ -243,9 +303,68 @@
       </div>
     </aside>
 
-    <div class="mini-card glass">Controls</div>
+    <button class="panel-handle left hidden" id="leftDockOpen" title="Open Builder Panel">+</button>
+    <button class="panel-handle right hidden" id="rightDockOpen" title="Open KPI Panel">+</button>
+
+    <div class="mini-card glass" id="fullscreenBtn">Fullscreen</div>
   </div>
 
   <script src="./tmx.js"></script>
+  <script>
+    (() => {
+      const leftDock = document.getElementById('leftDock');
+      const rightDock = document.getElementById('rightDock');
+      const leftDockToggle = document.getElementById('leftDockToggle');
+      const rightDockToggle = document.getElementById('rightDockToggle');
+      const leftDockOpen = document.getElementById('leftDockOpen');
+      const rightDockOpen = document.getElementById('rightDockOpen');
+      const fullscreenBtn = document.getElementById('fullscreenBtn');
+
+      function collapsePanel(panel, openBtn, toggleBtn) {
+        if (!panel) return;
+        panel.classList.add('is-collapsed');
+        openBtn?.classList.remove('hidden');
+        if (toggleBtn) toggleBtn.textContent = '+';
+      }
+
+      function openPanel(panel, openBtn, toggleBtn) {
+        if (!panel) return;
+        panel.classList.remove('is-collapsed');
+        openBtn?.classList.add('hidden');
+        if (toggleBtn) toggleBtn.textContent = '−';
+      }
+
+      leftDockToggle?.addEventListener('click', () => {
+        if (leftDock.classList.contains('is-collapsed')) {
+          openPanel(leftDock, leftDockOpen, leftDockToggle);
+        } else {
+          collapsePanel(leftDock, leftDockOpen, leftDockToggle);
+        }
+      });
+
+      rightDockToggle?.addEventListener('click', () => {
+        if (rightDock.classList.contains('is-collapsed')) {
+          openPanel(rightDock, rightDockOpen, rightDockToggle);
+        } else {
+          collapsePanel(rightDock, rightDockOpen, rightDockToggle);
+        }
+      });
+
+      leftDockOpen?.addEventListener('click', () => openPanel(leftDock, leftDockOpen, leftDockToggle));
+      rightDockOpen?.addEventListener('click', () => openPanel(rightDock, rightDockOpen, rightDockToggle));
+
+      fullscreenBtn?.addEventListener('click', async () => {
+        try {
+          if (!document.fullscreenElement) {
+            await document.documentElement.requestFullscreen();
+          } else {
+            await document.exitFullscreen();
+          }
+        } catch (err) {
+          console.warn('Fullscreen failed:', err);
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
