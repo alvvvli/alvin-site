@@ -1,7 +1,7 @@
 🛠️🚗 Tecnomatix-Inspired AGV Plant Builder
 
 <iframe
-  src="../tools/tecnomatix_agv_plant_builder.html"
+  src="../tools/tmx.html"
   width="100%"
   height="780"
   style="border:1px solid rgba(255,255,255,0.12); border-radius:12px;"
