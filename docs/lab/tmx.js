@@ -836,16 +836,35 @@
   canvas.addEventListener('contextmenu', (evt) => evt.preventDefault());
 
   window.addEventListener('keydown', (e) => {
-    if (e.key === ' ') { e.preventDefault(); ui.playPause?.click(); }
-    if (e.key.toLowerCase() === 'r') resetSim();
-    if (e.key.toLowerCase() === 'g') ui.toggleGrid?.click();
-    if (e.key.toLowerCase() === 'l') ui.toggleLabels?.click();
-    if (e.key === '+' || e.key === '=') zoomAt(W() / 2, H() / 2, 1.15);
-    if (e.key === '-') zoomAt(W() / 2, H() / 2, 0.87);
-    if (e.key === '0') resetCamera();
-    if (e.key.toLowerCase() === 'f') focusSelectedAsset();
-  });
+  const tag = document.activeElement?.tagName;
+  const typing = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT';
 
+  if (typing) return;
+
+  if (e.key === ' ') {
+    e.preventDefault();
+    ui.playPause?.click();
+    return;
+  }
+
+  if (e.key === '1') return setMode('select');
+  if (e.key === '2') return setMode('pan');
+  if (e.key === '3') return setMode('conveyor');
+  if (e.key === '4') return setMode('station');
+  if (e.key === '5') return setMode('robot');
+  if (e.key === '6') return setMode('dock');
+  if (e.key === '7') return setMode('agvSpawn');
+  if (e.key === '8') return setMode('delete');
+
+  if (e.key.toLowerCase() === 'r') return resetSim();
+  if (e.key.toLowerCase() === 'g') return ui.toggleGrid?.click();
+  if (e.key.toLowerCase() === 'l') return ui.toggleLabels?.click();
+
+  if (e.key === '+' || e.key === '=') return zoomAt(W() / 2, H() / 2, 1.15);
+  if (e.key === '-') return zoomAt(W() / 2, H() / 2, 0.87);
+  if (e.key === '0') return resetCamera();
+  if (e.key.toLowerCase() === 'f') return focusSelectedAsset();
+});
   loadDemoPlant();
   setMode('select');
   ui.speed?.dispatchEvent(new Event('input'));
