@@ -11,8 +11,8 @@ theme:
 
   palette:
     scheme: slate
-    primary: indigo
-    accent: blue
+    primary: deep purple
+    accent: indigo
 
   features:
     - navigation.tabs
