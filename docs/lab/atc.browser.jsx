@@ -528,3 +528,11 @@ function App() {
 }
 
 window.App = App;
+
+const rootElement = document.getElementById("root");
+
+if (rootElement && window.ReactDOM) {
+  ReactDOM.createRoot(rootElement).render(<App />);
+} else {
+  console.error("ATC mount failed: #root or ReactDOM is missing.");
+}
