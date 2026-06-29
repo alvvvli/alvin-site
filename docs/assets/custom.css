@@ -1,30 +1,73 @@
-/* GLOBAL */
-:root { --md-typeset-font-size: 1.1rem; }
+```css
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap");
+
+/* =========================================================
+   GLOBAL TYPOGRAPHY
+   ========================================================= */
 
 :root {
-  font-size: 110%;
+  --md-text-font: "IBM Plex Sans";
+  --md-code-font: "IBM Plex Mono";
+
+  /* Keep only if another stylesheet actually uses this variable */
+  --md-typeset-font-size: 1.1rem;
 }
 
-.md-typeset { line-height: 1.7; }
-.md-typeset h1, .md-typeset h2, .md-typeset h3 { line-height: 1.25; }
-.md-nav__link { padding-top: 6px; padding-bottom: 6px; }
-.md-nav__item { margin-bottom: 4px; }
+.md-typeset {
+  line-height: 1.7;
+}
 
-/* A350SIM: "Option B" = bleed into right TOC */
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3 {
+  font-family: "Space Grotesk", "IBM Plex Sans", sans-serif;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+}
 
-/* 1) Hide the right TOC sidebar */
+.md-typeset h1 {
+  font-weight: 500;
+  letter-spacing: -0.025em;
+}
+
+.md-typeset h2,
+.md-typeset h3 {
+  font-weight: 600;
+}
+
+.md-header__title {
+  font-family: "Space Grotesk", "IBM Plex Sans", sans-serif;
+  font-weight: 600;
+}
+
+.md-nav__link {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+.md-nav__item {
+  margin-bottom: 4px;
+}
+
+
+/* =========================================================
+   A350SIM: "OPTION B" — BLEED INTO RIGHT TOC
+   ========================================================= */
+
+/* 1. Hide the right TOC sidebar */
 body[data-md-url^="lab/a350sim/"] [data-md-component="sidebar-secondary"],
 body[data-md-url^="lab/a350sim/"] .md-sidebar--secondary,
 body[data-md-url^="lab/a350sim/"] aside.md-sidebar--secondary {
   display: none !important;
 }
 
-/* 2) Remove any reserved space for the TOC */
+/* 2. Remove reserved space for the TOC */
 body[data-md-url^="lab/a350sim/"] .md-content {
   margin-right: 0 !important;
 }
 
-/* 3) Optional: widen the main grid clamp for this page */
+/* 3. Widen the main grid clamp for this page */
 body[data-md-url^="lab/a350sim/"] .md-grid {
   max-width: none !important;
 }
+```
