@@ -133,31 +133,67 @@ function scheduleDelayForUniformWaves({ waves, firstDepMin, spacingMin, pref48 }
 /***** 3D AIRSPACE ENGINE *****/
 function planAltitudes({ legs, altLayers, sepMin }) {
   const flights = [];
+
   for (const S of ["E", "W"]) {
     legs[S].forEach((l) => {
-      flights.push({ key: `${l.id}-HS`, corridor: S, dir: "HS", start: l.depH, end: l.depH + l.BHmin });
-      flights.push({ key: `${l.id}-SH`, corridor: S, dir: "SH", start: l.depS, end: l.arrH });
+      flights.push({
+        key: `${l.id}-HS`,
+        corridor: S,
+        dir: "HS",
+        start: l.depH,
+        end: l.depH + l.BHmin,
+      });
+
+      flights.push({
+        key: `${l.id}-SH`,
+        corridor: S,
+        dir: "SH",
+        start: l.depS,
+        end: l.arrH,
+      });
     });
   }
+
   flights.sort((a, b) => a.start - b.start);
-  const layerUse = {}; // corridor -> layer index -> last end
+
+  const layerUse = {};
   const assigned = [];
+
   for (const f of flights) {
-    const corr = f.corridor;
-    if (!layerUse[corr]) layerUse[corr] = altLayers.map(() => -Infinity);
+    const corridor = f.corridor;
+
+    if (!layerUse[corridor]) {
+      layerUse[corridor] = altLayers.map(() => -Infinity);
+    }
+
     let placed = false;
     let layerIdx = 0;
+
     for (; layerIdx < altLayers.length; layerIdx++) {
-      const lastEnd = layerUse[corr][layerIdx];
+      const lastEnd = layerUse[corridor][layerIdx];
+
       if (f.start - lastEnd >= sepMin) {
-        layerUse[corr][layerIdx] = f.end;
+        layerUse[corridor][layerIdx] = f.end;
         placed = true;
         break;
       }
     }
-    assigned.push({ ...f, layerIdx, placed });
+
+    // Unresolved flights remain visible as red pins
+    // on the highest available flight level.
+    const displayLayerIdx = placed
+      ? layerIdx
+      : Math.max(0, altLayers.length - 1);
+
+    assigned.push({
+      ...f,
+      layerIdx: displayLayerIdx,
+      placed,
+    });
   }
-  const conflicts = assigned.filter((a) => !a.placed);
+
+  const conflicts = assigned.filter((flight) => !flight.placed);
+
   return { assigned, conflicts };
 }
 
@@ -207,7 +243,8 @@ export default function App() {
   const capHW = capacityCheck({ waves, capSeats: DEFAULTS.capSeats, demandDir: DEMAND.HW });
 
   // Schedule delay
-  const firstOutH = arrH[0] + DEFAULTS.layoverH;
+  const firstOutH =
+  (arrH[0] ?? firstArriveH) + DEFAULTS.layoverH;
   const schedDelayMin = scheduleDelayForUniformWaves({ waves, firstDepMin: firstOutH, spacingMin: spacing, pref48: PREF_48 });
 
   // Travel time aggregation (simple weighted)
