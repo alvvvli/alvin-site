@@ -1,7 +1,12 @@
 # ✈️ ATC Scheduler
 <!-- ===== ATC Fullscreen Modal (production-grade) ===== -->
 <div style="margin: 8px 0 16px 0;">
-  <a href="../atc-embed.html" class="md-button md-button--primary target="_blank">↗️ Enter fullscreen</a>
+  <button
+    id="atc-open"
+    type="button"
+    class="md-button md-button--primary">
+    ↗️ Enter fullscreen
+  </button>
 </div>
 
 <style>
