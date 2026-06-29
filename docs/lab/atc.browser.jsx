@@ -1,5 +1,45 @@
-/* global React */
-const { useMemo, useState } = React;
+/* global React, ReactDOM */
+
+const mountNode = document.getElementById("root");
+const ReactLib = window.React;
+const ReactDOMLib = window.ReactDOM;
+
+function showBootError(message, error) {
+  console.error(message, error || "");
+
+  if (mountNode) {
+    mountNode.innerHTML = `
+      <div style="
+        margin:24px;
+        padding:16px;
+        border:1px solid rgba(239,68,68,.45);
+        border-radius:12px;
+        background:#1b1118;
+        color:#fecaca;
+        font-family:system-ui,sans-serif;
+      ">
+        <strong>ATC Scheduler failed to start</strong>
+        <div style="margin-top:8px">${message}</div>
+      </div>
+    `;
+  }
+}
+
+if (!mountNode) {
+  throw new Error("ATC mount failed: #root was not found.");
+}
+
+if (!ReactLib) {
+  showBootError("React failed to load from the CDN.");
+  throw new Error("React global is unavailable.");
+}
+
+if (!ReactDOMLib || typeof ReactDOMLib.createRoot !== "function") {
+  showBootError("ReactDOM failed to load or createRoot is unavailable.");
+  throw new Error("ReactDOM.createRoot is unavailable.");
+}
+
+const { useMemo, useState } = ReactLib;
 
 /**
  * ATC Hub Scheduler — 3D Segways Edition (browser build, no bundler)
@@ -529,13 +569,12 @@ function App() {
 
 window.App = App;
 
-const mountNode = document.getElementById("root");
-
-if (!mountNode) {
-  console.error("ATC mount failed: #root was not found.");
-} else if (!window.ReactDOM) {
-  console.error("ATC mount failed: ReactDOM was not loaded.");
-} else {
-  const root = window.ReactDOM.createRoot(mountNode);
-  root.render(window.React.createElement(App));
+try {
+  const root = ReactDOMLib.createRoot(mountNode);
+  root.render(ReactLib.createElement(App));
+} catch (error) {
+  showBootError(
+    `React encountered an error while mounting: ${error.message}`,
+    error
+  );
 }
