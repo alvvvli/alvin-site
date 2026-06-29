@@ -13,7 +13,7 @@
   </button>
 
   <a
-    href="../atc-embed.html?v=5"
+    href="../atc-embed.html?v=6"
     class="md-button"
     target="_blank"
     rel="noopener noreferrer">
@@ -164,29 +164,29 @@
         ATC Hub Scheduler
       </strong>
 
-      <button
+  <button
         id="atc-full"
         type="button"
         class="atc-btn"
         aria-label="Toggle browser fullscreen">
         ⤢ Fullscreen
-      </button>
+  </button>
 
-      <button
+  <button
         id="atc-close"
         type="button"
         class="atc-btn"
         aria-label="Close ATC Scheduler">
         ✕ Close
       </button>
-    </div>
+  </div>
 
-    <div class="atc-fill">
+  <div class="atc-fill">
       <iframe
         id="atc-iframe"
         class="atc-frame"
         src="about:blank"
-        data-src="../atc-embed.html?v=5"
+        data-src="../atc-embed.html?v=6"
         title="ATC Hub Scheduler"
         allow="fullscreen"
         allowfullscreen>
