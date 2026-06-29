@@ -4,6 +4,9 @@ site_url: https://alvvvli.github.io/alvin-site/
 
 theme:
   name: material
+  font:
+    text: IBM Plex Sans
+    code: IBM Plex Mono
   palette:
       scheme: slate
       primary: indigo 
