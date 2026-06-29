@@ -529,10 +529,13 @@ function App() {
 
 window.App = App;
 
-const rootElement = document.getElementById("root");
+const mountNode = document.getElementById("root");
 
-if (rootElement && window.ReactDOM) {
-  ReactDOM.createRoot(rootElement).render(<App />);
+if (!mountNode) {
+  console.error("ATC mount failed: #root was not found.");
+} else if (!window.ReactDOM) {
+  console.error("ATC mount failed: ReactDOM was not loaded.");
 } else {
-  console.error("ATC mount failed: #root or ReactDOM is missing.");
+  const root = window.ReactDOM.createRoot(mountNode);
+  root.render(window.React.createElement(App));
 }
