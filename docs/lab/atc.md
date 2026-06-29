@@ -1,171 +1,312 @@
 # ✈️ ATC Scheduler
-<!-- ===== ATC Fullscreen Modal (production-grade) ===== -->
-<div style="margin: 8px 0 16px 0; display:flex; gap:.6rem; flex-wrap:wrap;">
+
+<!-- ===== ATC Fullscreen Modal ===== -->
+
+<div class="atc-launch">
   <button
     id="atc-open"
     type="button"
-    class="md-button md-button--primary">
-    ↗️ Enter fullscreen
+    class="md-button md-button--primary"
+    aria-controls="atc-modal"
+    aria-expanded="false">
+    ⤢ Launch ATC Scheduler
   </button>
 
   <a
-    href="../atc-embed.html"
+    href="../atc-embed.html?v=5"
     class="md-button"
     target="_blank"
-    rel="noopener">
-    Open separate tab
+    rel="noopener noreferrer">
+    ↗ Open separate tab
   </a>
 </div>
 
 <style>
-  /* Lock background scroll when modal is open */
-  html.atc-lock, body.atc-lock { overflow: hidden !important; }
-
-  /* Modal scaffolding */
-  .atc-modal { position: fixed; inset: 0; z-index: 9999; display: none; }
-  .atc-modal.is-open { display: block; }
-  .atc-backdrop {
-    position: absolute; inset: 0;
-    background: rgba(0,0,0,.65); backdrop-filter: blur(2px);
-    opacity: 0; transition: opacity .18s ease-out;
+  .atc-launch {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .6rem;
+    margin: 8px 0 16px;
   }
-  .atc-modal.is-anim .atc-backdrop { opacity: 1; }
 
-  /* Sheet: fill below MkDocs header + iOS safe area */
+  html.atc-lock,
+  body.atc-lock {
+    overflow: hidden !important;
+  }
+
+  .atc-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+  }
+
+  .atc-modal.is-open {
+    display: block;
+  }
+
+  .atc-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, .68);
+    backdrop-filter: blur(3px);
+    opacity: 0;
+    transition: opacity .18s ease-out;
+  }
+
+  .atc-modal.is-anim .atc-backdrop {
+    opacity: 1;
+  }
+
   .atc-sheet {
     position: absolute;
-    inset: calc(var(--md-header-height,64px) + env(safe-area-inset-top,0)) 0 0 0;
-    background:#0b0f14;
-    display: flex; flex-direction: column;
-    box-shadow: 0 -8px 24px rgba(0,0,0,.35);
-    transform: translateY(8px); opacity: 0; transition: transform .18s ease-out, opacity .18s ease-out;
-  }
-  .atc-modal.is-anim .atc-sheet { transform: none; opacity: 1; }
+    inset:
+      calc(var(--md-header-height, 64px) + env(safe-area-inset-top, 0px))
+      0
+      0
+      0;
 
-  /* Top controls */
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    background: #0b0f14;
+    box-shadow: 0 -8px 28px rgba(0, 0, 0, .4);
+
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      transform .18s ease-out,
+      opacity .18s ease-out;
+  }
+
+  .atc-modal.is-anim .atc-sheet {
+    opacity: 1;
+    transform: none;
+  }
+
   .atc-bar {
-    position: sticky; top: 0; z-index: 2;
-    display: flex; justify-content: flex-end; gap: .5rem;
-    padding: .5rem .75rem; background: linear-gradient(180deg,#0b0f14,#0b0f14cc 60%,#0b0f1400);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    flex: 0 0 auto;
+    padding: .55rem .75rem;
+    background: #0b0f14;
+    border-bottom: 1px solid rgba(255, 255, 255, .08);
   }
+
+  .atc-title {
+    margin-right: auto;
+    color: #e6eef9;
+    font-size: .95rem;
+    font-weight: 600;
+  }
+
   .atc-btn {
-    appearance: none; border: 0; border-radius: 10px;
-    padding: .5rem .75rem; background:#111827; color:#e6eef9;
-    box-shadow:0 6px 18px rgba(0,0,0,.25); cursor:pointer; font: inherit;
+    appearance: none;
+    border: 1px solid rgba(255, 255, 255, .08);
+    border-radius: 10px;
+    padding: .5rem .75rem;
+    background: #111827;
+    color: #e6eef9;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .25);
+    cursor: pointer;
+    font: inherit;
   }
-  .atc-btn:hover { opacity: .9; }
-  .atc-btn:focus { outline: 2px solid #60a5fa; outline-offset: 2px; }
 
-  /* Frame fills remaining space without inner scrollbars around it */
-  .atc-fill { flex: 1 1 auto; min-height: 0; }
-  .atc-frame { width: 100%; height: 100%; border: 0; display: block; background:#0b0f14; }
+  .atc-btn:hover {
+    filter: brightness(1.1);
+  }
 
-  /* Respect reduced motion */
+  .atc-btn:focus-visible {
+    outline: 2px solid #60a5fa;
+    outline-offset: 2px;
+  }
+
+  .atc-fill {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .atc-frame {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: #0b0f14;
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    .atc-backdrop, .atc-sheet { transition: none; }
+    .atc-backdrop,
+    .atc-sheet {
+      transition: none;
+    }
   }
 </style>
 
-<div id="atc-modal"
-     class="atc-modal"
-     role="dialog"
-     aria-modal="true"
-     aria-labelledby="atc-title"
-     aria-hidden="true"
-     tabindex="-1">
-  <div class="atc-backdrop" id="atc-close-backdrop"></div>
+<div
+  id="atc-modal"
+  class="atc-modal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="atc-title"
+  aria-hidden="true"
+  tabindex="-1">
+
+  <div
+    id="atc-close-backdrop"
+    class="atc-backdrop">
+  </div>
+
   <div class="atc-sheet">
     <div class="atc-bar">
-      <button id="atc-full"  class="atc-btn" aria-label="Toggle browser fullscreen">⤢ Browser Fullscreen</button>
-      <button id="atc-close" class="atc-btn" aria-label="Close ATC">✕ Close</button>
+      <strong id="atc-title" class="atc-title">
+        ATC Hub Scheduler
+      </strong>
+
+      <button
+        id="atc-full"
+        type="button"
+        class="atc-btn"
+        aria-label="Toggle browser fullscreen">
+        ⤢ Fullscreen
+      </button>
+
+      <button
+        id="atc-close"
+        type="button"
+        class="atc-btn"
+        aria-label="Close ATC Scheduler">
+        ✕ Close
+      </button>
     </div>
+
     <div class="atc-fill">
-      <iframe id="atc-iframe"
-              class="atc-frame"
-              src="../atc-embed.html"
-              title="ATC Hub Scheduler"
-              allow="fullscreen"></iframe>
+      <iframe
+        id="atc-iframe"
+        class="atc-frame"
+        src="about:blank"
+        data-src="../atc-embed.html?v=5"
+        title="ATC Hub Scheduler"
+        allow="fullscreen"
+        allowfullscreen>
+      </iframe>
     </div>
   </div>
 </div>
 
 <script>
-(function(){
-  const modal    = document.getElementById('atc-modal');
-  const openBtn  = document.getElementById('atc-open');
-  const closeBtn = document.getElementById('atc-close');
-  const backdrop = document.getElementById('atc-close-backdrop');
-  const frame    = document.getElementById('atc-iframe');
-  const fullBtn  = document.getElementById('atc-full');
-  let lastFocus  = null;
+(() => {
+  const modal = document.getElementById("atc-modal");
+  const openBtn = document.getElementById("atc-open");
+  const closeBtn = document.getElementById("atc-close");
+  const backdrop = document.getElementById("atc-close-backdrop");
+  const frame = document.getElementById("atc-iframe");
+  const fullBtn = document.getElementById("atc-full");
 
-  function lockBody(lock) {
-    document.documentElement.classList.toggle('atc-lock', lock);
-    document.body.classList.toggle('atc-lock', lock);
+  if (
+    !modal ||
+    !openBtn ||
+    !closeBtn ||
+    !backdrop ||
+    !frame ||
+    !fullBtn
+  ) {
+    console.warn("ATC modal initialization failed: required element missing.");
+    return;
   }
 
-  function open() {
+  let lastFocus = null;
+  let closeTimer = null;
+
+  function lockPage(locked) {
+    document.documentElement.classList.toggle("atc-lock", locked);
+    document.body.classList.toggle("atc-lock", locked);
+  }
+
+  function ensureFrameLoaded() {
+    if (
+      frame.src === "about:blank" ||
+      frame.getAttribute("src") === "about:blank"
+    ) {
+      frame.src = frame.dataset.src;
+    }
+  }
+
+  function openModal() {
+    clearTimeout(closeTimer);
+
     lastFocus = document.activeElement;
-    modal.classList.add('is-open');   // render
-    requestAnimationFrame(()=> modal.classList.add('is-anim')); // fade in
-    modal.setAttribute('aria-hidden','false');
-    lockBody(true);
-    closeBtn?.focus();
-  }
+    ensureFrameLoaded();
 
-  function close() {
-    modal.classList.remove('is-anim');
-    modal.addEventListener('transitionend', function handler(){
-      modal.classList.remove('is-open');
-      modal.removeEventListener('transitionend', handler);
+    modal.classList.add("is-open");
+    modal.setAttribute("aria-hidden", "false");
+    openBtn.setAttribute("aria-expanded", "true");
+    lockPage(true);
+
+    requestAnimationFrame(() => {
+      modal.classList.add("is-anim");
+      closeBtn.focus();
     });
-    modal.setAttribute('aria-hidden','true');
-    lockBody(false);
-    if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
 
-  openBtn?.addEventListener('click', open);
-  closeBtn?.addEventListener('click', close);
-  backdrop?.addEventListener('click', close);
-  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && modal.classList.contains('is-open')) close(); });
+  function finishClose() {
+    modal.classList.remove("is-open");
+    modal.setAttribute("aria-hidden", "true");
+    openBtn.setAttribute("aria-expanded", "false");
+    lockPage(false);
 
-  // Fullscreen API toggle (with Safari/WebKit fallback)
-  async function toggleFull() {
+    if (lastFocus && typeof lastFocus.focus === "function") {
+      lastFocus.focus();
+    }
+  }
+
+  function closeModal() {
+    modal.classList.remove("is-anim");
+
+    clearTimeout(closeTimer);
+    closeTimer = setTimeout(finishClose, 220);
+  }
+
+  async function toggleFullscreen() {
     try {
-      if (document.fullscreenElement || document.webkitFullscreenElement) {
-        if (document.exitFullscreen) await document.exitFullscreen();
-        else if (document.webkitExitFullscreen) await document.webkitExitFullscreen();
-      } else {
-        if (frame.requestFullscreen) await frame.requestFullscreen();
-        else if (frame.webkitRequestFullscreen) await frame.webkitRequestFullscreen();
-      }
-    } catch(e){ console.warn('Fullscreen not available', e); }
-  }
-  fullBtn?.addEventListener('click', toggleFull);
+      const fullscreenElement =
+        document.fullscreenElement ||
+        document.webkitFullscreenElement;
 
-  // Optional: auto-open once per session
-  try { const k='atc_auto_opened';
-    if (!sessionStorage.getItem(k)) { sessionStorage.setItem(k,'1'); open(); }
-  } catch (_) {}
+      if (fullscreenElement) {
+        if (document.exitFullscreen) {
+          await document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        }
+
+        return;
+      }
+
+      if (frame.requestFullscreen) {
+        await frame.requestFullscreen();
+      } else if (frame.webkitRequestFullscreen) {
+        frame.webkitRequestFullscreen();
+      }
+    } catch (error) {
+      console.warn("Fullscreen is unavailable:", error);
+    }
+  }
+
+  openBtn.addEventListener("click", openModal);
+  closeBtn.addEventListener("click", closeModal);
+  backdrop.addEventListener("click", closeModal);
+  fullBtn.addEventListener("click", toggleFullscreen);
+
+  document.addEventListener("keydown", (event) => {
+    if (
+      event.key === "Escape" &&
+      modal.classList.contains("is-open") &&
+      !document.fullscreenElement
+    ) {
+      closeModal();
+    }
+  });
 })();
 </script>
-
-
-## 📘 Overview
-| Feature              | Description                                                                                                                                                                |
-| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Gameplay**         | Tune a hub-and-spoke schedule: choose waves, first hub arrival, spacing, spoke distances, and altitude layers to run the network efficiently.                              |
-| **Objective**        | Serve demand while minimizing **Total Logistics Cost (TLC)** and avoiding 3D airspace conflicts.                                                                           |
-| **Network**          | Single hub with two corridors (H↔E, H↔W); optional through flows (E↔W) via the hub.                                                                                        |
-| **Airspace Model**   | Discrete flight levels (e.g., **FL290–370**) with same-level separation in minutes; vertical deconfliction by assigning different FLs. Pins show each leg’s cruise window. |
-| **Scheduling Rules** | Banked waves, **45-min hub layover**, **30-min spoke turns**, LF capped at ~80% per flight.                                                                                |
-| **Cost Function**    | **TLC = OWN + BLK + SVC + VOT_Travel + VOT_SchedDelay** (ownership, block-hour, servicing, value-of-time for travel & schedule delay).                                     |
-| **Block Time Model** | Linear: **BH (hrs) = α + β · miles** (editable).                                                                                                                           |
-| **Capacity Check**   | Real-time check of seats vs. demand per corridor; shows flights needed and whether capacity is OK.                                                                         |
-| **3D Viewer**        | Interactive, borderless mode; drag to rotate, **Shift+drag** to pan, wheel to zoom; conflicts highlighted.                                                                 |
-| **Controls**         | Sliders/inputs for waves, arrival time, spacing, miles, α/β, FL list, and separation; quick reset + fullscreen.                                                            |
-| **Scoring/Metrics**  | Live TLC breakdown, average travel & schedule delay, block-hours, conflicts count, and capacity status.                                                                    |
-| **Session Flow**     | Open-ended sandbox (no timer); iterate to deconflict airspace and drive TLC down.                                                                                          |
-| **Inspiration**      | Banked-hub scheduling and ATC separation concepts adapted from university transport/ATC assignments.                                                                       |
-
-
