@@ -48,6 +48,7 @@ nav:
   - Interactive Lab:
       - Overview: lab/index.md
       - ✈️ ULR Procedure Trainer: lab/a350sim.md
+      - 🚁 IAMD: lab/ads.md
       - ✈️ ATC Scheduler: lab/atc.md
       - 🧩 PartMatrix Demo: lab/partmatrix.md
       - 🛹 Siemens AGV Simulation: lab/agv.md
