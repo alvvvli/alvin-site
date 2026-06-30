@@ -49,14 +49,16 @@
     <p>I'm Alvin.</p>
     <p>I study and build systems that move industries — across logistics, infrastructure, and manufacturing.</p>
     <p>My focus is precision, clarity, and discipline in how things run.</p>
+    <p>Building reliable systems where engieering, operations, and infrastructure meet.</p>
+    <div class="section-label">Experience</div>
     <div class="md-tags">
       <span class="md-tag">GE Vernova</span>
       <span class="md-tag">FAA AT-SA</span>
       <span class="md-tag">InnoTrans</span>
       <span class="md-tag">ILA-Berlin</span>
       <span class="md-tag">Singapore Airshow</span>
-    </div>
-
+  </div>
+  <div class="section-label">Experience</div>
   <div class="md-tags">
       <span class="md-tag">UC Berkeley</span>
       <span class="md-tag">National University of Singapore</span>
