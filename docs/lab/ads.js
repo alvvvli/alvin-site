@@ -5,7 +5,7 @@
 
 (() => {
   "use strict";
-
+ 
   const WORLD_POLYGONS = [
     [
       [180.0, -16.067],
