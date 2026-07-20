@@ -13,7 +13,7 @@
   </button>
 
   <a
-    href="../atc-embed.html?v=6"
+    href="../atc-embed.html"
     class="md-button"
     target="_blank"
     rel="noopener noreferrer">
@@ -186,7 +186,7 @@
         id="atc-iframe"
         class="atc-frame"
         src="about:blank"
-        data-src="../atc-embed.html?v=6"
+        data-src="../atc-embed.html"
         title="ATC Hub Scheduler"
         allow="fullscreen"
         allowfullscreen>
