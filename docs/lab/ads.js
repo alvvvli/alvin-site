@@ -5981,11 +5981,15 @@
   });
 
   function frame(now) {
-    const dt = Math.min(0.05, Math.max(0, (now - state.lastTime) / 1000));
-    state.lastTime = now;
+  const dt = Math.min(0.05, Math.max(0, (now - state.lastTime) / 1000));
+  state.lastTime = now;
+  try {
     if (state.running) update(dt);
     render();
-    requestAnimationFrame(frame);
+  } catch (err) {
+    console.error("Render error:", err);
+  }
+  requestAnimationFrame(frame); // always keep scheduling, even after an error
   }
   resizeCanvas();
   formatClock();
