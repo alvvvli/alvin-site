@@ -4941,6 +4941,10 @@
   ];
 
   const canvas = document.getElementById("worldMap");
+  if (!canvas) {
+    console.error("ADS init failed: #worldMap canvas not found in DOM.");
+    return; // bail out of the IIFE cleanly instead of throwing
+  }
   const ctx = canvas.getContext("2d");
   const ui = {
     clock: document.getElementById("systemClock"),
