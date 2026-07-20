@@ -13,7 +13,7 @@
   </button>
 
   <a
-    href="../atc-embed.html"
+    href="./atc-embed.html"
     class="md-button"
     target="_blank"
     rel="noopener noreferrer">
