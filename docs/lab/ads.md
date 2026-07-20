@@ -101,7 +101,7 @@ title: Global Air Operations Command
   <main class="simulation-shell">
     <iframe
       class="simulation-frame"
-      src="./air-defense-sim.html"
+      src="./ads.html"
       title="Global Air Operations Command interactive simulation"
       loading="eager"
       allow="fullscreen"
@@ -110,7 +110,7 @@ title: Global Air Operations Command
 
     <a
       class="fallback"
-      href="./air-defense-sim.html"
+      href="./ads.html"
       target="_blank"
       rel="noopener"
     >
