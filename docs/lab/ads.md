@@ -13,7 +13,7 @@ title: Global Air Operations Command
     name="description"
     content="Interactive fictional global air operations and defence command simulation."
   >
-  <title>Global Air Operations Command</title>
+  <title>Integrated Air and Missile Defense (IAMD)</title>
 
   <style>
     :root {
@@ -31,15 +31,6 @@ title: Global Air Operations Command
 
     * {
       box-sizing: border-box;
-    }
-
-    html,
-    body {
-      width: 100%;
-      min-height: 100%;
-      margin: 0;
-      background: #050b0e;
-      color: #d6edf2;
     }
 
     body {
