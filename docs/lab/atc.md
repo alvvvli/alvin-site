@@ -186,7 +186,7 @@
         id="atc-iframe"
         class="atc-frame"
         src="about:blank"
-        data-src="../atc-embed.html"
+        data-src="./atc-embed.html"
         title="ATC Hub Scheduler"
         allow="fullscreen"
         allowfullscreen>
