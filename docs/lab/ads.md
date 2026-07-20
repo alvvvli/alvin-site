@@ -105,7 +105,7 @@ title: Global Air Operations Command
       target="_blank"
       rel="noopener"
     >
-      Open simulator directly
+      ↗️New Tab
     </a>
   </main>
 </body>
