@@ -5997,7 +5997,7 @@
     if (state.running) update(dt);
     render();
   } catch (err) {
-    console.error("Render error:", err);
+    console.error("Render error:", err); 
   }
   requestAnimationFrame(frame); // always keep scheduling, even after an error
   }
