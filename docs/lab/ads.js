@@ -5142,6 +5142,22 @@
     canvas.height = Math.round(rect.height * dpr);
     ctx.setTransform(canvas.width / WORLD.width, 0, 0, canvas.height / WORLD.height, 0, 0);
   }
+ function project(lon, lat) {
+  const x = ((wrapLon(lon - view.centerLon) + 180) / 360) * WORLD.width;
+  const y = ((90 - (lat - view.centerLat)) / 180) * WORLD.height;
+  return {
+    x: (x - WORLD.width / 2) * view.zoom + WORLD.width / 2,
+    y: (y - WORLD.height / 2) * view.zoom + WORLD.height / 2,
+  };
+}
+function projectAt(lon, lat, lonOffset) {
+  const x = (((lon + lonOffset) - view.centerLon) / 360) * WORLD.width + WORLD.width / 2;
+  const y = ((90 - (lat - view.centerLat)) / 180) * WORLD.height;
+  return {
+    x: (x - WORLD.width / 2) * view.zoom + WORLD.width / 2,
+    y: (y - WORLD.height / 2) * view.zoom + WORLD.height / 2,
+  };
+}
   function projectAt(lon, lat, lonOffset) {
     const x = (((lon + lonOffset) - view.centerLon) / 360) * WORLD.width + WORLD.width / 2;
     const y = ((90 - (lat - view.centerLat)) / 180) * WORLD.height;
