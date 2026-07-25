@@ -5531,7 +5531,16 @@
   }
   function drawScreenLine(points) {
     ctx.beginPath();
-    points.forEach((p, i) => (i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)));
+    let prev = null;
+    for (const p of points) {
+      const jumped = prev && Math.abs(p.x - prev.x) > WORLD.width / 2;
+      if (!prev || jumped) {
+        ctx.moveTo(p.x, p.y);
+      } else {
+        ctx.lineTo(p.x, p.y);
+      }
+      prev = p;
+    }
     ctx.stroke();
   }
   function drawNightLayer() {
