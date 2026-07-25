@@ -1,7 +1,7 @@
 # ✈️ ATC Scheduler
 
 <a
-  href="../atc.html"
+  href="../atc-embed.html"
   class="md-button md-button--primary"
   target="_blank"
   rel="noopener noreferrer">
