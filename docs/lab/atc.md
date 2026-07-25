@@ -13,12 +13,12 @@
   </button>
 
   <a
-    href="./atc-embed.html"
-    class="md-button"
-    target="_blank"
-    rel="noopener noreferrer">
-    ↗ Open separate tab
-  </a>
+    href="../atc-embed.html"
+  class="md-button"
+  target="_blank"
+  rel="noopener noreferrer">
+  ↗ Open separate tab
+</a>
 </div>
 
 <style>
@@ -186,7 +186,7 @@
         id="atc-iframe"
         class="atc-frame"
         src="about:blank"
-        data-src="./atc-embed.html"
+        data-src="../atc-embed.html"
         title="ATC Hub Scheduler"
         allow="fullscreen"
         allowfullscreen>
