@@ -2,145 +2,19 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-
     <title>ATC Hub Scheduler — 3D Segways Edition</title>
-
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1"
-    />
-
-    <!-- React + ReactDOM -->
-    <script
-      crossorigin
-      src="https://unpkg.com/react@18/umd/react.production.min.js">
-    </script>
-
-    <script
-      crossorigin
-      src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js">
-    </script>
-
-    <!-- Babel JSX transpiler -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
     <style>
-      html,
-      body {
-        margin: 0;
-        width: 100%;
-        min-height: 100%;
-        background: #0b0f14;
-        color: #e6eef9;
-        font-family: system-ui, "Segoe UI", Roboto, sans-serif;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      .page-pad {
-        width: 100%;
-        min-height: 100vh;
-        padding:
-          max(8px, env(safe-area-inset-top))
-          max(20px, env(safe-area-inset-right))
-          max(8px, env(safe-area-inset-bottom))
-          max(20px, env(safe-area-inset-left));
-      }
-
-      #root {
-        width: 100%;
-        min-height: 100vh;
-      }
-
-      .frame-rounded {
-        border-radius: 12px;
-        background-clip: padding-box;
-      }
-
-      @media (min-width: 768px) {
-        .page-pad {
-          padding-left: max(24px, env(safe-area-inset-left));
-          padding-right: max(24px, env(safe-area-inset-right));
-        }
-      }
-
-      :root:fullscreen,
-      body:fullscreen,
-      .page-pad:fullscreen,
-      #root:fullscreen {
-        width: 100% !important;
-        min-height: 100vh !important;
-        overflow-y: auto !important;
-      }
-
-      :-webkit-full-screen,
-      .page-pad:-webkit-full-screen,
-      #root:-webkit-full-screen {
-        width: 100% !important;
-        min-height: 100vh !important;
-        overflow-y: auto !important;
-      }
+      html, body { margin: 0; width: 100%; min-height: 100%; background: #0b0f14; color: #e6eef9; font-family: system-ui, "Segoe UI", Roboto, sans-serif; }
+      * { box-sizing: border-box; }
+      #root { width: 100%; min-height: 100vh; }
     </style>
   </head>
-
   <body>
-    <div class="page-pad frame-rounded">
-      <div id="root"></div>
-    </div>
-
-    <!-- App defines and mounts itself -->
-    <script
-      type="text/babel"
-      data-presets="react"
-      src="atc.jsx">
-    </script>
-
-    <script>
-      function fsTarget() {
-        return document.querySelector(".page-pad")
-          || document.documentElement;
-      }
-
-      window.enterFullscreen = async () => {
-        const element = fsTarget();
-
-        try {
-          if (element.requestFullscreen) {
-            await element.requestFullscreen();
-          } else if (element.webkitRequestFullscreen) {
-            element.webkitRequestFullscreen();
-          }
-        } catch (error) {
-          console.warn("Fullscreen request failed:", error);
-        }
-      };
-
-      window.exitFullscreen = async () => {
-        try {
-          if (document.exitFullscreen) {
-            await document.exitFullscreen();
-          } else if (document.webkitExitFullscreen) {
-            document.webkitExitFullscreen();
-          }
-        } catch (error) {
-          console.warn("Fullscreen exit failed:", error);
-        }
-      };
-
-      document.addEventListener("fullscreenchange", () => {
-        const element =
-          document.fullscreenElement
-          || document.webkitFullscreenElement;
-
-        if (element) {
-          element.style.overflowY = "auto";
-          element.style.minHeight = "100vh";
-        }
-      });
-    </script>
+    <div id="root"></div>
+    <script type="text/babel" data-presets="react" src="atc.jsx"></script>
   </body>
 </html>
