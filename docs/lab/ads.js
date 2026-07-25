@@ -5142,8 +5142,8 @@
     canvas.height = Math.round(rect.height * dpr);
     ctx.setTransform(canvas.width / WORLD.width, 0, 0, canvas.height / WORLD.height, 0, 0);
   }
-  function project(lon, lat) {
-    const x = ((wrapLon(lon - view.centerLon) + 180) / 360) * WORLD.width;
+  function projectAt(lon, lat, lonOffset) {
+    const x = (((lon + lonOffset) - view.centerLon) / 360) * WORLD.width + WORLD.width / 2;
     const y = ((90 - (lat - view.centerLat)) / 180) * WORLD.height;
     return {
       x: (x - WORLD.width / 2) * view.zoom + WORLD.width / 2,
@@ -5485,24 +5485,24 @@
     state.effects = state.effects.filter((e) => e.alpha > 0);
     updateUi(false);
   }
-
   function drawMap() {
-    const grad = ctx.createLinearGradient(0, 0, 0, WORLD.height);
-    grad.addColorStop(0, "#071824");
-    grad.addColorStop(0.55, "#071a1e");
-    grad.addColorStop(1, "#061116");
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, WORLD.width, WORLD.height);
-    drawGrid();
-    drawNightLayer();
-    ctx.save();
-    ctx.fillStyle = COLORS.land;
-    ctx.strokeStyle = COLORS.coast;
-    ctx.lineWidth = Math.max(0.45, 1 / view.zoom);
-    for (const ring of WORLD_POLYGONS) {
+  const grad = ctx.createLinearGradient(0, 0, 0, WORLD.height);
+  grad.addColorStop(0, "#071824");
+  grad.addColorStop(0.55, "#071a1e");
+  grad.addColorStop(1, "#061116");
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, WORLD.width, WORLD.height);
+  drawGrid();
+  drawNightLayer();
+  ctx.save();
+  ctx.fillStyle = COLORS.land;
+  ctx.strokeStyle = COLORS.coast;
+  ctx.lineWidth = Math.max(0.45, 1 / view.zoom);
+  for (const ring of WORLD_POLYGONS) {
+    for (const lonOffset of [-360, 0, 360]) {
       ctx.beginPath();
       for (let i = 0; i < ring.length; i++) {
-        const p = project(ring[i][0], ring[i][1]);
+        const p = projectAt(ring[i][0], ring[i][1], lonOffset);
         if (i === 0) ctx.moveTo(p.x, p.y);
         else ctx.lineTo(p.x, p.y);
       }
@@ -5510,9 +5510,10 @@
       ctx.fill();
       ctx.stroke();
     }
-    ctx.restore();
-    drawGridLabels();
   }
+  ctx.restore();
+  drawGridLabels();
+}
   function drawGrid() {
     ctx.save();
     ctx.strokeStyle = COLORS.grid;
