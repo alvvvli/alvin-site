@@ -9,10 +9,21 @@
 # Avionics at SG Airshow 2026: the cockpit deals nobody photographs
 No one queues for a selfie with a flight management system, but the avionics chalets at Changi were where some of the show's stickiest, longest-term contracts got signed.
 
-<div class="hero">
-  <img src="/alvin-site/JPG_VID/sa29.jpeg?v=3" alt="Avionics chalet row at Singapore Airshow 2026">
-  <img src="/alvin-site/JPG_VID/sa30.jpeg?v=3" alt="Avionics chalet row at Singapore Airshow 2026">
-  <p class="hero__caption">Pro Line Fusion integrated avionics system by Collins Aerospace</p>
+<div style="display:flex;justify-content:center;gap:10px;margin-bottom:20px;">
+  <iframe
+    src="https://www.youtube.com/embed/MvVdJV1liIs"
+    style="width:48%;aspect-ratio:9/16;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);overflow:hidden;"
+    frameborder="0"
+    allowfullscreen>
+  </iframe>
+</div>
+<div style="display:flex;justify-content:center;gap:10px;margin-bottom:20px;">
+  <iframe
+    src="https://www.youtube.com/embed/MvVdJV1liIs"
+    style="width:48%;aspect-ratio:9/16;border-radius:12px;box-shadow:0 0 12px rgba(0,0,0,0.4);overflow:hidden;"
+    frameborder="0"
+    allowfullscreen>
+  </iframe>
 </div>
 
 ## What was on the table
@@ -21,6 +32,12 @@ No one queues for a selfie with a flight management system, but the avionics cha
 - **RTX doubles down on Singapore** — Singapore's Economic Development Board signed fresh MoUs with RTX businesses Collins Aerospace and Pratt & Whitney, who will each add new capabilities locally to support next-generation commercial aircraft platforms. RTX put the figure at over US$139 million in planned investment, building on a five-decade presence in the country.
 - **Radar as a joint venture** — Airbus and ST Engineering agreed to jointly develop 3D radar capability, a sign that even sensor hardware is increasingly a co-development story rather than a single-vendor sale.
 - **Predictive over reactive** — Embraer and Virgin Australia Regional Airlines signed on for the AHEAD digital predictive maintenance system across the airline's E2 fleet, pulling real-time data from engines, hydraulics and avionics to flag issues before they ground an aircraft.
+
+<div class="hero">
+  <img src="/alvin-site/JPG_VID/sa29.jpeg?v=3" alt="Avionics chalet row at Singapore Airshow 2026">
+  <img src="/alvin-site/JPG_VID/sa30.jpeg?v=3" alt="Avionics chalet row at Singapore Airshow 2026">
+  <p class="hero__caption">Pro Line Fusion integrated avionics system by Collins Aerospace</p>
+</div>
 
 Spend an afternoon in these halls and the pattern is obvious: the interesting news isn't a new box, it's who's agreeing to bolt whose box into whose airframe for the next fifteen years.
 
