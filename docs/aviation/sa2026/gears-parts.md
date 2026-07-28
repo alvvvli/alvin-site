@@ -21,13 +21,11 @@ No flying display, no ribbon cutting — just a contract announcement about land
 - **The bigger backdrop** — regional show coverage kept circling back to the same point: appetite for single-aisle and regional aircraft is intensifying across Vietnam, Cambodia and Malaysia, and every one of those aircraft eventually needs the same landing gear, spares and distribution network this deal is built on.
 
 <div class="img-grid">
-  <img src="/alvin-site/JPG_VID/sa27.jpeg?v=3" alt="Boeing Global Services parts and distribution booth">
-  <img src="/alvin-site/JPG_VID/sa28.jpeg?v=3" alt="737 MAX landing gear component close-up">
-  <img src="/alvin-site/JPG_VID/sa29.jpeg?v=3" alt="787 Dreamliner main gear on a maintenance stand">
-  <img src="/alvin-site/JPG_VID/sa30.jpeg?v=3" alt="Singapore Airlines livery detail">
-  <img src="/alvin-site/JPG_VID/sa31.jpeg?v=3" alt="Spare parts inventory display panel">
-  <img src="/alvin-site/JPG_VID/sa32.jpeg?v=3" alt="Aircraft components supplier booth at Changi Exhibition Centre">
-  <img src="/alvin-site/JPG_VID/sa33.jpeg?v=3" alt="Overview of the parts and supply chain exhibition hall">
+  <img src="/alvin-site/JPG_VID/sa21.jpeg?v=3" alt="Boeing Global Services parts and distribution booth">
+  <img src="/alvin-site/JPG_VID/sa32.jpeg?v=3" alt="737 MAX landing gear component close-up">
+  <img src="/alvin-site/JPG_VID/sa22.jpeg?v=3" alt="787 Dreamliner main gear on a maintenance stand">
+  <img src="/alvin-site/JPG_VID/sa24.jpeg?v=3" alt="Singapore Airlines livery detail">
+  <img src="/alvin-site/JPG_VID/sa25.jpeg?v=3" alt="Spare parts inventory display panel">
 </div>
 
 It's not a jet you can photograph mid-flypast, but a landing gear exchange contract this size is the kind of deal that quietly keeps dozens of aircraft flying on schedule for the next decade.
