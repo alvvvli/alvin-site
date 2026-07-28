@@ -24,4 +24,4 @@ No one queues for a selfie with a flight management system, but the avionics cha
 
 Spend an afternoon in these halls and the pattern is obvious: the interesting news isn't a new box, it's who's agreeing to bolt whose box into whose airframe for the next fifteen years.
 
-#Avionics #Thales #Honeywell #RTX #SingaporeAirshow2026 #CollinsAerospace
+`#Avionics` `#Thales` `#Honeywell` `#RTX` `#SingaporeAirshow2026` `#CollinsAerospace`
