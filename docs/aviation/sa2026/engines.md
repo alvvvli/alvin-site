@@ -10,8 +10,8 @@
 The engine story at this show split cleanly into two threads — how fast MRO shops can turn engines around, and how confident airlines are in ordering more of them despite a rough couple of years for one engine family in particular.
 
 <div class="hero">
-  <img src="/alvin-site/JPG_VID/sa18.jpeg?v=3" alt="Jet engine on display at Singapore Airshow 2026">
-  <p class="hero__caption">One of the GTF-family engines drawing a crowd on the chalet row.</p>
+  <img src="/alvin-site/JPG_VID/sa43.jpeg?v=3" alt="Jet engine on display at Singapore Airshow 2026">
+  <p class="hero__caption">One of the Rolls-Royce Trent XWB engines drawing a crowd on the chalet row.</p>
 </div>
 
 ## What stood out
@@ -21,13 +21,13 @@ The engine story at this show split cleanly into two threads — how fast MRO sh
 - **The usual suspects, present in force** — GE Aerospace and Rolls-Royce both exhibited, alongside RTX's engine businesses, reflecting how much of the show's floor space at Changi is now given over to propulsion and its aftermarket rather than airframes.
 
 <div class="img-grid">
-  <img src="/alvin-site/JPG_VID/sa19.jpeg?v=3" alt="Pratt and Whitney Eagle Services Asia display">
-  <img src="/alvin-site/JPG_VID/sa20.jpeg?v=3" alt="GTF engine cutaway model">
-  <img src="/alvin-site/JPG_VID/sa21.jpeg?v=3" alt="Vietjet A320neo family aircraft model">
-  <img src="/alvin-site/JPG_VID/sa22.jpeg?v=3" alt="Rolls-Royce engine stand at Changi Exhibition Centre">
-  <img src="/alvin-site/JPG_VID/sa23.jpeg?v=3" alt="GE Aerospace engine display">
-  <img src="/alvin-site/JPG_VID/sa24.jpeg?v=3" alt="APS5000 auxiliary power unit model">
-  <img src="/alvin-site/JPG_VID/sa25.jpeg?v=3" alt="Engine MRO shop floor demonstration booth">
+  <img src="/alvin-site/JPG_VID/sa8.jpeg?v=3" alt="Pratt and Whitney Eagle Services Asia display">
+  <img src="/alvin-site/JPG_VID/sa12.jpeg?v=3" alt="GTF engine cutaway model">
+  <img src="/alvin-site/JPG_VID/sa11.jpeg?v=3" alt="Vietjet A320neo family aircraft model">
+  <img src="/alvin-site/JPG_VID/sa50.jpeg?v=3" alt="Rolls-Royce engine stand at Changi Exhibition Centre">
+  <img src="/alvin-site/JPG_VID/sa42.jpeg?v=3" alt="GE Aerospace engine display">
+  <img src="/alvin-site/JPG_VID/sa39.jpeg?v=3" alt="APS5000 auxiliary power unit model">
+  <img src="/alvin-site/JPG_VID/sa46.jpeg?v=3" alt="Engine MRO shop floor demonstration booth">
 </div>
 
 Standing next to the GTF cutaway, it's worth remembering both halves of this story are true at once: the fleet has real grounding problems right now, and airlines are still ordering it by the hundred — a bet on where the fix curve is headed, not where it is today.
