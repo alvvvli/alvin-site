@@ -10,7 +10,7 @@
 The 10th edition leaned harder into defense than any recent show, and the static park and aerobatic schedule both read like a snapshot of where Asia-Pacific military spending is actually headed in 2026.
 
 <div class="hero">
-  <img src="/alvin-site/JPG_VID/sa9.jpeg?v=3" alt="RSAF static display at Singapore Airshow 2026">
+  <img src="/alvin-site/JPG_VID/sa34.jpeg?v=3" alt="RSAF static display at Singapore Airshow 2026">
   <p class="hero__caption">RSAF's static park footprint — bigger than usual this year.</p>
 </div>
 
@@ -23,14 +23,17 @@ The 10th edition leaned harder into defense than any recent show, and the static
 - **Space entered the conversation** — the first Space Summit ran alongside the airshow, and Singapore announced it would establish a National Space Agency, which was formally stood up in April.
 
 <div class="img-grid">
-  <img src="/alvin-site/JPG_VID/sa10.jpeg?v=3" alt="Chengdu J-10 aerobatic display, Singapore Airshow 2026">
-  <img src="/alvin-site/JPG_VID/sa11.jpeg?v=3" alt="J-35 stealth fighter model on display">
-  <img src="/alvin-site/JPG_VID/sa12.jpeg?v=3" alt="RSAF F-15SG on the flight line">
-  <img src="/alvin-site/JPG_VID/sa13.jpeg?v=3" alt="HAL Dhruv Sarang display team helicopters">
-  <img src="/alvin-site/JPG_VID/sa14.jpeg?v=3" alt="Indonesian Jupiter Aerobatic Team KT-1B Wongbee">
-  <img src="/alvin-site/JPG_VID/sa15.jpeg?v=3" alt="Rafael SPIKE loitering munition display">
-  <img src="/alvin-site/JPG_VID/sa16.jpeg?v=3" alt="ST Engineering EagleStrike loitering munition">
+  <img src="/alvin-site/JPG_VID/sa16.jpeg?v=3" alt="Chengdu J-10 aerobatic display, Singapore Airshow 2026">
+  <img src="/alvin-site/JPG_VID/sa17.jpeg?v=3" alt="J-35 stealth fighter model on display">
+  <img src="/alvin-site/JPG_VID/sa18.jpeg?v=3" alt="RSAF F-15SG on the flight line">
+  <img src="/alvin-site/JPG_VID/sa19.jpeg?v=3" alt="HAL Dhruv Sarang display team helicopters">
+  <img src="/alvin-site/JPG_VID/sa35.jpeg?v=3" alt="Indonesian Jupiter Aerobatic Team KT-1B Wongbee">
+  <img src="/alvin-site/JPG_VID/sa36.jpeg?v=3" alt="Rafael SPIKE loitering munition display">
+  <img src="/alvin-site/JPG_VID/sa37.jpeg?v=3" alt="ST Engineering EagleStrike loitering munition">
   <img src="/alvin-site/JPG_VID/sa17.jpeg?v=3" alt="Space Summit 2026 exhibition area">
+  <img src="/alvin-site/JPG_VID/sa51.jpeg?v=3" alt="Space Summit 2026 exhibition area">
+  <img src="/alvin-site/JPG_VID/sa52.jpeg?v=3" alt="Space Summit 2026 exhibition area">
+  <img src="/alvin-site/JPG_VID/sa53.jpeg?v=3" alt="Space Summit 2026 exhibition area">
 </div>
 
 Walking the static park this year, the split was obvious: fewer mega fighter-jet orders than a Paris or Dubai show, but a lot more hardware aimed at exactly the drone and loitering-munition threats every operator here is now planning around.
