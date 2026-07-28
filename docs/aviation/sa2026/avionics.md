@@ -6,7 +6,7 @@
 .img-grid img { width: 100%; border-radius: 10px; box-shadow: 0 0 8px rgba(0,0,0,0.3); }
 </style>
 
-# Avionics at Singapore Airshow 2026: the cockpit deals nobody photographs
+# Avionics at SG Airshow 2026: the cockpit deals nobody photographs
 No one queues for a selfie with a flight management system, but the avionics chalets at Changi were where some of the show's stickiest, longest-term contracts got signed.
 
 <div class="hero">
