@@ -10,7 +10,7 @@
 Fixed-wing gets the headline flypasts, but the rotary side of ILA 2026 was arguably where the more consequential story played out — a clean-sheet European attack helicopter looking for a home, right as Germany's current one heads toward retirement.
 
 <div class="hero">
-  <img src="/alvin-site/JPG_VID/ila20.jpeg?v=3" alt="Leonardo AW249 combat helicopter at ILA Berlin 2026">
+  <img src="/alvin-site/JPG_VID/ila36.jpg?v=3" alt="Leonardo AW249 combat helicopter at ILA Berlin 2026">
   <p class="hero__caption">The AW249 on its international flying-display debut.</p>
 </div>
 
@@ -22,10 +22,8 @@ Fixed-wing gets the headline flypasts, but the rotary side of ILA 2026 was argua
 - **Where Germany builds its helicopters** — Donauwörth is Airbus's main German helicopter site, assembling the H135, H145, H145M and NH90 — worth knowing next time one of these types is spotted anywhere in Europe.
 
 <div class="img-grid">
-  <img src="/alvin-site/JPG_VID/ila21.jpeg?v=3" alt="AW249 cockpit display detail">
-  <img src="/alvin-site/JPG_VID/ila22.jpeg?v=3" alt="Airbus PioneerLab H145 technology demonstrator">
-  <img src="/alvin-site/JPG_VID/ila23.jpeg?v=3" alt="Racer high-speed helicopter demonstrator in flight">
-  <img src="/alvin-site/JPG_VID/ila24.jpeg?v=3" alt="German Army Tiger attack helicopter on static display">
+  <img src="/alvin-site/JPG_VID/ila19.jpeg?v=3" alt="AW249 cockpit display detail">
+  <img src="/alvin-site/JPG_VID/ila20.jpeg?v=3" alt="Airbus PioneerLab H145 technology demonstrator">
 </div>
 
 Standing between the Tiger and the AW249 on the static park, it's basically watching a changing of the guard play out in real time — one helicopter counting down to retirement, the other still auditioning for the job.
