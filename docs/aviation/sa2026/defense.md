@@ -31,9 +31,9 @@ The 10th edition leaned harder into defense than any recent show, and the static
   <img src="/alvin-site/JPG_VID/sa36.jpeg?v=3" alt="Rafael SPIKE loitering munition display">
   <img src="/alvin-site/JPG_VID/sa37.jpeg?v=3" alt="ST Engineering EagleStrike loitering munition">
   <img src="/alvin-site/JPG_VID/sa17.jpeg?v=3" alt="Space Summit 2026 exhibition area">
-  <img src="/alvin-site/JPG_VID/sa51.jpeg?v=3" alt="Space Summit 2026 exhibition area">
-  <img src="/alvin-site/JPG_VID/sa52.jpeg?v=3" alt="Space Summit 2026 exhibition area">
-  <img src="/alvin-site/JPG_VID/sa53.jpeg?v=3" alt="Space Summit 2026 exhibition area">
+  <img src="/alvin-site/JPG_VID/sa51.jpg?v=3" alt="Space Summit 2026 exhibition area">
+  <img src="/alvin-site/JPG_VID/sa52.jpg?v=3" alt="Space Summit 2026 exhibition area">
+  <img src="/alvin-site/JPG_VID/sa53.jpg?v=3" alt="Space Summit 2026 exhibition area">
 </div>
 
 Walking the static park this year, the split was obvious: fewer mega fighter-jet orders than a Paris or Dubai show, but a lot more hardware aimed at exactly the drone and loitering-munition threats every operator here is now planning around.
