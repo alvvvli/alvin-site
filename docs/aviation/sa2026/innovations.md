@@ -10,9 +10,7 @@
 Every show has an eVTOL hall now, but this year one exhibit stood out precisely because it wasn't another Western or Chinese prototype — it was homegrown.
 
 <div class="hero">
-  <img src="/alvin-site/JPG_VID/sa34.jpeg?v=3" alt="NTU Singapore eVTOL technology demonstrator unveiled at Singapore Airshow 2026">
-  <p class="hero__caption">NTU's eVTOL demonstrator, unveiled on opening day.</p>
-</div>
+  <img src="/alvin-site/JPG_VID/sa54.jpg?v=3">
 
 ## The homegrown headline
 - **Singapore's first full-scale eVTOL** — Nanyang Technological University unveiled an eight-metre-wingspan electric vertical take-off and landing demonstrator, developed over more than three years by a team led by Professor James Wang. Eight wing-mounted lift rotors, each on custom NTU-designed electric motors, handle vertical lift from confined spaces, while a rear pusher propeller takes over for efficient forward flight — pairing fixed-wing efficiency with helicopter-style hover.
@@ -22,14 +20,8 @@ Every show has an eVTOL hall now, but this year one exhibit stood out precisely 
 - **The wider AAM crowd** — Boeing's Wisk let visitors try VR headsets simulating a flight aboard its autonomous air taxi; Eve Air Mobility (part of the Embraer group) and Canada's Horizon Aircraft both attended; and UK-based Vertical Aerospace announced two Asia-focused moves — air-taxi route planning in Japan with Marubeni Corporation, and a Singapore-government-backed trial of emergency medical service flights using its Valo eVTOL, with flight testing planned for later in the year.
 
 <div class="img-grid">
-  <img src="/alvin-site/JPG_VID/sa35.jpeg?v=3" alt="NTU eVTOL lift rotor close-up">
-  <img src="/alvin-site/JPG_VID/sa36.jpeg?v=3" alt="Wisk autonomous air taxi VR experience booth">
-  <img src="/alvin-site/JPG_VID/sa37.jpeg?v=3" alt="Vertical Aerospace Valo eVTOL model">
-  <img src="/alvin-site/JPG_VID/sa38.jpeg?v=3" alt="Eve Air Mobility exhibit at Singapore Airshow 2026">
-  <img src="/alvin-site/JPG_VID/sa39.jpeg?v=3" alt="Horizon Aircraft display">
-  <img src="/alvin-site/JPG_VID/sa40.jpeg?v=3" alt="AeroForum session on advanced air mobility">
-  <img src="/alvin-site/JPG_VID/sa41.jpeg?v=3" alt="Crowd around the NTU eVTOL unveiling">
-  <img src="/alvin-site/JPG_VID/sa42.jpeg?v=3" alt="NTU eVTOL full aircraft on static display">
+  <img src="/alvin-site/JPG_VID/sa55.jpg?v=3" alt="NTU eVTOL lift rotor close-up">
+  <img src="/alvin-site/JPG_VID/sa56.jpg?v=3" alt="Wisk autonomous air taxi VR experience booth">
 </div>
 
 Standing under NTU's demonstrator while the PA system worked through the next AeroForum session, it was hard not to notice how different this exhibit felt from the usual polished OEM chalet — a university research aircraft, sitting proudly among the industry giants.
