@@ -66,11 +66,11 @@ nav:
           - Maintenance, Repair, and Overhaul (MRO): aviation/sa2026/mro.md
           - Innovations: aviation/sa2026/innovations.md
       - ILA Berlin 2026:
-          - "[Flying Display] A350-1000 FlightLab": aviation/ila26/35k.md
-          - "[Static Display] A310 Zero-Gravity": aviation/ila26/a310zg.md
-          - "[Flying Display] Eurofighter": aviation/ila26/ef2000.md
-          - "[Static Display] Emirates A380": aviation/ila26/ek380.md
-          - "[Flying & Static Display] Airbus Helicopters": aviation/ila26/heli.md
+          - "A350-1041 FlightLab": aviation/ila26/35k.md
+          - "A310 Zero-Gravity": aviation/ila26/a310zg.md
+          - "Eurofighter": aviation/ila26/ef2000.md
+          - "Emirates A380": aviation/ila26/ek380.md
+          - "Airbus Helicopters": aviation/ila26/heli.md
           - Integrated Air and Missile Defense (IAMD): aviation/ila26/iamd.md
       - Airbus Asia Training Centre FFS: aviation/aatc.md
       - Airbus Acubed Silicon Valley Innovation Hub: aviation/acubed.md
