@@ -11,6 +11,7 @@ Every show has an eVTOL hall now, but this year one exhibit stood out precisely 
 
 <div class="hero">
   <img src="/alvin-site/JPG_VID/sa54.jpg?v=3">
+</div>
 
 ## The homegrown headline
 - **Singapore's first full-scale eVTOL** — Nanyang Technological University unveiled an eight-metre-wingspan electric vertical take-off and landing demonstrator, developed over more than three years by a team led by Professor James Wang. Eight wing-mounted lift rotors, each on custom NTU-designed electric motors, handle vertical lift from confined spaces, while a rear pusher propeller takes over for efficient forward flight — pairing fixed-wing efficiency with helicopter-style hover.
@@ -26,4 +27,4 @@ Every show has an eVTOL hall now, but this year one exhibit stood out precisely 
 
 Standing under NTU's demonstrator while the PA system worked through the next AeroForum session, it was hard not to notice how different this exhibit felt from the usual polished OEM chalet — a university research aircraft, sitting proudly among the industry giants.
 
-#SingaporeAirshow2026 #eVTOL #AdvancedAirMobility #NTUSingapore #Innovation
+`#eVTOL` `#AdvancedAirMobility` `#NTUSingapore` `#Innovation`
