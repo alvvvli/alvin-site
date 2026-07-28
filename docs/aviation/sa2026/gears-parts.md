@@ -26,6 +26,8 @@ No flying display, no ribbon cutting — just a contract announcement about land
   <img src="/alvin-site/JPG_VID/sa22.jpeg?v=3" alt="787 Dreamliner main gear on a maintenance stand">
   <img src="/alvin-site/JPG_VID/sa24.jpeg?v=3" alt="Singapore Airlines livery detail">
   <img src="/alvin-site/JPG_VID/sa25.jpeg?v=3" alt="Spare parts inventory display panel">
+  <img src="/alvin-site/JPG_VID/sa13.jpeg?v=3" alt="Spare parts inventory display panel">
+  <img src="/alvin-site/JPG_VID/sa14.jpeg?v=3" alt="Spare parts inventory display panel">
 </div>
 
 It's not a jet you can photograph mid-flypast, but a landing gear exchange contract this size is the kind of deal that quietly keeps dozens of aircraft flying on schedule for the next decade.
