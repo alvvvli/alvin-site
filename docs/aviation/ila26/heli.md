@@ -28,5 +28,5 @@ Fixed-wing gets the headline flypasts, but the rotary side of ILA 2026 was argua
 
 Standing between the Tiger and the AW249 on the static park, it's basically watching a changing of the guard play out in real time — one helicopter counting down to retirement, the other still auditioning for the job.
 
-#AW249 #Leonardo #Eurocopter #ILABerlin2026 #AttackHelicopter #AirbusHelicopters
+`#H125` `#Leonardo` `#Eurocopter` `#ILABerlin2026` `#AttackHelicopter` `#AirbusHelicopters`
 
