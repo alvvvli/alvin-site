@@ -32,4 +32,4 @@ The engine story at this show split cleanly into two threads — how fast MRO sh
 
 Standing next to the GTF cutaway, it's worth remembering both halves of this story are true at once: the fleet has real grounding problems right now, and airlines are still ordering it by the hundred — a bet on where the fix curve is headed, not where it is today.
 
-#SingaporeAirshow2026 #PrattWhitney #GTF #GEAerospace #RollsRoyce #EngineMRO
+#SingaporeAirshow2026 #PrattWhitney #GTF #GEAerospace #RollsRoyce #EngineMRO 
