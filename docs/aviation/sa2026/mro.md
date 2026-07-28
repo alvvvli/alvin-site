@@ -10,7 +10,7 @@
 Twenty years after its 2008 debut, this 10th edition made one thing obvious: Asia-Pacific's MRO sector has grown from a support act into one of the show's core pillars, right alongside advanced air mobility and space.
 
 <div class="hero">
-  <img src="/alvin-site/JPG_VID/sa43.jpeg?v=3" alt="MRO exhibition hall at Singapore Airshow 2026">
+  <img src="/alvin-site/JPG_VID/sa23.jpeg?v=3" alt="MRO exhibition hall at Singapore Airshow 2026">
   <p class="hero__caption">The MRO and aftermarket services hall — one of the show's official pillars this year.</p>
 </div>
 
@@ -22,13 +22,9 @@ Twenty years after its 2008 debut, this 10th edition made one thing obvious: Asi
 - **A dedicated follow-up event is already on the calendar** — MRO Asia-Pacific 2026 returns to Singapore on 22–24 September, expecting more than 7,500 attendees and 350-plus exhibitors, giving the sector a second, MRO-only stage later this year.
 
 <div class="img-grid">
-  <img src="/alvin-site/JPG_VID/sa44.jpeg?v=3" alt="ST Engineering integrated MRO centre display">
-  <img src="/alvin-site/JPG_VID/sa45.jpeg?v=3" alt="Boeing and ANA predictive maintenance partnership booth">
-  <img src="/alvin-site/JPG_VID/sa46.jpeg?v=3" alt="Aircraft undergoing maintenance inspection, MRO hall">
-  <img src="/alvin-site/JPG_VID/sa47.jpeg?v=3" alt="Nacelle component on a maintenance stand">
-  <img src="/alvin-site/JPG_VID/sa48.jpeg?v=3" alt="MRO Asia-Pacific 2026 promotional signage">
-  <img src="/alvin-site/JPG_VID/sa49.jpeg?v=3" alt="Technicians demonstrating predictive maintenance software">
-  <img src="/alvin-site/JPG_VID/sa50.jpeg?v=3" alt="Wide shot of the MRO and aftermarket services exhibition floor">
+  <img src="/alvin-site/JPG_VID/sa10.jpeg?v=3" alt="ST Engineering integrated MRO centre display">
+  <img src="/alvin-site/JPG_VID/sa1.jpeg?v=3" alt="Boeing and ANA predictive maintenance partnership booth">
+  <img src="/alvin-site/JPG_VID/sa2.jpeg?v=3" alt="Aircraft undergoing maintenance inspection, MRO hall">
 </div>
 
 Spend enough time in this hall and the takeaway is simple: nobody at Changi is buying a jet without also asking, in the same breath, who's going to keep it flying twenty years from now.
