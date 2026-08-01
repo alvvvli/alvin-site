@@ -32,4 +32,4 @@ No flying display, no ribbon cutting — just a contract announcement about land
 
 It's not a jet you can photograph mid-flypast, but a landing gear exchange contract this size is the kind of deal that quietly keeps dozens of aircraft flying on schedule for the next decade.
 
-#SingaporeAirshow2026 #LandingGear #Boeing #MRO #AircraftParts #SupplyChain
+`#SingaporeAirshow2026` `#LandingGear` `#Boeing` `#MRO` `#AircraftParts` `#SupplyChain`
