@@ -38,4 +38,4 @@ The 10th edition leaned harder into defense than any recent show, and the static
 
 Walking the static park this year, the split was obvious: fewer mega fighter-jet orders than a Paris or Dubai show, but a lot more hardware aimed at exactly the drone and loitering-munition threats every operator here is now planning around.
 
-#SingaporeAirshow2026 #Defense #RSAF #J10 #ChangiExhibitionCentre
+`#SingaporeAirshow2026` `#Defense` `#RSAF` `#J10` `#ChangiExhibitionCentre`
