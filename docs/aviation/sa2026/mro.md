@@ -29,4 +29,4 @@ Twenty years after its 2008 debut, this 10th edition made one thing obvious: Asi
 
 Spend enough time in this hall and the takeaway is simple: nobody at Changi is buying a jet without also asking, in the same breath, who's going to keep it flying twenty years from now.
 
-#SingaporeAirshow2026 #MRO #STEngineering #Boeing #AftermarketServices
+`#SingaporeAirshow2026` `#MRO` `#STEngineering` `#Boeing` `#AftermarketServices`
