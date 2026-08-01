@@ -33,5 +33,4 @@ If one theme quietly overtook the flying display this year, it was ground-based 
 
 None of this is as photogenic as a flying display pass, but the Defence Park is where you can feel how much of European industrial policy right now is being built around one question: what stops a $500 drone from being a problem a $5 million system has to solve?
 
-#IAMD #AirDefence #Skyranger #ArrowThree #ILABerlin2026 #Rheinmetall #MBDA
-
+`#IAMD` `#AirDefense` `#Skyranger` `#ArrowThree` `#ILABerlin2026` `#Rheinmetall` `#MBDA`
