@@ -2,7 +2,7 @@
 
 # 🧪 Interactive Lab
 <div style="display:flex;flex-wrap:wrap;gap:10px">
-  <img src="/alvin-site/JPG_VID/ifr1.jpeg" 
+  <img src="/alvin-site/JPG_VID/ifr2.jpeg" 
        alt="ifr" 
        width="68%" 
        style="border-radius:12px;">
