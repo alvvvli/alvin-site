@@ -1,6 +1,4 @@
 # 🛣️Infrastructure
-Where civil works meet operations. Throughput, safety envelopes, lifecycle.
-
 <div style="display:flex;flex-wrap:wrap;gap:10px">
   <img src="/alvin-site/JPG_VID/PXL_20241001_211000958.NIGHT.jpg" alt="a330neo" width="48%" style="border-radius:12px; box-shadow:0 0 12px rgba(0,0,0,0.4);">
 </div>
