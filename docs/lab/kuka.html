@@ -1,513 +1,822 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CEVA Logistics SCARA Digital Twin Portfolio Sandbox</title>
+
+<title>KUKA KR Digital Twin Sandbox</title>
+
 <style>
-  :root {
-    --bg-main: #1e1e24; 
-    --bg-card: #131316;
-    --bg-dark: #0c0c0e;
-    --bg-term: #050507;
-    --brand-orange: #ff5a00;
-    --brand-hover: #e04f00;
-    --text-white: #ffffff;
-    --text-muted: #8a8a93;
-    --accent-cyan: #00bcd4;
-    --status-green: #00ff66;
-    --status-red: #ff3333;
-    --border-color: #2d2d35;
-  }
 
-  body { 
-    background: var(--bg-main); 
-    color: var(--text-white); 
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-    margin: 0;
-    padding: 20px;
-    box-sizing: border-box;
-  }
+:root{
+    --bg:#17171c;
+    --card:#101014;
+    --orange:#ff5a00;
+    --cyan:#00bcd4;
+    --green:#00ff66;
+    --red:#ff3333;
+    --text:#ffffff;
+}
 
-  h2 {
-    margin-top: 0;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-  }
 
-  p {
-    color: var(--text-muted);
-    font-size: 14px;
-    margin-bottom: 20px;
-  }
+body{
 
-  .control-panel { 
-    display: flex; 
-    gap: 15px; 
-    margin-bottom: 20px; 
-    align-items: center; 
-    background: #18181c; 
-    padding: 15px; 
-    border-radius: 6px; 
-    border: 1px solid var(--border-color); 
-    flex-wrap: wrap;
-  }
+    margin:0;
+    padding:20px;
 
-  .btn { 
-    padding: 10px 16px; 
-    background: var(--brand-orange); 
-    color: var(--text-white); 
-    border: none; 
-    cursor: pointer; 
-    font-weight: bold; 
-    border-radius: 4px;
-    transition: background 0.2s ease;
-  }
+    background:var(--bg);
+    color:white;
 
-  .btn:hover { 
-    background: var(--brand-hover); 
-  }
+    font-family:
+    Segoe UI,
+    Arial,
+    sans-serif;
 
-  select { 
-    padding: 10px; 
-    background: #2d2d35; 
-    color: var(--text-white); 
-    border: 1px solid #4a4a5a; 
-    border-radius: 4px; 
-    font-weight: bold; 
-    cursor: pointer; 
-  }
+}
 
-  .layout { 
-    display: flex; 
-    gap: 20px; 
-    flex-wrap: wrap;
-  }
 
-  .viewport-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
+h1{
+    color:white;
+}
 
-  #canvasView { 
-    background: var(--bg-card); 
-    border: 2px solid var(--border-color); 
-    border-radius: 6px; 
-  }
 
-  .code-container { 
-    display: flex; 
-    flex-direction: column; 
-    gap: 10px; 
-    width: 100%;
-    max-width: 480px; 
-    flex-grow: 1;
-  }
+.panel{
 
-  .code { 
-    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; 
-    background: var(--bg-dark); 
-    padding: 15px; 
-    height: 240px; 
-    overflow-y: auto; 
-    font-size: 12px; 
-    border-radius: 6px; 
-    line-height: 1.6; 
-    border: 1px solid var(--border-color);
-  }
+    background:#202027;
 
-  .terminal { 
-    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; 
-    background: var(--bg-term); 
-    border: 1px solid #3a1a1a; 
-    padding: 12px; 
-    height: 124px; 
-    overflow-y: auto; 
-    font-size: 11px; 
-    border-radius: 6px; 
-    color: var(--status-red); 
-  }
+    padding:15px;
 
-  .highlight { 
-    background: rgba(255, 90, 0, 0.25); 
-    color: var(--text-white); 
-    font-weight: bold; 
-    border-left: 3px solid var(--brand-orange); 
-    padding-left: 5px; 
-  }
+    border-radius:8px;
 
-  #stats { 
-    font-size: 13px; 
-    background: #0f0f12; 
-    padding: 15px; 
-    border-radius: 6px; 
-    width: 100%;
-    max-width: 474px; 
-    display: grid; 
-    grid-template-columns: 1fr 1fr; 
-    gap: 12px; 
-    border: 1px solid var(--border-color);
-  }
+    margin-bottom:15px;
 
-  .status-ok { 
-    color: var(--status-green); 
-    font-weight: bold; 
-  }
+}
 
-  .status-err { 
-    color: var(--status-red); 
-    font-weight: bold; 
-    animation: blink 1s infinite; 
-  }
 
-  @keyframes blink { 
-    0% { opacity: 0.4; } 
-    50% { opacity: 1; } 
-    100% { opacity: 0.4; } 
-  }
+button,
+select{
+
+    padding:10px;
+
+    background:var(--orange);
+
+    border:none;
+
+    color:white;
+
+    font-weight:bold;
+
+    border-radius:5px;
+
+}
+
+
+#robotViewport{
+
+    width:800px;
+
+    height:550px;
+
+    border:
+    2px solid #333;
+
+    background:#050507;
+
+}
+
+
+.layout{
+
+    display:flex;
+
+    gap:20px;
+
+}
+
+
+.console{
+
+    width:350px;
+
+}
+
+
+.terminal{
+
+    background:black;
+
+    color:#00ff66;
+
+    height:150px;
+
+    overflow:auto;
+
+    padding:10px;
+
+    font-family:monospace;
+
+}
+
+
+.stats{
+
+    background:#111;
+
+    padding:15px;
+
+    margin-top:10px;
+
+}
+
 </style>
+
 </head>
+
+
 <body>
 
-<h2>🤖 SCARA Digital Twin Logic Sandbox</h2>
-<p>Simulating industrial controller state-machine hazards, fieldbus desynchronization, and kinematic software safety limit overruns.</p>
 
-<div class="control-panel">
-  <button class="btn" onclick="toggleMode()">TOGGLE LOGIC: <span id="modeTxt" style="text-decoration:underline;">BUGGY LOGIC ACTIVE</span></button>
-  <label style="font-weight:bold; margin-left:5px;">Select Production Pick Mode:</label>
-  <select id="pickModeSelect" onchange="changePickMode(this.value)">
-    <option value="3">Stack Pick Mode (Active Handshake Bug)</option>
-    <option value="1">Single Pick Mode</option>
-    <option value="2">Duo / Gang Pick Mode (Broken 16-bit Math)</option>
-  </select>
+<h1>
+🤖 KUKA KR Digital Twin Logic Sandbox
+</h1>
+
+
+<p>
+3D industrial robot simulation with PLC state-machine control,
+fault injection and manufacturing workflow visualization.
+</p>
+
+
+
+<div class="panel">
+
+<button onclick="toggleMode()">
+Logic:
+<span id="mode">
+BUGGY
+</span>
+</button>
+
+
+<select onchange="pickMode=this.value">
+
+<option value="1">
+Single Pick
+</option>
+
+<option value="2">
+Duo Pick
+</option>
+
+<option value="3">
+Stack Pick
+</option>
+
+</select>
+
+
 </div>
+
+
 
 <div class="layout">
-  <div class="viewport-container">
-    <canvas id="canvasView" width="500" height="400"></canvas>
-    <div id="stats">
-       <div><b>State Machine (Stepper):</b> <span id="lblStepper" style="color:#ffaa00;">CASE 0</span></div>
-       <div><b>Successful Boxes:</b> <span id="lblBoxes" class="status-ok">0</span></div>
-       <div><b>PLC prodinzone (Box Ready):</b> <span id="lblZone">0</span></div>
-       <div><b>Current Cycle Count:</b> <span id="lblCount">0 / 2</span></div>
-       <div style="grid-column: span 2; border-top:1px solid #2d2d35; padding-top:10px;">
-          <b>System Status:</b> <span id="lblStatus" class="status-ok">RUNNING</span>
-       </div>
-    </div>
-  </div>
-  
-  <div class="code-container">
-    <div class="code" id="codePanel"></div>
-    <div style="font-weight:bold; font-size:12px; color:var(--brand-orange); margin-top:5px;">🚨 Fieldbus Controller Diagnostics Terminal:</div>
-    <div class="terminal" id="termPanel">[SYSTEM] Controller booted. Awaiting Fieldbus cycle start...</div>
-  </div>
+
+
+<div>
+
+
+<div id="robotViewport"></div>
+
+
+<div class="stats">
+
+State:
+<span id="state">
+CASE 0
+</span>
+
+<br>
+
+Boxes:
+<span id="boxes">
+0
+</span>
+
+
+<br>
+
+Robot:
+<span id="robotStatus">
+READY
+</span>
+
+
 </div>
 
-<script>
-let buggy = true;
-let pickMode = 3; 
-let stepper = 0;
-let count = 0;
-let boxes = 0;
-let prodinzone = 0;
-let ifreach = 0;
-let rx = 150, ry = 100;
-let tx = 150, ty = 100;
-let carrying = false;
-let frozen = false;
-let boxX = 0, partX = 0;
 
-const codeLines = [
-  "CASE 0: Reset flags & check safety offsets",
-  "CASE 1: Route to active pickmode (1=Single, 2=Duo, 3=Stack)",
-  "CASE 300 / 100 / 200: Move robot over to PREPICK target coordinates",
-  "CASE 305 / 105 / 205: Wait for conveyor optical switch (ifreach = 1)",
-  "CASE 310 / 110 / 210: Fire output closegrip = 1 to capture SKU part",
-  "CASE 315 / 115 / 215: Confirm gripper closed input from pneumatic jaws",
-  "CASE 320 / 120 / 220: Move robot to PREPLACE trajectory above box",
-  "CASE 325 / 130 / 230: Wait for box zone confirmation (prodinzone = 1)",
-  "CASE 330 / 135 / 235: Descend Z-axis, open gripper, increment count",
-  "CASE 340 / 140 / 240: Execute drop validation routines. Loop or reset."
-];
+</div>
 
-function logMsg(msg, isErr=false) {
-  const term = document.getElementById('termPanel');
-  const style = isErr ? "color:#ff3333; font-weight:bold;" : "color:#a0a0a5;";
-  term.innerHTML += `<div style="${style}">[${new Date().toLocaleTimeString()}] ${msg}</div>`;
-  term.scrollTop = term.scrollHeight;
-}
 
-function toggleMode() {
-  buggy = !buggy;
-  document.getElementById('modeTxt').innerText = buggy ? "BUGGY LOGIC ACTIVE" : "FIXED LOGIC ACTIVE";
-  resetSimulation();
-  logMsg(`System switched to ${buggy ? 'BUGGY' : 'CLEAN PATCH'} compilation profile.`);
-}
 
-function changePickMode(val) {
-  pickMode = parseInt(val);
-  resetSimulation();
-  logMsg(`Production profile altered. Active PickMode set to ${pickMode}.`);
-}
 
-function resetSimulation() {
-  frozen = false;
-  stepper = 0; 
-  count = 0; 
-  carrying = false; 
-  rx = 150; ry = 100;
-  tx = 150; ty = 100;
-  prodinzone = 0;
-  ifreach = 0;
-  boxX = 0;
-  partX = 0;
-  document.getElementById('lblStatus').innerText = "RUNNING";
-  document.getElementById('lblStatus').className = "status-ok";
-}
+<div class="console">
 
-function initCode() {
-  let h = "";
-  codeLines.forEach((l, i) => { h += `<div id="ln${i}" style="padding:4px 0;">${l}</div>`; });
-  document.getElementById('codePanel').innerHTML = h;
-}
-initCode();
 
-function highlight(idx) {
-  for(let i=0; i<10; i++) {
-    let el = document.getElementById('ln'+i);
-    if(el) el.className = (i===idx) ? "highlight" : "";
-  }
-}
+<h3>
+PLC Diagnostics
+</h3>
 
-const canvas = document.getElementById('canvasView');
-const ctx = canvas.getContext('2d');
 
-function loop() {
-  if (frozen) {
-    requestAnimationFrame(loop);
-    return;
-  }
+<div class="terminal" id="terminal">
 
-  // Conveyor Mechanics Simulation
-  if (prodinzone === 0) { boxX += 2.5; if(boxX >= 350) { prodinzone = 1; boxX = 350; } }
-  if (ifreach === 0 && stepper <= 305) { partX += 5; if(partX >= 150) { ifreach = 1; partX = 150; } }
+SYSTEM BOOT...
 
-  // AS / KRL State Engine Emulator
-  if (stepper === 0) { 
-    highlight(0); 
-    tx = 150; ty = 100; 
-    if(Math.abs(rx-tx)<2) stepper = 1; 
-  }
-  else if (stepper === 1) { 
-    highlight(1); 
-    stepper = 300; 
-  }
-  else if (stepper === 300) { 
-    highlight(2); 
-    tx = 150; ty = 100; 
-    if(Math.abs(rx-tx)<2) stepper = 305; 
-  }
-  else if (stepper === 305) { 
-    highlight(3); 
-    if(ifreach === 1) stepper = 310; 
-  }
-  else if (stepper === 310) { 
-    highlight(4); 
-    stepper = 315; 
-  }
-  else if (stepper === 315) { 
-    highlight(5); 
-    carrying = true; 
-    ifreach = 0; 
-    partX = 0; 
-    stepper = 320; 
-  }
-  else if (stepper === 320) { 
-    highlight(6); 
-    
-    // Simulate Duo Pick offset integer boundary exception bug
-    if (pickMode === 2 && buggy) {
-      tx = 650; ty = 250; 
-      if (rx > 485) {
-        frozen = true;
-        document.getElementById('lblStatus').innerText = "HARD LIMIT COLLISION";
-        document.getElementById('lblStatus').className = "status-err";
-        logMsg("FATAL: [ERR 4022] Axis 1 (X) Software Limit Overrun! Attempted calculation +6303.6mm outside structural safety envelope.", true);
-        return;
-      }
-    } else {
-      tx = 350; ty = 250;
-    }
-    if(Math.abs(rx-tx)<2 && Math.abs(ry-ty)<2) stepper = 325; 
-  }
-  else if (stepper === 325) { 
-    highlight(7); 
-    if (prodinzone === 1) { 
-      stepper = 330; 
-    } else if (carrying && buggy && pickMode === 3) {
-      // Simulate Stack Pick fieldbus desync lockup
-      frozen = true;
-      document.getElementById('lblStatus').innerText = "PLC DESYNC STALL";
-      document.getElementById('lblStatus').className = "status-err";
-      logMsg("CRITICAL: [WARN 109] Handshake timeout. Robot holding SKU part #3, but physical Interlock input 'prodinzone' remains 0.", true);
-    }
+</div>
 
-  else if (stepper === 330) {
-    highlight(8);
-    carrying = false;
-    count++;
-    stepper = 340;
 
-    logMsg(`Pneumatic drop executed. Mode context items dropped: ${count}.`);
-  }
-  else if (stepper === 340) {
-    highlight(9);
+</div>
 
-    let maxDrops = (pickMode === 3) ? 2 : 1;
 
-    if (count >= maxDrops) {
-      boxes++;
-      count = 0;
-      prodinzone = 0;
-      boxX = 0;
+</div>
 
-      if (pickMode === 2 && buggy) {
-        logMsg(
-          "ERR: Duo Pick fired 'pickfinish=1' signal prematurely on item #1. Conveyor is advancing prematurely!",
-          true
-        );
-      }
 
-      if (buggy) {
-        stepper = 1;
-      } else {
-        // FIXED: Safe retract straight up out of the packaging cell first.
-        tx = 350;
-        ty = 100;
 
-        if (Math.abs(ry - ty) < 2) {
-          stepper = 0;
-        }
-      }
-    } else {
-      if (buggy) {
-        stepper = 1;
-      } else {
-        // FIXED: Safe retract straight up before returning across the dividing frame.
-        tx = 350;
-        ty = 100;
 
-        if (Math.abs(ry - ty) < 2) {
-          stepper = 1;
-        }
-      }
-    }
-  }
 
-  // Smooth LERP (Linear Interpolation) motion profiling simulation.
-  rx += (tx - rx) * 0.12;
-  ry += (ty - ry) * 0.12;
-
-  // Clear graphics viewport.
-  ctx.clearRect(0, 0, 500, 400);
-
-  // Render moving tracks / conveyor conveyance zones.
-  ctx.fillStyle = "#2d2d35";
-  ctx.fillRect(0, 80, 250, 40);
-  ctx.fillRect(200, 230, 300, 60);
-
-  ctx.fillStyle = varColor("--text-muted");
-  ctx.font = "10px monospace";
-  ctx.fillText("SKU INPUT CONVEYOR", 10, 70);
-  ctx.fillText("BOX DISPATCH LINE", 370, 310);
-
-  // Render incoming structural parts (SKUs).
-  if (ifreach === 1 || partX > 0) {
-    ctx.fillStyle = varColor("--accent-cyan");
-    ctx.fillRect(partX, 90, 20, 20);
-  }
-
-  // Render dispatched corrugated packaging units (boxes).
-  if (prodinzone === 1 || boxX > 0) {
-    ctx.strokeStyle =
-      (pickMode === 2 && buggy)
-        ? varColor("--status-red")
-        : varColor("--brand-orange");
-
-    ctx.lineWidth = 3;
-    ctx.strokeRect(boxX, 235, 50, 50);
-
-    if (count === 1 && prodinzone === 1) {
-      ctx.fillStyle = varColor("--accent-cyan");
-      ctx.fillRect(boxX + 15, 250, 20, 20);
-    }
-  }
-
-  // Draw SCARA-style robot arm geometry.
-  const baseX = 80;
-  const baseY = 220;
-
-  // Base pedestal.
-  ctx.fillStyle = varColor("--brand-orange");
-  ctx.beginPath();
-  ctx.arc(baseX, baseY, 18, 0, Math.PI * 2);
-  ctx.fill();
-
-  // Two-link robot arm.
-  const joint1X = baseX + (rx - baseX) * 0.45;
-  const joint1Y = baseY + (ry - baseY) * 0.45;
-
-  ctx.strokeStyle = "#4a4a5a";
-  ctx.lineWidth = 18;
-  ctx.lineCap = "round";
-
-  ctx.beginPath();
-  ctx.moveTo(baseX, baseY);
-  ctx.lineTo(joint1X, joint1Y);
-  ctx.lineTo(rx, ry);
-  ctx.stroke();
-
-  // Joints.
-  ctx.fillStyle = "#ffaa00";
-  ctx.beginPath();
-  ctx.arc(joint1X, joint1Y, 9, 0, Math.PI * 2);
-  ctx.fill();
-
-  ctx.fillStyle = carrying ? varColor("--status-green") : "white";
-  ctx.beginPath();
-  ctx.arc(rx, ry, 12, 0, Math.PI * 2);
-  ctx.fill();
-
-  // End effector / gripper.
-  ctx.strokeStyle = carrying ? varColor("--status-green") : "#ffffff";
-  ctx.lineWidth = 4;
-  ctx.beginPath();
-  ctx.moveTo(rx - 8, ry + 8);
-  ctx.lineTo(rx - 14, ry + 20);
-  ctx.moveTo(rx + 8, ry + 8);
-  ctx.lineTo(rx + 14, ry + 20);
-  ctx.stroke();
-
-  // Flush UI component values.
-  document.getElementById("lblStepper").innerText = `CASE ${stepper}`;
-  document.getElementById("lblBoxes").innerText = boxes;
-  document.getElementById("lblZone").innerText = prodinzone;
-  document.getElementById("lblCount").innerText =
-    `${count} / ${pickMode === 3 ? 2 : 1}`;
-
-  requestAnimationFrame(loop);
-}
-
-// CSS variable parsing helper for canvas renderer context.
-function varColor(name) {
-  return getComputedStyle(document.documentElement)
-    .getPropertyValue(name)
-    .trim();
-}
-
-// Start simulation loop.
-loop();
+<script src="
+https://cdn.jsdelivr.net/npm/three@0.160/build/three.min.js">
 </script>
+
+
+<script src="
+https://cdn.jsdelivr.net/npm/three@0.160/examples/js/controls/OrbitControls.js">
+</script>
+
+
+
+<script>
+
+
+let buggy=true;
+
+let pickMode=3;
+
+
+let stepper=0;
+
+let boxes=0;
+
+let carrying=false;
+
+
+
+function log(msg){
+
+let t=document.getElementById("terminal");
+
+t.innerHTML +=
+"<br>"+msg;
+
+t.scrollTop=t.scrollHeight;
+
+}
+
+
+
+
+function toggleMode(){
+
+buggy=!buggy;
+
+document.getElementById("mode").innerHTML =
+buggy ? "BUGGY" : "FIXED";
+
+
+log(
+"MODE -> "+
+(buggy?"BUGGY":"SAFE")
+);
+
+}
+
+
+
+
+/* ======================
+ THREE.JS WORLD
+====================== */
+
+
+const scene =
+new THREE.Scene();
+
+
+scene.background =
+new THREE.Color(0x080808);
+
+
+
+const camera =
+new THREE.PerspectiveCamera(
+45,
+800/550,
+0.1,
+100
+);
+
+
+camera.position.set(
+6,
+5,
+8
+);
+
+
+
+const renderer =
+new THREE.WebGLRenderer({
+antialias:true
+});
+
+
+renderer.setSize(
+800,
+550
+);
+
+
+
+document
+.getElementById("robotViewport")
+.appendChild(
+renderer.domElement
+);
+
+
+
+const controls =
+new THREE.OrbitControls(
+camera,
+renderer.domElement
+);
+
+
+
+controls.enableDamping=true;
+
+
+
+/*
+Lighting
+*/
+
+
+scene.add(
+new THREE.AmbientLight(
+0xffffff,
+0.7
+)
+);
+
+
+let light =
+new THREE.DirectionalLight(
+0xffffff,
+2
+);
+
+
+light.position.set(
+5,
+8,
+5
+);
+
+
+scene.add(light);
+
+
+
+/*
+Floor
+*/
+
+
+let floor =
+new THREE.Mesh(
+
+new THREE.BoxGeometry(
+10,
+0.1,
+10
+),
+
+new THREE.MeshStandardMaterial(
+{
+color:0x222222
+}
+
+)
+
+);
+
+
+floor.position.y=-0.05;
+
+scene.add(floor);
+
+
+
+
+
+/*
+Conveyor
+*/
+
+
+let conveyor =
+new THREE.Mesh(
+
+new THREE.BoxGeometry(
+5,
+0.3,
+1
+),
+
+new THREE.MeshStandardMaterial(
+{
+color:0x444444
+}
+
+)
+
+);
+
+
+conveyor.position.set(
+0,
+0.2,
+-2
+);
+
+
+scene.add(conveyor);
+
+
+
+/*
+Box
+*/
+
+
+let box =
+new THREE.Mesh(
+
+new THREE.BoxGeometry(
+0.5,
+0.5,
+0.5
+),
+
+new THREE.MeshStandardMaterial(
+{
+color:0xff8800
+}
+
+)
+
+);
+
+
+box.position.set(
+2,
+0.5,
+-2
+);
+
+
+scene.add(box);
+
+
+
+
+
+
+/*
+KUKA Robot Skeleton
+
+base
+ |
+A1
+ |
+A2
+ |
+A3
+ |
+A4
+ |
+A5
+ |
+A6
+
+*/
+
+
+let robot =
+new THREE.Group();
+
+
+scene.add(robot);
+
+
+
+function joint(
+name,
+size,
+color
+){
+
+let mesh =
+new THREE.Mesh(
+
+new THREE.CylinderGeometry(
+size,
+size,
+0.25,
+32
+),
+
+new THREE.MeshStandardMaterial(
+{
+color:color
+}
+
+)
+
+);
+
+
+mesh.name=name;
+
+return mesh;
+
+}
+
+
+
+let base =
+joint(
+"BASE",
+0.5,
+0xffaa00
+);
+
+
+robot.add(base);
+
+
+
+let arm1 =
+joint(
+"A1",
+0.25,
+0xffcc00
+);
+
+
+arm1.position.y=1;
+
+base.add(arm1);
+
+
+
+let arm2 =
+joint(
+"A2",
+0.22,
+0xffcc00
+);
+
+
+arm2.position.y=1;
+
+arm1.add(arm2);
+
+
+
+let arm3 =
+joint(
+"A3",
+0.18,
+0xffcc00
+);
+
+
+arm3.position.y=1;
+
+arm2.add(arm3);
+
+
+
+let wrist =
+joint(
+"A6",
+0.12,
+0xffffff
+);
+
+
+wrist.position.y=0.8;
+
+arm3.add(wrist);
+
+
+
+
+
+robot.position.set(
+0,
+0,
+0
+);
+
+
+
+
+
+
+function animateRobot(){
+
+let t =
+Date.now()*0.001;
+
+
+
+base.rotation.y =
+Math.sin(t)*0.5;
+
+
+arm1.rotation.z =
+Math.sin(t)*0.3;
+
+
+arm2.rotation.z =
+Math.cos(t)*0.5;
+
+
+arm3.rotation.z =
+Math.sin(t)*0.8;
+
+
+wrist.rotation.y =
+Math.cos(t)*1;
+
+
+}
+
+
+
+
+
+/*
+PLC STATE MACHINE
+*/
+
+
+function plc(){
+
+
+switch(stepper){
+
+
+case 0:
+
+log(
+"CASE 0 Safety Reset"
+);
+
+stepper=100;
+
+break;
+
+
+
+case 100:
+
+log(
+"CASE 100 Move Pick"
+);
+
+stepper=200;
+
+break;
+
+
+
+case 200:
+
+log(
+"CASE 200 Grip SKU"
+);
+
+carrying=true;
+
+stepper=300;
+
+break;
+
+
+
+case 300:
+
+log(
+"CASE 300 Transfer"
+);
+
+if(!buggy){
+
+box.position.x=0;
+
+}
+
+stepper=400;
+
+break;
+
+
+
+case 400:
+
+log(
+"CASE 400 Release"
+);
+
+carrying=false;
+
+boxes++;
+
+document.getElementById("boxes")
+.innerHTML=boxes;
+
+
+stepper=100;
+
+
+break;
+
+
+
+}
+
+
+document.getElementById("state")
+.innerHTML=
+"CASE "+stepper;
+
+
+}
+
+
+
+
+setInterval(
+plc,
+3000
+);
+
+
+
+
+
+function loop(){
+
+
+animateRobot();
+
+
+controls.update();
+
+
+renderer.render(
+scene,
+camera
+);
+
+
+requestAnimationFrame(loop);
+
+
+}
+
+
+
+loop();
+
+
+
+</script>
+
+
 </body>
 </html>
