@@ -444,25 +444,50 @@ function loop() {
     }
   }
 
-  // Draw 2D planar linkage robot geometry.
+  // Draw SCARA-style robot arm geometry.
+  const baseX = 80;
+  const baseY = 220;
+
+  // Base pedestal.
+  ctx.fillStyle = varColor("--brand-orange");
+  ctx.beginPath();
+  ctx.arc(baseX, baseY, 18, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Two-link robot arm.
+  const joint1X = baseX + (rx - baseX) * 0.45;
+  const joint1Y = baseY + (ry - baseY) * 0.45;
+
   ctx.strokeStyle = "#4a4a5a";
-  ctx.lineWidth = 14;
+  ctx.lineWidth = 18;
   ctx.lineCap = "round";
 
   ctx.beginPath();
-  ctx.moveTo(50, 220);
+  ctx.moveTo(baseX, baseY);
+  ctx.lineTo(joint1X, joint1Y);
   ctx.lineTo(rx, ry);
   ctx.stroke();
 
-  ctx.fillStyle = varColor("--brand-orange");
+  // Joints.
+  ctx.fillStyle = "#ffaa00";
   ctx.beginPath();
-  ctx.arc(50, 220, 10, 0, 7);
+  ctx.arc(joint1X, joint1Y, 9, 0, Math.PI * 2);
   ctx.fill();
 
   ctx.fillStyle = carrying ? varColor("--status-green") : "white";
   ctx.beginPath();
-  ctx.arc(rx, ry, 10, 0, 7);
+  ctx.arc(rx, ry, 12, 0, Math.PI * 2);
   ctx.fill();
+
+  // End effector / gripper.
+  ctx.strokeStyle = carrying ? varColor("--status-green") : "#ffffff";
+  ctx.lineWidth = 4;
+  ctx.beginPath();
+  ctx.moveTo(rx - 8, ry + 8);
+  ctx.lineTo(rx - 14, ry + 20);
+  ctx.moveTo(rx + 8, ry + 8);
+  ctx.lineTo(rx + 14, ry + 20);
+  ctx.stroke();
 
   // Flush UI component values.
   document.getElementById("lblStepper").innerText = `CASE ${stepper}`;
