@@ -55,7 +55,7 @@ nav:
       - 🔩 Gas Turbine Reconciliation: lab/turbine.md
       - 🚅 Shinkansen Shuffle: lab/skn.md
       - 🎮 Tecnomatix Simulation: lab/tmx.md
-      - 🤖 KUKA Robot Arm: lan/kuka.md
+      - 🤖 KUKA Robot Arm: lab/kuka.md
 
   - Aerospace & Defense:
       - Overview: aviation/index.md
