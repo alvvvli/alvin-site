@@ -4,8 +4,8 @@
 
 <iframe 
     src="../kuka.html"
-    width="100%"
-    height="600"
+    width="1250%"
+    height="850"
     frameborder="0">
 </iframe>
 
