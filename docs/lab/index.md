@@ -15,4 +15,5 @@
 - [Siemens AGV Simulation](agv.md) — AGV routing and scheduling visualization  
 - [Gas Turbine Reconciliation](turbine.md) — Component matching and ERP validation
 - [Shinkansen Shuffle](skn.md) — Dispatch game with real-model Shinkansen timing precision
-- [Tecnomatix Simuilation](tmx.md)
+- [Tecnomatix Simuilation](tmx.md) — Multi-AGV routing optimization
+- [KUKA Robot Arm](kuka.md) — 6-axis robot picking digital twin
