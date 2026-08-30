@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KUKA KR Digital Twin Sandbox</title>
+
+<style>
+:root{
+    --bg:#17171c;
+    --card:#101014;
+    --orange:#ff5a00;
+    --cyan:#00bcd4;
+    --green:#00ff66;
+    --red:#ff3333;
+    --text:#ffffff;
+}
+
+*{ box-sizing:border-box; }
+
+body{
+    margin:0;
+    padding:20px;
+    background:var(--bg);
+    color:white;
+    font-family:'Segoe UI', Arial, sans-serif;
+}
+
+h1{
+    color:white;
+    margin:0 0 10px 0;
+    font-size:28px;
+}
+
+p.subtitle{
+    color:#aaa;
+    margin:0 0 15px 0;
+}
+
+.panel{
+    background:#202027;
+    padding:15px;
+    border-radius:8px;
+    margin-bottom:15px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+button, select{
+    padding:10px 14px;
+    background:var(--orange);
+    border:none;
+    color:white;
+    font-weight:bold;
+    border-radius:5px;
+    cursor:pointer;
+    font-size:14px;
+}
+
+button:hover, select:hover{
+    filter:brightness(1.1);
+}
+
+button.secondary{
+    background:#333;
+}
+
+.layout{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+#robotViewport{
+    width:800px;
+    height:550px;
+    max-width:100%;
+    border:2px solid #333;
+    background:#050507;
+    overflow:hidden;
+    position:relative;
+    border-radius:6px;
+}
+
+#robotViewport canvas{
+    width:100% !important;
+    height:100% !important;
+    display:block;
+}
+
+#webglError{
+    position:absolute;
+    top:0; left:0; right:0; bottom:0;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    color:var(--red);
+    font-family:monospace;
+    padding:20px;
+    text-align:center;
+    background:#050507;
+}
+
+.console{
+    width:350px;
+    max-width:100%;
+}
+
+.terminal{
+    background:black;
+    color:var(--green);
+    height:150px;
+    overflow:auto;
+    padding:10px;
+    font-family:monospace;
+    font-size:12px;
+    border-radius:6px;
+    line-height:1.4;
+}
+
+.stats{
+    background:#111;
+    padding:15px;
+    margin-top:10px;
+    border-radius:6px;
+    font-family:monospace;
+    font-size:14px;
+}
+
+.stats span{
+    color:var(--cyan);
+    font-weight:bold;
+}
+
+.stats .row{
+    margin-bottom:6px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🤖 KUKA KR Digital Twin Logic Sandbox</h1>
+<p class="subtitle">3D industrial robot simulation with PLC state-machine control, fault injection and manufacturing workflow visualization.</p>
+
+<div class="panel">
+    <button onclick="toggleMode()">
+        Logic: <span id="mode">BUGGY</span>
+    </button>
+
+    <select onchange="pickMode=parseInt(this.value)">
+        <option value="1">Single Pick</option>
+        <option value="2">Duo Pick</option>
+        <option value="3" selected>Stack Pick</option>
+    </select>
+
+    <button class="secondary" onclick="resetSim()">Reset</button>
+</div>
+
+<div class="layout">
+    <div>
+        <div id="robotViewport">
+            <div id="webglError">WebGL failed to initialize.<br>Your browser or embed context may be blocking 3D rendering.</div>
+        </div>
+
+        <div class="stats">
+            <div class="row">State: <span id="state">CASE 0</span></div>
+            <div class="row">Boxes: <span id="boxes">0</span></div>
+            <div class="row">Robot: <span id="robotStatus">READY</span></div>
+        </div>
+    </div>
+
+    <div class="console">
+        <h3>PLC Diagnostics</h3>
+        <div class="terminal" id="terminal">SYSTEM BOOT...</div>
+    </div>
+</div>
+
+<script type="importmap">
+{
+    "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+}
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+/* ======================
+   GLOBAL / UI STATE
+====================== */
+window.buggy = true;
+window.pickMode = 3;
+let stepper = 0;
+let boxes = 0;
+let carrying = false;
+
+const terminalEl = document.getElementById("terminal");
+function log(msg){
+    terminalEl.innerHTML += "<br>" + msg;
+    terminalEl.scrollTop = terminalEl.scrollHeight;
+}
+
+window.toggleMode = function(){
+    window.buggy = !window.buggy;
+    document.getElementById("mode").innerHTML = window.buggy ? "BUGGY" : "FIXED";
+    log("MODE -> " + (window.buggy ? "BUGGY" : "SAFE"));
+};
+
+window.resetSim = function(){
+    stepper = 0;
+    boxes = 0;
+    carrying = false;
+    document.getElementById("boxes").innerHTML = boxes;
+    document.getElementById("robotStatus").innerHTML = "READY";
+    box.position.set(2, 0.55, -2);
+    log("--- RESET ---");
+};
+
+/* ======================
+   THREE.JS WORLD
+====================== */
+let scene, camera, renderer, controls;
+let robot, base, arm1, arm2, arm3, wrist, box, conveyor;
+
+function init(){
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x080808);
+    scene.fog = new THREE.Fog(0x080808, 12, 25);
+
+    const viewport = document.getElementById("robotViewport");
+    camera = new THREE.PerspectiveCamera(45, 800 / 550, 0.1, 100);
+    camera.position.set(6, 5, 8);
+
+    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(800, 550);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    viewport.appendChild(renderer.domElement);
+
+    controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.target.set(0, 1, 0);
+    controls.minDistance = 3;
+    controls.maxDistance = 20;
+
+    // Lighting
+    scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+    const light = new THREE.DirectionalLight(0xffffff, 2);
+    light.position.set(5, 8, 5);
+    light.castShadow = true;
+    light.shadow.mapSize.set(1024, 1024);
+    scene.add(light);
+
+    const rim = new THREE.PointLight(0xff5a00, 0.6, 20);
+    rim.position.set(-4, 3, -4);
+    scene.add(rim);
+
+    // Floor
+    const floor = new THREE.Mesh(
+        new THREE.BoxGeometry(10, 0.1, 10),
+        new THREE.MeshStandardMaterial({ color: 0x1c1c22, roughness: 0.9 })
+    );
+    floor.position.y = -0.05;
+    floor.receiveShadow = true;
+    scene.add(floor);
+
+    // Grid for orientation
+    const grid = new THREE.GridHelper(10, 20, 0x444444, 0x2a2a2a);
+    grid.position.y = 0.001;
+    scene.add(grid);
+
+    // Conveyor
+    conveyor = new THREE.Mesh(
+        new THREE.BoxGeometry(5, 0.3, 1),
+        new THREE.MeshStandardMaterial({ color: 0x444444, metalness: 0.3, roughness: 0.6 })
+    );
+    conveyor.position.set(0, 0.2, -2);
+    conveyor.castShadow = true;
+    conveyor.receiveShadow = true;
+    scene.add(conveyor);
+
+    // Box (the SKU being picked)
+    box = new THREE.Mesh(
+        new THREE.BoxGeometry(0.5, 0.5, 0.5),
+        new THREE.MeshStandardMaterial({ color: 0xff8800, roughness: 0.5 })
+    );
+    box.position.set(2, 0.55, -2);
+    box.castShadow = true;
+    scene.add(box);
+
+    // Drop pallet marker (target zone)
+    const pallet = new THREE.Mesh(
+        new THREE.BoxGeometry(1.2, 0.1, 1.2),
+        new THREE.MeshStandardMaterial({ color: 0x2a2a2a })
+    );
+    pallet.position.set(0, 0.05, 2);
+    pallet.receiveShadow = true;
+    scene.add(pallet);
+
+    buildRobot();
+    animate();
+}
+
+function jointMesh(size, color){
+    const mesh = new THREE.Mesh(
+        new THREE.CylinderGeometry(size, size, 0.25, 32),
+        new THREE.MeshStandardMaterial({ color, roughness: 0.4, metalness: 0.3 })
+    );
+    mesh.castShadow = true;
+    return mesh;
+}
+
+function linkMesh(length, radius, color){
+    const mesh = new THREE.Mesh(
+        new THREE.CylinderGeometry(radius, radius, length, 16),
+        new THREE.MeshStandardMaterial({ color, roughness: 0.5, metalness: 0.2 })
+    );
+    mesh.castShadow = true;
+    mesh.position.y = length / 2;
+    return mesh;
+}
+
+function buildRobot(){
+    robot = new THREE.Group();
+
+    base = jointMesh(0.5, 0xffaa00);
+    robot.add(base);
+
+    const link0 = linkMesh(0.5, 0.35, 0x333333);
+    base.add(link0);
+
+    arm1 = jointMesh(0.25, 0xffcc00);
+    arm1.position.y = 0.9;
+    base.add(arm1);
+
+    const link1 = linkMesh(0.9, 0.15, 0xdddddd);
+    arm1.add(link1);
+
+    arm2 = jointMesh(0.22, 0xffcc00);
+    arm2.position.y = 0.9;
+    arm1.add(arm2);
+
+    const link2 = linkMesh(0.8, 0.13, 0xdddddd);
+    arm2.add(link2);
+
+    arm3 = jointMesh(0.18, 0xffcc00);
+    arm3.position.y = 0.8;
+    arm2.add(arm3);
+
+    const link3 = linkMesh(0.4, 0.1, 0xdddddd);
+    arm3.add(link3);
+
+    wrist = jointMesh(0.12, 0xffffff);
+    wrist.position.y = 0.4;
+    arm3.add(wrist);
+
+    // Simple gripper fingers
+    const gripperGeo = new THREE.BoxGeometry(0.08, 0.25, 0.08);
+    const gripperMat = new THREE.MeshStandardMaterial({ color: 0x00bcd4 });
+    const fingerL = new THREE.Mesh(gripperGeo, gripperMat);
+    fingerL.position.set(0.12, 0.15, 0);
+    fingerL.castShadow = true;
+    wrist.add(fingerL);
+    const fingerR = new THREE.Mesh(gripperGeo, gripperMat);
+    fingerR.position.set(-0.12, 0.15, 0);
+    fingerR.castShadow = true;
+    wrist.add(fingerR);
+
+    robot.position.set(0, 0, 0);
+    scene.add(robot);
+}
+
+/* ======================
+   ANIMATION (idle sway; PLC drives real motion below)
+====================== */
+let idlePhase = 0;
+
+function animateRobot(delta){
+    idlePhase += delta;
+    if (stepper === 0 || stepper === 100){
+        // gentle idle sway only while not actively working
+        base.rotation.y = Math.sin(idlePhase * 0.6) * 0.15;
+    }
+}
+
+/* ======================
+   PLC STATE MACHINE
+====================== */
+function plc(){
+    const statusEl = document.getElementById("robotStatus");
+
+    switch (stepper){
+        case 0:
+            log("CASE 0 :: Safety Reset");
+            statusEl.innerHTML = "RESET";
+            stepper = 100;
+            break;
+
+        case 100:
+            log("CASE 100 :: Move to Pick Position");
+            statusEl.innerHTML = "MOVING";
+            base.rotation.y = -0.6;
+            arm1.rotation.z = -0.4;
+            arm2.rotation.z = 0.6;
+            stepper = 200;
+            break;
+
+        case 200:
+            log("CASE 200 :: Grip SKU");
+            statusEl.innerHTML = "GRIPPING";
+            carrying = true;
+            stepper = 300;
+            break;
+
+        case 300:
+            log("CASE 300 :: Transfer to Pallet");
+            statusEl.innerHTML = "TRANSFERRING";
+            base.rotation.y = 0.6;
+            arm1.rotation.z = -0.2;
+            arm2.rotation.z = 0.3;
+            if (!window.buggy){
+                // FIXED logic: box actually follows the gripper to the drop zone
+                box.position.set(0, 0.55, 2);
+            } else {
+                // BUGGY logic: box position never updates -> visibly "left behind"
+                log("<span style='color:#ff3333'>WARN: box transform not applied (buggy mode)</span>");
+            }
+            stepper = 400;
+            break;
+
+        case 400:
+            log("CASE 400 :: Release");
+            statusEl.innerHTML = "READY";
+            carrying = false;
+            boxes++;
+            document.getElementById("boxes").innerHTML = boxes;
+            base.rotation.y = 0;
+            arm1.rotation.z = 0;
+            arm2.rotation.z = 0;
+            if (!window.buggy){
+                box.position.set(2, 0.55, -2);
+            }
+            stepper = 100;
+            break;
+    }
+
+    document.getElementById("state").innerHTML = "CASE " + stepper;
+}
+
+setInterval(plc, 3000);
+
+/* ======================
+   RENDER LOOP
+====================== */
+let lastTime = performance.now();
+
+function animate(){
+    requestAnimationFrame(animate);
+    const now = performance.now();
+    const delta = (now - lastTime) / 1000;
+    lastTime = now;
+
+    animateRobot(delta);
+    controls.update();
+    renderer.render(scene, camera);
+}
+
+/* ======================
+   BOOT
+====================== */
+try {
+    if (!window.WebGLRenderingContext){
+        throw new Error("WebGL not supported by this browser.");
+    }
+    init();
+    log("Three.js scene initialized OK.");
+} catch (err){
+    console.error(err);
+    document.getElementById("webglError").style.display = "flex";
+    document.getElementById("webglError").innerHTML =
+        "WebGL init failed:<br>" + (err && err.message ? err.message : String(err));
+    log("<span style='color:#ff3333'>FATAL: " + (err && err.message ? err.message : err) + "</span>");
+}
+</script>
+
+</body>
+</html>

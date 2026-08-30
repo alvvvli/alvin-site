@@ -1,0 +1,26 @@
+/* Button layout next to the search bar */
+.theme-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 10px;
+  color: var(--md-primary-fg-color);
+  transition: transform .15s ease, background .2s ease, color .2s ease;
+}
+
+.theme-toggle-btn:hover {
+  transform: translateY(-1px);
+  background: var(--md-default-fg-color--lightest);
+}
+
+/* Show one icon at a time */
+.theme-toggle-btn .icon-sun,
+.theme-toggle-btn .icon-moon { display: none; }
+
+.theme-toggle-btn.is-dark .icon-moon { display: block; }
+.theme-toggle-btn:not(.is-dark) .icon-sun { display: block; }
