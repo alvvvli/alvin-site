@@ -68,9 +68,9 @@
 
 <div class="hero-text">
   <p><strong>📧 </strong>
-    <a  href="mailto:alvgrli@berkeley.edu">alvgrli@berkeley.edu</a>
+    <a  href="mailto:alkanmuri17@gmail.com">alkanmuri17@gmail.com</a>
     <span style="color:#9fb4d1;"
-    <p><strong> | </strong><a  href="mailto:alvin2001berkeley@gmail.com">alvin2001berkeley@gmail.com</a></span>
+    <p><strong> </span>
   </p>
 </div>
 
