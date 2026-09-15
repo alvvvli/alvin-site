@@ -8,23 +8,7 @@
 
 <p>Building reliable systems where engineering, operations, and infrastructure meet. Explore my live systems frameworks and operational models in the Interactive Lab.</p>
 
-<div class="badge-cube">
-<div class="badge-cluster">
-<span class="badge">GE Vernova</span>
-<span class="badge">FAA AT-SA</span>
-<span class="badge">InnoTrans</span>
-<span class="badge">ILA Berlin</span>
-<span class="badge">Singapore Airshow</span>
-<span class="badge">UC Berkeley</span>
-<span class="badge">National University of Singapore</span>
-<span class="badge">Wageningen University & Research</span>
-<span class="badge">University of Copenhagen</span>
-<span class="badge">Digital Twins</span>
-<span class="badge">Siemens Tecnomatix</span>
-<span class="badge">Python & SQL</span>
-<span class="badge">ISO 9001 QMS</span>
-</div>
-</div>
+`GE Vernova` `FAA AT-SA` `InnoTrans` `ILA Berlin` `Singapore Airshow` `UC Berkeley` `National University of Singapore` `Wageningen University & Research` `University of Copenhagen` `Digital Twins` `Siemens Tecnomatix` `Python & SQL` `ISO 9001 QMS`
 
 <div class="hero-contact">
 <a href="mailto:alkanmuri17@gmail.com">alkanmuri17@gmail.com</a>
