@@ -1,9 +1,5 @@
-<div class="hero">
-<div class="hero-image">
-<img src="/alvin-site/JPG_VID/ila2026.jpeg" alt="Alvin at ILA Berlin">
-</div>
-
-<div class="hero-text">
+<style> .hero { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 15px; margin-bottom: 20px; } .hero img { width: 270px; border-radius: 12px; box-shadow: 0 0 12px rgba(0,0,0,0.4); } .hero-text { flex: 1; min-width: 240px; } .hero-text p:first-child { margin-top: 0; } .linkedin-badge { margin-top: 16px; } @media (max-width: 768px) { .hero { flex-direction: column; align-items: center; text-align: center; } .hero img { width: 60%; margin-bottom: 16px; } .hero-text { text-align: center; } .linkedin-badge { display: flex; justify-content: center; } } 
+</style> # About <div class="hero"> <img src="/alvin-site/JPG_VID/ila2026.jpeg" alt="ila1"> <div class="hero-text">
 <p><strong>I'm Alvin.</strong></p>
 
 <p>I architect data, logistics, and simulation systems that move global industries.</p>
