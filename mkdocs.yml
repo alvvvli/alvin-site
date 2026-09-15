@@ -11,8 +11,8 @@ theme:
 
   palette:
     scheme: slate
-    primary: geekblue
-    accent: geekblue
+    primary: indigo      # Deep, authoritative Navy Aerospace baseline
+    accent: cyan         # Vibrant HUD/Radar glow that pops off the dark screen
 
   features:
     - navigation.tabs
