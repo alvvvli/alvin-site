@@ -47,30 +47,28 @@
   <img src="/alvin-site/JPG_VID/ila2026.jpeg" alt="ila1">
   <div class="hero-text">
     <p>I'm Alvin.</p>
-    <p>I study and build systems that move industries — across logistics, infrastructure, and manufacturing.</p>
-    <p>My focus is precision, clarity, and discipline in how things run.</p>
-    <p>Building reliable systems where engieering, operations, and infrastructure meet.</p>
-  <div class="md-tags">
-      <span class="md-tag">GE Vernova</span>
-      <span class="md-tag">FAA AT-SA</span>
-      <span class="md-tag">InnoTrans</span>
-      <span class="md-tag">ILA-Berlin</span>
-      <span class="md-tag">Singapore Airshow</span>
-  </div>
-  <div class="md-tags">
-      <span class="md-tag">UC Berkeley</span>
-      <span class="md-tag">National University of Singapore</span>
-      <span class="md-tag">Wageningen University &amp; Research</span>
-      <span class="md-tag">University of Copenhagen</span>
-  </div>
+    <p>I architect data, logistics, and simulation systems that move global industries.</p>
+    <p>My work bridges the gap between macro aerospace/rail infrastructure and micro-level technical execution. I specialize in digital twins, supply chain network optimization, and automated data workflows—built with the discipline of continuous, version-controlled iteration.</p>
+    <p>Building reliable systems where engineering, operations, and infrastructure meet. Explore my live systems frameworks and operational models in the Interactive Lab.</p>
+    <p>Explore my live systems frameworks and operational models in the Interactive Lab.</p>
+     <div class="badge-cluster">
+      <!-- Keep your existing badge styling / classes here -->
+      <span class="badge">GE Vernova</span>
+      <span class="badge">FAA AT-SA</span>
+      <span class="badge">InnoTrans</span>
+      <span class="badge">ILA-Berlin</span>
+      <span class="badge">Singapore Airshow</span>
+      <span class="badge">UC Berkeley</span>
+      <span class="badge">National University of Singapore</span>
+      <span class="badge">Wageningen University & Research</span>
+      <span class="badge">University of Copenhagen</span>
+      <span class="badge">Digital Twins</span>
+      <span class="badge">Siemens Tecnomatix</span>
+      <span class="badge">Python & SQL</span>
+      <span class="badge">ISO 9001 QMS</span>
+    </div>
   </div>
 </div>
 
-<div class="hero-text">
-  <p><strong>📧 </strong>
-    <a  href="mailto:alkanmuri17@gmail.com">alkanmuri17@gmail.com</a>
-    <span style="color:#9fb4d1;"
-    <p><strong> </span>
-  </p>
-</div>
+[alkanmuri17@gmail.com](mailto:alkanmuri17@gmail.com)
 ---
