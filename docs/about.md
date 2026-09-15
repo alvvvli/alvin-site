@@ -36,21 +36,25 @@
 }
 
 .badge-cluster span {
-  background-color: #1e293b;
-  color: #38bdf8;
-  border: 1px solid #334155;
+  background-color: rgba(63, 81, 181, 0.16);
+  color: #9fa8da;
+  border: 1px solid rgba(92, 107, 192, 0.45);
   padding: 4px 10px;
   border-radius: 12px;
   font-size: 0.85em;
   font-family: monospace;
-  transition: border-color 0.15s ease, transform 0.15s ease;
+  white-space: nowrap;
+  transition: border-color 0.15s ease,
+              background-color 0.15s ease,
+              transform 0.15s ease;
 }
 
 .badge-cluster span:hover {
-  border-color: #38bdf8;
+  background-color: rgba(63, 81, 181, 0.28);
+  border-color: #7986cb;
+  color: #c5cae9;
   transform: translateY(-1px);
 }
-
 @media (max-width: 768px) {
   .hero {
     flex-direction: column;
