@@ -1,4 +1,4 @@
-<style>
+<img width="1917" height="1090" alt="image" src="https://github.com/user-attachments/assets/95e5d3ec-5b9b-42e5-b97a-19289f030fd3" /><style>
 .hero {
   display: flex;
   flex-wrap: wrap;
@@ -88,6 +88,9 @@
 <img src="/alvin-site/JPG_VID/ila2026.jpeg" alt="ila1">
 <div class="hero-text">
 
+<div class="hero">
+<img src="/alvin-site/JPG_VID/a380.jpeg" alt="ila2">
+<div class="hero-text">
 <p><strong>I'm Alvin.</strong></p>
 
 <p>I architect data, logistics, and simulation systems that move global industries.</p>
