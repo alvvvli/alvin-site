@@ -27,7 +27,37 @@
   min-width: 240px;
 }
 
-/* Your badge CSS etc. */
+/* Custom tag pills */
+.badge-cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.badge-cluster span {
+  background-color: rgba(63, 81, 181, 0.16);
+  color: #9fa8da;
+  border: 1px solid rgba(92, 107, 192, 0.45);
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.85em;
+  font-family: monospace;
+  white-space: nowrap;
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease,
+    color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.badge-cluster span:hover {
+  background-color: rgba(63, 81, 181, 0.28);
+  border-color: #7986cb;
+  color: #c5cae9;
+  transform: translateY(-1px);
+}
 
 /* Mobile */
 @media (max-width: 768px) {
