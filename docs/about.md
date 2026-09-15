@@ -43,6 +43,12 @@
   border-radius: 12px;
   font-size: 0.85em;
   font-family: monospace;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.badge-cluster span:hover {
+  border-color: #38bdf8;
+  transform: translateY(-1px);
 }
 
 @media (max-width: 768px) {
