@@ -1,4 +1,5 @@
-<img width="1917" height="1090" alt="image" src="https://github.com/user-attachments/assets/95e5d3ec-5b9b-42e5-b97a-19289f030fd3" /><style>
+<style>
+
 .hero {
   display: flex;
   flex-wrap: wrap;
@@ -7,8 +8,16 @@
   margin-bottom: 20px;
 }
 
-.hero img {
+.hero-images {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
   width: 270px;
+  flex-shrink: 0;
+}
+
+.hero-images img {
+  width: 100%;
   border-radius: 12px;
   box-shadow: 0 0 12px rgba(0,0,0,0.4);
 }
@@ -18,43 +27,9 @@
   min-width: 240px;
 }
 
-.hero-text p:first-child {
-  margin-top: 0;
-}
+/* Your badge CSS etc. */
 
-.linkedin-badge {
-  margin-top: 16px;
-}
-
-/* Custom tag pills */
-.badge-cluster {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 15px;
-  margin-bottom: 15px;
-}
-
-.badge-cluster span {
-  background-color: rgba(63, 81, 181, 0.16);
-  color: #9fa8da;
-  border: 1px solid rgba(92, 107, 192, 0.45);
-  padding: 4px 10px;
-  border-radius: 12px;
-  font-size: 0.85em;
-  font-family: monospace;
-  white-space: nowrap;
-  transition: border-color 0.15s ease,
-              background-color 0.15s ease,
-              transform 0.15s ease;
-}
-
-.badge-cluster span:hover {
-  background-color: rgba(63, 81, 181, 0.28);
-  border-color: #7986cb;
-  color: #c5cae9;
-  transform: translateY(-1px);
-}
+/* Mobile */
 @media (max-width: 768px) {
   .hero {
     flex-direction: column;
@@ -62,35 +37,36 @@
     text-align: center;
   }
 
-  .hero img {
+  .hero-images {
     width: 60%;
-    margin-bottom: 16px;
+    max-width: 320px;
+  }
+
+  .hero-images img {
+    width: 100%;
   }
 
   .hero-text {
     text-align: center;
-  }
-
-  .linkedin-badge {
-    display: flex;
-    justify-content: center;
+    width: 100%;
   }
 
   .badge-cluster {
     justify-content: center;
   }
 }
+
 </style>
 
-# About
-
 <div class="hero">
-<img src="/alvin-site/JPG_VID/ila2026.jpeg" alt="ila1">
+
+<div class="hero-images">
+<img src="/alvin-site/JPG_VID/ila2026.jpeg" alt="ILA Berlin">
+<img src="/alvin-site/JPG_VID/a380.jpeg" alt="Airbus A380">
+</div>
+
 <div class="hero-text">
 
-<div class="hero">
-<img src="/alvin-site/JPG_VID/a380.jpeg" alt="ila2">
-<div class="hero-text">
 <p><strong>I'm Alvin.</strong></p>
 
 <p>I architect data, logistics, and simulation systems that move global industries.</p>
