@@ -56,13 +56,14 @@
       Source: <a href="https://yofukashi-no-uta.com/" target="_blank" rel="noopener">「よふかしのうた」製作委員会</a>
     </p>
   </div>
-<div class="hero_body">
-    <p><strong>Architecting precision across global infrastructure and industrial systems.</strong></p>
-    <p>I design, simulate, and document the structural frameworks that move macro industries—from automated aerospace kitting networks to high-performance heavy logistics. This platform serves as a living, code-driven laboratory where systems engineering, data modeling, and physical operations intersect.</p>
-    <ul>
-        <li><strong>Focus:</strong> Aerospace · Rail Systems · Advanced Manufacturing · Digital Twins · Supply Chain Dynamics</li>
-        <li><strong>Methodology:</strong> High-velocity, AI-augmented architecture backed by rigorous, version-controlled execution.</li>
-        <li><strong>Interactive Lab:</strong> Direct deployment of live, functional simulations, scheduling engines, and relational data tools.</li>
-    </ul>
-</div>
+<div class="hero__body">
+  <p><strong>Architecting precision across global infrastructure and industrial systems.</strong></p>
+
+  <p>I design, simulate, and document the structural frameworks that move macro industries—from automated aerospace kitting networks to high-performance heavy logistics. This platform serves as a living, code-driven laboratory where systems engineering, data modeling, and physical operations intersect.</p>
+
+  <ul>
+    <li><strong>Focus:</strong> Aerospace · Rail Systems · Advanced Manufacturing · Digital Twins · Supply Chain Dynamics</li>
+    <li><strong>Methodology:</strong> High-velocity, AI-augmented architecture backed by rigorous, version-controlled execution.</li>
+    <li><strong>Interactive Lab:</strong> Direct deployment of live, functional simulations, scheduling engines, and relational data tools.</li>
+  </ul>
 </div>
