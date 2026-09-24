@@ -92,7 +92,7 @@
 
 <div class="hero-images">
 <img src="/alvin-site/JPG_VID/ila2026.jpeg" alt="ILA Berlin">
-<img src="/alvin-site/JPG_VID/a380.jpeg" alt="Airbus A380">
+<img src="/alvin-site/JPG_VID/itn26.jpg" alt="ITN26">
 </div>
 
 <div class="hero-text">
