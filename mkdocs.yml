@@ -83,6 +83,12 @@ nav:
       - Panasonic SoundSlayer x Japan Airlines Safran Euphony Seats (A350): aviation/sslayer.md
   - Rail: 
       - Overview: rail/index.md
+      - Innotrans 2026:
+          - Coradia Stream Intercity EMU: rail/itn26/coradia.md
+          - CRRC E2E Flagship Vehicles: rail/itn26/crrc.md
+          - Stadler EURO DuFour Locomotive: rail/itn26/du4.md
+          - Stadler FLIRT Nordic Express: rail/itn26/nordx.md
+          - Talgo (230) FlixTrain: rail/itn26/t230.md
       - InnoTrans 2024 Cabin: rail/innotrans-2024.md
       - Rail Engineering: rail/stadler-2023.md
       - Rail Acoustics: rail/door-2023.md
