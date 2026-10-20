@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AGV Plant Builder</title>
+  <style>
+    :root{
+      --bg:#07111f;
+      --panel:rgba(9,18,34,.64);
+      --panel2:rgba(15,31,54,.68);
+      --text:#dbe7ff;
+      --muted:#8fa6c9;
+      --glass-border:rgba(255,255,255,.08);
+      --glass-shadow:0 10px 40px rgba(0,0,0,.28);
+      --blur:14px;
+    }
+    *{box-sizing:border-box}
+    html,body{
+      margin:0;height:100%;overflow:hidden;
+      background:radial-gradient(circle at top,#0b1b36 0%, #081220 45%, #07111f 100%);
+      color:var(--text);
+      font-family:Inter,system-ui,Segoe UI,Arial,sans-serif;
+    }
+    #app{position:relative;height:100vh;width:100vw;overflow:hidden}
+    .main{position:absolute;inset:0}
+    #wrap{position:absolute;inset:0}
+    canvas{display:block;width:100%;height:100%}
+
+    .glass{
+      background:linear-gradient(180deg,var(--panel),rgba(6,14,27,.56));
+      border:1px solid var(--glass-border);
+      box-shadow:var(--glass-shadow);
+      backdrop-filter:blur(var(--blur));
+      -webkit-backdrop-filter:blur(var(--blur));
+    }
+
+    .top-bar{
+      position:absolute;left:16px;right:16px;top:12px;
+      z-index:30;border-radius:18px;padding:10px 14px;
+      display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+      min-height:64px;
+      transition:transform .24s ease, opacity .24s ease;
+    }
+
+    .top-title{
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color:#c6d7f7;
+      margin-right:10px;
+      white-space:nowrap;
+    }
+
+    .group{
+      display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+      padding-right:10px;
+      border-right:1px solid rgba(255,255,255,.06);
+    }
+    .group:last-of-type{border-right:none;padding-right:0}
+
+    .group-label{
+      font-size:11px;
+      color:var(--muted);
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      margin-right:2px;
+    }
+
+    .toolgrid-inline{
+      display:flex;gap:8px;flex-wrap:wrap;
+    }
+
+    .top-spacer{flex:1}
+
+    .bottom-drawer{
+      position:absolute;left:16px;right:16px;bottom:16px;
+      z-index:28;border-radius:24px;overflow:hidden;
+      transition:transform .24s ease, opacity .24s ease, height .24s ease;
+    }
+
+    .bottom-drawer.is-collapsed{
+      transform:translateY(calc(100% - 56px));
+      opacity:.98;
+    }
+
+    .drawer-header{
+      display:flex;align-items:center;justify-content:space-between;
+      gap:12px;padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.05);
+      background:linear-gradient(180deg,rgba(99,179,255,.08),rgba(99,179,255,0));
+    }
+
+    .drawer-title{
+      font-size:14px;font-weight:700;letter-spacing:.08em;color:#cfe0ff;
+    }
+
+    .drawer-body{
+      padding:14px 16px 16px;
+      max-height:320px;
+      overflow:auto;
+    }
+
+    .icon-btn{
+      width:34px;height:34px;border-radius:10px;
+      display:flex;align-items:center;justify-content:center;
+      padding:0;font-size:18px;line-height:1;
+    }
+
+    .mini-float{
+      position:absolute;right:22px;bottom:22px;z-index:31;
+      border-radius:18px;padding:12px 14px;font-size:12px;
+      letter-spacing:.08em;text-transform:uppercase;cursor:pointer;user-select:none;
+    }
+
+    .sectionline{
+      display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;
+      margin-bottom:14px;
+    }
+
+    .kpi{
+      background:linear-gradient(180deg,var(--panel2),rgba(12,27,47,.78));
+      border:1px solid rgba(255,255,255,.04);
+      padding:12px;border-radius:18px;min-height:90px;
+    }
+    .kpi .n{font-size:20px;font-weight:700}
+    .kpi .t{font-size:11px;color:var(--muted);margin-top:6px}
+
+    .status-grid{
+      display:grid;grid-template-columns:1fr 1fr;gap:10px;
+      margin-bottom:14px;
+    }
+    .status-box{
+      padding:10px;border-radius:16px;
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.05);
+    }
+
+    .table{
+      font-size:12px;border:1px solid rgba(255,255,255,.06);
+      border-radius:12px;overflow:hidden;margin-bottom:12px;
+    }
+    .thead,.trow{display:grid;grid-template-columns:72px 1fr 58px 66px}
+    .thead{background:rgba(255,255,255,.04);color:#cfe0ff}
+    .thead div,.trow div{padding:8px 8px;border-bottom:1px solid rgba(255,255,255,.05)}
+    .trow:last-child div{border-bottom:none}
+
+    .section-title{
+      margin:0 0 8px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#c6d7f7
+    }
+    .sub{font-size:11.5px;color:var(--muted);line-height:1.5}
+    .row{display:flex;gap:8px;align-items:center}
+    .row.wrap{flex-wrap:wrap}
+    .compact{display:flex;gap:8px;flex-wrap:wrap}
+    .label{font-size:11px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+    .value{font-size:11px;color:#fff;min-width:42px;text-align:right}
+    input[type="range"]{width:110px}
+
+    button,select{
+      background:linear-gradient(180deg,rgba(23,48,77,.88),rgba(17,37,61,.82));
+      color:var(--text);
+      border:1px solid rgba(255,255,255,.06);
+      padding:8px 10px;border-radius:12px;cursor:pointer;font-size:12px
+    }
+    button:hover,select:hover{filter:brightness(1.08)}
+    button.active{outline:1px solid rgba(99,179,255,.55);box-shadow:0 0 0 2px rgba(99,179,255,.12) inset}
+    .pill{padding:2px 8px;border-radius:999px;border:1px solid rgba(255,255,255,.08);font-size:11px;display:inline-block}
+
+    @media (max-width: 1100px){
+      .sectionline{grid-template-columns:1fr 1fr}
+      .status-grid{grid-template-columns:1fr}
+      input[type="range"]{width:90px}
+    }
+    @media (max-width: 820px){
+      .top-bar{left:10px;right:10px;top:10px}
+      .bottom-drawer{left:10px;right:10px;bottom:10px}
+      .sectionline{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <main class="main">
+      <div id="wrap">
+        <canvas id="stage"></canvas>
+      </div>
+    </main>
+
+    <div class="top-bar glass">
+      <div class="group">
+        <div class="group-label">Modes</div>
+           <div class="sub">Shortcuts: 1 Select · 2 Pan · 3 Conveyor · 4 Station · 5 Robot · 6 Dock · 7 AGV Spawn · 8 Delete</div>
+        <div class="toolgrid-inline">
+          <button id="modeSelect" class="active">Select</button>
+          <button id="modePan">Pan</button>
+          <button id="modeConveyor">Conveyor</button>
+          <button id="modeStation">Station</button>
+          <button id="modeRobot">Robot</button>
+          <button id="modeDock">Dock</button>
+          <button id="modeAGVSpawn">AGV Spawn</button>
+          <button id="modeDelete">Delete</button>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="group-label">Run</div>
+        <div class="compact">
+          <button id="playPause">⏸ Pause</button>
+          <button id="step">Step</button>
+          <button id="reset">Reset</button>
+          <button id="clearLayout">Clear</button>
+          <button id="loadDemo">Demo Plant</button>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="group-label">Overlays</div>
+        <div class="compact">
+          <button id="toggleGrid">Grid: On</button>
+          <button id="toggleLabels">Labels: On</button>
+          <button id="toggleHeat">Heatmap: Off</button>
+          <button id="toggleTrails">Trails: On</button>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="group-label">Tuning</div>
+        <div class="compact">
+          <div class="row"><span class="label">Playback</span><input id="speed" type="range" min="0.2" max="4" step="0.1" value="1.0"><span class="value" id="speedVal">1.0x</span></div>
+          <div class="row"><span class="label">Demand</span><input id="spawn" type="range" min="0.05" max="1.6" step="0.05" value="0.55"><span class="value" id="spawnVal">0.55</span></div>
+          <div class="row"><span class="label">AGV</span><input id="agvSpeed" type="range" min="50" max="220" step="5" value="120"><span class="value" id="agvSpeedVal">120</span></div>
+          <div class="row"><span class="label">Queue</span><input id="queueCap" type="range" min="3" max="24" step="1" value="12"><span class="value" id="queueCapVal">12</span></div>
+          <select id="preset">
+            <option value="balanced">Balanced</option>
+            <option value="highmix">High Mix</option>
+            <option value="bottleneck">Bottleneck</option>
+            <option value="rush">Rush Hour</option>
+          </select>
+          <button id="addAGV">+ AGV</button>
+          <button id="removeAGV">− AGV</button>
+          <span class="pill">AGVs: <b id="agvCount">2</b></span>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="group-label">View</div>
+        <div class="compact">
+          <button id="zoomOutBtn">−</button>
+          <button id="zoomResetBtn">100%</button>
+          <button id="zoomInBtn">+</button>
+          <button id="focusBtn">Focus</button>
+        </div>
+      </div>
+
+      <div class="top-spacer"></div>
+
+      <button id="topBarToggle" class="icon-btn" title="Hide Top Toolbar">−</button>
+    </div>
+
+    <div class="bottom-drawer glass" id="bottomDrawer">
+      <div class="drawer-header">
+        <div>
+          <div class="drawer-title">Operations & Status</div>
+        </div>
+        <div class="compact">
+          <button id="bottomDrawerToggle" class="icon-btn" title="Collapse Bottom Drawer">−</button>
+        </div>
+      </div>
+
+      <div class="drawer-body">
+        <div class="sectionline">
+          <div class="kpi"><div class="n" id="kpi_tph">0.0</div><div class="t">Throughput / hr</div></div>
+          <div class="kpi"><div class="n" id="kpi_wip">0</div><div class="t">WIP</div></div>
+          <div class="kpi"><div class="n" id="kpi_util">0%</div><div class="t">AGV Utilization</div></div>
+          <div class="kpi"><div class="n" id="kpi_bn">—</div><div class="t">Bottleneck</div></div>
+        </div>
+
+        <div class="status-grid">
+          <div class="status-box">
+            <div class="section-title">Selected Asset</div>
+            <div id="selectionInfo">Nothing selected.</div>
+          </div>
+          <div class="status-box">
+            <div class="section-title">Dispatch Queue</div>
+            <div id="queueInfo">Queue empty.</div>
+          </div>
+        </div>
+
+        <div class="section-title">Live Stations</div>
+        <div id="stationTable" class="table">
+          <div class="thead"><div>ID</div><div>Role</div><div>Load</div><div>Status</div></div>
+        </div>
+
+        <div class="section-title">Event Log</div>
+        <div id="eventLog" class="sub">System booted. Load a demo plant or start placing assets.</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./tmx.js"></script>
+  <script>
+    (() => {
+      const topBar = document.querySelector('.top-bar');
+      const topBarToggle = document.getElementById('topBarToggle');
+      const bottomDrawer = document.getElementById('bottomDrawer');
+      const bottomDrawerToggle = document.getElementById('bottomDrawerToggle');
+      const fullscreenBtn = document.getElementById('fullscreenBtn');
+
+      let topBarHidden = false;
+
+      topBarToggle?.addEventListener('click', () => {
+        topBarHidden = !topBarHidden;
+        if (topBarHidden) {
+          topBar.style.transform = 'translateY(calc(-100% + 44px))';
+          topBar.style.opacity = '.98';
+          topBarToggle.textContent = '+';
+          topBarToggle.title = 'Show Top Toolbar';
+        } else {
+          topBar.style.transform = 'translateY(0)';
+          topBar.style.opacity = '1';
+          topBarToggle.textContent = '−';
+          topBarToggle.title = 'Hide Top Toolbar';
+        }
+      });
+
+      bottomDrawerToggle?.addEventListener('click', () => {
+        bottomDrawer.classList.toggle('is-collapsed');
+        const collapsed = bottomDrawer.classList.contains('is-collapsed');
+        bottomDrawerToggle.textContent = collapsed ? '+' : '−';
+        bottomDrawerToggle.title = collapsed ? 'Expand Bottom Drawer' : 'Collapse Bottom Drawer';
+      });
+
+      fullscreenBtn?.addEventListener('click', async () => {
+        try {
+          if (!document.fullscreenElement) {
+            await document.documentElement.requestFullscreen();
+          } else {
+            await document.exitFullscreen();
+          }
+        } catch (err) {
+          console.warn('Fullscreen failed:', err);
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
