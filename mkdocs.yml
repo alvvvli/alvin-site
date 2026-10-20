@@ -26,8 +26,8 @@ theme:
 
 plugins:
   - search
-  - minify
-  - glightbox
+  # - minify
+  # - glightbox
 
 markdown_extensions:
   - attr_list
