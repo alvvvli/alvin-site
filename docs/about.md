@@ -99,7 +99,7 @@
 
 <p><strong>I'm Alvin.</strong></p>
 
-<p>work at the intersection of systems engineering, industrial automation, and transport infrastructure.</p>
+<p>I work at the intersection of systems engineering, industrial automation, and transport infrastructure.</p>
 
 <p>My approach connects system-level architecture with operational reality—from aerospace and rail networks to robotic manufacturing systems. I use simulation, data analytics, and model-based engineering methods to understand system behaviour, identify constraints, and improve reliability.</p>
 
