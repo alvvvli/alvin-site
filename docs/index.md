@@ -64,7 +64,7 @@
   <p>This platform documents my work in systems engineering, simulation, operational reliability, and data-driven decision-making. Projects connect system-level architecture with physical constraints, measurable performance, and practical engineering trade-offs.</p>
 
   <ul>
-    <li><strong>Focus:</strong> Aerospace & Defence · Rail & Transport Systems · Industrial Automation · Infrastructure Engineering · Digital Twins</li>
+    <li><strong>Focus:</strong> Aerospace & Defense · Rail & Transport Systems · Industrial Automation · Infrastructure Engineering · Digital Twins</li>
     <li><strong>Methodology:</strong> Systems-level analysis, operational modelling, simulation, reliability assessment, and evidence-based engineering trade-offs.</li>
     <li><strong>Interactive Lab:</strong> Executable simulations, operational decision-support tools, scheduling algorithms, and data-driven engineering models.</li>
   </ul>
