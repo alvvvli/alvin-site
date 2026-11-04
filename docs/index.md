@@ -57,13 +57,15 @@
     </p>
   </div>
 <div class="hero__body">
-  <p><strong>Architecting precision across global infrastructure and industrial systems.</strong></p>
+  <p><strong>Systems Engineering Across Physical and Digital Infrastructure.</strong></p>
 
-  <p>I design, simulate, and document the structural frameworks that move macro industries—from automated aerospace kitting networks to high-performance heavy logistics. This platform serves as a living, code-driven laboratory where systems engineering, data modeling, and physical operations intersect.</p>
+  <p>I explore how complex engineering systems are designed, modelled, integrated, and operated—from aerospace and rail infrastructure to industrial automation and manufacturing.</p>
+
+  <p>This platform documents my work in systems engineering, simulation, operational reliability, and data-driven decision-making. Projects connect system-level architecture with physical constraints, measurable performance, and practical engineering trade-offs.</p>
 
   <ul>
-    <li><strong>Focus:</strong> Aerospace · Rail Systems · Advanced Manufacturing · Digital Twins · Supply Chain Dynamics</li>
-    <li><strong>Methodology:</strong> High-velocity, AI-augmented architecture backed by rigorous, version-controlled execution.</li>
-    <li><strong>Interactive Lab:</strong> Direct deployment of live, functional simulations, scheduling engines, and relational data tools.</li>
+    <li><strong>Focus:</strong> Aerospace & Defence · Rail & Transport Systems · Industrial Automation · Infrastructure Engineering · Digital Twins</li>
+    <li><strong>Methodology:</strong> Systems-level analysis, operational modelling, simulation, reliability assessment, and evidence-based engineering trade-offs.</li>
+    <li><strong>Interactive Lab:</strong> Executable simulations, operational decision-support tools, scheduling algorithms, and data-driven engineering models.</li>
   </ul>
 </div>
