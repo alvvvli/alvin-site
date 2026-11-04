@@ -99,11 +99,11 @@
 
 <p><strong>I'm Alvin.</strong></p>
 
-<p>I architect data, logistics, and simulation systems that move global industries.</p>
+<p>work at the intersection of systems engineering, industrial automation, and transport infrastructure.</p>
 
-<p>My work bridges the gap between macro aerospace/rail infrastructure and micro-level technical execution. I specialize in digital twins, supply chain network optimization, and automated data workflows—built with the discipline of continuous, version-controlled iteration.</p>
+<p>My approach connects system-level architecture with operational reality—from aerospace and rail networks to robotic manufacturing systems. I use simulation, data analytics, and model-based engineering methods to understand system behaviour, identify constraints, and improve reliability.</p>
 
-<p>Building reliable systems where engineering, operations, and infrastructure meet.</p>
+<p>Engineering systems that are not only technically sound, but operationally dependable.</p>
 
 <div class="badge-cluster">
 <span>GE Vernova</span>
