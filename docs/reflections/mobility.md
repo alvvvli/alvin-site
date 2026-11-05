@@ -9,13 +9,12 @@ This map brings together those places and the routes connecting them, from inter
 ## Travel Network
 
 <iframe
-  src="../../assets/travel-network/index.html"
-  title="Global Mobility Network — Interactive World Map"
+  src="../mobility-map.html"
+  title="Global Mobility Network"
   width="100%"
   height="720"
   loading="lazy"
-  allowfullscreen
-  style="border: 1px solid rgba(100,200,255,0.22); border-radius: 12px; background: #0b1220; display: block;"
+  style="border:0; border-radius:12px; background:#0b1220;"
 ></iframe>
 
 <small>Interactive map · OpenStreetMap / CARTO · Select a location or route to explore.</small>
