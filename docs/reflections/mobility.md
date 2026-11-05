@@ -1,12 +1,8 @@
 # Global Mobility Network
 
-*A record of places, routes, and connections.*
-
 Over the years, I've spent time living, studying, working, and travelling across different parts of the world. Taiwan, California, the Netherlands, Denmark, and Singapore have been recurring bases, with many shorter journeys in between.
 
 This map brings together those places and the routes connecting them, from intercontinental flights to regional rail journeys and local excursions.
-
-## Travel Network
 
 <iframe
   src="../mobility-map.html"
