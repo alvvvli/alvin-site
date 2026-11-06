@@ -17,5 +17,5 @@ Guided by Dr. [Vishwanath Bulusu](https://www.linkedin.com/in/vishwanathbulusu/)
 
 ---
 
-📌 _Originally presented as part of UC Berkeley coursework_  
+📌 Originally presented as part of UC Berkeley [CIVENG 260](https://classes.berkeley.edu/content/2024-spring-civeng-260-001-lec-001) coursework
 🛠️ Tools: Siemens Tecnomatix, AGV integration, system simulation
