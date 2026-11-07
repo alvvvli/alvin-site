@@ -4,6 +4,7 @@
 </div>
 
 ## Explore:
+- [Global Mobility Network](mobility.md)
 - [KÀ — System Automation](cs.md)
 - [MIT Energy Conference 2024](mitenergy2024.md)
 - [Guinness World Record Moment 2024](tdx24.md)
