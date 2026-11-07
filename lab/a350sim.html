@@ -1,0 +1,1544 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ULR Procedure Trainer — A/THR + AP LOC/GS + FMA</title>
+
+  <style>
+    html, body { margin:0; height:100%; overflow:hidden; background:#070b16; }
+    #wrap { position:relative; width:100%; height:100%; }
+    canvas { display:block; }
+    #hud { position:absolute; left:0; top:0; width:100%; height:100%; pointer-events:none; }
+
+    /* =========================
+       UI TOKENS + SHARED
+    ========================= */
+    :root{
+      --ui-bg: rgba(0,0,0,0.40);
+      --ui-bd: rgba(255,255,255,0.08);
+      --ui-bd2: rgba(255,255,255,0.12);
+      --ui-tx: #e7ecff;
+      --ui-dim: rgba(231,236,255,0.82);
+    }
+
+    .ui-bar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:10px;
+    }
+
+    .ui-title{
+      font-weight:800;
+      letter-spacing:0.2px;
+      opacity:0.95;
+    }
+
+    .ui-close{
+      width:30px;
+      height:30px;
+      border-radius:10px;
+      border:1px solid var(--ui-bd2);
+      background: rgba(255,255,255,0.06);
+      color: var(--ui-tx);
+      font: 18px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      cursor:pointer;
+      pointer-events:auto;
+    }
+    .ui-close:hover{ background: rgba(255,255,255,0.10); }
+    .ui-close:active{ transform: translateY(1px); }
+
+    .ui-fab{
+      position:absolute;
+      bottom:12px;
+      padding:8px 10px;
+      border-radius:12px;
+      border:1px solid var(--ui-bd2);
+      background: rgba(0,0,0,0.45);
+      color: var(--ui-tx);
+      font: 12px/1.2 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      cursor:pointer;
+      pointer-events:auto;
+      backdrop-filter: blur(6px);
+      display:none;
+      z-index: 50;
+    }
+    .ui-fab-left{ left:12px; }
+    .ui-fab-right{ right:12px; }
+
+    /* =========================
+       HELP (optional)
+    ========================= */
+    #help {
+      position:absolute; left:12px; top:12px;
+      color:#d7deff; font:12px/1.35 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      background:rgba(0,0,0,0.35);
+      border:1px solid rgba(255,255,255,0.08);
+      padding:10px 12px; border-radius:12px;
+      max-width:820px;
+      pointer-events:none;
+    }
+    #help b { color:#ffffff; }
+    #help .dim { opacity:0.85; }
+
+    /* =========================
+       PROCEDURE PANEL (left bottom)
+    ========================= */
+    #panel {
+      position:absolute; left:12px; bottom:12px;
+      width:min(520px, 44vw);
+      color:#e7ecff;
+      font:12px/1.35 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      background:var(--ui-bg);
+      border:1px solid var(--ui-bd);
+      border-radius:12px;
+      padding:12px 12px;
+      pointer-events:auto;
+      backdrop-filter: blur(6px);
+      z-index: 40;
+    }
+    #panel .title { font-weight:700; font-size:13px; }
+    #panel .row { display:flex; gap:10px; flex-wrap:wrap; margin:6px 0; opacity:0.95; }
+    #panel .chip {
+      padding:4px 8px; border-radius:999px;
+      background:rgba(255,255,255,0.07);
+      border:1px solid rgba(255,255,255,0.08);
+    }
+    #panel .good { color:#bff7cf; }
+    #panel .warn { color:#ffd39a; }
+    #panel .bad  { color:#ff9aa8; }
+    #panel .dim { opacity:0.80; }
+    #panel .hr { height:1px; background:rgba(255,255,255,0.10); margin:10px 0; }
+    #panel kbd{
+      background:rgba(255,255,255,0.10);
+      border:1px solid rgba(255,255,255,0.15);
+      border-bottom-color:rgba(255,255,255,0.25);
+      padding:1px 6px; border-radius:6px;
+      font:12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    /* =========================
+       CONTROLS PANEL (right bottom)
+    ========================= */
+    #ctrl{
+      position:absolute;
+      right:12px;
+      bottom:12px;
+      width:min(640px, 52vw);
+      color:#e7ecff;
+      font:12px/1.35 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      background:var(--ui-bg);
+      border:1px solid var(--ui-bd);
+      border-radius:12px;
+      padding:12px;
+      pointer-events:auto;
+      backdrop-filter: blur(6px);
+      z-index: 40;
+
+      max-height: calc(100vh - 24px);
+      overflow: auto;
+    }
+
+    .ctrl-row{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px; }
+    .ctrl-row.dim{ opacity:0.85; }
+
+    .ctrl-grid{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap:10px;
+    }
+
+    .box{
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:12px;
+      padding:10px;
+    }
+
+    .btn{
+      cursor:pointer;
+      background:rgba(255,255,255,0.08);
+      border:1px solid rgba(255,255,255,0.12);
+      color:#e7ecff;
+      padding:6px 10px;
+      border-radius:10px;
+    }
+
+    .btn.on{
+      background: rgba(145,255,170,0.14);
+      border-color: rgba(145,255,170,0.55);
+      color:#bff7cf;
+    }
+
+    .btn.warn{
+      background: rgba(255,211,154,0.10);
+      border-color: rgba(255,211,154,0.55);
+      color:#ffd39a;
+    }
+
+    .btn.ghost{
+      background: transparent;
+      border-color: rgba(255,255,255,0.10);
+      opacity:0.95;
+    }
+
+    .btn.sm{
+      padding:6px 10px;
+      border-radius:10px;
+    }
+
+    .lbl{ font-weight:800; opacity:0.90; margin-bottom:6px; }
+    .readout{ margin-top:6px; opacity:0.92; }
+    .hint{ margin-top:6px; font-size:11px; opacity:0.72; }
+
+    .stepper{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    input[type="range"]{ width:100%; accent-color:#8fb0ff; }
+
+    @media (max-width: 980px){
+      #panel{ width:min(520px, 92vw); }
+      #ctrl{ width:min(640px, 92vw); }
+      .ctrl-grid{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+<div id="wrap">
+
+  <!-- HELP -->
+  <div id="help">
+    <b>Shortcuts</b> <span class="dim">|</span>
+    <b>1</b> Reset APP <span class="dim">|</span>
+    <b>2</b> Reset RWY <span class="dim">|</span>
+    <b>V</b>/<b>3</b> Set V1 <span class="dim">|</span>
+    <b>C</b>/<b>4</b> Set V2 + Auto-rotate <span class="dim">|</span>
+    <b>R/F</b> Throttle +/- <span class="dim">|</span>
+    <b>W/S</b> Pitch <span class="dim">|</span>
+    <b>A/D</b> Roll <span class="dim">|</span>
+    <b>B</b> Hold brake <span class="dim">|</span>
+    <b>P</b> Pause
+  </div>
+
+  <!-- PROCEDURE PANEL -->
+  <div id="panel">
+    <div class="ui-bar">
+      <div class="title" id="phaseTitle">PHASE</div>
+      <button id="panelClose" class="ui-close" type="button" aria-label="Close procedure panel">×</button>
+    </div>
+
+    <div class="row" id="chips"></div>
+    <div class="hr"></div>
+    <div id="stepText"></div>
+    <div class="hr"></div>
+    <div class="dim" id="notes"></div>
+  </div>
+
+  <!-- CONTROLS PANEL -->
+  <div id="ctrl">
+    <div class="ui-bar">
+      <div class="ui-title">Controls</div>
+      <button id="ctrlClose" class="ui-close" type="button" aria-label="Close controls">×</button>
+    </div>
+
+    <div class="ctrl-row">
+      <button class="btn" data-toggle="athr">A/THR</button>
+      <button class="btn" data-toggle="ap">AP1</button>
+      <button class="btn" data-toggle="loc">LOC</button>
+      <button class="btn" data-toggle="gs">G/S</button>
+      <button class="btn" data-toggle="gear">GEAR</button>
+      <button class="btn" data-toggle="pause">PAUSE</button>
+      <button class="btn ghost" data-action="reset1">RESET APP</button>
+      <button class="btn ghost" data-action="reset2">RESET RWY</button>
+    </div>
+
+    <div class="ctrl-grid">
+      <div class="box">
+        <div class="lbl">THR</div>
+        <input id="thr" type="range" min="0" max="100" value="55" />
+        <div class="readout"><span id="thrV">55</span>%</div>
+        <div class="hint">A/THR ON will override slowly</div>
+      </div>
+
+      <div class="box">
+        <div class="lbl">SPD TARGET</div>
+        <input id="spd" type="range" min="0" max="340" step="5" value="155" />
+        <div class="readout"><span id="spdV">155</span> kt</div>
+        <div class="hint">Used by A/THR and AP pitch bias</div>
+      </div>
+
+      <div class="box">
+        <div class="lbl">FLAPS</div>
+        <div class="stepper">
+          <button class="btn sm" data-action="flapsDown">-</button>
+          <div class="readout"><span id="flapsV">0</span></div>
+          <button class="btn sm" data-action="flapsUp">+</button>
+        </div>
+        <div class="hint">0..4 (toy configs)</div>
+      </div>
+
+      <div class="box">
+        <div class="lbl">BRAKES CMD</div>
+        <input id="brk" type="range" min="0" max="100" value="0" />
+        <div class="readout"><span id="brkV">0</span>%</div>
+        <div class="hint">Hold <b>B</b> for full braking (doesn't change cmd)</div>
+      </div>
+    </div>
+
+    <div class="ctrl-row dim">
+      <div>Mouse/touch: drag on screen to command <b>Pitch/Roll</b> (AP OFF). Double-click to center.</div>
+    </div>
+  </div>
+
+  <!-- REOPEN BUTTONS (appear only when closed) -->
+  <button id="panelOpen" class="ui-fab ui-fab-left" type="button">PROCEDURE</button>
+  <button id="ctrlOpen"  class="ui-fab ui-fab-right" type="button">CONTROLS</button>
+
+  <canvas id="hud"></canvas>
+</div>
+
+<script type="module">
+import * as THREE from "https://unpkg.com/three@0.160.0/build/three.module.js";
+
+/* ===========================
+   UNITS + HELPERS
+=========================== */
+const FT_PER_M = 3.280839895;
+const M_PER_FT = 1 / FT_PER_M;
+const KTS_PER_MPS = 1.943844492;
+const MPS_PER_KTS = 1 / KTS_PER_MPS;
+
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const rad = d => d * Math.PI / 180;
+const deg = r => r * 180 / Math.PI;
+
+function isaRho(alt_m){
+  const rho0 = 1.225, H = 8500.0;
+  return rho0 * Math.exp(-alt_m / H);
+}
+function wrapAngle(a){
+  while (a > Math.PI) a -= 2*Math.PI;
+  while (a < -Math.PI) a += 2*Math.PI;
+  return a;
+}
+function band(val, target, tol){ return Math.abs(val - target) <= tol; }
+
+/* ===========================
+   RUNWAY / ILS GEOMETRY (toy)
+=========================== */
+const RWY = {
+  heading: 0,
+  threshold: new THREE.Vector3(0, 0, 0),
+  length: 3600,
+  width: 60,
+  gsDeg: 3.0,
+  locScaleMPerDot: 25,
+  gsScaleMPerDot: 15,
+  decisionAltAglFt: 200,
+};
+
+// ✅ CG height above runway when "on ground" (prevents model clipping)
+const GROUND_CG_Y = 1.35; // meters (tune 1.0–1.8)
+
+function ilsDeviation(pos){
+  const dx = RWY.threshold.x - pos.x;
+  const dist = Math.max(dx, 1);
+  const desiredAlt = Math.tan(rad(RWY.gsDeg)) * dist;
+  const gsErrM = pos.y - desiredAlt;
+
+  const locDots = clamp(pos.z / RWY.locScaleMPerDot, -2.5, 2.5);
+  const gsDots  = clamp(gsErrM / RWY.gsScaleMPerDot, -2.5, 2.5);
+  return { locDots, gsDots, distM: dist, gsErrM };
+}
+
+/* ===========================
+   SIM STATE
+=========================== */
+const sim = {
+  paused: false,
+
+  pos: new THREE.Vector3(-12000, 25000 * M_PER_FT, 0),
+  vel: new THREE.Vector3(155 * MPS_PER_KTS, 0, 0),
+
+  pitch: rad(2),
+  roll: 0,
+  yaw: 0,
+
+  throttle: 0.55,
+  flaps: 0,
+  gearDown: true,
+
+  // brakes: command vs effective (effective = max(cmd, B-hold))
+  brakesCmd: 0,
+  brakes: 0,
+
+  mass: 175000,
+  wingArea: 443,
+  maxThrust: 2 * 320000,
+  g: 9.80665,
+
+  pitchRate: rad(28),
+  rollRate:  rad(45),
+  yawRate:   rad(18),
+
+  onGround: false,
+
+  iasKts: 0,
+  altFt: 0,
+  vsFpm: 0,
+
+  score: 100,
+  faults: 0,
+  gate1000Checked: false,
+  gate500Checked: false,
+  lastCallout: "",
+  calloutTimer: 0,
+
+  spdTarget: 180,
+  athrOn: false,
+  apOn: false,
+  apLocArmed: false,
+  apGsArmed: false,
+
+  fma: {
+    col1: "MAN THR",
+    col2: "---",
+    col3: "---",
+    ap:   ""
+  },
+
+  locCaptured: false,
+  gsCaptured: false,
+
+  ui: { panelOpen: true, ctrlOpen: true },
+};
+
+function vrefToy(){
+  if (sim.flaps >= 3 && sim.gearDown) return 140;
+  if (sim.flaps === 2) return 155;
+  if (sim.flaps === 1) return 175;
+  return 190;
+}
+
+// ✅ Toy takeoff speeds (keyed off flap + mass)
+function vTakeoffToy(){
+  const flapAdj =
+    (sim.flaps >= 2) ? -8 :
+    (sim.flaps === 1) ? -4 : 0;
+
+  const massAdj = clamp((sim.mass - 175000) / 10000, -8, 8);
+
+  const VR = clamp(150 + massAdj + flapAdj, 120, 190);
+  const V1 = clamp(VR - 5, 110, 185);
+  const V2 = clamp(VR + 10, 120, 220);
+  return { V1, VR, V2 };
+}
+
+function callout(text, penalty=0){
+  if (text === sim.lastCallout) return;
+  sim.lastCallout = text;
+  sim.calloutTimer = 2.8;
+  if (penalty > 0){
+    sim.score = clamp(sim.score - penalty, 0, 100);
+    sim.faults += 1;
+  }
+}
+
+function resetApproach(){
+  sim.pos.set(-12000, 25000 * M_PER_FT, 0);
+  sim.vel.set(155 * MPS_PER_KTS, 0, 0);
+
+  sim.pitch = rad(2);
+  sim.roll = 0;
+  sim.yaw = 0;
+
+  sim.throttle = 0.55;
+  sim.flaps = 0;
+  sim.gearDown = true;
+
+  sim.brakesCmd = 0;
+  sim.brakes = 0;
+
+  sim.onGround = false;
+
+  sim.score = 100;
+  sim.faults = 0;
+  sim.gate1000Checked = false;
+  sim.gate500Checked = false;
+  sim.lastCallout = "";
+  sim.calloutTimer = 0;
+
+  sim.athrOn = false;
+  sim.apOn = false;
+  sim.apLocArmed = false;
+  sim.apGsArmed = false;
+  sim.locCaptured = false;
+  sim.gsCaptured = false;
+  sim.spdTarget = 180;
+
+  takeoffAssist.disarm(true);
+  trainer.reset();
+}
+
+function resetRunway(){
+  sim.pos.set(120, GROUND_CG_Y, 0);
+  sim.vel.set(0, 0, 0);
+
+  sim.pitch = 0;
+  sim.roll = 0;
+  sim.yaw = 0;
+
+  sim.throttle = 0.0;
+  sim.flaps = 1;
+  sim.gearDown = true;
+
+  sim.brakesCmd = 0;
+  sim.brakes = 0;
+
+  sim.onGround = true;
+
+  sim.score = 100;
+  sim.faults = 0;
+  sim.gate1000Checked = false;
+  sim.gate500Checked = false;
+  sim.lastCallout = "";
+  sim.calloutTimer = 0;
+
+  sim.athrOn = false;
+  sim.apOn = false;
+  sim.apLocArmed = false;
+  sim.apGsArmed = false;
+  sim.locCaptured = false;
+  sim.gsCaptured = false;
+  sim.spdTarget = 0;
+
+  takeoffAssist.disarm(true);
+  trainer.resetTakeoff();
+}
+
+/* ===========================
+   INPUTS
+=========================== */
+const keys = new Set();
+
+addEventListener("keydown", (e) => {
+  keys.add(e.code);
+
+  if (e.code === "KeyP") sim.paused = !sim.paused;
+  if (e.code === "Digit1") resetApproach();
+  if (e.code === "Digit2") resetRunway();
+
+  if (e.code === "KeyG") sim.gearDown = !sim.gearDown;
+  if (e.code === "KeyZ") sim.flaps = clamp(sim.flaps + 1, 0, 4);
+  if (e.code === "KeyX") sim.flaps = clamp(sim.flaps - 1, 0, 4);
+
+  if (e.code === "Space") trainer.ack();
+
+  if (e.code === "KeyT") sim.athrOn = !sim.athrOn;
+  if (e.code === "KeyM") sim.apOn = !sim.apOn;
+  if (e.code === "KeyL") sim.apLocArmed = !sim.apLocArmed;
+  if (e.code === "KeyK") sim.apGsArmed = !sim.apGsArmed;
+
+  if (e.code === "BracketLeft") sim.spdTarget = clamp(sim.spdTarget - 5, 0, 340);
+  if (e.code === "BracketRight") sim.spdTarget = clamp(sim.spdTarget + 5, 0, 340);
+
+  // ✅ V1/V2 shortcuts
+  if (e.code === "Digit3" || e.code === "KeyV"){
+    const {V1} = vTakeoffToy();
+    sim.spdTarget = Math.round(V1);
+    callout(`V1 ${Math.round(V1)} kt`, 0);
+  }
+  if (e.code === "Digit4" || e.code === "KeyC"){
+    const {V2} = vTakeoffToy();
+    sim.spdTarget = Math.round(V2);
+    takeoffAssist.arm();
+    callout(`V2 ${Math.round(V2)} kt — AUTO ROTATE`, 0);
+  }
+
+  if (e.code === "Escape"){
+    if (sim.ui.ctrlOpen) sim.ui.ctrlOpen = false;
+    else sim.ui.panelOpen = false;
+    applyUiVisibility();
+  }
+});
+addEventListener("keyup", (e) => keys.delete(e.code));
+
+/* ===========================
+   TAKEOFF ASSIST (V2 / AUTO ROTATE)
+=========================== */
+const takeoffAssist = {
+  armed: false,
+  disarm(silent=false){
+    this.armed = false;
+    if (!silent) callout("TAKEOFF ASSIST OFF", 0);
+  },
+  arm(){
+    this.armed = true;
+
+    // Avoid mode fights during takeoff assist
+    sim.apOn = false;
+    sim.apLocArmed = false;
+    sim.apGsArmed = false;
+    sim.locCaptured = false;
+    sim.gsCaptured = false;
+
+    sim.athrOn = false; // keep TO power stable
+    sim.brakesCmd = 0;
+    sim.throttle = Math.max(sim.throttle, 1.0);
+  },
+  update(dt){
+    if (!this.armed) return;
+
+    const {VR, V2} = vTakeoffToy();
+
+    // force takeoff roll settings
+    sim.brakesCmd = 0;
+    sim.throttle = 1.0;
+
+    if (sim.onGround){
+      // pre-rotate: start feeding pitch from VR-12 → VR
+      const t = clamp((sim.iasKts - (VR - 12)) / 12, 0, 1);
+      const tgtPitch = rad(2 + 10 * t); // ~2° → ~12°
+      const err = tgtPitch - sim.pitch;
+      sim.pitch += clamp(err, -rad(18) * dt, rad(18) * dt);
+
+      // keep target speed at V2 once armed (so HUD is consistent)
+      sim.spdTarget = Math.round(V2);
+    } else {
+      // airborne: hold modest pitch until a bit of climb
+      const agl = Math.max(sim.altFt, 0);
+      const tgtPitch = (agl < 250) ? rad(10) : rad(6);
+      const err = tgtPitch - sim.pitch;
+      sim.pitch += clamp(err, -rad(12) * dt, rad(12) * dt);
+
+      sim.spdTarget = Math.round(V2);
+
+      // auto-disarm after clear of runway / stable climb
+      if (agl > 500) this.disarm(true);
+    }
+
+    sim.pitch = clamp(sim.pitch, rad(-10), rad(18));
+  }
+};
+
+/* ===========================
+   TRAINER STATE MACHINE
+=========================== */
+const trainer = (() => {
+  const state = {
+    phase: "CRZ",
+    step: 0,
+    awaitingAck: true,
+    msg: "",
+    note: "",
+    targets: { spd: 155, alt: 25000, config: "Clean" }
+  };
+
+  function set(phase, step, msg, note, targets){
+    state.phase = phase; state.step = step;
+    state.msg = msg; state.note = note;
+    if (targets) state.targets = targets;
+  }
+
+  function reset(){
+    set("CRZ", 0,
+      "CRZ: stabilize (≈25000 ft, ≈155 kt). Press SPACE to begin DES.",
+      "Tip: try A/THR (T) to hold speed; AP is optional.",
+      { spd:155, alt:25000, config:"Clean" }
+    );
+    state.awaitingAck = true;
+    sim.spdTarget = 155;
+  }
+
+  function resetTakeoff(){
+    const {V1, VR, V2} = vTakeoffToy();
+    set("T/O", 0,
+      `T/O: FLAPS 1. Advance thrust. Rotate at VR≈${Math.round(VR)} kt (V1≈${Math.round(V1)}, V2≈${Math.round(V2)}). Press SPACE.`,
+      "Shortcut: press C (or 4) for V2 + auto-rotate. Hold B to brake.",
+      { spd:0, alt:0, config:"FLAPS 1, GEAR DOWN" }
+    );
+    state.awaitingAck = true;
+  }
+
+  function ack(){
+    if (!state.awaitingAck) return;
+    state.awaitingAck = false;
+
+    if (state.phase==="CRZ"){
+      set("DES", 1,
+        "DES: descend to 6000 ft. Target ~250 kt. Press SPACE near 6000 ft.",
+        "Keep ILS deviations reasonable (≤±2 dots).",
+        { spd:250, alt:6000, config:"FLAPS 0-1" }
+      );
+      sim.spdTarget = 250;
+      return;
+    }
+    if (state.phase==="DES"){
+      set("APP", 2,
+        "APP: set up intercept. Target ~3000 ft and ~180 kt. FLAPS 2. Press SPACE when LOC controlled.",
+        "You may arm AP LOC (L) and AP G/S (K) once stable.",
+        { spd:180, alt:3000, config:"FLAPS 2 (gear soon)" }
+      );
+      sim.spdTarget = 180;
+      return;
+    }
+    if (state.phase==="APP"){
+      set("FINAL", 3,
+        "FINAL: configure (FLAPS 3/4 + GEAR DOWN). Target VREF+5. Press SPACE when stabilized.",
+        "Stabilized gates at 1000' and 500'. If unstable: reset with 1.",
+        { spd:(vrefToy()+5), alt:0, config:"FLAPS 3/4, GEAR DOWN" }
+      );
+      sim.spdTarget = vrefToy()+5;
+      return;
+    }
+    if (state.phase==="FINAL"){
+      set("LAND", 4,
+        "LAND: flare at ~30-20 ft, reduce thrust gently. Touchdown on centerline.",
+        "After touchdown: brake and stop.",
+        { spd:vrefToy(), alt:0, config:"Configured" }
+      );
+      sim.spdTarget = vrefToy();
+      return;
+    }
+  }
+
+  function tick(dt){
+    const alt = sim.altFt, ias = sim.iasKts, vs = sim.vsFpm;
+    const agl = Math.max(alt, 0);
+    const ils = ilsDeviation(sim.pos);
+
+    const vTgt = vrefToy();
+    const spdOkFinal = (ias >= vTgt - 10) && (ias <= vTgt + 10);
+    const sinkOk = Math.abs(vs) <= 1000;
+    const locOk = Math.abs(ils.locDots) <= 1.0;
+    const gsOk  = Math.abs(ils.gsDots) <= 1.0;
+    const cfgOkFinal = (sim.flaps >= 3) && sim.gearDown;
+
+    if (!sim.onGround && !sim.gate1000Checked && agl <= 1000){
+      sim.gate1000Checked = true;
+      if (spdOkFinal && sinkOk && locOk && gsOk && cfgOkFinal) callout("1000' STABLE ✅", 0);
+      else callout("1000' UNSTABLE ❌", 12);
+    }
+    if (!sim.onGround && !sim.gate500Checked && agl <= 500){
+      sim.gate500Checked = true;
+      if (spdOkFinal && sinkOk && locOk && gsOk && cfgOkFinal) callout("500' STABLE ✅", 0);
+      else callout("500' UNSTABLE ❌", 18);
+    }
+
+    if (sim.onGround && state.phase !== "ROLL" && state.phase !== "T/O"){
+      set("ROLL", 5,
+        "ROLL: maintain centerline. Hold B to brake. Stop to finish.",
+        "Score penalizes runway excursion.",
+        { spd:0, alt:0, config:"Rollout" }
+      );
+    }
+
+    if (state.phase === "FINAL") state.targets.spd = vrefToy() + 5;
+    if (state.phase === "LAND")  state.targets.spd = vrefToy();
+
+    if (!state.awaitingAck){
+      if (state.phase==="DES"){
+        if (alt < 6800 && ias <= 270) { state.awaitingAck = true; state.msg += "  (Press SPACE)"; }
+      }
+      if (state.phase==="APP"){
+        if (band(alt, 3000, 600) && sim.flaps>=2 && Math.abs(ils.locDots)<=1.5) { state.awaitingAck = true; state.msg += "  (Press SPACE)"; }
+      }
+      if (state.phase==="FINAL"){
+        const okCfg = (sim.flaps>=3 && sim.gearDown);
+        const okNeedles = Math.abs(ils.locDots)<=1.2 && Math.abs(ils.gsDots)<=1.2;
+        const okSpd = Math.abs(sim.iasKts - (vrefToy()+5))<=15;
+        if (okCfg && okNeedles && okSpd && alt < 1200) { state.awaitingAck = true; state.msg += "  (Press SPACE)"; }
+      }
+    }
+
+    if (!sim.onGround && agl < 3000){
+      if (Math.abs(ils.locDots) > 2.0) sim.score = clamp(sim.score - dt * 1.6, 0, 100);
+      if (Math.abs(ils.gsDots)  > 2.0) sim.score = clamp(sim.score - dt * 1.6, 0, 100);
+    }
+  }
+
+  return { state, reset, resetTakeoff, ack, tick };
+})();
+trainer.reset();
+
+/* ===========================
+   UI VISIBILITY
+=========================== */
+const panelEl = document.getElementById("panel");
+const ctrlEl  = document.getElementById("ctrl");
+
+const panelClose = document.getElementById("panelClose");
+const ctrlClose  = document.getElementById("ctrlClose");
+const panelOpen  = document.getElementById("panelOpen");
+const ctrlOpen   = document.getElementById("ctrlOpen");
+
+function applyUiVisibility(){
+  panelEl.style.display = sim.ui.panelOpen ? "" : "none";
+  ctrlEl.style.display  = sim.ui.ctrlOpen  ? "" : "none";
+
+  panelOpen.style.display = sim.ui.panelOpen ? "none" : "inline-flex";
+  ctrlOpen.style.display  = sim.ui.ctrlOpen ? "none" : "inline-flex";
+}
+
+panelClose.addEventListener("click", (e)=>{ e.preventDefault(); sim.ui.panelOpen=false; applyUiVisibility(); });
+ctrlClose .addEventListener("click", (e)=>{ e.preventDefault(); sim.ui.ctrlOpen=false;  applyUiVisibility(); });
+
+panelOpen.addEventListener("click", ()=>{ sim.ui.panelOpen=true; applyUiVisibility(); });
+ctrlOpen .addEventListener("click", ()=>{ sim.ui.ctrlOpen=true;  applyUiVisibility(); });
+
+applyUiVisibility();
+
+/* ===========================
+   A/THR (toy speed hold)
+=========================== */
+const athr = {
+  integ: 0,
+  update(dt){
+    if (!sim.athrOn) { athr.integ = 0; return; }
+    if (sim.onGround && sim.iasKts < 5 && sim.brakes > 0.5) return;
+
+    const err = (sim.spdTarget - sim.iasKts);
+    athr.integ = clamp(athr.integ + err * dt * 0.08, -0.8, 0.8);
+
+    const cmd = err * 0.012 + athr.integ;
+    sim.throttle = clamp(sim.throttle + cmd * dt, 0, 1);
+  }
+};
+
+/* ===========================
+   AP (toy ILS)
+=========================== */
+const ap = {
+  rollCmdDeg: 0,
+  pitchCmdDeg: 0,
+
+  update(dt){
+    const ils = ilsDeviation(sim.pos);
+    const agl = Math.max(sim.altFt, 0);
+
+    if (!sim.apOn){
+      sim.locCaptured = false;
+      sim.gsCaptured = false;
+      return;
+    }
+
+    const locArm = sim.apLocArmed;
+    const gsArm  = sim.apGsArmed;
+
+    if (locArm && !sim.locCaptured && Math.abs(ils.locDots) <= 1.8) sim.locCaptured = true;
+    if (gsArm && !sim.gsCaptured && Math.abs(ils.gsDots) <= 1.8 && agl < 6000) sim.gsCaptured = true;
+
+    if (!sim.apOn) sim.fma.col2 = "---";
+    else if (locArm && !sim.locCaptured) sim.fma.col2 = "LOC*";
+    else if (sim.locCaptured) sim.fma.col2 = "LOC";
+    else sim.fma.col2 = "---";
+
+    if (!sim.apOn) sim.fma.col3 = "---";
+    else if (gsArm && !sim.gsCaptured) sim.fma.col3 = "G/S*";
+    else if (sim.gsCaptured) sim.fma.col3 = "G/S";
+    else sim.fma.col3 = "---";
+
+    sim.fma.ap = sim.apOn ? "AP1" : "";
+
+    const rollCmd = (sim.locCaptured || locArm) ? clamp(-ils.locDots * 10, -25, 25) : 0;
+
+    let pitchCmd = 0;
+    if (sim.gsCaptured || gsArm){
+      pitchCmd = clamp(-ils.gsDots * 4, -10, 10);
+      const spdErr = (sim.spdTarget - sim.iasKts);
+      pitchCmd += clamp(spdErr * 0.05, -2.5, 2.5);
+    } else {
+      const tgtAlt = trainer.state.targets.alt || sim.altFt;
+      const altErr = tgtAlt - sim.altFt;
+      pitchCmd = clamp(altErr * 0.002, -6, 6);
+    }
+
+    ap.rollCmdDeg  = ap.rollCmdDeg  + (rollCmd  - ap.rollCmdDeg)  * clamp(dt * 2.5, 0, 1);
+    ap.pitchCmdDeg = ap.pitchCmdDeg + (pitchCmd - ap.pitchCmdDeg) * clamp(dt * 2.0, 0, 1);
+
+    const rollErr  = rad(ap.rollCmdDeg)  - sim.roll;
+    const pitchErr = rad(ap.pitchCmdDeg) - sim.pitch;
+
+    sim.roll  += clamp(rollErr,  -sim.rollRate*dt,  sim.rollRate*dt);
+    sim.pitch += clamp(pitchErr, -sim.pitchRate*dt, sim.pitchRate*dt);
+
+    sim.roll  = clamp(sim.roll,  rad(-45), rad(45));
+    sim.pitch = clamp(sim.pitch, rad(-12), rad(18));
+  }
+};
+
+function updateFMA(){
+  sim.fma.col1 = sim.athrOn ? "SPEED" : "MAN THR";
+  sim.fma.ap = sim.apOn ? "AP1" : "";
+}
+
+/* ===========================
+   PHYSICS STEP
+=========================== */
+function stepPhysics(dt){
+  const pitchIn = (keys.has("KeyW") ? 1 : 0) - (keys.has("KeyS") ? 1 : 0);
+  const rollIn  = (keys.has("KeyD") ? 1 : 0) - (keys.has("KeyA") ? 1 : 0);
+  const yawIn   = (keys.has("KeyE") ? 1 : 0) - (keys.has("KeyQ") ? 1 : 0);
+  const thrIn   = (keys.has("KeyR") ? 1 : 0) - (keys.has("KeyF") ? 1 : 0);
+
+  // brakes effective: hold B forces full braking, otherwise use cmd
+  sim.brakes = keys.has("KeyB") ? 1 : clamp(sim.brakesCmd, 0, 1);
+
+  sim.throttle = clamp(sim.throttle + thrIn * dt * 0.35, 0, 1);
+
+  if (!sim.apOn){
+    sim.pitch += pitchIn * sim.pitchRate * dt;
+    sim.roll  += rollIn  * sim.rollRate  * dt;
+  }
+  sim.yaw   += yawIn * sim.yawRate * dt;
+
+  sim.pitch = clamp(sim.pitch, rad(-15), rad(20));
+  sim.roll  = clamp(sim.roll,  rad(-45), rad(45));
+  sim.yaw   = wrapAngle(sim.yaw);
+
+  const alt_m = Math.max(sim.pos.y, 0);
+  const rho = isaRho(alt_m);
+  const v = sim.vel.length();
+  const v_safe = Math.max(v, 1e-3);
+
+  const fwd = new THREE.Vector3(Math.cos(sim.yaw), 0, -Math.sin(sim.yaw)).normalize();
+  const right = new THREE.Vector3().crossVectors(new THREE.Vector3(0,1,0), fwd).normalize();
+
+  const gamma = Math.asin(clamp(sim.vel.y / v_safe, -0.99, 0.99));
+  const alpha = sim.pitch - gamma;
+
+  const flapsBoost = [0.0, 0.25, 0.55, 0.85, 1.10][sim.flaps];
+  const gearDrag = sim.gearDown ? 0.020 : 0.0;
+
+  const CL = clamp(0.25 + 4.8 * alpha + flapsBoost, -0.5, 2.4);
+  const CD = clamp(0.030 + 0.09 * CL*CL + flapsBoost*0.04 + gearDrag, 0.02, 0.40);
+
+  const q = 0.5 * rho * v*v;
+  const L = q * sim.wingArea * CL;
+  const D = q * sim.wingArea * CD;
+
+  const thrustAltFactor = clamp(1.0 - alt_m / 15000.0, 0.65, 1.0);
+  const T = sim.maxThrust * sim.throttle * thrustAltFactor;
+  const W = sim.mass * sim.g;
+
+  const bank = sim.roll;
+  const liftUp = L * Math.cos(bank);
+
+  const horizVel = new THREE.Vector3(sim.vel.x, 0, sim.vel.z);
+  const hv = horizVel.length();
+  const horizDir = hv > 1e-3 ? horizVel.clone().normalize() : fwd.clone();
+
+  let ax = 0, ay = 0, az = 0;
+
+  const thrustVec = fwd.clone().multiplyScalar(T / sim.mass);
+  const dragVec = horizDir.clone().multiplyScalar(-D / sim.mass);
+
+  ax += thrustVec.x + dragVec.x;
+  az += thrustVec.z + dragVec.z;
+
+  ay += (liftUp - W) / sim.mass;
+
+  const sideForce = (L * Math.sin(bank)) / sim.mass;
+  ax += right.x * sideForce;
+  az += right.z * sideForce;
+
+  // ✅ Ground contact at CG height
+  if (sim.pos.y <= GROUND_CG_Y){
+    if (sim.vel.y < -1.5) sim.vel.y *= -0.25;
+    else {
+      sim.onGround = true;
+      sim.pos.y = GROUND_CG_Y;
+      sim.vel.y = 0;
+    }
+  } else {
+    sim.onGround = false;
+  }
+
+  if (sim.onGround){
+    // ✅ Rotate gate based on IAS vs VR (more deterministic than L>0.9W)
+    const {VR} = vTakeoffToy();
+    const rotateReady = (sim.iasKts >= (VR - 1.5)) && (sim.pitch > rad(4.5)) && sim.gearDown;
+
+    if (rotateReady){
+      sim.onGround = false;
+      sim.vel.y = Math.max(sim.vel.y, 2.5);
+      callout("ROTATE", 0);
+    }
+
+    const mu = 0.02 + 0.30 * sim.brakes;
+    const friction = mu * sim.g;
+    if (hv > 0.01){
+      const fricVec = horizDir.clone().multiplyScalar(-friction);
+      ax += fricVec.x;
+      az += fricVec.z;
+    }
+    ay = 0;
+  }
+
+  sim.vel.x += ax * dt;
+  sim.vel.y += ay * dt;
+  sim.vel.z += az * dt;
+
+  sim.vel.multiplyScalar(1.0 - 0.0025);
+  sim.pos.addScaledVector(sim.vel, dt);
+
+  if (sim.onGround && sim.pos.x >= 0 && sim.pos.x <= RWY.length){
+    if (Math.abs(sim.pos.z) > RWY.width * 0.55) sim.score = clamp(sim.score - dt * 8.0, 0, 100);
+  }
+
+  sim.iasKts = sim.vel.length() * KTS_PER_MPS;
+  sim.altFt = sim.pos.y * FT_PER_M;
+  sim.vsFpm = (sim.vel.y * FT_PER_M) * 60.0;
+}
+
+/* ===========================
+   THREE SCENE (z-fight hardened)
+=========================== */
+const wrap = document.getElementById("wrap");
+
+const renderer = new THREE.WebGLRenderer({
+  antialias: true,
+  logarithmicDepthBuffer: true,
+  powerPreference: "high-performance",
+});
+renderer.setPixelRatio(devicePixelRatio);
+renderer.setSize(wrap.clientWidth, wrap.clientHeight);
+wrap.insertBefore(renderer.domElement, document.getElementById("hud"));
+
+const scene = new THREE.Scene();
+scene.fog = new THREE.Fog(0x070b16, 2000, 18000);
+
+// ✅ better depth precision
+const camera = new THREE.PerspectiveCamera(
+  60,
+  wrap.clientWidth / wrap.clientHeight,
+  1.0,
+  40000
+);
+
+const hemi = new THREE.HemisphereLight(0xcfd7ff, 0x101833, 1.0);
+scene.add(hemi);
+const dir = new THREE.DirectionalLight(0xffffff, 0.9);
+dir.position.set(-2, 6, 2);
+scene.add(dir);
+
+// ✅ ground pushed down, no depthWrite
+const ground = new THREE.Mesh(
+  new THREE.PlaneGeometry(80000, 80000, 1, 1),
+  new THREE.MeshStandardMaterial({
+    color: 0x0b1024,
+    roughness: 1.0,
+    depthWrite: false,
+  })
+);
+ground.rotation.x = -Math.PI/2;
+ground.position.y = -2.0;
+ground.renderOrder = 0;
+scene.add(ground);
+
+const runwayMat = new THREE.MeshStandardMaterial({
+  color: 0x1a2030,
+  roughness: 0.95
+});
+const runway = new THREE.Mesh(
+  new THREE.PlaneGeometry(RWY.length, RWY.width, 1, 1),
+  runwayMat
+);
+runway.rotation.x = -Math.PI/2;
+runway.position.set(RWY.length/2, 0, 0);
+runway.renderOrder = 1;
+scene.add(runway);
+
+// ✅ stripes with polygonOffset (no coplanar fight)
+const stripeMat = new THREE.MeshStandardMaterial({
+  color: 0xf2f5ff,
+  roughness: 0.8,
+  polygonOffset: true,
+  polygonOffsetFactor: -2,
+  polygonOffsetUnits: -2,
+  depthWrite: false,
+});
+for (let i=0;i<36;i++){
+  const stripe = new THREE.Mesh(new THREE.PlaneGeometry(30, 2.0), stripeMat);
+  stripe.rotation.x = -Math.PI/2;
+  stripe.position.set(120 + i * 90, 0.03, 0);
+  stripe.renderOrder = 2;
+  scene.add(stripe);
+}
+
+const ilsMarker = new THREE.Mesh(
+  new THREE.CylinderGeometry(0.6, 0.6, 12, 16),
+  new THREE.MeshStandardMaterial({ color: 0xa7b7ff, roughness: 0.4 })
+);
+ilsMarker.position.set(0, 6, 0);
+scene.add(ilsMarker);
+
+const aircraft = new THREE.Group();
+const body = new THREE.Mesh(
+  new THREE.BoxGeometry(16, 2.5, 2.8),
+  new THREE.MeshStandardMaterial({ color: 0xdfe6ff, roughness: 0.6 })
+);
+aircraft.add(body);
+
+const wing = new THREE.Mesh(
+  new THREE.BoxGeometry(6.0, 0.25, 28.0),
+  new THREE.MeshStandardMaterial({ color: 0xb8c4ff, roughness: 0.6 })
+);
+wing.position.set(-1.2, 0, 0);
+aircraft.add(wing);
+
+const tail = new THREE.Mesh(
+  new THREE.BoxGeometry(2.0, 3.5, 4.0),
+  new THREE.MeshStandardMaterial({ color: 0xb8c4ff, roughness: 0.6 })
+);
+tail.position.set(-7.0, 1.5, 0);
+aircraft.add(tail);
+
+scene.add(aircraft);
+
+/* ===========================
+   HUD CANVAS
+=========================== */
+const hud = document.getElementById("hud");
+const hctx = hud.getContext("2d");
+hud.width = wrap.clientWidth * devicePixelRatio;
+hud.height = wrap.clientHeight * devicePixelRatio;
+
+addEventListener("resize", () => {
+  renderer.setSize(wrap.clientWidth, wrap.clientHeight);
+  camera.aspect = wrap.clientWidth / wrap.clientHeight;
+  camera.updateProjectionMatrix();
+  hud.width = wrap.clientWidth * devicePixelRatio;
+  hud.height = wrap.clientHeight * devicePixelRatio;
+});
+
+function drawText(x,y,txt, color="rgba(215,222,255,0.95)", size=12){
+  hctx.save();
+  hctx.fillStyle = color;
+  hctx.font = `${size * devicePixelRatio}px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace`;
+  hctx.fillText(txt, x, y);
+  hctx.restore();
+}
+
+function drawHorizon(cx, cy, pitchDeg, rollDeg){
+  const W = hud.width, H = hud.height;
+  hctx.save();
+  hctx.translate(cx, cy);
+  hctx.rotate(-rad(rollDeg));
+
+  const pxPerDeg = 6 * devicePixelRatio;
+  hctx.translate(0, pitchDeg * pxPerDeg);
+
+  hctx.fillStyle = "rgba(90,130,255,0.18)";
+  hctx.fillRect(-W, -H, W*2, H);
+  hctx.fillStyle = "rgba(110,80,40,0.16)";
+  hctx.fillRect(-W, 0, W*2, H);
+
+  hctx.strokeStyle = "rgba(255,255,255,0.55)";
+  hctx.lineWidth = 2 * devicePixelRatio;
+  hctx.beginPath();
+  hctx.moveTo(-220*devicePixelRatio, 0);
+  hctx.lineTo( 220*devicePixelRatio, 0);
+  hctx.stroke();
+
+  hctx.strokeStyle = "rgba(255,255,255,0.35)";
+  hctx.lineWidth = 1 * devicePixelRatio;
+  for (let p=-30; p<=30; p+=5){
+    if (p === 0) continue;
+    const y = -p * pxPerDeg;
+    const len = (p % 10 === 0) ? 120 : 70;
+    hctx.beginPath();
+    hctx.moveTo(-len*devicePixelRatio, y);
+    hctx.lineTo( len*devicePixelRatio, y);
+    hctx.stroke();
+  }
+  hctx.restore();
+
+  hctx.save();
+  hctx.translate(cx, cy);
+  hctx.strokeStyle = "rgba(255,255,255,0.85)";
+  hctx.lineWidth = 2 * devicePixelRatio;
+  hctx.beginPath();
+  hctx.moveTo(-40*devicePixelRatio, 0);
+  hctx.lineTo(-10*devicePixelRatio, 0);
+  hctx.moveTo( 40*devicePixelRatio, 0);
+  hctx.lineTo( 10*devicePixelRatio, 0);
+  hctx.moveTo(-10*devicePixelRatio, 0);
+  hctx.lineTo(0, 8*devicePixelRatio);
+  hctx.lineTo(10*devicePixelRatio, 0);
+  hctx.stroke();
+  hctx.restore();
+}
+
+function drawIlsNeedles(cx, cy, locDots, gsDots){
+  const dotPx = 18 * devicePixelRatio;
+  hctx.save();
+  hctx.translate(cx, cy);
+  hctx.strokeStyle = "rgba(145,255,170,0.9)";
+  hctx.lineWidth = 2 * devicePixelRatio;
+
+  const locX = clamp(locDots, -2.5, 2.5) * dotPx;
+  hctx.beginPath();
+  hctx.moveTo(locX, -90*devicePixelRatio);
+  hctx.lineTo(locX,  90*devicePixelRatio);
+  hctx.stroke();
+
+  const gsY = clamp(gsDots, -2.5, 2.5) * dotPx;
+  hctx.beginPath();
+  hctx.moveTo(-120*devicePixelRatio, gsY);
+  hctx.lineTo( 120*devicePixelRatio, gsY);
+  hctx.stroke();
+
+  hctx.fillStyle = "rgba(145,255,170,0.55)";
+  for (let i=-2; i<=2; i++){
+    if (i===0) continue;
+    hctx.beginPath(); hctx.arc(i*dotPx, 0, 2.2*devicePixelRatio, 0, Math.PI*2); hctx.fill();
+    hctx.beginPath(); hctx.arc(0, i*dotPx, 2.2*devicePixelRatio, 0, Math.PI*2); hctx.fill();
+  }
+  hctx.restore();
+}
+
+function drawFD(cx, cy, rollCmdDeg, pitchCmdDeg){
+  hctx.save();
+  hctx.translate(cx, cy);
+
+  const pxPerDeg = 6 * devicePixelRatio;
+  const rollPx = clamp(rollCmdDeg, -20, 20) * pxPerDeg;
+  const pitchPx = clamp(pitchCmdDeg, -15, 15) * pxPerDeg;
+
+  hctx.strokeStyle = "rgba(255,95,220,0.95)";
+  hctx.lineWidth = 3 * devicePixelRatio;
+
+  hctx.beginPath();
+  hctx.moveTo(rollPx, -18*devicePixelRatio);
+  hctx.lineTo(rollPx,  18*devicePixelRatio);
+  hctx.stroke();
+
+  hctx.beginPath();
+  hctx.moveTo(-30*devicePixelRatio, -pitchPx);
+  hctx.lineTo( 30*devicePixelRatio, -pitchPx);
+  hctx.stroke();
+
+  hctx.restore();
+}
+
+function drawFMA(){
+  const W = hud.width;
+  const x = W*0.22;
+  const y = 26*devicePixelRatio;
+  const w = W*0.56;
+  const h = 26*devicePixelRatio;
+
+  hctx.save();
+  hctx.fillStyle = "rgba(0,0,0,0.40)";
+  hctx.strokeStyle = "rgba(255,255,255,0.10)";
+  hctx.lineWidth = 1*devicePixelRatio;
+  hctx.beginPath();
+  hctx.roundRect(x, y, w, h, 8*devicePixelRatio);
+  hctx.fill();
+  hctx.stroke();
+
+  const colW = w/3;
+  const col1 = sim.fma.col1;
+  const col2 = sim.fma.col2;
+  const col3 = sim.fma.col3;
+
+  const green = "rgba(145,255,170,0.95)";
+  const white = "rgba(230,236,255,0.95)";
+  const mag = "rgba(255,95,220,0.95)";
+
+  const colColor = (s) => {
+    if (s.includes("*")) return mag;
+    if (s==="SPEED" || s==="LOC" || s==="G/S") return green;
+    return white;
+  };
+
+  drawText(x+12*devicePixelRatio, y+18*devicePixelRatio, col1, colColor(col1), 13);
+  drawText(x+colW+12*devicePixelRatio, y+18*devicePixelRatio, col2, colColor(col2), 13);
+  drawText(x+2*colW+12*devicePixelRatio, y+18*devicePixelRatio, col3, colColor(col3), 13);
+
+  if (sim.fma.ap){
+    drawText(x+w+12*devicePixelRatio, y+18*devicePixelRatio, sim.fma.ap, green, 13);
+  }
+  hctx.restore();
+}
+
+function drawHUD(){
+  const W = hud.width, H = hud.height;
+  hctx.clearRect(0,0,W,H);
+
+  const cx = W * 0.52;
+  const cy = H * 0.52;
+
+  drawFMA();
+  drawHorizon(cx, cy, deg(sim.pitch), deg(sim.roll));
+
+  const ils = ilsDeviation(sim.pos);
+  drawIlsNeedles(cx, cy, ils.locDots, ils.gsDots);
+
+  const fdRollCmd = sim.apOn ? ap.rollCmdDeg : clamp(-ils.locDots * 8, -25, 25);
+  const gsBias = clamp(-ils.gsDots * 4, -10, 10);
+  const spdErr = clamp((sim.spdTarget - sim.iasKts) * 0.05, -3, 3);
+  const fdPitchCmd = sim.apOn ? ap.pitchCmdDeg : clamp(gsBias + spdErr, -12, 12);
+  drawFD(cx, cy, fdRollCmd, fdPitchCmd);
+
+  const left = 18*devicePixelRatio;
+  let y = 90*devicePixelRatio;
+  const line = (t)=>{ drawText(left, y, t); y += 18*devicePixelRatio; };
+
+  line(`IAS   ${sim.iasKts.toFixed(0)} kt`);
+  line(`ALT   ${sim.altFt.toFixed(0)} ft`);
+  line(`VS    ${sim.vsFpm.toFixed(0)} fpm`);
+  line(`THR   ${(sim.throttle*100).toFixed(0)}%`);
+  line(`SPD*  ${sim.spdTarget.toFixed(0)} kt`);
+  line(`FLAPS ${sim.flaps}`);
+  line(`GEAR  ${sim.gearDown ? "DOWN" : "UP"}`);
+  line(`BRK   ${(sim.brakes*100).toFixed(0)}%`);
+  line(`A/THR ${sim.athrOn ? "ON" : "OFF"}`);
+  line(`AP1   ${sim.apOn ? "ON" : "OFF"}`);
+  line(`LOC   ${sim.apLocArmed ? "ARM" : "OFF"} ${sim.locCaptured ? "(CAP)" : ""}`);
+  line(`G/S   ${sim.apGsArmed ? "ARM" : "OFF"} ${sim.gsCaptured ? "(CAP)" : ""}`);
+  line(`SCORE ${sim.score.toFixed(0)}`);
+
+  const {V1, VR, V2} = vTakeoffToy();
+  drawText(W - 290*devicePixelRatio, 90*devicePixelRatio, `LOC ${ils.locDots.toFixed(2)} dots`, "rgba(145,255,170,0.95)");
+  drawText(W - 290*devicePixelRatio, 110*devicePixelRatio, `GS  ${ils.gsDots.toFixed(2)} dots`, "rgba(145,255,170,0.95)");
+  drawText(W - 290*devicePixelRatio, 130*devicePixelRatio, `V1 ${Math.round(V1)}  VR ${Math.round(VR)}  V2 ${Math.round(V2)}`, "rgba(145,255,170,0.95)");
+  drawText(W - 290*devicePixelRatio, 150*devicePixelRatio, `VREF~ ${vrefToy().toFixed(0)} kt`, "rgba(145,255,170,0.95)");
+
+  if (sim.calloutTimer > 0){
+    drawText(W*0.46, H*0.88, sim.lastCallout, "rgba(255,210,120,0.95)", 14);
+  }
+}
+
+/* ===========================
+   UI PANEL (procedure text)
+=========================== */
+const phaseTitle = document.getElementById("phaseTitle");
+const chipsEl = document.getElementById("chips");
+const stepText = document.getElementById("stepText");
+const notes = document.getElementById("notes");
+
+function chip(text, cls=""){
+  const div = document.createElement("div");
+  div.className = `chip ${cls}`.trim();
+  div.textContent = text;
+  return div;
+}
+
+function updatePanel(){
+  if (!sim.ui.panelOpen) return;
+
+  const st = trainer.state;
+  phaseTitle.textContent = `${st.phase} — Step ${st.step}`;
+
+  chipsEl.innerHTML = "";
+  const ils = ilsDeviation(sim.pos);
+  const agl = Math.max(sim.altFt, 0);
+  const {V1, VR, V2} = vTakeoffToy();
+
+  chipsEl.appendChild(chip(`SPD tgt ${sim.spdTarget.toFixed(0)} kt`));
+  chipsEl.appendChild(chip(`ALT tgt ${st.targets.alt || "GS"}`));
+  chipsEl.appendChild(chip(`CFG ${st.targets.config || "-"}`));
+  chipsEl.appendChild(chip(`V1/VR/V2 ${Math.round(V1)}/${Math.round(VR)}/${Math.round(V2)}`));
+  chipsEl.appendChild(chip(`LOC ${ils.locDots.toFixed(2)}`));
+  chipsEl.appendChild(chip(`GS ${ils.gsDots.toFixed(2)}`));
+  chipsEl.appendChild(chip(`AGL ${agl.toFixed(0)} ft`));
+
+  const vTgt = sim.spdTarget;
+  const spdOk = Math.abs(sim.iasKts - vTgt) <= 15;
+  const needlesOk = Math.abs(ils.locDots) <= 1.5 && Math.abs(ils.gsDots) <= 1.5;
+  const cfgOk = (st.phase === "FINAL" || st.phase === "LAND")
+    ? (sim.flaps >= 3 && sim.gearDown)
+    : true;
+
+  chipsEl.appendChild(chip(spdOk ? "SPD OK" : "SPD OFF", spdOk ? "good" : "warn"));
+  chipsEl.appendChild(chip(needlesOk ? "ILS OK" : "ILS OFF", needlesOk ? "good" : "warn"));
+  chipsEl.appendChild(chip(cfgOk ? "CFG OK" : "CFG OFF", cfgOk ? "good" : "bad"));
+
+  stepText.innerHTML = st.msg + (st.awaitingAck ? `<div style="margin-top:8px"><kbd>SPACE</kbd> ACK / Continue</div>` : "");
+  notes.textContent = st.note || "";
+}
+
+/* ===========================
+   CONTROLS UI
+=========================== */
+const thrEl  = document.getElementById("thr");
+const spdEl  = document.getElementById("spd");
+const brkEl  = document.getElementById("brk");
+const thrV   = document.getElementById("thrV");
+const spdV   = document.getElementById("spdV");
+const brkV   = document.getElementById("brkV");
+const flapsV = document.getElementById("flapsV");
+
+const toggleButtons = {
+  athr: ctrlEl.querySelector('[data-toggle="athr"]'),
+  ap:   ctrlEl.querySelector('[data-toggle="ap"]'),
+  loc:  ctrlEl.querySelector('[data-toggle="loc"]'),
+  gs:   ctrlEl.querySelector('[data-toggle="gs"]'),
+  gear: ctrlEl.querySelector('[data-toggle="gear"]'),
+  pause:ctrlEl.querySelector('[data-toggle="pause"]'),
+};
+
+function syncUIFromSim(){
+  thrEl.value = Math.round(sim.throttle * 100);
+  spdEl.value = Math.round(sim.spdTarget / 5) * 5;
+
+  // show cmd on slider, but readout displays cmd as % (effective shown on HUD)
+  brkEl.value = Math.round(sim.brakesCmd * 100);
+
+  thrV.textContent = thrEl.value;
+  spdV.textContent = spdEl.value;
+  brkV.textContent = brkEl.value;
+  flapsV.textContent = sim.flaps;
+
+  const setOn = (btn, on) => btn.classList.toggle("on", !!on);
+
+  setOn(toggleButtons.athr, sim.athrOn);
+  setOn(toggleButtons.ap, sim.apOn);
+  setOn(toggleButtons.loc, sim.apLocArmed);
+  setOn(toggleButtons.gs, sim.apGsArmed);
+  setOn(toggleButtons.gear, sim.gearDown);
+  setOn(toggleButtons.pause, sim.paused);
+
+  toggleButtons.loc.classList.toggle("warn", sim.apLocArmed && !sim.apOn);
+  toggleButtons.gs.classList.toggle("warn",  sim.apGsArmed && !sim.apOn);
+}
+
+ctrlEl.addEventListener("click", (e) => {
+  const t = e.target.closest("[data-toggle], [data-action]");
+  if (!t) return;
+
+  const tog = t.getAttribute("data-toggle");
+  const act = t.getAttribute("data-action");
+
+  if (tog){
+    if (tog === "athr") sim.athrOn = !sim.athrOn;
+    if (tog === "ap")   sim.apOn = !sim.apOn;
+    if (tog === "loc")  sim.apLocArmed = !sim.apLocArmed;
+    if (tog === "gs")   sim.apGsArmed = !sim.apGsArmed;
+    if (tog === "gear") sim.gearDown = !sim.gearDown;
+    if (tog === "pause") sim.paused = !sim.paused;
+  }
+
+  if (act){
+    if (act === "reset1") resetApproach();
+    if (act === "reset2") resetRunway();
+    if (act === "flapsUp") sim.flaps = clamp(sim.flaps + 1, 0, 4);
+    if (act === "flapsDown") sim.flaps = clamp(sim.flaps - 1, 0, 4);
+  }
+
+  syncUIFromSim();
+});
+
+thrEl.addEventListener("input", () => {
+  sim.throttle = clamp(parseFloat(thrEl.value) / 100, 0, 1);
+  thrV.textContent = thrEl.value;
+});
+
+spdEl.addEventListener("input", () => {
+  sim.spdTarget = clamp(parseFloat(spdEl.value), 0, 340);
+  spdV.textContent = spdEl.value;
+});
+
+brkEl.addEventListener("input", () => {
+  sim.brakesCmd = clamp(parseFloat(brkEl.value) / 100, 0, 1);
+  brkV.textContent = brkEl.value;
+});
+
+/* ===========================
+   MOUSE / TOUCH: drag to command pitch/roll (AP OFF)
+=========================== */
+const yoke = { active:false, lastX:0, lastY:0, pitchCmd:0, rollCmd:0 };
+
+function setYokeFromDrag(dx, dy){
+  yoke.rollCmd  = clamp(yoke.rollCmd  + dx * 0.003, -1, 1);
+  yoke.pitchCmd = clamp(yoke.pitchCmd - dy * 0.003, -1, 1);
+}
+function yokeCenter(){ yoke.rollCmd = 0; yoke.pitchCmd = 0; }
+
+function pointerPos(ev){
+  const r = renderer.domElement.getBoundingClientRect();
+  return { x: ev.clientX - r.left, y: ev.clientY - r.top };
+}
+
+renderer.domElement.style.touchAction = "none";
+
+renderer.domElement.addEventListener("pointerdown", (ev) => {
+  const path = ev.composedPath?.() || [];
+  if (path.includes(ctrlEl) || path.includes(panelEl)) return;
+
+  yoke.active = true;
+  const p = pointerPos(ev);
+  yoke.lastX = p.x; yoke.lastY = p.y;
+  renderer.domElement.setPointerCapture(ev.pointerId);
+});
+renderer.domElement.addEventListener("pointermove", (ev) => {
+  if (!yoke.active) return;
+  const p = pointerPos(ev);
+  const dx = p.x - yoke.lastX;
+  const dy = p.y - yoke.lastY;
+  yoke.lastX = p.x; yoke.lastY = p.y;
+  setYokeFromDrag(dx, dy);
+});
+renderer.domElement.addEventListener("pointerup", () => { yoke.active = false; });
+renderer.domElement.addEventListener("dblclick", () => yokeCenter());
+
+function applyYoke(dt){
+  if (sim.apOn || takeoffAssist.armed) return; // assist owns pitch during takeoff
+  const pitchRate = sim.pitchRate * 0.85;
+  const rollRate  = sim.rollRate  * 0.85;
+
+  sim.pitch += yoke.pitchCmd * pitchRate * dt;
+  sim.roll  += yoke.rollCmd  * rollRate  * dt;
+
+  sim.pitch = clamp(sim.pitch, rad(-15), rad(20));
+  sim.roll  = clamp(sim.roll,  rad(-45), rad(45));
+}
+
+/* ===========================
+   MAIN LOOP
+=========================== */
+let last = performance.now();
+
+function animate(now){
+  requestAnimationFrame(animate);
+  const dt = clamp((now - last) / 1000, 0, 0.033);
+  last = now;
+
+  if (!sim.paused){
+    takeoffAssist.update(dt);
+    athr.update(dt);
+    ap.update(dt);
+    updateFMA();
+    applyYoke(dt);
+    stepPhysics(dt);
+    trainer.tick(dt);
+    if (sim.calloutTimer > 0) sim.calloutTimer -= dt;
+  }
+
+  aircraft.position.copy(sim.pos);
+  aircraft.rotation.set(sim.pitch, sim.yaw, sim.roll, "XYZ");
+
+  const back = new THREE.Vector3(-85, 28, 26);
+  back.applyAxisAngle(new THREE.Vector3(0,1,0), sim.yaw);
+  const camPos = sim.pos.clone().add(back);
+  camera.position.lerp(camPos, 0.10);
+  camera.lookAt(sim.pos.x + 40, sim.pos.y + 10, sim.pos.z);
+
+  drawHUD();
+  updatePanel();
+  renderer.render(scene, camera);
+}
+
+requestAnimationFrame(animate);
+syncUIFromSim();
+</script>
+</body>
+</html>
