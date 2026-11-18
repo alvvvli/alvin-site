@@ -106,6 +106,7 @@
 <p>Engineering systems that are not only technically sound, but operationally dependable.</p>
 
 <div class="badge-cluster">
+<span>CEVA Logistics</span>
 <span>GE Vernova</span>
 <span>FAA AT-SA</span>
 <span>InnoTrans</span>
