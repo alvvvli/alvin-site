@@ -1,5 +1,3 @@
-## Twin-Lane Kitting: Reliability & Design Simulation
-
 <iframe
   src="/alvin-site/lab/ckit.html"
   title="CEVA Kitting Reliability Simulation"
