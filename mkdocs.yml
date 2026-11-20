@@ -47,6 +47,7 @@ nav:
   - Home: index.md
   - Interactive Lab:
       - Overview: lab/index.md
+      - 🤖 Twin-Lane Kitting: lab/ckit.md
       - ✈️ ULR Procedure Trainer: lab/a350sim.md
       - 🚁 IAMD: lab/ads.md
       - ✈️ ATC Scheduler: lab/atc.md
