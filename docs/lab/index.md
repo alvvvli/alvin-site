@@ -9,6 +9,7 @@
 </div>
 
 ## Explore:
+- [Twin-Lane Kitting](ckit.md) — Reliability & Design Simulation
 - [ULR Procedure Scheduler](a350sim.md) — a logic-driven flight procedure simulator
 - [ATC Scheduler](atc.md) — Flight-bank routing sim with 3D altitude and cost trade-offs
 - [PartMatrix Demo](partmatrix.md) — Excel-logic matching and lookups  
