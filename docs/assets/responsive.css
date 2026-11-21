@@ -1,1 +1,114 @@
 
+/* =========================================
+   SHARED RESPONSIVE FOUNDATION
+   alkanmuri + Alvin Li
+   ========================================= */
+
+/* Prevent content from overflowing the viewport */
+.md-content,
+.md-content__inner {
+  min-width: 0;
+}
+
+.md-typeset img,
+.md-typeset video {
+  max-width: 100%;
+}
+
+/* Responsive content sizing */
+.md-typeset {
+  overflow-wrap: break-word;
+}
+
+.md-typeset iframe {
+  max-width: 100%;
+}
+
+/* Common homepage hero */
+.md-typeset .hero {
+  width: 100%;
+  max-width: 960px;
+  margin-inline: auto;
+  box-sizing: border-box;
+}
+
+/* Centred homepage image */
+.md-typeset .hero__img {
+  display: block;
+  width: clamp(180px, 28vw, 300px);
+  max-width: 100%;
+  height: auto;
+  margin-inline: auto;
+}
+
+/* Readable introduction */
+.md-typeset .hero__body {
+  width: 100%;
+  max-width: 700px;
+  margin-inline: auto;
+  box-sizing: border-box;
+}
+
+/* Responsive text */
+.md-typeset .hero__body p,
+.md-typeset .hero-text p {
+  font-size: clamp(15px, 1.05vw, 16px);
+  line-height: 1.65;
+}
+
+/* Wide desktop */
+@media (min-width: 1200px) {
+  .md-typeset .hero {
+    max-width: 960px;
+  }
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  .md-typeset .hero {
+    max-width: 100%;
+  }
+
+  .md-typeset .hero__body {
+    max-width: 640px;
+  }
+}
+
+/* Phone */
+@media (max-width: 600px) {
+  .md-typeset .hero {
+    width: 100%;
+    gap: 18px;
+  }
+
+  .md-typeset .hero__img {
+    width: min(65vw, 260px);
+  }
+
+  .md-typeset .hero__body {
+    width: 100%;
+    max-width: none;
+    padding-inline: 0;
+  }
+
+  .md-typeset .hero__body p,
+  .md-typeset .hero-text p {
+    font-size: 15px;
+    line-height: 1.6;
+  }
+}
+
+/* Very narrow phones */
+@media (max-width: 360px) {
+  .md-typeset .hero__img {
+    width: min(70vw, 220px);
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .md-typeset img,
+  .md-typeset video {
+    transition: none !important;
+  }
+}
