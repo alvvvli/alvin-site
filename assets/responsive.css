@@ -1,0 +1,311 @@
+
+/* =========================================
+   ALKANMURI — RESPONSIVE DESIGN
+   Material for MkDocs
+   ========================================= */
+
+/* =========================================
+   1. GLOBAL RESPONSIVE FOUNDATION
+   ========================================= */
+
+.md-content,
+.md-content__inner {
+  min-width: 0;
+}
+
+.md-typeset {
+  overflow-wrap: break-word;
+}
+
+.md-typeset img,
+.md-typeset video {
+  max-width: 100%;
+  height: auto;
+}
+
+.md-typeset iframe {
+  max-width: 100%;
+}
+
+/* Avoid overflowing wide content */
+.md-typeset pre,
+.md-typeset table {
+  max-width: 100%;
+}
+
+/* =========================================
+   2. SHARED HERO FOUNDATION
+   ========================================= */
+
+.md-typeset .hero {
+  width: 100%;
+  max-width: 960px;
+  margin-inline: auto;
+  box-sizing: border-box;
+}
+
+/* =========================================
+   3. HOMEPAGE HERO
+   ========================================= */
+
+.md-typeset .hero:not(:has(.hero-images)) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+/* Character image */
+.md-typeset .hero__img {
+  display: block;
+  width: clamp(180px, 28vw, 300px);
+  max-width: 100%;
+  height: auto;
+  margin-inline: auto;
+}
+
+/* Image attribution */
+.md-typeset .hero__caption {
+  font-size: 12px;
+  line-height: 1.5;
+  margin-top: 8px;
+  text-align: center;
+}
+
+/* Homepage introduction */
+.md-typeset .hero__body {
+  width: 100%;
+  max-width: 700px;
+  margin-inline: auto;
+  box-sizing: border-box;
+}
+
+.md-typeset .hero__body p,
+.md-typeset .hero__body li {
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.md-typeset .hero__body p:first-child {
+  font-size: 21px;
+  line-height: 1.35;
+  margin-bottom: 18px;
+}
+
+/* =========================================
+   4. ABOUT PAGE — DESKTOP
+   ========================================= */
+
+.md-typeset .hero:has(.hero-images) {
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr);
+  align-items: start;
+  gap: 28px;
+  background: transparent !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Three photographs */
+.md-typeset .hero-images {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.md-typeset .hero-images img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+/* Text card */
+.md-typeset .hero-text-card {
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* About text */
+.md-typeset .hero-text {
+  min-width: 0;
+  text-align: left;
+}
+
+.md-typeset .hero-text p {
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.md-typeset .hero-text p:first-child {
+  font-size: 21px;
+  line-height: 1.35;
+}
+
+/* =========================================
+   5. TABLET — UP TO 900PX
+   ========================================= */
+
+@media (max-width: 900px) {
+
+  .md-typeset .hero {
+    max-width: 100%;
+  }
+
+  /* Homepage */
+  .md-typeset .hero__body {
+    max-width: 640px;
+  }
+
+  /* About */
+  .md-typeset .hero:has(.hero-images) {
+    grid-template-columns: 210px minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .md-typeset .hero-text-card {
+    padding: 22px;
+  }
+}
+
+/* =========================================
+   6. NARROW TABLET — UP TO 720PX
+   ========================================= */
+
+@media (max-width: 720px) {
+
+  /* About: stack photographs above text */
+  .md-typeset .hero:has(.hero-images) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  /* Three-photo horizontal arrangement */
+  .md-typeset .hero-images {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .md-typeset .hero-images img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .md-typeset .hero-text-card {
+    width: 100%;
+    padding: 20px;
+  }
+}
+
+/* =========================================
+   7. PHONE — UP TO 600PX
+   ========================================= */
+
+@media (max-width: 600px) {
+
+  /* Homepage layout */
+  .md-typeset .hero:not(:has(.hero-images)) {
+    gap: 14px;
+    margin-top: 0;
+    margin-bottom: 24px;
+  }
+
+  /* Character image */
+  .md-typeset .hero__img {
+    width: min(58vw, 250px);
+    max-width: 100%;
+  }
+
+  /* Attribution */
+  .md-typeset .hero__caption {
+    font-size: 11px;
+    line-height: 1.4;
+    margin-top: 6px;
+  }
+
+  /* Homepage text */
+  .md-typeset .hero__body {
+    width: 100%;
+    max-width: none;
+    padding: 0;
+  }
+
+  .md-typeset .hero__body p,
+  .md-typeset .hero__body li {
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .md-typeset .hero__body p:first-child {
+    font-size: 19px;
+    line-height: 1.35;
+    margin-bottom: 14px;
+  }
+
+  .md-typeset .hero__body ul {
+    margin: 12px 0;
+    padding-left: 20px;
+  }
+
+  .md-typeset .hero__body li {
+    margin-bottom: 8px;
+  }
+
+  /* About text */
+  .md-typeset .hero-text p {
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .md-typeset .hero-text p:first-child {
+    font-size: 20px;
+  }
+
+  /* About images */
+  .md-typeset .hero-images {
+    gap: 8px;
+  }
+
+  .md-typeset .hero-text-card {
+    padding: 20px;
+  }
+}
+
+/* =========================================
+   8. SMALL PHONES — UP TO 360PX
+   ========================================= */
+
+@media (max-width: 360px) {
+
+  .md-typeset .hero__img {
+    width: min(58vw, 210px);
+  }
+
+  .md-typeset .hero-images {
+    gap: 6px;
+  }
+
+  .md-typeset .hero-text-card {
+    padding: 16px;
+  }
+}
+
+/* =========================================
+   9. ACCESSIBILITY
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .md-typeset img,
+  .md-typeset video {
+    transition: none !important;
+  }
+}
