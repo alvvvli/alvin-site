@@ -50,6 +50,8 @@ extra_css:
   - assets/embeds.css
   - assets/navy-bg.css
   - assets/custom.css
+  - assets/responsive.css
+
 
 nav:
   - Home: index.md
