@@ -70,4 +70,19 @@ body[data-md-url^="lab/a350sim/"] .md-content {
 body[data-md-url^="lab/a350sim/"] .md-grid {
   max-width: none !important;
 }
+
+
+/* Replace language selector icon with a site-switching icon */
+.md-header__option .md-icon svg {
+  display: none;
+}
+
+.md-header__option .md-icon::before {
+  content: "⇄";
+  display: inline-block;
+  font-size: 1.6rem;
+  font-weight: 500;
+  line-height: 1;
+  color: inherit;
+}
 ```
