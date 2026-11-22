@@ -18,3 +18,4 @@
 - [Shinkansen Shuffle](skn.md) — Dispatch game with real-model Shinkansen timing precision
 - [Tecnomatix Simuilation](tmx.md) — Multi-AGV routing optimization
 - [KUKA Robot Arm](kuka.md) — 6-axis robot picking digital twin
+- [Quality Engineering Lab](6s.md) — Interactive simulations of process variation, capability, and Six Sigma.
