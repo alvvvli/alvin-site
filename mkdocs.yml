@@ -55,7 +55,7 @@ extra_css:
 
 nav:
   - Home: index.md
-  - Interactive Lab:
+  - 🧪 Interactive Lab:
       - Overview: lab/index.md
       - 🤖 Twin-Lane Kitting: lab/ckit.md
       - ✈️ ULR Procedure Trainer: lab/a350sim.md
