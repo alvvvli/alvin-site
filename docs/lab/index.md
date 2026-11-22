@@ -19,4 +19,4 @@
 - [Tecnomatix Simuilation](tmx.md) — Multi-AGV routing optimization
 - [KUKA Robot Arm](kuka.md) — 6-axis robot picking digital twin
 - [Quality Engineering Lab](6s.md) — Interactive simulations of process variation, capability & Six Sigma
-- [Quality Management Systems Thinking Lab](6sq.md)
+- [QMS Thinking Lab](6sq.md) — Exploring quality principles through systems thinking and interactive decisions
